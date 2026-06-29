@@ -1,7 +1,8 @@
 "use client";
 
-import { Bell, MessageSquare, Search, Settings } from "lucide-react";
+import { Bell, MessageSquare, Settings } from "lucide-react";
 import Image from "next/image";
+import { SearchBar } from "@/components/SearchBar";
 
 export function PageHeader({
   title,
@@ -48,18 +49,17 @@ function IconButton({
   );
 }
 
-export function Topbar() {
+export function Topbar({ showSearch = true }: { showSearch?: boolean }) {
   return (
-    <header className="mx-auto flex w-full max-w-[1490px] items-center justify-between gap-6 px-6 pb-2 pt-6">
+    <header
+      className={`mx-auto flex w-full max-w-[1490px] items-center px-6 pb-2 pt-6 ${
+        showSearch ? "justify-between gap-6" : "justify-end gap-32"
+      }`}
+    >
       {/* Search — wide, sits left */}
-      <div className="relative -ml-9 h-14 w-full min-w-0 max-w-[866px] flex-1">
-        <input
-          type="text"
-          placeholder="Search here"
-          className="h-full w-full rounded-lg bg-white pl-5 pr-12 text-sm text-zinc-700 shadow-md outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-sky-200 dark:bg-white/5 dark:text-zinc-200"
-        />
-        <Search className="pointer-events-none absolute right-5 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
-      </div>
+      {showSearch ? (
+        <SearchBar className="-ml-9 h-14 w-full min-w-0 max-w-[866px] flex-1" />
+      ) : null}
 
       {/* Action icons */}
       <div className="flex shrink-0 items-center gap-[19px]">

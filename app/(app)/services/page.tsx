@@ -5,7 +5,6 @@ import {
   Filter,
   Pencil,
   Plus,
-  Search,
   Trash2,
   User,
   Users,
@@ -145,19 +144,11 @@ export default function ServicesPage() {
         ))}
       </div>
 
-      {/* Services panel header with search */}
+      {/* Services panel header */}
       <div className="flex flex-col gap-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:bg-white/5">
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
           Services
         </h2>
-        <div className="relative w-full sm:w-80">
-          <input
-            type="text"
-            placeholder="Search Services...."
-            className="h-11 w-full rounded-lg border border-black/10 bg-white pl-4 pr-11 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200 dark:border-white/10 dark:bg-white/5 dark:text-zinc-200"
-          />
-          <Search className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
-        </div>
       </div>
 
       {/* Table */}
