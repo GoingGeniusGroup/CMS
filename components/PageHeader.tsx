@@ -49,7 +49,7 @@ function IconButton({
 
 export function Topbar() {
   return (
-    <header className="mx-auto flex w-full max-w-7xl items-center gap-4 px-6 py-4">
+    <header className="mx-auto flex w-full max-w-7xl items-center gap-4 px-6 py-4 md:gap-8 lg:gap-12 xl:gap-16">
       {/* Search */}
       <div className="relative flex-1">
         <input
