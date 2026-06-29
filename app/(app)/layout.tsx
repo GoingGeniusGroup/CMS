@@ -1,4 +1,5 @@
 import { Sidebar } from "@/components/Sidebar";
+import { Topbar } from "@/components/PageHeader";
 
 export default function AppLayout({
   children,
@@ -8,7 +9,10 @@ export default function AppLayout({
   return (
     <div className="flex flex-1">
       <Sidebar />
-      <main className="flex-1 p-8">{children}</main>
+      <div className="flex flex-1 flex-col">
+        <Topbar />
+        <main className="flex-1 p-8">{children}</main>
+      </div>
     </div>
   );
 }
