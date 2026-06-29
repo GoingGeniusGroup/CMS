@@ -73,22 +73,10 @@ export function Topbar() {
         </IconButton>
       </div>
 
-<<<<<<< HEAD
-      {/* Greeting + logo */}
-      <div className="flex shrink-0 items-center gap-4">
-        <p className="hidden text-sm text-zinc-600 sm:block dark:text-zinc-300">
-          Hello, <span className="font-semibold text-zinc-900 dark:text-white">Admin</span>
-=======
-      <div className="ml-auto flex items-center gap-6">
-        <p className="text-sm text-zinc-600 dark:text-zinc-300">
-          Hello, <span className="font-semibold dark:text-white">Admin</span>
->>>>>>> 96bc35a (Topbar and teams page)
-=======
       {/* Greeting + logo — hug, gap 35 */}
       <div className="flex shrink-0 items-center gap-[35px]">
         <p className="hidden text-sm text-zinc-600 sm:block dark:text-zinc-300">
           Hello, <span className="font-semibold text-zinc-900 dark:text-white">Admin</span>
->>>>>>> 358ebc7ce4ebd41a9beab12319671d3ceb6282c4
         </p>
         <div className="flex h-[55px] w-[55px] items-center justify-center rounded-full bg-zinc-900 text-[10px] font-bold uppercase tracking-wide text-white">
           Logo
