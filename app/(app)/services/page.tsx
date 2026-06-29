@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Eye,
   Filter,
@@ -8,6 +10,8 @@ import {
   User,
   Users,
 } from "lucide-react";
+import { useState } from "react";
+import { AddServiceModal } from "@/components/AddServiceModal";
 
 type Service = {
   id: string;
@@ -101,6 +105,8 @@ function StatusBadge({ status }: { status: Service["status"] }) {
 }
 
 export default function ServicesPage() {
+  const [isAddOpen, setIsAddOpen] = useState(false);
+
   return (
     <div className="flex flex-col gap-6">
       {/* Header */}
@@ -123,6 +129,7 @@ export default function ServicesPage() {
           </button>
           <button
             type="button"
+            onClick={() => setIsAddOpen(true)}
             className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700"
           >
             Add Services
@@ -233,6 +240,8 @@ export default function ServicesPage() {
           </button>
         </div>
       </div>
+
+      <AddServiceModal open={isAddOpen} onClose={() => setIsAddOpen(false)} />
     </div>
   );
 }
