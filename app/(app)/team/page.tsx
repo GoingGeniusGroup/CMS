@@ -1,12 +1,15 @@
-import { Users, User, Filter, Plus, Eye, Pencil, Trash2, Search } from "lucide-react";
+"use client";
+
+import { useRef, useState } from "react";
+import { Users, User, Filter, Plus, Eye, Pencil, Trash2, Search, Camera } from "lucide-react";
 import { FaMale, FaFemale } from "react-icons/fa";
 import { PageHeader } from "@/components/PageHeader";
 
 const stats = [
-  { label: "Total Members", value: 28, icon: Users },
-  { label: "Active Members", value: 24, icon: Users },
-  { label: "Leave Members", value: 2, icon: User },
-  { label: "Departments", value: 5, icon: User },
+  { label: "Total Members", value: 28, icon: Users, iconClass: "text-zinc-900" },
+  { label: "Active Members", value: 24, icon: Users, iconClass: "text-zinc-900" },
+  { label: "Leave Members", value: 2, icon: User, iconClass: "text-zinc-900" },
+  { label: "Departments", value: 5, icon: User, iconClass: "text-zinc-900" },
 ];
 
 const members = [
@@ -18,17 +21,31 @@ const members = [
 ];
 
 export default function TeamPage() {
+  const [showAddMember, setShowAddMember] = useState(false);
+  const [showAddDesignation, setShowAddDesignation] = useState(false);
+  const [description, setDescription] = useState("");
+  const [photo, setPhoto] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setPhoto(URL.createObjectURL(file));
+  };
+
   return (
     <div className="text-zinc-800">
       {/* Header */}
       <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
         <PageHeader title="Team" description="Manage Your team members and their information." />
         <div className="flex items-center gap-3">
-          <button className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 shadow-sm">
-            <Filter className="h-4 w-4" />
+          <button className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-white px-4 py-2.5 text-sm font-bold text-zinc-700 shadow-sm">
+            <Filter className="h-4 w-4" strokeWidth={3} />
             Filter
           </button>
-          <button className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm">
+          <button
+            onClick={() => setShowAddMember(true)}
+            className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm"
+          >
             Add Member
             <Plus className="h-4 w-4" />
           </button>
@@ -37,9 +54,9 @@ export default function TeamPage() {
 
       {/* Stat cards */}
       <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map(({ label, value, icon: Icon }) => (
+        {stats.map(({ label, value, icon: Icon, iconClass }) => (
           <div key={label} className="flex items-center gap-4 rounded-2xl border border-black/5 bg-white p-8 shadow-[0_6px_24px_rgba(0,0,0,0.25)]">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-indigo-50 text-indigo-500">
+            <span className={`flex h-14 w-14 items-center justify-center rounded-full bg-indigo-50 ${iconClass}`}>
               <Icon className="h-7 w-7" strokeWidth={1.5} />
             </span>
             <div>
@@ -106,6 +123,207 @@ export default function TeamPage() {
           </table>
         </div>
       </div>
+
+      {/* Add Member modal */}
+      {showAddMember && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 p-4">
+          <div className="my-auto w-full max-w-2xl rounded-xl bg-white p-5 shadow-2xl">
+            <h2 className="mb-4 text-lg font-bold">Add Member</h2>
+
+            <div className="flex flex-col gap-4 md:flex-row">
+              {/* Upload photo */}
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="flex w-full cursor-pointer flex-col items-center gap-2.5 self-start rounded-xl bg-zinc-50 p-6 md:w-60"
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handlePhotoChange}
+                />
+                {photo ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={photo}
+                    alt="Selected"
+                    className="h-20 w-20 rounded-full object-cover"
+                  />
+                ) : (
+                  <span className="flex h-12 w-12 items-center justify-center rounded-lg text-indigo-500">
+                    <Camera className="h-7 w-7" />
+                  </span>
+                )}
+                <div className="text-lg font-semibold">Upload Photo</div>
+                <div className="text-center text-xs leading-tight text-zinc-400">
+                  Best Resolution
+                  <br />
+                  500px * 400px
+                </div>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    fileInputRef.current?.click();
+                  }}
+                  className="rounded-md border border-indigo-200 px-4 py-2 text-sm font-semibold text-indigo-600"
+                >
+                  Choose File
+                </button>
+              </div>
+
+              {/* Fields */}
+              <div className="flex-1 space-y-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-xs font-medium">
+                      Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter Full Name"
+                      className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs font-medium">
+                      Designation <span className="text-red-500">*</span>
+                    </label>
+                    <select className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm text-zinc-500 outline-none focus:border-indigo-400">
+                      <option>Select Designation</option>
+                      <option>UI/UX Designer</option>
+                      <option>Web Developer</option>
+                      <option>Content Writer</option>
+                      <option>Project Manager</option>
+                    </select>
+                    <div className="mt-1.5 flex justify-end">
+                      <button
+                        onClick={() => setShowAddDesignation(true)}
+                        className="rounded-lg border border-indigo-200 px-2.5 py-1 text-xs font-semibold text-indigo-600"
+                      >
+                        + Add Designation
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-xs font-medium">Department</label>
+                  <select className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm text-zinc-500 outline-none focus:border-indigo-400">
+                    <option>Select Department</option>
+                    <option>Design</option>
+                    <option>Development</option>
+                    <option>Content</option>
+                    <option>Management</option>
+                    <option>Marketing</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-xs font-medium">Description</label>
+                  <textarea
+                    rows={3}
+                    maxLength={160}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Enter description about team member......."
+                    className="w-full resize-none rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
+                  />
+                  <div className="mt-0.5 text-right text-xs text-zinc-400">
+                    {description.length}/160
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Social fields */}
+            <div className="mt-4 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-3">
+              {["Facebook", "Twitter URL", "Instagram URL", "LinkedIn URL", "Domain", "Phone"].map(
+                (label) => (
+                  <div key={label}>
+                    <label className="mb-1 block text-xs font-bold">{label}</label>
+                    <input
+                      type="text"
+                      className="w-full rounded-lg border border-black/40 px-3 py-2 text-sm outline-none focus:border-indigo-400"
+                    />
+                  </div>
+                )
+              )}
+            </div>
+
+            {/* Actions */}
+            <div className="mt-5 flex justify-end gap-3">
+              <button
+                onClick={() => setShowAddMember(false)}
+                className="rounded-lg border border-black/15 px-4 py-2 text-sm font-medium text-zinc-700"
+              >
+                Cancel
+              </button>
+              <button className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white">
+                Add Member
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Designation modal */}
+      {showAddDesignation && (
+        <div className="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto bg-black/40 p-4">
+          <div className="my-auto w-full max-w-md rounded-xl bg-white p-6 shadow-2xl">
+            <h2 className="mb-5 text-lg font-bold">Add Designation</h2>
+
+            <div className="space-y-4">
+              <div>
+                <label className="mb-1 block text-sm font-semibold">
+                  Title <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter designation title"
+                  className="w-full rounded-lg border border-black/15 px-3 py-2.5 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
+                />
+              </div>
+
+              <div>
+                <label className="mb-1 block text-sm font-semibold">
+                  Department <span className="text-red-500">*</span>
+                </label>
+                <select className="w-full rounded-lg border border-black/15 px-3 py-2.5 text-sm text-zinc-500 outline-none focus:border-indigo-400">
+                  <option>Select Department</option>
+                  <option>Design</option>
+                  <option>Development</option>
+                  <option>Content</option>
+                  <option>Management</option>
+                  <option>Marketing</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="mb-1 block text-sm font-semibold">Description</label>
+                <textarea
+                  rows={4}
+                  placeholder="Enter description about the designation......."
+                  className="w-full resize-none rounded-lg border border-black/15 px-3 py-2.5 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
+                />
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                onClick={() => setShowAddDesignation(false)}
+                className="rounded-lg border border-black/15 px-4 py-2 text-sm font-medium text-zinc-700"
+              >
+                Cancel
+              </button>
+              <button className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white">
+                Add Designation
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
