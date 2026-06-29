@@ -49,9 +49,9 @@ function IconButton({
 
 export function Topbar() {
   return (
-    <header className="flex w-full items-center gap-6 px-6 py-4">
+    <header className="mx-auto flex w-full max-w-7xl items-center gap-4 px-6 py-4">
       {/* Search */}
-      <div className="relative mx-3 max-w-xl flex-1">
+      <div className="relative flex-1">
         <input
           type="text"
           placeholder="Search here"
@@ -61,7 +61,7 @@ export function Topbar() {
       </div>
 
       {/* Action icons */}
-      <div className="mx-3 flex items-center gap-3">
+      <div className="flex shrink-0 items-center gap-3">
         <IconButton badge={20}>
           <Bell className="h-5 w-5" />
         </IconButton>
@@ -74,8 +74,8 @@ export function Topbar() {
       </div>
 
       {/* Greeting + logo */}
-      <div className="ml-auto flex items-center gap-6">
-        <p className="text-sm text-zinc-600 dark:text-zinc-300">
+      <div className="flex shrink-0 items-center gap-4">
+        <p className="hidden text-sm text-zinc-600 sm:block dark:text-zinc-300">
           Hello, <span className="font-semibold text-zinc-900 dark:text-white">Admin</span>
         </p>
         <div className="flex h-11 w-11 items-center justify-center rounded-full bg-zinc-900 text-[10px] font-bold uppercase tracking-wide text-white">
