@@ -1,9 +1,5 @@
-import { PageHeader } from "@/components/PageHeader";
+import { redirect } from "next/navigation";
 
 export default function SettingsPage() {
-  return (
-    <>
-      <PageHeader title="Settings" description="Configure your workspace." />
-    </>
-  );
+  redirect("/settings/general");
 }
