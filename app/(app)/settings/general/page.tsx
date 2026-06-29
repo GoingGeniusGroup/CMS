@@ -178,6 +178,7 @@ export default function GeneralSettingsPage() {
           </span>
         </div>
       </div>
+      
 
       {/* Meta keywords */}
       <div className="mt-6">
