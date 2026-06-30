@@ -100,12 +100,20 @@ export function Sidebar() {
         )}
       />
 
-      {/* Sidebar / mobile drawer */}
+      {/* Sidebar:
+          - Mobile (< md): a fixed, off-canvas drawer that overlays the page.
+          - Desktop (>= md): a normal flex item, full viewport height, with
+            its OWN scrollbar (overflow-y-auto) so a long nav list scrolls
+            in place instead of dragging the whole page with it. Because
+            it's a static flex sibling (not `fixed`), the content column
+            next to it never needs a manual margin to "make room" — the
+            flex layout handles that automatically and can't drift out
+            of sync. */}
       <aside
         id="primary-sidebar"
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex h-screen w-72 max-w-[85vw] shrink-0 flex-col justify-between overflow-y-auto bg-[#0a0a0b] px-5 py-6 transition-transform duration-300 ease-in-out",
-          "md:static md:z-auto md:w-64 md:max-w-none md:translate-x-0",
+          "md:static md:z-auto md:h-screen md:w-64 md:max-w-none md:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
