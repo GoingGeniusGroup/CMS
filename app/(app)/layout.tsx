@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Sidebar, MobileHeader } from "@/components/Sidebar";
-import { ConditionalTopbar } from "@/components/ConditionalTopbar";
+import { Topbar } from "@/components/Topbar";
 
 export default function AppLayout({
   children,
@@ -43,14 +43,23 @@ export default function AppLayout({
     scrollRef.current?.scrollTo(0, 0);
   }, [pathname]);
 
-  return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      <div ref={scrollRef} className="flex flex-1 flex-col overflow-y-auto">
-        <MobileHeader isOpen={isOpen} onToggle={() => setIsOpen((v) => !v)} />
-        <ConditionalTopbar />
-        <main className="flex-1 p-8">{children}</main>
-      </div>
-    </div>
+  // Topbar visibility, inlined here instead of a separate
+  // ConditionalTopbar component:
+  // - hidden entirely on /settings
+  // - search bar hidden on /services
+  const hideTopbar = pathname.startsWith("/settings");
+  const hideSearchRoutes = ["/services"];
+  const showSearch = !hideSearchRoutes.some((route) =>
+    pathname.startsWith(route)
   );
+
+ return (
+  <div className="flex h-screen overflow-hidden">
+    <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+    <div ref={scrollRef} className="flex flex-1 flex-col overflow-y-auto">
+      <MobileHeader isOpen={isOpen} onToggle={() => setIsOpen((v) => !v)} />
+      <main className="flex-1 p-8">{children}</main>
+    </div>
+  </div>
+);
 }
