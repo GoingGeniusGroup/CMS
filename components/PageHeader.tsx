@@ -6,7 +6,7 @@ export function PageHeader({
   description?: string;
 }) {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="mb-6 flex flex-col gap-1">
       <h1 className="text-2xl font-semibold tracking-tight text-black">
         {title}
       </h1>

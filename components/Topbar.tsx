@@ -11,11 +11,11 @@ export function Topbar({ showSearch = true }: { showSearch?: boolean }) {
   return (
     <header
       className={`mb-6 flex w-full items-center ${
-        showSearch ? "justify-between gap-6" : "justify-end gap-12"
+        showSearch ? "justify-between gap-3 sm:gap-6" : "justify-end gap-4 sm:gap-12"
       }`}
     >
       {showSearch ? (
-        <SearchBar className="h-14 w-full min-w-0 max-w-[866px] flex-1" />
+        <SearchBar className="h-12 w-full min-w-0 max-w-[866px] flex-1 sm:h-14" />
       ) : null}
 
       <TopbarActions />
