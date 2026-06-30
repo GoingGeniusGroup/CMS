@@ -166,7 +166,6 @@ export default function ServicesPage() {
                   <StatusBadge status={service.status} />
                 </div>
               </div>
-
               <RowActions variant="buttons" />
             </div>
           ))}
