@@ -1,6 +1,7 @@
 "use client";
 
 import { PageHeader } from "@/components/PageHeader";
+import { Topbar } from "@/components/Topbar";
 import { Filter, Plus, Search, Eye, Pencil, Trash2, ChevronDown } from "lucide-react";
 import { FaRegNewspaper } from "react-icons/fa";
 
@@ -36,6 +37,7 @@ const statusOptions = ["published", "draft", "pending"];
 
 return (
   <>
+    <Topbar />
 
     <div className="flex items-center justify-between px-9 py-9 ">
       {/* Left: Title + Subtitle */}

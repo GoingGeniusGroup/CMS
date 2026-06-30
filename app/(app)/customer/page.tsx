@@ -1,6 +1,7 @@
 "use client";
 
 import { PageHeader } from "@/components/PageHeader";
+import { Topbar } from "@/components/Topbar";
 import { Users, UserCheck, UserPlus, TrendingUp, Mail, Eye, Pencil, Trash2, CalendarDays, ChevronDown, Search } from "lucide-react";
 import { AddCustomerModal, type CustomerFormData } from "@/components/AddcostumerModal";
 import { useState } from "react";
@@ -120,6 +121,7 @@ export default function CustomerPage() {
 
   return (
     <div className="space-y-6">
+      <Topbar />
       <div className="flex flex-wrap items-start justify-between gap-4">
         <PageHeader title="Customer" description="Manage your customers." />
         <FilterPeriod />
