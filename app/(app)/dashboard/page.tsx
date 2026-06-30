@@ -310,8 +310,8 @@ function GrowthRing({
   ];
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-3">
-      <div className="relative aspect-square w-full max-w-[140px]">
+    <div className="flex flex-col items-center gap-3">
+      <div className="relative h-28 w-28">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
