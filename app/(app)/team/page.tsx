@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { Users, User, Filter, Plus, Eye, Pencil, Trash2, Search, Camera } from "lucide-react";
 import { FaMale, FaFemale } from "react-icons/fa";
 import { PageHeader } from "@/components/PageHeader";
+import { Topbar } from "@/components/Topbar";
 
 const stats = [
   { label: "Total Members", value: 28, icon: Users, iconClass: "text-zinc-900" },
@@ -34,6 +35,7 @@ export default function TeamPage() {
 
   return (
     <div className="text-zinc-800">
+      <Topbar />
       {/* Header */}
       <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
         <PageHeader title="Team" description="Manage Your team members and their information." />

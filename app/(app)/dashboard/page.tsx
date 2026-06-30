@@ -23,6 +23,7 @@ import {
   Users,
 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
+import { Topbar } from "@/components/Topbar";
 
 type RevenueDatum = {
   month: string;
@@ -92,6 +93,7 @@ const stats = [
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
+      <Topbar />
       <div className="flex flex-wrap items-start justify-between gap-4">
         <PageHeader title="Dashboard" description="Hi, Admin. Welcome back to Admin!" />
         <FilterPeriod />

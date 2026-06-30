@@ -52,7 +52,7 @@ export function TopbarActions() {
       </div>
 
       {/* Greeting + logo */}
-      <div className="-mr-6 flex shrink-0 items-center gap-3">
+      <div className="flex shrink-0 items-center gap-3">
         <p className="hidden text-sm text-zinc-600 sm:block dark:text-zinc-300">
           Hello,{" "}
           <span className="font-semibold text-zinc-900 dark:text-white">
