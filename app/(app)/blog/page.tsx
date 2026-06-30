@@ -3,13 +3,14 @@
 import { PageHeader } from "@/components/PageHeader";
 import { Topbar } from "@/components/Topbar";
 import { Filter, Plus, Search, Eye, Pencil, Trash2, ChevronDown } from "lucide-react";
+import { FaRegNewspaper } from "react-icons/fa";
 
 import { useState } from "react";
 
 const stats = [
-  { label: "Total Blogs", value: 18, icon: Filter },
-  { label: "Published", value: 15, icon: Filter },
-  { label: "Draft ", value: 3, icon: Filter },
+  { label: "Total Blogs", value: 18, icon: FaRegNewspaper },
+  { label: "Published", value: 15, icon: FaRegNewspaper },
+  { label: "Draft ", value: 3, icon: FaRegNewspaper },
 
 ];
 
@@ -64,19 +65,18 @@ return (
       </div>
     </div>
     {/* Stat Cards */}
-<div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+<div className="mb-7 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
   {stats.map(({ label, value, icon: Icon }) => (
     <div
       key={label}
       className="
-        flex items-center gap-4
-        rounded-2xl border border-black/5 bg-white
-        min-h-[140px] sm:min-h-[165px] lg:min-h-[185px]
-        p-5 sm:p-6 lg:p-8
-        shadow-[0_6px_24px_rgba(0,0,0,0.12)]
-        transition-all duration-300
-        hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.16)]
-      "
+  flex items-center gap-4
+  rounded-2xl border border-black/5 bg-white
+  min-h-[100px] sm:min-h-[115px] lg:min-h-[130px]
+  p-5
+  shadow-[0_6px_24px_rgba(0,0,0,0.12)]
+  transition-all duration-300
+"
     >
       {/* Icon */}
       <div
@@ -110,7 +110,7 @@ return (
   ))}
 </div>
     {/* Blogs Search */}
-    <div className="mb-4 flex flex-wrap items-center justify-between gap-4 py-4">
+    <div className="mb-4 flex flex-wrap items-center justify-between  py-4">
       <h2 className="text-xl font-semibold tracking-tight">Blogs</h2>
       <div className="relative">
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
