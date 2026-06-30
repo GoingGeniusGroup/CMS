@@ -27,7 +27,7 @@ export default function TeamPage() {
 
   return (
     <div className="text-zinc-800">
-      <Topbar />
+      <Topbar showSearch={false}/>
       {/* Header */}
       <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
         <PageHeader title="Team" description="Manage Your team members and their information." />

@@ -92,20 +92,20 @@ const stats = [
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
-      <Topbar />
-      <div className="flex flex-wrap items-start justify-between gap-4">
+    <div className="space-y-5 sm:space-y-6">
+      <Topbar showSearch={false}/>
+      <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader title="Dashboard" description="Hi, Admin. Welcome back to Admin!" />
         <FilterPeriod />
       </div>
 
-      <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-4">
         {stats.map((stat) => (
           <StatCard key={stat.label} {...stat} />
         ))}
       </section>
 
-      <section className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+      <section className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-2">
         <RevenueCard />
         <GrowthCard />
       </section>
@@ -117,18 +117,18 @@ function FilterPeriod() {
   return (
     <button
       type="button"
-      className="flex items-center gap-3 rounded-2xl bg-white px-4 py-2.5 text-left shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow hover:shadow-[0_8px_30px_rgba(0,0,0,0.14)]"
+      className="flex w-full items-center gap-3 rounded-2xl bg-white px-4 py-2.5 text-left shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow hover:shadow-[0_8px_30px_rgba(0,0,0,0.14)] sm:w-auto"
     >
-      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
         <CalendarDays className="h-5 w-5" />
       </span>
-      <span className="flex flex-col">
+      <span className="flex flex-1 flex-col">
         <span className="text-sm font-semibold text-black">
           Filter Period
         </span>
         <span className="text-xs text-zinc-500">17 April 2021 - 21 May 2021</span>
       </span>
-      <ChevronDown className="h-4 w-4 text-black" />
+      <ChevronDown className="h-4 w-4 shrink-0 text-black" />
     </button>
   );
 }
@@ -147,7 +147,7 @@ function StatCard({
   up: boolean;
 }) {
   return (
-    <div className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)]">
+    <div className="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] sm:p-5">
       <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-500">
         <Icon className="h-6 w-6" />
       </span>
@@ -189,7 +189,7 @@ function RevenueCard() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="relative rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
+    <div className="relative rounded-2xl bg-white p-4 shadow-[0_8px_30px_rgba(0,0,0,0.08)] sm:p-6">
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-3">
           <h2 className="text-base font-semibold text-black">
@@ -240,7 +240,7 @@ function RevenueCard() {
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-2 flex items-center gap-5 text-xs text-black">
+      <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-black">
         <Legend color="#facc15" label="Received" />
         <Legend color="#34d399" label="Pending" />
         <Legend color="#f43f5e" label="Overdue" />
@@ -282,11 +282,11 @@ function Legend({ color, label }: { color: string; label: string }) {
 
 function GrowthCard() {
   return (
-    <div className="flex h-full flex-col rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
+    <div className="flex h-full flex-col rounded-2xl bg-white p-4 shadow-[0_8px_30px_rgba(0,0,0,0.08)] sm:p-6">
       <h2 className="text-lg font-bold text-black">
         This Year&apos;s Growth
       </h2>
-      <div className="mt-4 grid flex-1 grid-cols-1 place-items-center gap-4 sm:grid-cols-3">
+      <div className="mt-4 grid flex-1 grid-cols-1 place-items-center gap-6 sm:grid-cols-3 sm:gap-4">
         {growthData.map((item) => (
           <GrowthRing key={item.label} {...item} />
         ))}
