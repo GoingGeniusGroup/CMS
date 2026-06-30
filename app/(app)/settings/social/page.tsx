@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { Globe, Share2 } from "lucide-react";
+import { Button } from "@/components/Button";
+import { Card } from "@/components/Card";
 import {
   FaFacebookF,
   FaInstagram,
@@ -66,8 +68,8 @@ const socialFields = [
 
 export default function SocialSettingsPage() {
   return (
-    <div className="rounded-2xl bg-white p-8 shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
-      <div className="flex items-start justify-between">
+    <Card className="lg:p-8">
+      <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-amber-500">
@@ -86,12 +88,7 @@ export default function SocialSettingsPage() {
           </div>
           <p className="text-sm text-zinc-500">Manage social media links.</p>
         </div>
-        <button
-          type="button"
-          className="rounded-lg bg-violet-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition-colors hover:bg-violet-600"
-        >
-          Save Change
-        </button>
+        <Button className="shrink-0">Save Changes</Button>
       </div>
 
       <div className="mt-6 flex flex-col gap-5">
@@ -119,6 +116,6 @@ export default function SocialSettingsPage() {
           );
         })}
       </div>
-    </div>
+    </Card>
   );
 }

@@ -2,6 +2,8 @@
 
 import { useRef, useState } from "react";
 import { Lock, UploadCloud } from "lucide-react";
+import { Button } from "@/components/Button";
+import { Card } from "@/components/Card";
 
 function UploadBox({
   recommended,
@@ -41,7 +43,7 @@ function UploadBox({
           e.preventDefault();
           handleFile(e.dataTransfer.files?.[0]);
         }}
-        className="flex h-28 w-full max-w-[220px] flex-col items-center justify-center gap-1 overflow-hidden rounded-xl bg-zinc-100 text-zinc-400 transition-colors hover:bg-zinc-200"
+        className="flex h-28 w-full flex-col items-center justify-center gap-1 overflow-hidden rounded-xl bg-zinc-100 text-zinc-400 transition-colors hover:bg-zinc-200 sm:max-w-[220px]"
       >
         {preview ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -102,16 +104,21 @@ function Toggle() {
 
 export default function GeneralSettingsPage() {
   return (
-    <div className="rounded-2xl bg-white p-8 shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
-      <div className="flex items-center gap-3">
-        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-500">
-          <Lock className="h-5 w-5" />
-        </span>
-        <h1 className="text-2xl font-bold text-amber-500">General Settings</h1>
+    <Card className="lg:p-8">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-500">
+              <Lock className="h-5 w-5" />
+            </span>
+            <h1 className="text-xl font-bold text-amber-500 sm:text-2xl">General Settings</h1>
+          </div>
+          <p className="mt-2 text-sm text-black">
+            Manage the websites basic information and appearance
+          </p>
+        </div>
+        <Button className="shrink-0">Save Changes</Button>
       </div>
-      <p className="mt-2 text-sm text-black">
-        Manage the websites basic information and appearance
-      </p>
 
       {/* Logo + Favicon */}
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -151,12 +158,12 @@ export default function GeneralSettingsPage() {
             <input
               type="color"
               defaultValue="#f81b6f"
-              className="h-11 w-24 cursor-pointer rounded-lg border border-zinc-200 bg-white p-1 shadow-sm"
+              className="h-11 w-16 shrink-0 cursor-pointer rounded-lg border border-zinc-200 bg-white p-1 shadow-sm sm:w-24"
             />
             <input
               type="text"
               defaultValue="#F1B6"
-              className="h-11 w-28 rounded-lg border border-zinc-200 px-4 text-sm text-black shadow-sm outline-none focus:ring-2 focus:ring-sky-200"
+              className="h-11 w-full min-w-0 flex-1 rounded-lg border border-zinc-200 px-4 text-sm text-black shadow-sm outline-none focus:ring-2 focus:ring-sky-200 sm:w-28 sm:flex-none"
             />
           </div>
         </div>
@@ -197,16 +204,6 @@ export default function GeneralSettingsPage() {
         <Toggle />
         <span className="text-sm font-semibold text-black">Enable</span>
       </div>
-
-      {/* Save */}
-      <div className="mt-8 flex justify-end">
-        <button
-          type="button"
-          className="rounded-lg bg-violet-500 px-6 py-2.5 text-sm font-semibold text-white shadow-md transition-colors hover:bg-violet-600"
-        >
-          Save Changes
-        </button>
-      </div>
-    </div>
+    </Card>
   );
 }

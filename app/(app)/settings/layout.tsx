@@ -6,9 +6,9 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col gap-4 md:flex-row md:gap-6">
       <SettingsNav />
-      <div className="flex-1">{children}</div>
+      <div className="min-w-0 flex-1">{children}</div>
     </div>
   );
 }

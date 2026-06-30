@@ -17,8 +17,8 @@ export function SettingsNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex w-52 shrink-0 flex-col gap-1 border-r border-black/10 px-4 py-2">
-      <h2 className="px-2 pb-4 text-xl font-bold text-black">Settings</h2>
+    <nav className="flex w-full shrink-0 flex-row gap-1 overflow-x-auto border-b border-black/10 pb-2 md:w-52 md:flex-col md:border-b-0 md:border-r md:px-4 md:py-2 md:pb-0">
+      <h2 className="hidden px-2 pb-4 text-xl font-bold text-black md:block">Settings</h2>
       {settingsNavItems.map((item) => {
         const active = pathname === item.href;
         const Icon = item.icon;
@@ -27,7 +27,7 @@ export function SettingsNav() {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium transition-colors",
+              "flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors md:gap-3 md:px-2",
               active
                 ? "text-amber-500"
                 : "text-zinc-600 hover:bg-black/5 hover:text-black"

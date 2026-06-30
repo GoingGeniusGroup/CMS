@@ -18,7 +18,7 @@ function IconButton({
       className={`relative flex h-[55px] w-[55px] items-center justify-center rounded-2xl shadow-md transition-colors ${
         variant === "accent"
           ? "bg-red-50 text-red-400 hover:bg-red-100"
-          : "bg-sky-50 text-sky-500 hover:bg-sky-100 dark:bg-white/5"
+          : "bg-sky-50 text-sky-500 hover:bg-sky-100"
       }`}
     >
       {children}
@@ -53,9 +53,9 @@ export function TopbarActions() {
 
       {/* Greeting + logo */}
       <div className="flex shrink-0 items-center gap-3">
-        <p className="hidden text-sm text-zinc-600 sm:block dark:text-zinc-300">
+        <p className="hidden text-sm text-zinc-600 sm:block">
           Hello,{" "}
-          <span className="font-semibold text-zinc-900 dark:text-white">
+          <span className="font-semibold text-zinc-900">
             Admin
           </span>
         </p>

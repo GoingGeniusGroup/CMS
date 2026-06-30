@@ -53,7 +53,7 @@ export function MobileHeader({
     <header className="flex items-center justify-between border-b border-white/10 bg-[#0a0a0b] px-4 py-3 md:hidden">
       <div className="flex items-center gap-2">
         <Image
-          src="/logo.png"
+          src="/logo2.png"
           alt="Going Genius logo"
           width={32}
           height={36}
