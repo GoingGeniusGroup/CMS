@@ -36,7 +36,7 @@ const statusOptions = ["published", "draft", "pending"];
 return (
   <>
 
-    <div className="flex items-center justify-between px-9 py-15 ">
+    <div className="flex items-center justify-between px-9 py-9 ">
       {/* Left: Title + Subtitle */}
       <div>
         <h1 className="text-xl font-bold text-black-900 leading-tight">Blog</h1>
@@ -61,22 +61,54 @@ return (
         </button>
       </div>
     </div>
-    {/* Stat cards */}
-    <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 py-6">
-      {stats.map(({ label, value, icon: Icon }) => (
-        <div key={label} className="flex items-center gap-4 rounded-2xl border border-black/5 bg-white p-8 shadow-[0_6px_24px_rgba(0,0,0,0.25)]">
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-indigo-50 text-indigo-500">
-            <Icon className="h-7 w-7" strokeWidth={1.5} />
-          </span>
-          <div>
-            <div className="text-2xl font-semibold tracking-tight">{value}</div>
-            <div className="text-sm text-zinc-500">{label}</div>
-          </div>
-        </div>
-      ))}
+    {/* Stat Cards */}
+<div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  {stats.map(({ label, value, icon: Icon }) => (
+    <div
+      key={label}
+      className="
+        flex items-center gap-4
+        rounded-2xl border border-black/5 bg-white
+        min-h-[140px] sm:min-h-[165px] lg:min-h-[185px]
+        p-5 sm:p-6 lg:p-8
+        shadow-[0_6px_24px_rgba(0,0,0,0.12)]
+        transition-all duration-300
+        hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.16)]
+      "
+    >
+      {/* Icon */}
+      <div
+        className="
+          flex items-center justify-center
+          h-16 w-16
+          sm:h-20 sm:w-20
+          lg:h-24 lg:w-24
+          rounded-full
+          bg-indigo-50
+          flex-shrink-0
+        "
+      >
+        <Icon
+          className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-indigo-600"
+          strokeWidth={1.8}
+        />
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col justify-center">
+        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-none">
+          {value}
+        </h3>
+
+        <p className="mt-2 text-sm sm:text-base text-gray-500">
+          {label}
+        </p>
+      </div>
     </div>
+  ))}
+</div>
     {/* Blogs Search */}
-    <div className="mb-4 flex flex-wrap items-center justify-between gap-4 py-6">
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-4 py-4">
       <h2 className="text-xl font-semibold tracking-tight">Blogs</h2>
       <div className="relative">
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
@@ -215,7 +247,7 @@ return (
           onChange={(e) => setSlug(e.target.value)}
           className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-indigo-400"
         />
-      </div>
+    
 
       {/* Status */}
       <div className="mb-5 relative">
@@ -253,29 +285,29 @@ return (
         )}
       </div>
 
-      {/* Toggle */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center">
+     {/* Toggle */}
+<div className="mb-6">
+  <div className="flex items-center justify-between">
+    <span className="text-sm font-semibold text-gray-800">
+      Internal use only
+    </span>
 
-          <span className="text-sm font-semibold">
-            Internal use only
-          </span>
-
-          <button
-            type="button"
-            onClick={() => setInternalUse(!internalUse)}
-            className={`relative inline-flex h-6 w-11 rounded-full transition-colors ${
-              internalUse ? "bg-green-500" : "bg-gray-300"
-            }`}
-          >
-            <span
-              className={`inline-block w-4 h-4 bg-white rounded-full shadow transform transition-transform ${
-                internalUse ? "translate-x-6" : "translate-x-1"
-              }`}
-            />
-          </button>
-        </div>
-
+    <button
+      type="button"
+      onClick={() => setInternalUse(!internalUse)}
+      className={`relative w-11 h-6 rounded-full transition-colors duration-300 ${
+        internalUse ? "bg-green-500" : "bg-gray-300"
+      }`}
+    >
+      <span
+        className={`absolute top-1/2 w-4 h-4 bg-white rounded-full shadow-md transition-all duration-300 -translate-y-1/2 ${
+          internalUse ? "right-1" : "left-1"
+        }`}
+      />
+    </button>
+  </div>
+  
+</div>
         <p className="text-xs text-gray-400 mt-1">
           Enable this if this blog is for internal use only.
         </p>
