@@ -188,6 +188,7 @@ export default function CustomerPage() {
                 <tr key={customer.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
                   <td className="p-4">
                     <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={customer.avatar}
                         alt={customer.name}
@@ -236,6 +237,7 @@ export default function CustomerPage() {
             <div key={customer.id} className="p-3 sm:p-4 hover:bg-gray-50 transition-colors">
               <div className="flex items-start gap-3 mb-3">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={customer.avatar}
                     alt={customer.name}
