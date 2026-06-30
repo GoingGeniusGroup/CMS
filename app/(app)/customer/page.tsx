@@ -37,50 +37,62 @@ const stats = [
   }
 ];
 
-const initialCustomers = [
+interface Customer {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  gender: "Male" | "Female";
+  avatar: string;
+  services: string;
+  status: "Active" | "Inactive";
+  invoiceStatus: "Paid" | "Unpaid" | "Pending";
+}
+
+const initialCustomers: Customer[] = [
   {
     id: 1,
     name: "Jhon Deo",
     email: "Jhondeo@gmail.com",
     phone: "9898989898",
-    gender: "Male" as const,
+    gender: "Male",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John1",
     services: "Web Development",
-    status: "Active" as const,
-    invoiceStatus: "Paid" as const
+    status: "Active",
+    invoiceStatus: "Paid"
   },
   {
     id: 2,
     name: "Jhon Deo",
     email: "Jhondeo@gmail.com",
     phone: "9898989898",
-    gender: "Female" as const,
+    gender: "Female",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane2",
     services: "Web Development",
-    status: "Inactive" as const,
-    invoiceStatus: "Paid" as const
+    status: "Inactive",
+    invoiceStatus: "Paid"
   },
   {
     id: 3,
     name: "Jhon Deo",
     email: "Jhondeo@gmail.com",
     phone: "9898989898",
-    gender: "Male" as const,
+    gender: "Male",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John3",
     services: "Web Development",
-    status: "Active" as const,
-    invoiceStatus: "Paid" as const
+    status: "Active",
+    invoiceStatus: "Paid"
   },
   {
     id: 4,
     name: "Jhon Deo",
     email: "Jhondeo@gmail.com",
     phone: "9898989898",
-    gender: "Female" as const,
+    gender: "Female",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane4",
     services: "Web Development",
-    status: "Inactive" as const,
-    invoiceStatus: "Paid" as const
+    status: "Inactive",
+    invoiceStatus: "Paid"
   }
 ];
 function FilterPeriod() {
@@ -104,17 +116,17 @@ function FilterPeriod() {
 }
 
 export default function CustomerPage() {
-  const [customers, setCustomers] = useState(initialCustomers);
+  const [customers, setCustomers] = useState<Customer[]>(initialCustomers);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddCustomer = (customerData: CustomerFormData) => {
-    const newCustomer = {
-      id: customers.length + 1,
+    const newCustomer: Customer = {
       ...customerData,
+      id: customers.length + 1,
       avatar: customerData.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=default",
-      gender: customerData.gender as "Male" | "Female",
-      status: customerData.status as "Active" | "Inactive",
-      invoiceStatus: customerData.invoiceStatus as "Paid" | "Unpaid" | "Pending"
+      gender: customerData.gender === "Female" ? "Female" : "Male",
+      status: customerData.status,
+      invoiceStatus: customerData.invoiceStatus
     };
     setCustomers([...customers, newCustomer]);
   };
