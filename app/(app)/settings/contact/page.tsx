@@ -113,7 +113,7 @@ export default function ContactSettingsPage() {
         </div>
         <div>
           <label className="mb-2 block text-sm font-semibold text-black">
-            Google Map
+            Google Map Preview
           </label>
           <div className="h-56 w-full rounded-xl border border-zinc-200 bg-zinc-100" />
         </div>
