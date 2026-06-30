@@ -1,5 +1,9 @@
+"use client";
+
 import { PageHeader } from "@/components/PageHeader";
-import { Users, UserCheck, UserPlus, TrendingUp, Mail, Phone, Eye, Pencil, Trash2 } from "lucide-react";
+import { Users, UserCheck, UserPlus, TrendingUp, Mail, Eye, Pencil, Trash2, CalendarDays, ChevronDown, Search } from "lucide-react";
+import { AddCustomerModal, type CustomerFormData } from "@/components/AddcostumerModal";
+import { useState } from "react";
 
 const stats = [
   {
@@ -32,57 +36,94 @@ const stats = [
   }
 ];
 
-const customers = [
+const initialCustomers = [
   {
     id: 1,
     name: "Jhon Deo",
     email: "Jhondeo@gmail.com",
     phone: "9898989898",
-    gender: "Male",
+    gender: "Male" as const,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John1",
     services: "Web Development",
-    status: "Active",
-    invoiceStatus: "Paid"
+    status: "Active" as const,
+    invoiceStatus: "Paid" as const
   },
   {
     id: 2,
     name: "Jhon Deo",
     email: "Jhondeo@gmail.com",
     phone: "9898989898",
-    gender: "Female",
+    gender: "Female" as const,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane2",
     services: "Web Development",
-    status: "Inactive",
-    invoiceStatus: "Paid"
+    status: "Inactive" as const,
+    invoiceStatus: "Paid" as const
   },
   {
     id: 3,
     name: "Jhon Deo",
     email: "Jhondeo@gmail.com",
     phone: "9898989898",
-    gender: "Male",
+    gender: "Male" as const,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John3",
     services: "Web Development",
-    status: "Active",
-    invoiceStatus: "Paid"
+    status: "Active" as const,
+    invoiceStatus: "Paid" as const
   },
   {
     id: 4,
     name: "Jhon Deo",
     email: "Jhondeo@gmail.com",
     phone: "9898989898",
-    gender: "Female",
+    gender: "Female" as const,
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane4",
     services: "Web Development",
-    status: "Inactive",
-    invoiceStatus: "Paid"
+    status: "Inactive" as const,
+    invoiceStatus: "Paid" as const
   }
 ];
+function FilterPeriod() {
+  return (
+    <button
+      type="button"
+      className="flex items-center gap-3 rounded-2xl bg-white px-4 py-2.5 text-left shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow hover:shadow-[0_8px_30px_rgba(0,0,0,0.14)]"
+    >
+      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
+        <CalendarDays className="h-5 w-5" />
+      </span>
+      <span className="flex flex-col">
+        <span className="text-sm font-semibold text-black">
+          Filter Period
+        </span>
+        <span className="text-xs text-zinc-500">17 April 2021 - 21 May 2021</span>
+      </span>
+      <ChevronDown className="h-4 w-4 text-black" />
+    </button>
+  );
+}
 
 export default function CustomerPage() {
+  const [customers, setCustomers] = useState(initialCustomers);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddCustomer = (customerData: CustomerFormData) => {
+    const newCustomer = {
+      id: customers.length + 1,
+      ...customerData,
+      avatar: customerData.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=default",
+      gender: customerData.gender as "Male" | "Female",
+      status: customerData.status as "Active" | "Inactive",
+      invoiceStatus: customerData.invoiceStatus as "Paid" | "Unpaid" | "Pending"
+    };
+    setCustomers([...customers, newCustomer]);
+  };
+
   return (
     <div className="space-y-6">
-      <PageHeader title="Customer" description="Manage your customers." />
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <PageHeader title="Customer" description="Manage your customers." />
+        <FilterPeriod />
+      </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -108,10 +149,23 @@ export default function CustomerPage() {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
         <div className="p-6 border-b border-gray-100 flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900">Customer List</h2>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
-            Add Customer
-            <span className="text-lg">+</span>
-          </button>
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="search"
+                placeholder="Search Member...."
+                className="w-72 rounded-full border border-black/10 bg-white py-2.5 pl-10 pr-4 text-sm text-zinc-700 shadow-sm outline-none placeholder:text-zinc-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+              />
+            </div>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors whitespace-nowrap"
+            >
+              Add Customer
+              <span className="text-lg">+</span>
+            </button>
+          </div>
         </div>
 
         <div className="overflow-x-auto">
@@ -195,6 +249,13 @@ export default function CustomerPage() {
           </table>
         </div>
       </div>
+
+      {/* Add Customer Modal */}
+      <AddCustomerModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleAddCustomer}
+      />
     </div>
   );
 }
