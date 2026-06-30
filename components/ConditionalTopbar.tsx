@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Topbar } from "@/components/PageHeader";
+import { Topbar } from "@/components/Topbar";
 
 export function ConditionalTopbar() {
   const pathname = usePathname();
