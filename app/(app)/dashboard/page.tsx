@@ -23,6 +23,7 @@ import {
   Users,
 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
+import { Topbar } from "@/components/Topbar";
 
 type RevenueDatum = {
   month: string;
@@ -92,6 +93,7 @@ const stats = [
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
+      <Topbar />
       <div className="flex flex-wrap items-start justify-between gap-4">
         <PageHeader title="Dashboard" description="Hi, Admin. Welcome back to Admin!" />
         <FilterPeriod />
@@ -310,8 +312,8 @@ function GrowthRing({
   ];
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-3">
-      <div className="relative aspect-square w-full max-w-[140px]">
+    <div className="flex flex-col items-center gap-3">
+      <div className="relative h-28 w-28">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie

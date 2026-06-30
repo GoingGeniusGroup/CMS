@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { AddServiceModal } from "@/components/AddServiceModal";
+import { Topbar } from "@/components/Topbar";
 
 type Service = {
   id: string;
@@ -108,6 +109,7 @@ export default function ServicesPage() {
 
   return (
     <div className="flex flex-col gap-6">
+      <Topbar showSearch={false} />
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex flex-col gap-1">
