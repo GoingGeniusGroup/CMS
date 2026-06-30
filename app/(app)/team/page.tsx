@@ -4,11 +4,8 @@ import { useState } from "react";
 import { Users, User, Filter, Plus, Eye, Pencil, Trash2, Search } from "lucide-react";
 import { FaMale, FaFemale } from "react-icons/fa";
 import { PageHeader } from "@/components/PageHeader";
-<<<<<<< HEAD
 import { Topbar } from "@/components/Topbar";
-=======
 import { AddMemberModal } from "@/components/AddMemberModal";
->>>>>>> 9a882ef (2915-Make resuable components)
 
 const stats = [
   { label: "Total Members", value: 28, icon: Users, iconClass: "text-zinc-900" },
