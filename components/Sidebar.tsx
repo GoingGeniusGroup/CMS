@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -32,83 +31,84 @@ export const navItems: { label: string; href: string; icon: LucideIcon }[] = [
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 
-export function Sidebar() {
+/**
+ * Mobile top bar — logo + hamburger toggle.
+ *
+ * Rendered INSIDE the main content column (not as a sibling of the
+ * sidebar/drawer) so it stacks naturally above the desktop Topbar and
+ * page content, in normal document flow — no fixed positioning, no
+ * manual top-padding math, no risk of overlap.
+ *
+ * Open/close state lives in AppLayout and is passed down as props so
+ * MobileHeader and Sidebar (rendered in different places) stay in sync.
+ */
+export function MobileHeader({
+  isOpen,
+  onToggle,
+}: {
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <header className="flex items-center justify-between border-b border-white/10 bg-[#0a0a0b] px-4 py-3 md:hidden">
+      <div className="flex items-center gap-2">
+        <Image
+          src="/logo.png"
+          alt="Going Genius logo"
+          width={32}
+          height={36}
+          className="h-9 w-8 object-contain"
+          priority
+        />
+        <span className="text-sm font-bold text-white">
+          Going <span className="text-[#f0b90b]">Genius</span>
+        </span>
+      </div>
+      <button
+        type="button"
+        aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+        aria-expanded={isOpen}
+        aria-controls="primary-sidebar"
+        onClick={onToggle}
+        className="rounded-md p-2 text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]"
+      >
+        {isOpen ? <X size={22} /> : <Menu size={22} />}
+      </button>
+    </header>
+  );
+}
+
+/**
+ * Sidebar:
+ * - Mobile (< md): an off-canvas drawer (fixed, translated off-screen
+ *   until opened) plus its backdrop. Opened via MobileHeader's button.
+ * - Desktop (>= md): a normal static flex column beside page content.
+ */
+export function Sidebar({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
 
   const mainItems = navItems.slice(0, -1);
   const settingsItem = navItems[navItems.length - 1];
 
-  // Close the mobile drawer whenever the route changes
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
-
-  // Lock body scroll while the mobile drawer is open
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
-  // Allow closing the drawer with Escape
-  useEffect(() => {
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setIsOpen(false);
-    }
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, []);
-
   return (
     <>
-      {/* Mobile top bar — visible below md breakpoint only */}
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/10 bg-[#0a0a0b] px-4 py-3 md:hidden">
-        <div className="flex items-center gap-2">
-          <Image
-            src="/logo.png"
-            alt="Going Genius logo"
-            width={32}
-            height={36}
-            className="h-9 w-8 object-contain"
-            priority
-          />
-          <span className="text-sm font-bold text-white">
-            Going <span className="text-[#f0b90b]">Genius</span>
-          </span>
-        </div>
-        <button
-          type="button"
-          aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={isOpen}
-          aria-controls="primary-sidebar"
-          onClick={() => setIsOpen((v) => !v)}
-          className="rounded-md p-2 text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]"
-        >
-          {isOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </header>
-
       {/* Backdrop, mobile only, shown while drawer is open */}
       <div
         aria-hidden="true"
-        onClick={() => setIsOpen(false)}
+        onClick={onClose}
         className={cn(
           "fixed inset-0 z-40 bg-black/60 transition-opacity duration-300 md:hidden",
           isOpen ? "opacity-100" : "pointer-events-none opacity-0"
         )}
       />
 
-      {/* Sidebar:
-          - Mobile (< md): a fixed, off-canvas drawer that overlays the page.
-          - Desktop (>= md): a normal flex item, full viewport height, with
-            its OWN scrollbar (overflow-y-auto) so a long nav list scrolls
-            in place instead of dragging the whole page with it. Because
-            it's a static flex sibling (not `fixed`), the content column
-            next to it never needs a manual margin to "make room" — the
-            flex layout handles that automatically and can't drift out
-            of sync. */}
+      {/* Sidebar / mobile drawer */}
       <aside
         id="primary-sidebar"
         className={cn(
@@ -118,7 +118,7 @@ export function Sidebar() {
         )}
       >
         <div>
-          {/* Logo — shown here on desktop; mobile already shows it in the top bar */}
+          {/* Logo — shown here on desktop; mobile already shows it in MobileHeader */}
           <div className="hidden items-center gap-3 px-1 md:flex">
             <Image
               src="/logo2.png"
