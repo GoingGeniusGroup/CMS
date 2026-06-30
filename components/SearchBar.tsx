@@ -16,9 +16,9 @@ export function SearchBar({
       <input
         type="text"
         placeholder={placeholder}
-        className={`h-full w-full rounded-lg bg-white pl-5 pr-12 text-sm text-zinc-700 shadow-md outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-sky-200 dark:bg-white/5 dark:text-zinc-200 ${inputClassName}`}
+        className={`h-full w-full rounded-lg bg-white pl-4 pr-11 text-sm text-zinc-700 shadow-md outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-sky-200 sm:pl-5 sm:pr-12 dark:bg-white/5 dark:text-zinc-200 ${inputClassName}`}
       />
-      <Search className="pointer-events-none absolute right-5 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
+      <Search className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400 sm:right-5" />
     </div>
   );
 }

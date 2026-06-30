@@ -71,16 +71,16 @@ function StatCard({
   accent: boolean;
 }) {
   return (
-    <div className="flex items-center gap-5 rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-white/5">
+    <div className="flex items-center gap-4 rounded-2xl border border-black/5 bg-white p-5 shadow-sm sm:gap-5 sm:p-6 dark:border-white/10 dark:bg-white/5">
       <div
-        className={`flex h-16 w-16 items-center justify-center rounded-full ${
+        className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full sm:h-16 sm:w-16 ${
           accent ? "bg-sky-50 text-zinc-700" : "bg-zinc-100 text-zinc-700"
         }`}
       >
-        <Icon className="h-7 w-7" strokeWidth={1.75} />
+        <Icon className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={1.75} />
       </div>
       <div>
-        <p className="text-3xl font-bold text-zinc-900 dark:text-white">
+        <p className="text-2xl font-bold text-zinc-900 sm:text-3xl dark:text-white">
           {value}
         </p>
         <p className="text-sm text-zinc-500 dark:text-zinc-400">{label}</p>
@@ -113,17 +113,17 @@ export default function ServicesPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex flex-col gap-1">
-          <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl dark:text-white">
             Services
           </h1>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
             Manage all your services
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             type="button"
-            className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 shadow-sm transition-colors hover:bg-black/5 dark:border-white/10 dark:bg-white/5 dark:text-zinc-200"
+            className="inline-flex items-center gap-2 rounded-lg border border-black/10 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 shadow-sm transition-colors hover:bg-black/5 sm:px-5 dark:border-white/10 dark:bg-white/5 dark:text-zinc-200"
           >
             <Filter className="h-4 w-4" />
             Filter
@@ -131,7 +131,7 @@ export default function ServicesPage() {
           <button
             type="button"
             onClick={() => setIsAddOpen(true)}
-            className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 sm:px-5"
           >
             Add Services
             <Plus className="h-4 w-4" />
@@ -148,7 +148,7 @@ export default function ServicesPage() {
 
       {/* Services panel header */}
       <div className="flex flex-col gap-4 rounded-2xl border border-black/5 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:bg-white/5">
-        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
+        <h2 className="text-xl font-bold text-zinc-900 sm:text-2xl dark:text-white">
           Services
         </h2>
       </div>
@@ -204,7 +204,7 @@ export default function ServicesPage() {
 
       {/* Footer / pagination */}
       <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
+        <p className="text-base font-semibold text-zinc-800 sm:text-lg dark:text-zinc-100">
           Showing 1 to 5 of 10 entries
         </p>
         <div className="flex items-center gap-2">
