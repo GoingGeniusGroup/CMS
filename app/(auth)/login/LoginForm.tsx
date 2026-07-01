@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
@@ -38,6 +37,7 @@ export function LoginForm() {
       return;
     }
 
+    // Let middleware handle onboarding redirect — just push to callback
     router.push(callbackUrl);
     router.refresh();
   }
@@ -92,13 +92,6 @@ export function LoginForm() {
           {isSubmitting ? "Signing in…" : "Sign in"}
         </Button>
       </form>
-
-      <p className="mt-6 text-center text-sm text-gray-500">
-        Don&apos;t have an account?{" "}
-        <Link href="/register" className="font-medium text-indigo-600 hover:text-indigo-700">
-          Create one
-        </Link>
-      </p>
     </Card>
   );
 }

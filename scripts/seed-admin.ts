@@ -27,6 +27,7 @@ async function main() {
       email: adminEmail,
       password: hashedPassword,
       role: "admin",
+      isOnboarded: false,
     },
   });
 

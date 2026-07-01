@@ -13,5 +13,6 @@ export async function validateUserCredentials(email: string, password: string) {
     email: user.email,
     name: user.name,
     role: user.role,
+    isOnboarded: user.isOnboarded,
   };
 }
