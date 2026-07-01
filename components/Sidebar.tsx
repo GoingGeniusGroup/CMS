@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { LogoutButton } from "@/components/LogoutButton";
+import { UserProfile } from "@/components/UserProfile";
 import {
   Home,
   UserSquare2,
@@ -138,8 +140,13 @@ export function Sidebar({
             </div>
           </div>
 
+          {/* User Profile */}
+          <div className="mt-6">
+            <UserProfile />
+          </div>
+
           {/* Nav */}
-          <nav className="mt-2 flex flex-col gap-1 md:mt-10" aria-label="Primary">
+          <nav className="mt-2 flex flex-col gap-1 md:mt-6" aria-label="Primary">
             {mainItems.map((item) => {
               const active = pathname === item.href;
               const Icon = item.icon;
@@ -168,21 +175,25 @@ export function Sidebar({
           </nav>
         </div>
 
-        {/* Settings, pinned to bottom */}
-        <Link
-          href={settingsItem.href}
-          onClick={onClose}
-          aria-current={pathname === settingsItem.href ? "page" : undefined}
-          className={cn(
-            "flex items-center gap-3 px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
-            pathname === settingsItem.href
-              ? "text-[#e8821a]"
-              : "text-zinc-400 hover:text-white"
-          )}
-        >
-          <Settings size={18} />
-          Settings
-        </Link>
+        {/* Settings & Logout, pinned to bottom */}
+        <div className="space-y-1">
+          <Link
+            href={settingsItem.href}
+            onClick={onClose}
+            aria-current={pathname === settingsItem.href ? "page" : undefined}
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
+              pathname === settingsItem.href
+                ? "text-[#e8821a]"
+                : "text-zinc-400 hover:text-white"
+            )}
+          >
+            <Settings size={18} />
+            Settings
+          </Link>
+
+          <LogoutButton className="w-full text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg" />
+        </div>
       </aside>
     </>
   );
