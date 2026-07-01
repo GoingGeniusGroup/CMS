@@ -9,6 +9,7 @@ import { Card } from "@/components/Card";
 import { StatCard } from "@/components/StatCard";
 import { RowActions } from "@/components/RowActions";
 import { Pagination } from "@/components/Pagination";
+import { AddProjectModal } from "@/components/AddProjectModal";
 
 type Project = {
   id: number;
@@ -77,6 +78,7 @@ const initialProjects: Project[] = [
 export default function ProjectsPage() {
   const [projects] = useState(initialProjects);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isAddOpen, setIsAddOpen] = useState(false);
   const totalEntries = 32;
 
   return (
@@ -93,7 +95,7 @@ export default function ProjectsPage() {
             <Filter className="h-4 w-4" />
             Filter
           </Button>
-          <Button>
+          <Button onClick={() => setIsAddOpen(true)}>
             Add Projects
             <Plus className="h-4 w-4" />
           </Button>
@@ -188,6 +190,8 @@ export default function ProjectsPage() {
         rangeLabel={`Showing 1 to 5 of ${totalEntries} entries`}
         onPageChange={setCurrentPage}
       />
+
+      <AddProjectModal open={isAddOpen} onClose={() => setIsAddOpen(false)} />
     </div>
   );
 }
