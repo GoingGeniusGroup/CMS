@@ -6,7 +6,8 @@ import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { StatCard } from "@/components/StatCard";
 import { Pagination } from "@/components/Pagination";
-import { Filter, Plus, Search, Eye, Pencil, Trash2, ChevronDown, Newspaper } from "lucide-react";
+import { RowActions } from "@/components/RowActions";
+import { Filter, Plus, Search, ChevronDown, Newspaper } from "lucide-react";
 
 import { useState } from "react";
 
@@ -78,10 +79,11 @@ return (
     </div>
     {/* Blogs Table */}
     <Card noPadding className="overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[820px] text-left text-sm">
+      {/* Desktop Table View */}
+      <div className="hidden lg:block overflow-x-auto">
+        <table className="w-full text-left text-sm">
           <thead>
-            <tr className="text-zinc-500">
+            <tr className="border-b border-gray-100 text-zinc-500">
               <th className="px-6 py-4 font-medium">#</th>
               <th className="px-6 py-4 font-medium">Title</th>
               <th className="px-6 py-4 font-medium">Slug</th>
@@ -91,9 +93,9 @@ return (
           </thead>
           <tbody>
             {blogs.map((b, i) => (
-              <tr key={i} className="border-t border-black/5">
+              <tr key={i} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 text-zinc-600">{b.id}</td>
-                <td className="px-6 py-4 text-zinc-600">{b.title}</td>
+                <td className="px-6 py-4 font-medium text-gray-900">{b.title}</td>
                 <td className="px-6 py-4 text-zinc-600">{b.slug}</td>
                 <td className="px-6 py-4">
                   <span
@@ -106,16 +108,42 @@ return (
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="flex items-center gap-4 text-zinc-500">
-                    <Eye className="h-4 w-4" />
-                    <Pencil className="h-4 w-4" />
-                    <Trash2 className="h-4 w-4 text-red-500" />
-                  </div>
+                  <RowActions />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile/Tablet Card View */}
+      <div className="lg:hidden divide-y divide-gray-100">
+        {blogs.map((b, i) => (
+          <div key={i} className="p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+            <div className="flex items-start gap-3 mb-3">
+              <div className="text-xs sm:text-sm text-gray-500 font-medium w-8">
+                {String(i + 1).padStart(2, "0")}
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-1">
+                  {b.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-gray-600 mb-2 truncate">{b.slug}</p>
+                <span
+                  className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                    b.status?.trim().toLowerCase() === "published"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
+                  }`}
+                >
+                  {b.status}
+                </span>
+              </div>
+            </div>
+
+            <RowActions variant="buttons" />
+          </div>
+        ))}
       </div>
     </Card>
 
@@ -125,8 +153,8 @@ return (
     {/* Add Blog Modal */}
 
    {showAddBlogModal && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-    <div className="bg-white rounded-2xl shadow-md p-6 w-[420px]">
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+    <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6 w-full max-w-[420px] max-h-[90vh] overflow-y-auto">
 
       {/* Heading */}
       <h2 className="text-lg font-bold text-gray-900 mb-5">
