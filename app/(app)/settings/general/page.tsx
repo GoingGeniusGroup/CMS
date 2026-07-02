@@ -103,7 +103,7 @@ function Toggle() {
 }
 
 export default function GeneralSettingsPage() {
-  const [themeColor, setThemeColor] = useState("");
+  const [themeColor, setThemeColor] = useState("#0000");
   return (
     <Card className="lg:p-8">
       <div className="flex items-start justify-between gap-4">
