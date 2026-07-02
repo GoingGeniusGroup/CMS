@@ -3,7 +3,6 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
 
 const projectSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
@@ -68,7 +67,6 @@ export async function createProject(data: ProjectInput) {
         endDate: endDate ? new Date(endDate) : null,
       },
     });
-    revalidatePath("/projects");
     return { success: true };
   } catch (error) {
     console.error("Create project error:", error);
@@ -98,7 +96,6 @@ export async function updateProject(id: string, data: ProjectInput) {
         endDate: endDate ? new Date(endDate) : null,
       },
     });
-    revalidatePath("/projects");
     return { success: true };
   } catch (error) {
     console.error("Update project error:", error);
@@ -112,7 +109,6 @@ export async function deleteProject(id: string) {
 
   try {
     await prisma.project.delete({ where: { id } });
-    revalidatePath("/projects");
     return { success: true };
   } catch (error) {
     console.error("Delete project error:", error);
