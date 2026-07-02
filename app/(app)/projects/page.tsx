@@ -1,83 +1,27 @@
-"use client";
+import { getProjects } from "@/app/actions/projects";
+import { ProjectsClient } from "./ProjectsClient";
+import prisma from "@/lib/prisma";
+import { auth } from "@/auth";
 
-import { PageHeader } from "@/components/PageHeader";
-import { Folder, Filter, Plus, FileText, FileEdit } from "lucide-react";
-import { useState } from "react";
-import { Topbar } from "@/components/Topbar";
-import { Button } from "@/components/Button";
-import { Card } from "@/components/Card";
-import { StatCard } from "@/components/StatCard";
-import { RowActions } from "@/components/RowActions";
-import { Pagination } from "@/components/Pagination";
+export default async function ProjectsPage() {
+  const session = await auth();
+  if (!session?.user) throw new Error("Unauthorized");
 
-type Project = {
-  id: number;
-  thumbnail: string;
-  title: string;
-  category: string;
-  status: "Published" | "Draft";
-};
-
-const stats = [
-  {
-    icon: Folder,
-    label: "Total Projects",
-    value: "16",
-  },
-  {
-    icon: FileText,
-    label: "Published",
-    value: "28",
-  },
-  {
-    icon: FileEdit,
-    label: "Drafts",
-    value: "4",
-  }
-];
-
-const initialProjects: Project[] = [
-  {
-    id: 1,
-    thumbnail: "🛒",
-    title: "E-Commerce Websites",
-    category: "Web Development",
-    status: "Published"
-  },
-  {
-    id: 2,
-    thumbnail: "💼",
-    title: "Business Landing Page",
-    category: "Web Design",
-    status: "Published"
-  },
-  {
-    id: 3,
-    thumbnail: "📱",
-    title: "Finance Mobile App",
-    category: "Mobile App",
-    status: "Draft"
-  },
-  {
-    id: 4,
-    thumbnail: "🎨",
-    title: "Brand Design",
-    category: "Branding",
-    status: "Published"
-  },
-  {
-    id: 5,
-    thumbnail: "🔍",
-    title: "SEO Campaign Project",
-    category: "SEO",
-    status: "Published"
-  }
-];
-
-export default function ProjectsPage() {
-  const [projects] = useState(initialProjects);
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalEntries = 32;
+  const [data, customers, teams, services] = await Promise.all([
+    getProjects(1, 10),
+    prisma.customer.findMany({
+      select: { id: true, fullName: true },
+      orderBy: { fullName: "asc" },
+    }),
+    prisma.team.findMany({
+      select: { id: true, fullName: true },
+      orderBy: { fullName: "asc" },
+    }),
+    prisma.service.findMany({
+      select: { id: true, serviceName: true },
+      orderBy: { serviceName: "asc" },
+    }),
+  ]);
 
   return (
     <div className="space-y-5 sm:space-y-6">

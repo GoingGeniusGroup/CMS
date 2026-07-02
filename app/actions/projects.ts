@@ -22,7 +22,7 @@ export async function getProjects(page = 1, pageSize = 10) {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
 
-  const [projects, total] = await Promise.all([
+  const [projects, total, published, drafts] = await Promise.all([
     prisma.project.findMany({
       orderBy: { createdAt: "desc" },
       skip: (page - 1) * pageSize,
@@ -30,10 +30,9 @@ export async function getProjects(page = 1, pageSize = 10) {
       include: { customer: true, team: true, service: true },
     }),
     prisma.project.count(),
+    prisma.project.count({ where: { status: "Published" } }),
+    prisma.project.count({ where: { status: "Draft" } }),
   ]);
-
-  const published = await prisma.project.count({ where: { status: "Published" } });
-  const drafts = await prisma.project.count({ where: { status: "Draft" } });
 
   return {
     projects,

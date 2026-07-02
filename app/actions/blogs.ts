@@ -20,7 +20,7 @@ export async function getBlogs(page = 1, pageSize = 10) {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
 
-  const [blogs, total] = await Promise.all([
+  const [blogs, total, published, drafts] = await Promise.all([
     prisma.blog.findMany({
       orderBy: { createdAt: "desc" },
       skip: (page - 1) * pageSize,
@@ -28,10 +28,9 @@ export async function getBlogs(page = 1, pageSize = 10) {
       include: { author: true },
     }),
     prisma.blog.count(),
+    prisma.blog.count({ where: { status: "Published" } }),
+    prisma.blog.count({ where: { status: "Draft" } }),
   ]);
-
-  const published = await prisma.blog.count({ where: { status: "Published" } });
-  const drafts = await prisma.blog.count({ where: { status: "Draft" } });
 
   return {
     blogs,
