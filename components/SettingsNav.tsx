@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+<<<<<<< HEAD
 import { Mail, Phone, Shield, Share2, SlidersHorizontal, Search, LayoutTemplate } from "lucide-react";
+=======
+import { Cookie, Mail, Phone, Shield, Share2, SlidersHorizontal } from "lucide-react";
+>>>>>>> 5ffaf50b3dfb9127bafae58972cbc00623dec490
 import { cn } from "@/lib/utils";
 
 export const settingsNavItems = [
@@ -11,8 +15,12 @@ export const settingsNavItems = [
   { label: "Email", href: "/settings/email", icon: Mail },
   { label: "Social", href: "/settings/social", icon: Share2 },
   { label: "Security", href: "/settings/security", icon: Shield },
+<<<<<<< HEAD
   { label: "SEO", href: "/settings/seo", icon: Search },
   { label: "Popup", href: "/settings/popup", icon: LayoutTemplate },
+=======
+  { label: "Cookies Settings", href: "/settings/cookiessettings", icon: Cookie },
+>>>>>>> 5ffaf50b3dfb9127bafae58972cbc00623dec490
 ];
 
 export function SettingsNav() {
