@@ -3,7 +3,6 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
 
 const blogSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
@@ -62,7 +61,6 @@ export async function createBlog(data: BlogInput) {
         publishedAt: publishedAt ? new Date(publishedAt) : rest.status === "Published" ? new Date() : null,
       },
     });
-    revalidatePath("/blog");
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -91,7 +89,6 @@ export async function updateBlog(id: string, data: BlogInput) {
         publishedAt: publishedAt ? new Date(publishedAt) : rest.status === "Published" ? new Date() : null,
       },
     });
-    revalidatePath("/blog");
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -108,7 +105,6 @@ export async function deleteBlog(id: string) {
 
   try {
     await prisma.blog.delete({ where: { id } });
-    revalidatePath("/blog");
     return { success: true };
   } catch (error) {
     console.error("Delete blog error:", error);
