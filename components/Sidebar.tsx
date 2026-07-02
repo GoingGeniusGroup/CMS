@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { LogoutButton } from "@/components/LogoutButton";
 import { UserProfile } from "@/components/UserProfile";
+import { signOut } from "next-auth/react";
+
 import {
   Home,
   UserSquare2,
@@ -18,10 +20,22 @@ import {
   Settings,
   Menu,
   X,
+  ChevronDown,
+  Globe,
+  LayoutPanelTop,
+  FilePlus2,
+  LogOut,
   type LucideIcon,
 } from "lucide-react";
 
-export const navItems: { label: string; href: string; icon: LucideIcon }[] = [
+type NavItem = {
+  label: string;
+  href: string;
+  icon: LucideIcon;
+  children?: { label: string; href: string; icon: LucideIcon }[];
+};
+
+export const navItems: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: Home },
   { label: "Customer", href: "/customer", icon: UserSquare2 },
   { label: "Projects", href: "/projects", icon: Folder },
@@ -30,19 +44,21 @@ export const navItems: { label: string; href: string; icon: LucideIcon }[] = [
   { label: "Analytics", href: "/analytics", icon: BarChart2 },
   { label: "Invoices", href: "/invoices", icon: FileText },
   { label: "Blog", href: "/blog", icon: Newspaper },
+  {
+    label: "Website Setup",
+    href: "/website-setup",
+    icon: Globe,
+    children: [
+      { label: "Website Header", href: "/website-setup/header", icon: Globe },
+      { label: "Footer Widgets", href: "/website-setup/footer-widgets", icon: LayoutPanelTop },
+      { label: "Add New Page", href: "/website-setup/add-page", icon: FilePlus2 },
+    ],
+  },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 
 /**
  * Mobile top bar — logo + hamburger toggle.
- *
- * Rendered INSIDE the main content column (not as a sibling of the
- * sidebar/drawer) so it stacks naturally above the desktop Topbar and
- * page content, in normal document flow — no fixed positioning, no
- * manual top-padding math, no risk of overlap.
- *
- * Open/close state lives in AppLayout and is passed down as props so
- * MobileHeader and Sidebar (rendered in different places) stay in sync.
  */
 export function MobileHeader({
   isOpen,
@@ -81,10 +97,53 @@ export function MobileHeader({
 }
 
 /**
- * Sidebar:
- * - Mobile (< md): an off-canvas drawer (fixed, translated off-screen
- *   until opened) plus its backdrop. Opened via MobileHeader's button.
- * - Desktop (>= md): a normal static flex column beside page content.
+ * Logout confirmation modal.
+ */
+function LogoutConfirmModal({
+  open,
+  onCancel,
+  onConfirm,
+  isLoggingOut,
+}: {
+  open: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+  isLoggingOut: boolean;
+}) {
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
+      <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
+        <h3 className="text-lg font-bold text-gray-900">Confirm Logout</h3>
+        <p className="mt-2 text-sm text-gray-600">
+          Are you sure you want to log out? You will need to sign in again to access the dashboard.
+        </p>
+        <div className="mt-5 flex items-center justify-end gap-3">
+          <button
+            type="button"
+            onClick={onCancel}
+            disabled={isLoggingOut}
+            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={onConfirm}
+            disabled={isLoggingOut}
+            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 disabled:opacity-50"
+          >
+            {isLoggingOut ? "Logging out..." : "Logout"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Sidebar with user profile and logout.
  */
 export function Sidebar({
   isOpen,
@@ -94,13 +153,39 @@ export function Sidebar({
   onClose: () => void;
 }) {
   const pathname = usePathname();
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const mainItems = navItems.slice(0, -1);
   const settingsItem = navItems[navItems.length - 1];
 
+  const toggleMenu = (href: string) => {
+    setOpenMenus((prev) => ({ ...prev, [href]: !prev[href] }));
+  };
+
+  const openMenu = (href: string) => {
+    setOpenMenus((prev) => (prev[href] ? prev : { ...prev, [href]: true }));
+  };
+
+  const closeMenu = (href: string) => {
+    setOpenMenus((prev) => (prev[href] ? { ...prev, [href]: false } : prev));
+  };
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await signOut({ callbackUrl: "/login", redirect: true });
+    } catch (error) {
+      console.error("Logout error:", error);
+      setIsLoggingOut(false);
+      setShowLogoutConfirm(false);
+    }
+  };
+
   return (
     <>
-      {/* Backdrop, mobile only, shown while drawer is open */}
+      {/* Backdrop, mobile only */}
       <div
         aria-hidden="true"
         onClick={onClose}
@@ -120,7 +205,7 @@ export function Sidebar({
         )}
       >
         <div>
-          {/* Logo — shown here on desktop; mobile already shows it in MobileHeader */}
+          {/* Logo — desktop only */}
           <div className="hidden items-center gap-3 px-1 md:flex">
             <Image
               src="/logo2.png"
@@ -141,20 +226,103 @@ export function Sidebar({
           </div>
 
           {/* User Profile */}
-          <div className="mt-6">
+          <div className="mt-4 md:mt-5">
             <UserProfile />
           </div>
 
           {/* Nav */}
-          <nav className="mt-2 flex flex-col gap-1 md:mt-6" aria-label="Primary">
+          <nav className="mt-2 flex flex-col gap-1" aria-label="Primary">
             {mainItems.map((item) => {
-              const active = pathname === item.href;
               const Icon = item.icon;
+
+              if (item.children && item.children.length > 0) {
+                const childActive = item.children.some(
+                  (child) => pathname === child.href
+                );
+                const isMenuOpen = openMenus[item.href] ?? childActive;
+
+                return (
+                  <div
+                    key={item.href}
+                    onMouseEnter={() => openMenu(item.href)}
+                    onMouseLeave={() => closeMenu(item.href)}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => toggleMenu(item.href)}
+                      aria-expanded={isMenuOpen}
+                      className={cn(
+                        "flex w-full items-center justify-between gap-4 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
+                        childActive
+                          ? "font-semibold text-[#e8821a]"
+                          : "text-white hover:text-[#e8821a]/80"
+                      )}
+                    >
+                      <span className="flex items-center gap-4">
+                        <Icon
+                          size={19}
+                          strokeWidth={2}
+                          className={childActive ? "text-[#e8821a]" : "text-white"}
+                        />
+                        {item.label}
+                      </span>
+                      <ChevronDown
+                        size={16}
+                        strokeWidth={2}
+                        className={cn(
+                          "shrink-0 transition-transform duration-200",
+                          isMenuOpen ? "rotate-180" : "rotate-0",
+                          childActive ? "text-[#e8821a]" : "text-white"
+                        )}
+                      />
+                    </button>
+
+                    <div
+                      className={cn(
+                        "grid overflow-hidden transition-all duration-200 ease-in-out",
+                        isMenuOpen
+                          ? "grid-rows-[1fr] opacity-100"
+                          : "grid-rows-[0fr] opacity-0"
+                      )}
+                    >
+                      <div className="min-h-0">
+                        <div className="ml-4 mt-1 flex flex-col gap-1 border-l border-white/10 pl-4">
+                          {item.children.map((child) => {
+                            const active = pathname === child.href;
+                            const ChildIcon = child.icon;
+                            return (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                aria-current={active ? "page" : undefined}
+                                className={cn(
+                                  "flex items-center gap-3 rounded-lg px-3 py-2 text-[14px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
+                                  active
+                                    ? "font-semibold text-[#e8821a]"
+                                    : "text-zinc-400 hover:text-white"
+                                )}
+                              >
+                                <ChildIcon
+                                  size={16}
+                                  strokeWidth={2}
+                                  className={active ? "text-[#e8821a]" : "text-zinc-400"}
+                                />
+                                {child.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              const active = pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={onClose}
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex items-center gap-4 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
@@ -175,8 +343,8 @@ export function Sidebar({
           </nav>
         </div>
 
-        {/* Settings & Logout, pinned to bottom */}
-        <div className="space-y-1">
+        {/* Bottom section: Settings + Logout */}
+        <div className="flex flex-col gap-1 border-t border-white/10 pt-3">
           <Link
             href={settingsItem.href}
             onClick={onClose}
@@ -192,9 +360,24 @@ export function Sidebar({
             Settings
           </Link>
 
-          <LogoutButton className="w-full text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg" />
+          <button
+            type="button"
+            onClick={() => setShowLogoutConfirm(true)}
+            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium text-red-400 transition-colors hover:text-red-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+          >
+            <LogOut size={18} />
+            Logout
+          </button>
         </div>
       </aside>
+
+      {/* Logout Confirmation Modal */}
+      <LogoutConfirmModal
+        open={showLogoutConfirm}
+        onCancel={() => setShowLogoutConfirm(false)}
+        onConfirm={handleLogout}
+        isLoggingOut={isLoggingOut}
+      />
     </>
   );
 }
