@@ -11,7 +11,7 @@ export const settingsNavItems = [
   { label: "Email", href: "/settings/email", icon: Mail },
   { label: "Social", href: "/settings/social", icon: Share2 },
   { label: "Security", href: "/settings/security", icon: Shield },
-  { label: "SEO", href: "/settings/seo", icon: Cookie },
+  { label: "Cookies Settings", href: "/settings/cookiessettings", icon: Cookie },
 ];
 
 export function SettingsNav() {

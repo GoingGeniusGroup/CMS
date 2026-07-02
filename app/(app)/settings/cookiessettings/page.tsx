@@ -34,7 +34,7 @@ function Toggle({
   );
 }
 
-export default function CookiesSettingPage() {
+export default function CookiesSettingsPage() {
   const [cookiesAgreement, setCookiesAgreement] = useState(true);
   const [showCookiesAgreement, setShowCookiesAgreement] = useState(true);
   const [cookiesAgreementText, setCookiesAgreementText] = useState('');
