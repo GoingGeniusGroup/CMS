@@ -2,38 +2,37 @@
 
 import { useState, useTransition } from "react";
 import { PageHeader } from "@/components/PageHeader";
-import { Folder, Plus, FileText, FileEdit, Search } from "lucide-react";
 import { Topbar } from "@/components/Topbar";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { StatCard } from "@/components/StatCard";
 import { RowActions } from "@/components/RowActions";
 import { Pagination } from "@/components/Pagination";
-import { ProjectModal } from "@/components/ProjectModal";
-import { getProjects, deleteProject } from "@/app/actions/projects";
+import { BlogModal } from "@/components/BlogModal";
+import { Filter, Plus, Search, Newspaper, Folder } from "lucide-react";
+import { getBlogs, deleteBlog } from "@/app/actions/blogs";
 
-type SelectOption = { id: string; label: string };
+type Author = {
+  id: string;
+  fullName: string;
+};
 
-type Project = {
+type Blog = {
   id: string;
   title: string;
-  description: string | null;
-  customerId: string | null;
-  teamId: string | null;
-  serviceId: string | null;
-  customer: { id: string; fullName: string } | null;
-  team: { id: string; fullName: string } | null;
-  service: { id: string; serviceName: string } | null;
+  slug: string;
+  content: string | null;
+  category: string | null;
+  authorId: string | null;
+  author: Author | null;
   status: string;
-  startDate: Date | null;
-  endDate: Date | null;
-  budget: number | null;
+  publishedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 };
 
-type ProjectsData = {
-  projects: Project[];
+type BlogsData = {
+  blogs: Blog[];
   total: number;
   published: number;
   drafts: number;
@@ -44,16 +43,12 @@ type ProjectsData = {
 
 const PAGE_SIZE = 10;
 
-export function ProjectsClient({
+export function BlogsClient({
   initialData,
-  customers = [],
-  teams = [],
-  services = [],
+  authors,
 }: {
-  initialData: ProjectsData;
-  customers?: SelectOption[];
-  teams?: SelectOption[];
-  services?: SelectOption[];
+  initialData: BlogsData;
+  authors: Author[];
 }) {
   const [data, setData] = useState(initialData);
   const [currentPage, setCurrentPage] = useState(initialData.page);
@@ -62,12 +57,12 @@ export function ProjectsClient({
 
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
-  const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
-      const freshData = await getProjects(page, PAGE_SIZE);
-      setData(freshData as ProjectsData);
+      const freshData = await getBlogs(page, PAGE_SIZE);
+      setData(freshData as BlogsData);
     });
   }
 
@@ -77,18 +72,18 @@ export function ProjectsClient({
   }
 
   function handleAdd() {
-    setEditingProject(null);
+    setEditingBlog(null);
     setModalOpen(true);
   }
 
-  function handleEdit(project: Project) {
-    setEditingProject(project);
+  function handleEdit(blog: Blog) {
+    setEditingBlog(blog);
     setModalOpen(true);
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Are you sure you want to delete this project?")) return;
-    const result = await deleteProject(id);
+    if (!confirm("Are you sure you want to delete this blog?")) return;
+    const result = await deleteBlog(id);
     if (result.success) {
       refresh();
     }
@@ -96,46 +91,48 @@ export function ProjectsClient({
 
   // Client-side search filter
   const filtered = search.trim()
-    ? data.projects.filter(
-        (p) =>
-          p.title.toLowerCase().includes(search.toLowerCase()) ||
-          (p.customer?.fullName.toLowerCase().includes(search.toLowerCase())) ||
-          (p.service?.serviceName.toLowerCase().includes(search.toLowerCase()))
+    ? data.blogs.filter(
+        (b) =>
+          b.title.toLowerCase().includes(search.toLowerCase()) ||
+          b.slug.toLowerCase().includes(search.toLowerCase()) ||
+          (b.category && b.category.toLowerCase().includes(search.toLowerCase()))
       )
-    : data.projects;
+    : data.blogs;
 
   return (
     <div className="space-y-5 sm:space-y-6">
       <Topbar />
-      {/* Header Section */}
+
+      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-        <PageHeader
-          title="Projects / Portfolio"
-          description="Manage your Portfolio Projects."
-        />
+        <PageHeader title="Blog" description="Manage all your blogs." />
         <div className="flex items-center gap-3">
+          <Button variant="secondary">
+            <Filter className="h-4 w-4" />
+            Filter
+          </Button>
           <Button onClick={handleAdd}>
-            Add Project
+            Add Blog
             <Plus className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
-      {/* Stats Cards */}
+      {/* Stat Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-        <StatCard icon={Folder} label="Total Projects" value={data.total} />
-        <StatCard icon={FileText} label="Published" value={data.published} />
-        <StatCard icon={FileEdit} label="Drafts" value={data.drafts} />
+        <StatCard icon={Newspaper} label="Total Blogs" value={data.total} />
+        <StatCard icon={Newspaper} label="Published" value={data.published} />
+        <StatCard icon={Newspaper} label="Draft" value={data.drafts} />
       </div>
 
       {/* Search */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-bold text-black">Projects</h2>
+        <h2 className="text-lg font-bold text-black">Blogs</h2>
         <div className="relative w-full sm:w-72">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
           <input
             type="search"
-            placeholder="Search projects..."
+            placeholder="Search blogs..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-10 pr-4 text-sm text-zinc-700 shadow-sm outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-sky-200"
@@ -143,7 +140,7 @@ export function ProjectsClient({
         </div>
       </div>
 
-      {/* Projects Table/Cards */}
+      {/* Blogs Table/Cards */}
       <Card noPadding className="overflow-hidden">
         {isPending ? (
           <div className="flex items-center justify-center p-12 text-sm text-zinc-500">
@@ -153,48 +150,50 @@ export function ProjectsClient({
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <Folder className="h-10 w-10 text-zinc-300" />
             <p className="text-sm text-zinc-500">
-              {search ? "No projects match your search" : "No projects yet. Add your first project!"}
+              {search ? "No blogs match your search" : "No blogs yet. Add your first blog!"}
             </p>
           </div>
         ) : (
           <>
             {/* Desktop Table View */}
             <div className="hidden lg:block overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left p-4 text-sm font-semibold text-gray-700 w-16">#</th>
-                    <th className="text-left p-4 text-sm font-semibold text-gray-700">Title</th>
-                    <th className="text-left p-4 text-sm font-semibold text-gray-700">Customer</th>
-                    <th className="text-left p-4 text-sm font-semibold text-gray-700">Service</th>
-                    <th className="text-left p-4 text-sm font-semibold text-gray-700">Status</th>
-                    <th className="text-left p-4 text-sm font-semibold text-gray-700">Actions</th>
+                  <tr className="border-b border-gray-100 text-zinc-500">
+                    <th className="px-6 py-4 font-medium">#</th>
+                    <th className="px-6 py-4 font-medium">Title</th>
+                    <th className="px-6 py-4 font-medium">Slug</th>
+                    <th className="px-6 py-4 font-medium">Category</th>
+                    <th className="px-6 py-4 font-medium">Author</th>
+                    <th className="px-6 py-4 font-medium">Status</th>
+                    <th className="px-6 py-4 font-medium">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filtered.map((project, index) => (
-                    <tr key={project.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                      <td className="p-4 text-sm text-gray-600">
+                  {filtered.map((blog, index) => (
+                    <tr key={blog.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4 text-zinc-600">
                         {String((currentPage - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}
                       </td>
-                      <td className="p-4 text-sm font-medium text-gray-900">{project.title}</td>
-                      <td className="p-4 text-sm text-gray-600">{project.customer?.fullName || "—"}</td>
-                      <td className="p-4 text-sm text-gray-600">{project.service?.serviceName || "—"}</td>
-                      <td className="p-4">
+                      <td className="px-6 py-4 font-medium text-gray-900">{blog.title}</td>
+                      <td className="px-6 py-4 text-zinc-600">{blog.slug}</td>
+                      <td className="px-6 py-4 text-zinc-600">{blog.category || "—"}</td>
+                      <td className="px-6 py-4 text-zinc-600">{blog.author?.fullName || "—"}</td>
+                      <td className="px-6 py-4">
                         <span
-                          className={`px-4 py-1.5 rounded-full text-xs font-medium ${
-                            project.status === "Published"
+                          className={`inline-flex items-center justify-center min-w-[90px] px-3 py-1 rounded-full text-xs font-medium ${
+                            blog.status === "Published"
                               ? "bg-green-100 text-green-700"
                               : "bg-red-100 text-red-700"
                           }`}
                         >
-                          {project.status}
+                          {blog.status}
                         </span>
                       </td>
-                      <td className="p-4">
+                      <td className="px-6 py-4">
                         <RowActions
-                          onEdit={() => handleEdit(project)}
-                          onDelete={() => handleDelete(project.id)}
+                          onEdit={() => handleEdit(blog)}
+                          onDelete={() => handleDelete(blog.id)}
                         />
                       </td>
                     </tr>
@@ -205,35 +204,38 @@ export function ProjectsClient({
 
             {/* Mobile/Tablet Card View */}
             <div className="lg:hidden divide-y divide-gray-100">
-              {filtered.map((project, index) => (
-                <div key={project.id} className="p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+              {filtered.map((blog, index) => (
+                <div key={blog.id} className="p-3 sm:p-4 hover:bg-gray-50 transition-colors">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="text-xs sm:text-sm text-gray-500 font-medium w-8">
                       {String((currentPage - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-1">
-                        {project.title}
+                        {blog.title}
                       </h3>
-                      <p className="text-xs sm:text-sm text-gray-600 mb-2">
-                        {project.service?.serviceName || "No service"}
-                      </p>
-                      <span
-                        className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                          project.status === "Published"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-700"
-                        }`}
-                      >
-                        {project.status}
-                      </span>
+                      <p className="text-xs sm:text-sm text-gray-600 mb-1 truncate">{blog.slug}</p>
+                      <div className="flex flex-wrap items-center gap-2">
+                        {blog.category && (
+                          <span className="text-xs text-gray-500">{blog.category}</span>
+                        )}
+                        <span
+                          className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                            blog.status === "Published"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-red-100 text-red-700"
+                          }`}
+                        >
+                          {blog.status}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   <RowActions
                     variant="buttons"
-                    onEdit={() => handleEdit(project)}
-                    onDelete={() => handleDelete(project.id)}
+                    onEdit={() => handleEdit(blog)}
+                    onDelete={() => handleDelete(blog.id)}
                   />
                 </div>
               ))}
@@ -252,16 +254,14 @@ export function ProjectsClient({
         />
       )}
 
-      {/* Project Modal */}
-      <ProjectModal
-        key={editingProject?.id ?? "new"}
+      {/* Blog Modal */}
+      <BlogModal
+        key={editingBlog?.id ?? "new"}
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         onSuccess={() => refresh()}
-        project={editingProject}
-        customers={customers}
-        teams={teams}
-        services={services}
+        blog={editingBlog}
+        authors={authors}
       />
     </div>
   );

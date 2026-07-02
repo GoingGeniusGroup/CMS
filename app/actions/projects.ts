@@ -7,10 +7,14 @@ import { revalidatePath } from "next/cache";
 
 const projectSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
-  category: z.string().min(2, "Category is required"),
   description: z.string().optional(),
-  thumbnail: z.string().optional(),
+  customerId: z.string().optional(),
+  teamId: z.string().optional(),
+  serviceId: z.string().optional(),
   status: z.enum(["Published", "Draft"]),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+  budget: z.number().optional(),
 });
 
 export type ProjectInput = z.infer<typeof projectSchema>;
@@ -24,6 +28,7 @@ export async function getProjects(page = 1, pageSize = 10) {
       orderBy: { createdAt: "desc" },
       skip: (page - 1) * pageSize,
       take: pageSize,
+      include: { customer: true, team: true, service: true },
     }),
     prisma.project.count(),
   ]);
@@ -52,7 +57,17 @@ export async function createProject(data: ProjectInput) {
   }
 
   try {
-    await prisma.project.create({ data: result.data });
+    const { startDate, endDate, ...rest } = result.data;
+    await prisma.project.create({
+      data: {
+        ...rest,
+        customerId: rest.customerId || null,
+        teamId: rest.teamId || null,
+        serviceId: rest.serviceId || null,
+        startDate: startDate ? new Date(startDate) : null,
+        endDate: endDate ? new Date(endDate) : null,
+      },
+    });
     revalidatePath("/projects");
     return { success: true };
   } catch (error) {
@@ -71,9 +86,17 @@ export async function updateProject(id: string, data: ProjectInput) {
   }
 
   try {
+    const { startDate, endDate, ...rest } = result.data;
     await prisma.project.update({
       where: { id },
-      data: result.data,
+      data: {
+        ...rest,
+        customerId: rest.customerId || null,
+        teamId: rest.teamId || null,
+        serviceId: rest.serviceId || null,
+        startDate: startDate ? new Date(startDate) : null,
+        endDate: endDate ? new Date(endDate) : null,
+      },
     });
     revalidatePath("/projects");
     return { success: true };
