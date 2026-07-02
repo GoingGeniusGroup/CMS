@@ -100,13 +100,7 @@ export function AddCustomerModal({ isOpen, onClose, onSubmit }: AddCustomerModal
       <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl">
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors flex items-center gap-2"
-            type="button"
-          >
-            Add Customer
-            <span className="text-lg">+</span>
-          </button>
+         
           <button
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -352,7 +346,7 @@ export function AddCustomerModal({ isOpen, onClose, onSubmit }: AddCustomerModal
               type="submit"
               className="flex-1 bg-blue-900 hover:bg-blue-950 text-white font-medium px-6 py-3 rounded-lg transition-colors"
             >
-              Add Client
+              Add Customer
             </button>
           </div>
         </form>
