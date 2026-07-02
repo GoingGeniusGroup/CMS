@@ -1,11 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { LogoutButton } from "@/components/LogoutButton";
-import { UserProfile } from "@/components/UserProfile";
+
 import {
   Home,
   UserSquare2,
@@ -18,10 +18,23 @@ import {
   Settings,
   Menu,
   X,
+  ChevronDown,
+  Globe,
+  LayoutPanelTop,
+  FilePlus2,
   type LucideIcon,
 } from "lucide-react";
 
-export const navItems: { label: string; href: string; icon: LucideIcon }[] = [
+import { settingsNavItems } from "@/components/SettingsNav";
+
+type NavItem = {
+  label: string;
+  href: string;
+  icon: LucideIcon;
+  children?: { label: string; href: string; icon: LucideIcon }[];
+};
+
+export const navItems: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: Home },
   { label: "Customer", href: "/customer", icon: UserSquare2 },
   { label: "Projects", href: "/projects", icon: Folder },
@@ -30,6 +43,16 @@ export const navItems: { label: string; href: string; icon: LucideIcon }[] = [
   { label: "Analytics", href: "/analytics", icon: BarChart2 },
   { label: "Invoices", href: "/invoices", icon: FileText },
   { label: "Blog", href: "/blog", icon: Newspaper },
+  {
+    label: "Website Setup",
+    href: "/website-setup",
+    icon: Globe,
+    children: [
+      { label: "Website Header", href: "/website-setup/header", icon: Globe },
+      { label: "Footer Widgets", href: "/website-setup/footer-widgets", icon: LayoutPanelTop },
+      { label: "Add New Page", href: "/website-setup/add-page", icon: FilePlus2 },
+    ],
+  },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 
@@ -85,6 +108,11 @@ export function MobileHeader({
  * - Mobile (< md): an off-canvas drawer (fixed, translated off-screen
  *   until opened) plus its backdrop. Opened via MobileHeader's button.
  * - Desktop (>= md): a normal static flex column beside page content.
+ *
+ * "Website Setup" (and any future item with `children`) opens its
+ * dropdown on hover for pointer/mouse users, and still supports a
+ * click/tap toggle so it works on touch devices where hover doesn't
+ * apply, and remains keyboard/screen-reader accessible.
  */
 export function Sidebar({
   isOpen,
@@ -95,8 +123,23 @@ export function Sidebar({
 }) {
   const pathname = usePathname();
 
+  // Track which dropdown item(s) are expanded, by href
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
+
   const mainItems = navItems.slice(0, -1);
   const settingsItem = navItems[navItems.length - 1];
+
+  const toggleMenu = (href: string) => {
+    setOpenMenus((prev) => ({ ...prev, [href]: !prev[href] }));
+  };
+
+  const openMenu = (href: string) => {
+    setOpenMenus((prev) => (prev[href] ? prev : { ...prev, [href]: true }));
+  };
+
+  const closeMenu = (href: string) => {
+    setOpenMenus((prev) => (prev[href] ? { ...prev, [href]: false } : prev));
+  };
 
   return (
     <>
@@ -140,21 +183,103 @@ export function Sidebar({
             </div>
           </div>
 
-          {/* User Profile */}
-          <div className="mt-6">
-            <UserProfile />
-          </div>
-
           {/* Nav */}
           <nav className="mt-2 flex flex-col gap-1 md:mt-6" aria-label="Primary">
             {mainItems.map((item) => {
-              const active = pathname === item.href;
               const Icon = item.icon;
+
+              // Item with a dropdown (e.g. Website Setup) — opens on hover,
+              // also toggles on click/tap for touch and keyboard users.
+              if (item.children && item.children.length > 0) {
+                const childActive = item.children.some(
+                  (child) => pathname === child.href
+                );
+                const isMenuOpen = openMenus[item.href] ?? childActive;
+
+                return (
+                  <div
+                    key={item.href}
+                    onMouseEnter={() => openMenu(item.href)}
+                    onMouseLeave={() => closeMenu(item.href)}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => toggleMenu(item.href)}
+                      aria-expanded={isMenuOpen}
+                      className={cn(
+                        "flex w-full items-center justify-between gap-4 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
+                        childActive
+                          ? "font-semibold text-[#e8821a]"
+                          : "text-white hover:text-[#e8821a]/80"
+                      )}
+                    >
+                      <span className="flex items-center gap-4">
+                        <Icon
+                          size={19}
+                          strokeWidth={2}
+                          className={childActive ? "text-[#e8821a]" : "text-white"}
+                        />
+                        {item.label}
+                      </span>
+                      <ChevronDown
+                        size={16}
+                        strokeWidth={2}
+                        className={cn(
+                          "shrink-0 transition-transform duration-200",
+                          isMenuOpen ? "rotate-180" : "rotate-0",
+                          childActive ? "text-[#e8821a]" : "text-white"
+                        )}
+                      />
+                    </button>
+
+                    {/* Dropdown sub-items */}
+                    <div
+                      className={cn(
+                        "grid overflow-hidden transition-all duration-200 ease-in-out",
+                        isMenuOpen
+                          ? "grid-rows-[1fr] opacity-100"
+                          : "grid-rows-[0fr] opacity-0"
+                      )}
+                    >
+                      <div className="min-h-0">
+                        <div className="ml-4 mt-1 flex flex-col gap-1 border-l border-white/10 pl-4">
+                          {item.children.map((child) => {
+                            const active = pathname === child.href;
+                            const ChildIcon = child.icon;
+                            return (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                aria-current={active ? "page" : undefined}
+                                className={cn(
+                                  "flex items-center gap-3 rounded-lg px-3 py-2 text-[14px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
+                                  active
+                                    ? "font-semibold text-[#e8821a]"
+                                    : "text-zinc-400 hover:text-white"
+                                )}
+                              >
+                                <ChildIcon
+                                  size={16}
+                                  strokeWidth={2}
+                                  className={active ? "text-[#e8821a]" : "text-zinc-400"}
+                                />
+                                {child.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              // Regular nav item
+              const active = pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={onClose}
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex items-center gap-4 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
@@ -175,25 +300,21 @@ export function Sidebar({
           </nav>
         </div>
 
-        {/* Settings & Logout, pinned to bottom */}
-        <div className="space-y-1">
-          <Link
-            href={settingsItem.href}
-            onClick={onClose}
-            aria-current={pathname === settingsItem.href ? "page" : undefined}
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
-              pathname === settingsItem.href
-                ? "text-[#e8821a]"
-                : "text-zinc-400 hover:text-white"
-            )}
-          >
-            <Settings size={18} />
-            Settings
-          </Link>
-
-          <LogoutButton className="w-full text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg" />
-        </div>
+        {/* Settings, pinned to bottom */}
+        <Link
+          href={settingsItem.href}
+          onClick={onClose}
+          aria-current={pathname === settingsItem.href ? "page" : undefined}
+          className={cn(
+            "flex items-center gap-3 px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
+            pathname === settingsItem.href
+              ? "text-[#e8821a]"
+              : "text-zinc-400 hover:text-white"
+          )}
+        >
+          <Settings size={18} />
+          Settings
+        </Link>
       </aside>
     </>
   );
