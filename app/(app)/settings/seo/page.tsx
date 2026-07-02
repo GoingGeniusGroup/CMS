@@ -17,14 +17,17 @@ export default function SeoSettingsPage() {
   return (
     <Card className="p-6 sm:p-8">
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="flex items-center gap-2 text-xl font-bold" style={{ color: "#f0a500" }}>
-          <Search className="h-5 w-5" />
-          Global SEO Settings
-        </h1>
-        <p className="mt-1 text-sm font-semibold text-zinc-800">
-          Manage global SEO information for your website.
-        </p>
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="flex items-center gap-2 text-xl font-bold" style={{ color: "#f0a500" }}>
+            <Search className="h-5 w-5" />
+            Global SEO Settings
+          </h1>
+          <p className="mt-1 text-sm font-semibold text-zinc-800">
+            Manage global SEO information for your website.
+          </p>
+        </div>
+        <Button className="w-full shrink-0 sm:w-auto">Save Changes</Button>
       </div>
 
       <div className="space-y-6">
@@ -101,10 +104,7 @@ export default function SeoSettingsPage() {
           </p>
         </div>
 
-        {/* Save */}
-        <div className="flex justify-end">
-          <Button>Save Changes</Button>
-        </div>
+        {/* Save button removed from bottom — moved to header */}
       </div>
     </Card>
   );
