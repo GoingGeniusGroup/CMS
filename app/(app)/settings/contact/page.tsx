@@ -1,10 +1,12 @@
 import { Phone } from "lucide-react";
+import { Button } from "@/components/Button";
+import { Card } from "@/components/Card";
 
 export default function ContactSettingsPage() {
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
+    <Card>
       {/* Header */}
-      <div className="flex flex-wrap items-start justify-between gap-4">
+      <div className="flex items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-500">
@@ -18,12 +20,7 @@ export default function ContactSettingsPage() {
             Manage your contact information that will be displayed on websites.
           </p>
         </div>
-        <button
-          type="button"
-          className="rounded-lg bg-violet-500 px-6 py-2.5 text-sm font-semibold text-white shadow-md transition-colors hover:bg-violet-600"
-        >
-          Save Change
-        </button>
+        <Button className="shrink-0">Save Changes</Button>
       </div>
 
       {/* Phone numbers */}
@@ -121,6 +118,6 @@ export default function ContactSettingsPage() {
           <div className="h-56 w-full rounded-xl border border-zinc-200 bg-zinc-100" />
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

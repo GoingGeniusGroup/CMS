@@ -1,5 +1,28 @@
 @import "tailwindcss";
 
+/* Make the `dark:` variant class-based instead of OS-preference based.
+   Since we never add a `.dark` class, all existing `dark:` utilities stay
+   inactive and the app keeps its readable light styling in every mode. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Force a consistent light appearance everywhere so text stays readable
+     regardless of the operating system / browser dark-mode preference. */
+  color-scheme: light;
+  --background: #f5f3f3;
+  --foreground: #18181b;
+}
+
+html {
+  background: var(--background);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
 @keyframes spin-slow {
   from {
     transform: rotate(0deg);

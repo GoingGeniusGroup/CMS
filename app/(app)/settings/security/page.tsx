@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { Shield, ChevronDown } from 'lucide-react';
+import { Button } from '@/components/Button';
+import { Card } from '@/components/Card';
 
 // ─── Toggle Switch Component ───
 // Uses inline styles (not Tailwind translate/width utilities) so it renders
@@ -109,13 +111,13 @@ function SecurityCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-4 sm:p-5">
+    <Card className="flex items-center justify-between gap-4">
       <div className="min-w-0">
         <h3 className="text-sm font-bold text-gray-900 sm:text-base">{title}</h3>
         <p className="mt-1 text-xs leading-relaxed text-gray-500 sm:text-sm">{description}</p>
       </div>
       <div className="shrink-0">{children}</div>
-    </div>
+    </Card>
   );
 }
 
@@ -132,8 +134,8 @@ export default function SecuritySettingsPage() {
   const attemptsOptions = ['3 Attempts', '5 Attempts', '10 Attempts', '15 Attempts'];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-10">
+    <div>
+      <div className="mx-auto max-w-2xl">
         {/* ─── Header ─── */}
         <div className="mb-6 flex items-start justify-between gap-4 sm:mb-8">
           <div>
@@ -145,9 +147,9 @@ export default function SecuritySettingsPage() {
               Manage your website security preferences
             </p>
           </div>
-          <button className="shrink-0 rounded-md bg-indigo-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95 sm:px-4 sm:text-sm">
+          <Button className="shrink-0">
             Save Changes
-          </button>
+          </Button>
         </div>
 
         {/* ─── Cards ─── */}

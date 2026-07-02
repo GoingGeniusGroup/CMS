@@ -53,7 +53,7 @@ export function MobileHeader({
     <header className="flex items-center justify-between border-b border-white/10 bg-[#0a0a0b] px-4 py-3 md:hidden">
       <div className="flex items-center gap-2">
         <Image
-          src="/logo.png"
+          src="/logo2.png"
           alt="Going Genius logo"
           width={32}
           height={36}
@@ -147,6 +147,7 @@ export function Sidebar({
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={onClose}
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex items-center gap-4 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
@@ -170,6 +171,7 @@ export function Sidebar({
         {/* Settings, pinned to bottom */}
         <Link
           href={settingsItem.href}
+          onClick={onClose}
           aria-current={pathname === settingsItem.href ? "page" : undefined}
           className={cn(
             "flex items-center gap-3 px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",

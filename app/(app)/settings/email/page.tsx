@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { ShieldCheck, Send, ChevronDown } from "lucide-react";
+import { Button } from "@/components/Button";
+import { Card } from "@/components/Card";
 
 export default function EmailSettingsPage() {
   const [useSmtp, setUseSmtp] = useState(true);
 
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-8 text-zinc-800 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+    <Card className="text-zinc-800 sm:p-8">
       {/* Header */}
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
@@ -19,9 +21,7 @@ export default function EmailSettingsPage() {
             Configure the email settings for sending emails.
           </p>
         </div>
-        <button className="rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm">
-          Save Changes
-        </button>
+        <Button className="shrink-0">Save Changes</Button>
       </div>
 
       <div className="space-y-5">
@@ -114,7 +114,7 @@ export default function EmailSettingsPage() {
         </div>
 
         {/* Send a test mail */}
-        <div className="flex items-end justify-between gap-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
           <div className="flex-1">
             <label className="mb-1.5 block text-sm font-medium">Send a test mail to</label>
             <input
@@ -122,12 +122,15 @@ export default function EmailSettingsPage() {
               className="w-full rounded-lg border border-black/15 bg-zinc-50/50 px-3 py-3 text-sm outline-none focus:border-indigo-400"
             />
           </div>
-          <button className="inline-flex items-center gap-2 rounded-lg border border-indigo-200 px-4 py-3 text-sm font-semibold text-indigo-600">
+          <Button
+            variant="secondary"
+            className="border-indigo-200 py-3 text-indigo-600 hover:bg-indigo-50"
+          >
             <Send className="h-4 w-4" />
             Send Test Mail
-          </button>
+          </Button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
