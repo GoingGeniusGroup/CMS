@@ -15,22 +15,130 @@ model User {
   email       String   @unique
   password    String
   role        String   @default("user")
-  isOnboarded Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  isOnboarded Boolean  @default(false)
 
   @@map("users")
 }
 
+model Customer {
+  id                                    String    @id @default(cuid())
+  image                                 String
+  email                                 String    @unique
+  status                                String    @default("Active")
+  createdAt                             DateTime  @default(now())
+  updatedAt                             DateTime  @updatedAt
+  address                               String?
+  companyName                           String?
+  fullName                              String
+  phoneNumber                           String?
+  services                              String?
+  services_customers_servicesToservices Service?  @relation("customers_servicesToservices", fields: [services], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  invoices                              Invoice[]
+  projects                              Project[]
+
+  @@map("customers")
+}
+
+model Team {
+  id         String    @id @default(cuid())
+  role       String?
+  updatedAt  DateTime  @updatedAt
+  department String?
+  email      String    @unique
+  fullName   String
+  image      String?
+  joinedAt   DateTime  @default(now())
+  phone      String?
+  status     String    @default("Active")
+  blogs      Blog[]
+  projects   Project[]
+
+  @@map("teams")
+}
+
+model Service {
+  id                                     String     @id @default(cuid())
+  createdAt                              DateTime   @default(now())
+  updatedAt                              DateTime   @updatedAt
+  basePrice                              Float?
+  category                               String?
+  description                            String?
+  isActive                               Boolean    @default(true)
+  serviceName                            String
+  customers_customers_servicesToservices Customer[] @relation("customers_servicesToservices")
+  projects                               Project[]
+
+  @@map("services")
+}
+
 model Project {
-  id          String   @id @default(cuid())
+  id          String      @id @default(cuid())
   title       String
-  category    String
   description String?
-  thumbnail   String?
-  status      String   @default("Draft")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  status      String      @default("Draft")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  budget      Float?
+  customerId  String?
+  endDate     DateTime?
+  serviceId   String?
+  startDate   DateTime?
+  teamId      String?
+  analytics   Analytics[]
+  invoices    Invoice[]
+  customer    Customer?   @relation(fields: [customerId], references: [id])
+  service     Service?    @relation(fields: [serviceId], references: [id])
+  team        Team?       @relation(fields: [teamId], references: [id])
 
   @@map("projects")
+}
+
+model Blog {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  content     String?
+  status      String    @default("Draft")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  authorId    String?
+  category    String?
+  publishedAt DateTime?
+  author      Team?     @relation(fields: [authorId], references: [id])
+
+  @@map("blogs")
+}
+
+model Invoice {
+  id            String    @id @default(cuid())
+  customerId    String?
+  projectId     String?
+  invoiceNumber String    @unique
+  amount        Float     @default(0)
+  tax           Float     @default(0)
+  total         Float     @default(0)
+  status        String    @default("Pending")
+  issuedDate    DateTime?
+  dueDate       DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  customer      Customer? @relation(fields: [customerId], references: [id])
+  project       Project?  @relation(fields: [projectId], references: [id])
+
+  @@map("invoices")
+}
+
+model Analytics {
+  id           String    @id @default(cuid())
+  projectId    String?
+  metricName   String
+  metricValue  Float     @default(0)
+  dimension    String?
+  recordedDate DateTime?
+  createdAt    DateTime  @default(now())
+  project      Project?  @relation(fields: [projectId], references: [id])
+
+  @@map("analytics")
 }
