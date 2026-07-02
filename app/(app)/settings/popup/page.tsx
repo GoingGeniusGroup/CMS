@@ -11,14 +11,17 @@ export default function PopupSettingsPage() {
   return (
     <Card className="p-6 sm:p-8">
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="flex items-center gap-2 text-xl font-bold text-zinc-900">
-          <ShieldCheck className="h-5 w-5 text-zinc-900" />
-          Website Popup Settings
-        </h1>
-        <p className="mt-1 text-sm text-zinc-500">
-          Manage Website popup display settings and content.
-        </p>
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="flex items-center gap-2 text-xl font-bold text-zinc-900">
+            <ShieldCheck className="h-5 w-5 text-zinc-900" />
+            Website Popup Settings
+          </h1>
+          <p className="mt-1 text-sm text-zinc-500">
+            Manage Website popup display settings and content.
+          </p>
+        </div>
+        <Button className="w-full shrink-0 sm:w-auto">Save Changes</Button>
       </div>
 
       <div className="space-y-6">
@@ -53,10 +56,7 @@ export default function PopupSettingsPage() {
           />
         </div>
 
-        {/* Save */}
-        <div className="flex justify-end">
-          <Button>Save Changes</Button>
-        </div>
+        {/* Save button removed from bottom — moved to header */}
       </div>
     </Card>
   );

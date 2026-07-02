@@ -103,6 +103,7 @@ function Toggle() {
 }
 
 export default function GeneralSettingsPage() {
+  const [themeColor, setThemeColor] = useState("#0000");
   return (
     <Card className="lg:p-8">
       <div className="flex items-start justify-between gap-4">
@@ -157,12 +158,18 @@ export default function GeneralSettingsPage() {
           <div className="flex items-center gap-3">
             <input
               type="color"
-              defaultValue="#f81b6f"
+              value={themeColor}
+              onChange={(e) => setThemeColor(e.target.value)}
               className="h-11 w-16 shrink-0 cursor-pointer rounded-lg border border-zinc-200 bg-white p-1 shadow-sm sm:w-24"
             />
             <input
               type="text"
-              defaultValue="#F1B6"
+              value={themeColor}
+              onChange={(e) => {
+                const val = e.target.value;
+                setThemeColor(val);
+              }}
+              maxLength={7}
               className="h-11 w-full min-w-0 flex-1 rounded-lg border border-zinc-200 px-4 text-sm text-black shadow-sm outline-none focus:ring-2 focus:ring-sky-200 sm:w-28 sm:flex-none"
             />
           </div>
