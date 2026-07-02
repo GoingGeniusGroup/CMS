@@ -19,11 +19,11 @@ const stats = [
 ];
 
 const members = [
-  { name: "Jhon Deo", designation: "UI/UX Designer", department: "Design", phone: "9863527410", email: "johndoe@gmail.com", status: "Active", gender: "male" },
-  { name: "Jhon Deo", designation: "Web Developer", department: "Development", phone: "9863527410", email: "johndoe@gmail.com", status: "Active", gender: "female" },
-  { name: "Jhon Deo", designation: "Content Writer", department: "Content", phone: "9863527410", email: "johndoe@gmail.com", status: "Active", gender: "male" },
-  { name: "Jhon Deo", designation: "Project Manager", department: "Management", phone: "9863527410", email: "johndoe@gmail.com", status: "On Leave", gender: "male" },
-  { name: "Jhon Deo", designation: "Marketing Manager", department: "Marketing", phone: "9863527410", email: "johndoe@gmail.com", status: "Active", gender: "female" },
+  { name: "Jhon Deo", designation: "UI/UX Designer", department: "Design", phone: "9863527410", email: "johndoe@gmail.com", status: "Active", gender: "male", image: null as string | null },
+  { name: "Jhon Deo", designation: "Web Developer", department: "Development", phone: "9863527410", email: "johndoe@gmail.com", status: "Active", gender: "female", image: null as string | null },
+  { name: "Jhon Deo", designation: "Content Writer", department: "Content", phone: "9863527410", email: "johndoe@gmail.com", status: "Active", gender: "male", image: null as string | null },
+  { name: "Jhon Deo", designation: "Project Manager", department: "Management", phone: "9863527410", email: "johndoe@gmail.com", status: "On Leave", gender: "male", image: null as string | null },
+  { name: "Jhon Deo", designation: "Marketing Manager", department: "Marketing", phone: "9863527410", email: "johndoe@gmail.com", status: "Active", gender: "female", image: null as string | null },
 ];
 
 export default function TeamPage() {
@@ -88,9 +88,14 @@ export default function TeamPage() {
               {members.map((m, i) => (
                 <tr key={i} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-50 text-sky-500">
-                      <User className="h-5 w-5" />
-                    </span>
+                    {m.image ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={m.image} alt={m.name} className="h-9 w-9 rounded-full object-cover" />
+                    ) : (
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky-50 text-sky-500">
+                        <User className="h-5 w-5" />
+                      </span>
+                    )}
                   </td>
                   <td className="px-6 py-4 text-zinc-700">{m.name}</td>
                   <td className="px-6 py-4 text-zinc-600">{m.designation}</td>
@@ -116,9 +121,14 @@ export default function TeamPage() {
           {members.map((m, i) => (
             <div key={i} className="p-3 sm:p-4 hover:bg-gray-50 transition-colors">
               <div className="flex items-start gap-3 mb-3">
-                <span className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-full bg-sky-50 text-sky-500">
-                  <User className="h-6 w-6" />
-                </span>
+                {m.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={m.image} alt={m.name} className="h-12 w-12 sm:h-14 sm:w-14 shrink-0 rounded-full object-cover" />
+                ) : (
+                  <span className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-full bg-sky-50 text-sky-500">
+                    <User className="h-6 w-6" />
+                  </span>
+                )}
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-1">{m.name}</h3>
                   <p className="text-xs sm:text-sm text-gray-600">{m.designation}</p>

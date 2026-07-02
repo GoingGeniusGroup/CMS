@@ -1,6 +1,3 @@
-/**
- * Join class names, filtering out falsy values.
- */
-export function cn(...classes: Array<string | false | null | undefined>): string {
+export function cn(...classes: (string | undefined | false | null)[]) {
   return classes.filter(Boolean).join(" ");
 }

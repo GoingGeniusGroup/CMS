@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  name        String?
+  email       String   @unique
+  password    String
+  role        String   @default("user")
+  isOnboarded Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Customer {
+  id          String    @id @default(cuid())
+  fullName    String
+  email       String    @unique
+  phoneNumber String?
+  companyName String?
+  address     String?
+  status      String    @default("Active")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  projects    Project[]
+  invoices    Invoice[]
+
+  @@map("customers")
+}
+
+model Team {
+  id         String    @id @default(cuid())
+  fullName   String
+  email      String    @unique
+  phone      String?
+  image      String?
+  role       String?
+  department String?
+  status     String    @default("Active")
+  joinedAt   DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  projects   Project[]
+  blogs      Blog[]
+
+  @@map("teams")
+}
+
+model Service {
+  id          String    @id @default(cuid())
+  serviceName String
+  description String?
+  basePrice   Float?
+  category    String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  projects    Project[]
+
+  @@map("services")
+}
+
+model Project {
+  id          String      @id @default(cuid())
+  customerId  String?
+  customer    Customer?   @relation(fields: [customerId], references: [id])
+  teamId      String?
+  team        Team?       @relation(fields: [teamId], references: [id])
+  serviceId   String?
+  service     Service?    @relation(fields: [serviceId], references: [id])
+  title       String
+  description String?
+  status      String      @default("Draft")
+  startDate   DateTime?
+  endDate     DateTime?
+  budget      Float?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  invoices    Invoice[]
+  analytics   Analytics[]
+
+  @@map("projects")
+}
+
+model Blog {
+  id          String    @id @default(cuid())
+  authorId    String?
+  author      Team?     @relation(fields: [authorId], references: [id])
+  title       String
+  content     String?
+  slug        String    @unique
+  category    String?
+  status      String    @default("Draft")
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("blogs")
+}
+
+model Invoice {
+  id            String    @id @default(cuid())
+  customerId    String?
+  customer      Customer? @relation(fields: [customerId], references: [id])
+  projectId     String?
+  project       Project?  @relation(fields: [projectId], references: [id])
+  invoiceNumber String    @unique
+  amount        Float     @default(0)
+  tax           Float     @default(0)
+  total         Float     @default(0)
+  status        String    @default("Pending")
+  issuedDate    DateTime?
+  dueDate       DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("invoices")
+}
+
+model Analytics {
+  id           String   @id @default(cuid())
+  projectId    String?
+  project      Project? @relation(fields: [projectId], references: [id])
+  metricName   String
+  metricValue  Float    @default(0)
+  dimension    String?
+  recordedDate DateTime?
+  createdAt    DateTime @default(now())
+
+  @@map("analytics")
+}
