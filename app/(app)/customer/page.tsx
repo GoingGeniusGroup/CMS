@@ -116,12 +116,15 @@ export default function CustomerPage() {
 
   const handleAddCustomer = (customerData: CustomerFormData) => {
     const newCustomer: Customer = {
-      ...customerData,
       id: customers.length + 1,
-      avatar: customerData.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=default",
+      name: `${customerData.firstName} ${customerData.lastName}`,
+      email: customerData.email,
+      phone: customerData.phone,
       gender: customerData.gender === "Female" ? "Female" : "Male",
+      avatar: customerData.photo || "https://api.dicebear.com/7.x/avataaars/svg?seed=default",
+      services: customerData.services,
       status: customerData.status,
-      invoiceStatus: customerData.invoiceStatus
+      invoiceStatus: "Paid",
     };
     setCustomers([...customers, newCustomer]);
   };

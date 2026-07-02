@@ -13,7 +13,11 @@ export const settingsNavItems = [
   { label: "Security", href: "/settings/security", icon: Shield },
   { label: "SEO", href: "/settings/seo", icon: Search },
   { label: "Popup", href: "/settings/popup", icon: LayoutTemplate },
+<<<<<<< HEAD
   { label: "Cookies Settings", href: "/settings/cookies", icon: Cookie },
+=======
+  { label: "Cookies Settings", href: "/settings/cookiessettings", icon: Cookie },
+>>>>>>> 4c6034f34541b2b2459ffd259e73b48a5f54dc54
 ];
 
 export function SettingsNav() {
