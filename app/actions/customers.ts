@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@/lib/generated/prisma";
 import { z } from "zod";
 
 // ─── Validation Schemas ────────────────────────────────────────────────────
@@ -11,13 +12,25 @@ const customerSchema = z.object({
   email: z.email("Enter a valid email address"),
   phoneNumber: z.string().min(6, "Enter a valid phone number").optional().or(z.literal("")),
   address: z.string().optional().or(z.literal("")),
-  services: z.string().optional().or(z.literal("")),
+  servicesID: z.string().optional().or(z.literal("")),
   companyName: z.string().optional().or(z.literal("")),
   status: z.enum(["Active", "Inactive"]).default("Active"),
   image: z.string().default("https://api.dicebear.com/7.x/avataaars/svg?seed=default"),
 });
 
 export type CustomerInput = z.infer<typeof customerSchema>;
+
+// ─── Helper: resolve a service id, fall back to null (NA) if invalid ──────
+
+async function resolveServiceId(serviceId: string | null | undefined): Promise<string | null> {
+  if (!serviceId) return null;
+  const service = await prisma.service.findUnique({ where: { id: serviceId } });
+  if (!service) {
+    console.warn(`Service id "${serviceId}" not found — storing as NA`);
+    return null;
+  }
+  return service.id;
+}
 
 // ─── Read: Get all customers ───────────────────────────────────────────────
 
@@ -121,13 +134,16 @@ export async function createCustomer(data: CustomerInput) {
     });
     if (existing) return { success: false, error: "Email already exists" };
 
+    // Resolve the service id — if it doesn't exist, store null (NA) instead of failing
+    const serviceId = await resolveServiceId(validated.servicesID || null);
+
     const customer = await prisma.customer.create({
       data: {
         fullName: validated.fullName,
         email: validated.email,
         phoneNumber: validated.phoneNumber || null,
         address: validated.address || null,
-        services: validated.services || null,
+        serviceId: serviceId,
         companyName: validated.companyName || null,
         status: validated.status,
         image: validated.image,
@@ -138,8 +154,15 @@ export async function createCustomer(data: CustomerInput) {
     return { success: true, customer };
   } catch (error) {
     console.error("createCustomer error:", error);
+
     if (error instanceof z.ZodError) {
       return { success: false, error: error.errors[0].message };
+    }
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2003"
+    ) {
+      return { success: false, error: "Selected service is invalid" };
     }
     return { success: false, error: "Failed to create customer" };
   }
@@ -160,6 +183,10 @@ export async function updateCustomer(id: string, data: Partial<CustomerInput>) {
       if (emailTaken) return { success: false, error: "Email already in use" };
     }
 
+    // Resolve service id if it's part of this update — fall back to null (NA) if invalid
+    const serviceId =
+      data.servicesID!== undefined ? await resolveServiceId(data.servicesID || null) : undefined;
+
     const customer = await prisma.customer.update({
       where: { id },
       data: {
@@ -167,7 +194,7 @@ export async function updateCustomer(id: string, data: Partial<CustomerInput>) {
         ...(data.email !== undefined && { email: data.email }),
         ...(data.phoneNumber !== undefined && { phoneNumber: data.phoneNumber || null }),
         ...(data.address !== undefined && { address: data.address || null }),
-        ...(data.services !== undefined && { services: data.services || null }),
+        ...(serviceId !== undefined && { services: serviceId }),
         ...(data.companyName !== undefined && { companyName: data.companyName || null }),
         ...(data.status !== undefined && { status: data.status }),
         ...(data.image !== undefined && { image: data.image }),
@@ -178,6 +205,13 @@ export async function updateCustomer(id: string, data: Partial<CustomerInput>) {
     return { success: true, customer };
   } catch (error) {
     console.error("updateCustomer error:", error);
+
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2003"
+    ) {
+      return { success: false, error: "Selected service is invalid" };
+    }
     return { success: false, error: "Failed to update customer" };
   }
 }

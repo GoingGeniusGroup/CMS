@@ -23,20 +23,20 @@ model User {
 }
 
 model Customer {
-  id                                    String    @id @default(cuid())
-  image                                 String
-  email                                 String    @unique
-  status                                String    @default("Active")
-  createdAt                             DateTime  @default(now())
-  updatedAt                             DateTime  @updatedAt
-  address                               String?
-  companyName                           String?
-  fullName                              String
-  phoneNumber                           String?
-  services                              String?
-  services_customers_servicesToservices Service?  @relation("customers_servicesToservices", fields: [services], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  invoices                              Invoice[]
-  projects                              Project[]
+  id          String    @id @default(cuid())
+  image       String
+  email       String    @unique
+  status      String    @default("Active")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  address     String?
+  companyName String?
+  fullName    String
+  phoneNumber String?
+  serviceId   String?
+  service     Service?  @relation("CustomerService", fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  invoices    Invoice[]
+  projects    Project[]
 
   @@map("customers")
 }
@@ -59,16 +59,16 @@ model Team {
 }
 
 model Service {
-  id                                     String     @id @default(cuid())
-  createdAt                              DateTime   @default(now())
-  updatedAt                              DateTime   @updatedAt
-  basePrice                              Float?
-  category                               String?
-  description                            String?
-  isActive                               Boolean    @default(true)
-  serviceName                            String
-  customers_customers_servicesToservices Customer[] @relation("customers_servicesToservices")
-  projects                               Project[]
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  basePrice   Float?
+  category    String?
+  description String?
+  isActive    Boolean    @default(true)
+  serviceName String
+  customers   Customer[] @relation("CustomerService")
+  projects    Project[]
 
   @@map("services")
 }
