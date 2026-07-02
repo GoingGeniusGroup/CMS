@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Cookie, Mail, Phone, Shield, Share2, SlidersHorizontal, Search, LayoutTemplate } from "lucide-react";
+import { Cookie, Mail, Paintbrush, Phone, Shield, Share2, SlidersHorizontal, Search, LayoutTemplate } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const settingsNavItems = [
@@ -13,7 +13,7 @@ export const settingsNavItems = [
   { label: "Security", href: "/settings/security", icon: Shield },
   { label: "SEO", href: "/settings/seo", icon: Search },
   { label: "Popup", href: "/settings/popup", icon: LayoutTemplate },
-  { label: "Cookies Settings", href: "/settings/cookies", icon: Cookie },
+  { label: "Cookies Settings", href: "/settings/cookiessettings", icon: Cookie },
 ];
 
 export function SettingsNav() {
