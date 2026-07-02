@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Cookie, Mail, Phone, Shield, Share2, SlidersHorizontal, Search, LayoutTemplate } from "lucide-react";
+import { Cookie, Mail, Paintbrush, Phone, Shield, Share2, SlidersHorizontal, Search, LayoutTemplate } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const settingsNavItems = [
