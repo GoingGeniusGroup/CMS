@@ -83,8 +83,14 @@ export function BlogsClient({
 
   async function handleDelete(id: string) {
     if (!confirm("Are you sure you want to delete this blog?")) return;
+    // Optimistic: remove from UI immediately
+    setData((prev) => ({
+      ...prev,
+      blogs: prev.blogs.filter((b) => b.id !== id),
+      total: prev.total - 1,
+    }));
     const result = await deleteBlog(id);
-    if (result.success) {
+    if (!result.success) {
       refresh();
     }
   }
@@ -142,11 +148,7 @@ export function BlogsClient({
 
       {/* Blogs Table/Cards */}
       <Card noPadding className="overflow-hidden">
-        {isPending ? (
-          <div className="flex items-center justify-center p-12 text-sm text-zinc-500">
-            Loading...
-          </div>
-        ) : filtered.length === 0 ? (
+        {filtered.length === 0 && !isPending ? (
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <Folder className="h-10 w-10 text-zinc-300" />
             <p className="text-sm text-zinc-500">
@@ -259,7 +261,7 @@ export function BlogsClient({
         key={editingBlog?.id ?? "new"}
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        onSuccess={() => refresh()}
+        onSuccess={() => { setModalOpen(false); refresh(); }}
         blog={editingBlog}
         authors={authors}
       />

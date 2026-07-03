@@ -37,7 +37,7 @@ export default async function CustomerPage({
 
   return (
     <div className="space-y-5 sm:space-y-6">
-      <Topbar />
+      <Topbar showSearch={false}/>
 
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader title="Customer" description="Manage your customers." />

@@ -8,7 +8,7 @@ import { TopbarActions } from "@/components/TopbarActions";
 /**
  * Top navigation bar. Import and render it at the top of any page.
  *
- * - `<Topbar />`                    → search bar + icons + logo
+ * - `<Topbar showSearch={false}/>`                    → search bar + icons + logo
  * - `<Topbar showSearch={false} />` → only icons + logo
  */
 export function Topbar({ showSearch = true }: { showSearch?: boolean }) {
