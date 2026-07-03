@@ -1,18 +1,29 @@
 "use client";
 
 import { UploadCloud, X, Loader2 } from "lucide-react";
-import { useRef, useState } from "react";
-import { createService } from "@/app/actions/services";
+import { useEffect, useRef, useState } from "react";
+import { updateService } from "@/app/actions/services";
 
-export function AddServiceModal({
-  open,
-  onClose,
-  onSuccess,
-}: {
+export interface ServiceRow {
+  id: string;
+  serviceName: string;
+  description: string | null;
+  isActive: boolean;
+}
+
+interface EditServiceModalProps {
   open: boolean;
+  service: ServiceRow | null;
   onClose: () => void;
   onSuccess?: () => void;
-}) {
+}
+
+export function EditServiceModal({
+  open,
+  service,
+  onClose,
+  onSuccess,
+}: EditServiceModalProps) {
   const [fileName, setFileName] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,9 +33,24 @@ export function AddServiceModal({
     serviceName: "",
     shortDetails: "",
     description: "",
+    isActive: true,
   });
 
-  if (!open) return null;
+  // Pre-fill form whenever the service changes
+  useEffect(() => {
+    if (service) {
+      setForm({
+        serviceName: service.serviceName,
+        shortDetails: service.description ?? "",
+        description: service.description ?? "",
+        isActive: service.isActive,
+      });
+      setFileName(null);
+      setError(null);
+    }
+  }, [service]);
+
+  if (!open || !service) return null;
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -37,9 +63,10 @@ export function AddServiceModal({
     setError(null);
     setIsLoading(true);
 
-    const result = await createService({
+    const result = await updateService(service.id, {
       serviceName: form.serviceName,
       description: form.description || form.shortDetails || undefined,
+      isActive: form.isActive,
     });
 
     setIsLoading(false);
@@ -49,9 +76,6 @@ export function AddServiceModal({
       return;
     }
 
-    // Reset form
-    setForm({ serviceName: "", shortDetails: "", description: "" });
-    setFileName(null);
     onSuccess?.();
     onClose();
   };
@@ -65,6 +89,7 @@ export function AddServiceModal({
         className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-8 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Close */}
         <button
           type="button"
           onClick={onClose}
@@ -74,7 +99,7 @@ export function AddServiceModal({
           <X className="h-5 w-5" />
         </button>
 
-        <h2 className="text-2xl font-bold text-zinc-900">Add Service</h2>
+        <h2 className="text-2xl font-bold text-zinc-900">Edit Service</h2>
 
         {error && (
           <p className="mt-3 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
@@ -130,19 +155,40 @@ export function AddServiceModal({
             />
           </div>
 
+          {/* Status */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-bold text-zinc-800">Status</label>
+            <div className="flex items-center gap-6">
+              {([true, false] as const).map((val) => (
+                <label key={String(val)} className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="isActive"
+                    checked={form.isActive === val}
+                    onChange={() => setForm((prev) => ({ ...prev, isActive: val }))}
+                    className="h-4 w-4 text-indigo-600"
+                  />
+                  <span className="text-sm text-zinc-700">
+                    {val ? "Active" : "Inactive"}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+
           {/* Thumbnail */}
           <div className="flex flex-col gap-2">
             <label className="text-sm font-bold text-zinc-800">
-              Thumbnail <span className="text-red-500">*</span>
+              Thumbnail
             </label>
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex flex-col items-center justify-center gap-2 rounded-xl bg-zinc-100 px-6 py-10 text-center transition-colors hover:bg-zinc-200"
+              className="flex flex-col items-center justify-center gap-2 rounded-xl bg-zinc-100 px-6 py-8 text-center transition-colors hover:bg-zinc-200"
             >
               <UploadCloud className="h-7 w-7 text-zinc-600" />
-              <span className="text-lg font-bold leading-tight text-zinc-800">
-                Click to upload
+              <span className="text-base font-bold leading-tight text-zinc-800">
+                Click to replace thumbnail
                 <br />
                 or drag and drop
               </span>
@@ -175,7 +221,7 @@ export function AddServiceModal({
               className="flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700 disabled:opacity-60"
             >
               {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-              {isLoading ? "Adding..." : "Add Service"}
+              {isLoading ? "Saving..." : "Save Changes"}
             </button>
           </div>
         </form>

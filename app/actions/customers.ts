@@ -12,7 +12,7 @@ const customerSchema = z.object({
   email: z.email("Enter a valid email address"),
   phoneNumber: z.string().min(6, "Enter a valid phone number").optional().or(z.literal("")),
   address: z.string().optional().or(z.literal("")),
-  servicesID: z.string().optional().or(z.literal("")),
+  servicesId: z.string().optional().or(z.literal("")),
   companyName: z.string().optional().or(z.literal("")),
   status: z.enum(["Active", "Inactive"]).default("Active"),
   image: z.string().default("https://api.dicebear.com/7.x/avataaars/svg?seed=default"),
@@ -56,6 +56,7 @@ export async function getCustomers(page = 1, pageSize = 10, search = "") {
         take: pageSize,
         orderBy: { createdAt: "desc" },
         include: {
+          service: true,
           invoices: {
             orderBy: { createdAt: "desc" },
             take: 1,
@@ -107,6 +108,7 @@ export async function getCustomerById(id: string) {
   try {
     const customer = await prisma.customer.findUnique({
       where: { id },
+      
       include: {
         invoices: { orderBy: { createdAt: "desc" } },
         projects: true,
@@ -135,7 +137,7 @@ export async function createCustomer(data: CustomerInput) {
     if (existing) return { success: false, error: "Email already exists" };
 
     // Resolve the service id — if it doesn't exist, store null (NA) instead of failing
-    const serviceId = await resolveServiceId(validated.servicesID || null);
+    const serviceId = await resolveServiceId(validated.servicesId || null);
 
     const customer = await prisma.customer.create({
       data: {
@@ -156,7 +158,7 @@ export async function createCustomer(data: CustomerInput) {
     console.error("createCustomer error:", error);
 
     if (error instanceof z.ZodError) {
-      return { success: false, error: error.errors[0].message };
+      return { success: false, error: error.issues[0].message };
     }
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -185,7 +187,7 @@ export async function updateCustomer(id: string, data: Partial<CustomerInput>) {
 
     // Resolve service id if it's part of this update — fall back to null (NA) if invalid
     const serviceId =
-      data.servicesID!== undefined ? await resolveServiceId(data.servicesID || null) : undefined;
+      data.servicesId !== undefined ? await resolveServiceId(data.servicesId || null) : undefined;
 
     const customer = await prisma.customer.update({
       where: { id },
@@ -194,7 +196,7 @@ export async function updateCustomer(id: string, data: Partial<CustomerInput>) {
         ...(data.email !== undefined && { email: data.email }),
         ...(data.phoneNumber !== undefined && { phoneNumber: data.phoneNumber || null }),
         ...(data.address !== undefined && { address: data.address || null }),
-        ...(serviceId !== undefined && { services: serviceId }),
+        ...(serviceId !== undefined && { serviceId: serviceId }),
         ...(data.companyName !== undefined && { companyName: data.companyName || null }),
         ...(data.status !== undefined && { status: data.status }),
         ...(data.image !== undefined && { image: data.image }),

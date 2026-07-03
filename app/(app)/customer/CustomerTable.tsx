@@ -16,12 +16,17 @@ interface Customer {
   email: string;
   phoneNumber: string | null;
   address: string | null;
-  services: string | null;
   companyName: string | null;
   status: string;
   image: string;
+  serviceId: string | null;
+  service: { id: string; serviceName: string } | null;
   invoices: { status: string }[];
 }
+type Service = {
+  id: string;
+  serviceName: string;
+};
 
 interface CustomerTableProps {
   customers: Customer[];
@@ -29,6 +34,7 @@ interface CustomerTableProps {
   pageCount: number;
   currentPage: number;
   search: string;
+  services: Service[];
 }
 
 export function CustomerTable({
@@ -37,6 +43,7 @@ export function CustomerTable({
   pageCount,
   currentPage,
   search,
+  services,
 }: CustomerTableProps) {
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -137,11 +144,11 @@ export function CustomerTable({
                     </div>
                   </td>
                   <td className="p-4 text-sm text-gray-600">{c.phoneNumber ?? "—"}</td>
-                  <td className="p-4 text-sm text-gray-600">{c.services ?? "—"}</td>
+                  <td className="p-4 text-sm text-gray-600">{c.service?.serviceName ?? "—"}</td>
                   <td className="p-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${c.status === "Active"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-gray-100 text-gray-500"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-gray-100 text-gray-500"
                       }`}>
                       {c.status}
                     </span>
@@ -159,7 +166,7 @@ export function CustomerTable({
                       <button
                         className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                         title="Edit"
-                        onClick={() => setEditCustomer(c as CustomerRow)}
+                        onClick={() => setEditCustomer({ ...c, servicesId: c.serviceId } as CustomerRow)}
                       >
                         <Pencil className="w-4 h-4 text-gray-600" />
                       </button>
@@ -207,7 +214,7 @@ export function CustomerTable({
               <div className="grid grid-cols-2 gap-2 text-xs mb-3">
                 <div>
                   <span className="text-gray-400 block">Services</span>
-                  <span className="text-gray-700">{c.services ?? "—"}</span>
+                  <span className="text-gray-700">{c.service?.serviceName ?? "—"}</span>
                 </div>
                 <div>
                   <span className="text-gray-400 block">Invoice</span>
@@ -223,7 +230,7 @@ export function CustomerTable({
                   <Eye className="w-3.5 h-3.5" /> View
                 </button>
                 <button
-                  onClick={() => setEditCustomer(c as CustomerRow)}
+                  onClick={() => setEditCustomer({ ...c, servicesId: c.serviceId } as CustomerRow)}
                   className="flex-1 p-2 hover:bg-gray-100 rounded-lg flex items-center justify-center gap-1 text-xs text-gray-600"
                 >
                   <Pencil className="w-3.5 h-3.5" /> Edit
@@ -260,11 +267,13 @@ export function CustomerTable({
           setIsAddOpen(false);
           startTransition(() => router.refresh());
         }}
+        services={services}
       />
 
       <EditCustomerModal
         isOpen={!!editCustomer}
         customer={editCustomer}
+        services={services}
         onClose={() => setEditCustomer(null)}
         onSuccess={() => {
           setEditCustomer(null);

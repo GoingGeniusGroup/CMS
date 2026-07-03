@@ -7,8 +7,9 @@ import {
   CheckCircle2,
   XCircle,
 } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AddServiceModal } from "@/components/AddServiceModal";
+import { EditServiceModal, type ServiceRow } from "@/components/EditServiceModal";
 import { PageHeader } from "@/components/PageHeader";
 import { Topbar } from "@/components/Topbar";
 import { Button } from "@/components/Button";
@@ -16,70 +17,66 @@ import { Card } from "@/components/Card";
 import { StatCard } from "@/components/StatCard";
 import { RowActions } from "@/components/RowActions";
 import { Pagination } from "@/components/Pagination";
+import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { getServicesPaginated, deleteService } from "@/app/actions/services";
 
 type Service = {
   id: string;
-  title: string;
-  details: string;
-  status: "Active" | "Pending";
+  serviceName: string;
+  description: string | null;
+  isActive: boolean;
+  createdAt: Date;
 };
 
-const services: Service[] = [
-  {
-    id: "01",
-    title: "Web Development",
-    details: "Building responsive and modern websites.",
-    status: "Active",
-  },
-  {
-    id: "02",
-    title: "UI/UX Design",
-    details: "Designing beautiful and user-friendly interfaces.",
-    status: "Active",
-  },
-  {
-    id: "03",
-    title: "Digital Marketing",
-    details: "Grow your brand with our digital strategies.",
-    status: "Active",
-  },
-  {
-    id: "04",
-    title: "SEO Optimization",
-    details: "Improve your ranking and reach more customers.",
-    status: "Pending",
-  },
-  {
-    id: "05",
-    title: "Content Writing",
-    details: "High quality content that engages audience.",
-    status: "Active",
-  },
-];
-
-const stats = [
-  { label: "Total Services", value: 12, icon: Layers },
-  { label: "Active Services", value: 10, icon: CheckCircle2 },
-  { label: "Inactive Services", value: 2, icon: XCircle },
-];
-
-function StatusBadge({ status }: { status: Service["status"] }) {
-  const active = status === "Active";
+function StatusBadge({ isActive }: { isActive: boolean }) {
   return (
     <span
       className={`inline-flex items-center rounded-full px-4 py-1 text-xs font-medium ${
-        active
+        isActive
           ? "bg-emerald-100 text-emerald-600"
           : "bg-red-100 text-red-500"
       }`}
     >
-      {status}
+      {isActive ? "Active" : "Inactive"}
     </span>
   );
 }
 
 export default function ServicesPage() {
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [editTarget, setEditTarget] = useState<ServiceRow | null>(null);
+  const [page, setPage] = useState(1);
+  const [services, setServices] = useState<Service[]>([]);
+  const [total, setTotal] = useState(0);
+  const [active, setActive] = useState(0);
+  const [inactive, setInactive] = useState(0);
+  const [pageCount, setPageCount] = useState(1);
+  const [deleteTarget, setDeleteTarget] = useState<Service | null>(null);
+
+  const loadServices = useCallback(async () => {
+    const data = await getServicesPaginated(page);
+    setServices(data.services as Service[]);
+    setTotal(data.total);
+    setActive(data.active);
+    setInactive(data.inactive);
+    setPageCount(data.pageCount);
+  }, [page]);
+
+  useEffect(() => {
+    loadServices();
+  }, [loadServices]);
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    await deleteService(deleteTarget.id);
+    await loadServices();
+  };
+
+  const stats = [
+    { label: "Total Services", value: total, icon: Layers },
+    { label: "Active Services", value: active, icon: CheckCircle2 },
+    { label: "Inactive Services", value: inactive, icon: XCircle },
+  ];
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -93,7 +90,7 @@ export default function ServicesPage() {
             Filter
           </Button>
           <Button onClick={() => setIsAddOpen(true)}>
-            Add Services
+            Add Service
             <Plus className="h-4 w-4" />
           </Button>
         </div>
@@ -126,56 +123,118 @@ export default function ServicesPage() {
               </tr>
             </thead>
             <tbody>
-              {services.map((service) => (
-                <tr
-                  key={service.id}
-                  className="border-b border-gray-50 text-sm text-zinc-600 hover:bg-gray-50 transition-colors"
-                >
-                  <td className="px-6 py-4">{service.id}</td>
-                  <td className="px-6 py-4">
-                    <div className="h-10 w-14 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
-                  </td>
-                  <td className="px-6 py-4 font-medium text-zinc-800">
-                    {service.title}
-                  </td>
-                  <td className="px-6 py-4">{service.details}</td>
-                  <td className="px-6 py-4">
-                    <StatusBadge status={service.status} />
-                  </td>
-                  <td className="px-6 py-4">
-                    <RowActions />
+              {services.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={6}
+                    className="px-6 py-10 text-center text-sm text-zinc-400"
+                  >
+                    No services found. Add your first service!
                   </td>
                 </tr>
-              ))}
+              ) : (
+                services.map((service, idx) => (
+                  <tr
+                    key={service.id}
+                    className="border-b border-gray-50 text-sm text-zinc-600 hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="px-6 py-4">
+                      {(page - 1) * 10 + idx + 1}
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="h-10 w-14 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                    </td>
+                    <td className="px-6 py-4 font-medium text-zinc-800">
+                      {service.serviceName}
+                    </td>
+                    <td className="px-6 py-4">
+                      {service.description ?? "—"}
+                    </td>
+                    <td className="px-6 py-4">
+                      <StatusBadge isActive={service.isActive} />
+                    </td>
+                    <td className="px-6 py-4">
+                      <RowActions
+                        onEdit={() => setEditTarget(service)}
+                        onDelete={() => setDeleteTarget(service)}
+                      />
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
 
         {/* Mobile/Tablet Card View */}
         <div className="lg:hidden divide-y divide-gray-100">
-          {services.map((service) => (
-            <div key={service.id} className="p-3 sm:p-4 hover:bg-gray-50 transition-colors">
-              <div className="flex items-start gap-3 mb-3">
-                <div className="text-xs sm:text-sm text-gray-500 font-medium w-6 pt-1">
-                  {service.id}
+          {services.length === 0 ? (
+            <p className="p-6 text-center text-sm text-zinc-400">
+              No services found. Add your first service!
+            </p>
+          ) : (
+            services.map((service, idx) => (
+              <div
+                key={service.id}
+                className="p-3 sm:p-4 hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="text-xs sm:text-sm text-gray-500 font-medium w-6 pt-1">
+                    {(page - 1) * 10 + idx + 1}
+                  </div>
+                  <div className="h-12 w-16 sm:h-14 sm:w-20 shrink-0 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-1">
+                      {service.serviceName}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-2">
+                      {service.description ?? "—"}
+                    </p>
+                    <StatusBadge isActive={service.isActive} />
+                  </div>
                 </div>
-                <div className="h-12 w-16 sm:h-14 sm:w-20 shrink-0 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-1">{service.title}</h3>
-                  <p className="text-xs sm:text-sm text-gray-600 mb-2">{service.details}</p>
-                  <StatusBadge status={service.status} />
-                </div>
+                <RowActions
+                  variant="buttons"
+                  onEdit={() => setEditTarget(service)}
+                  onDelete={() => setDeleteTarget(service)}
+                />
               </div>
-              <RowActions variant="buttons" />
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </Card>
 
       {/* Footer / pagination */}
-      <Pagination page={1} pageCount={3} rangeLabel="Showing 1 to 5 of 10 entries" />
+      <Pagination
+        page={page}
+        pageCount={pageCount}
+        rangeLabel={`Showing ${Math.min((page - 1) * 10 + 1, total)}–${Math.min(page * 10, total)} of ${total} entries`}
+        onPageChange={setPage}
+      />
 
-      <AddServiceModal open={isAddOpen} onClose={() => setIsAddOpen(false)} />
+      {/* Edit modal */}
+      <EditServiceModal
+        open={!!editTarget}
+        service={editTarget}
+        onClose={() => setEditTarget(null)}
+        onSuccess={loadServices}
+      />
+
+      {/* Add modal */}
+      <AddServiceModal
+        open={isAddOpen}
+        onClose={() => setIsAddOpen(false)}
+        onSuccess={loadServices}
+      />
+
+      {/* Delete confirmation modal */}
+      <DeleteConfirmModal
+        isOpen={!!deleteTarget}
+        title="Delete Service"
+        description={`Are you sure you want to delete "${deleteTarget?.serviceName}"? This action cannot be undone.`}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

@@ -5,8 +5,12 @@ import { Card } from "@/components/Card";
 import { Topbar } from "@/components/Topbar";
 import { Users, UserCheck, UserPlus, TrendingUp } from "lucide-react";
 import { CustomerTable } from "@/app/(app)/customer/CustomerTable";
+import prisma from "@/lib/prisma";
+
+
 
 export default async function CustomerPage({
+  
   searchParams,
 }: {
   searchParams: Promise<{ page?: string; search?: string }>;
@@ -15,9 +19,13 @@ export default async function CustomerPage({
   const page = Math.max(1, Number(sp.page ?? 1));
   const search = sp.search ?? "";
 
-  const [statsRes, listRes] = await Promise.all([
+  const [statsRes, listRes,services] = await Promise.all([
     getCustomerStats(),
     getCustomers(page, 10, search),
+     prisma.service.findMany({
+      select: { id: true, serviceName: true },
+      orderBy: { serviceName: "asc" },
+    }),
   ]);
 
   const stats = [
@@ -48,6 +56,7 @@ export default async function CustomerPage({
           pageCount={listRes.pageCount}
           currentPage={page}
           search={search}
+          services={services}
         />
       </Card>
     </div>

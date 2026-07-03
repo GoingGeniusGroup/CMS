@@ -4,13 +4,19 @@ import { X, Upload, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { createCustomer } from "@/app/actions/customers";
 
+interface Service {
+  id: string;
+  serviceName: string;
+}
+
 interface AddCustomerModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: () => void;
+   services: Service[];
 }
 
-export function AddCustomerModal({ isOpen, onClose, onSuccess }: AddCustomerModalProps) {
+export function AddCustomerModal({ isOpen, onClose, onSuccess,services }: AddCustomerModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string>("");
@@ -55,7 +61,7 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess }: AddCustomerModa
       email: formData.email,
       phoneNumber: formData.phoneNumber,
       address: formData.address,
-      services: formData.services,
+      servicesId: formData.services,
       companyName: formData.companyName,
       status: formData.status,
       image: formData.image ||
@@ -187,14 +193,18 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess }: AddCustomerModa
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
                   Services <span className="text-red-500">*</span>
                 </label>
-                <select name="services" value={formData.services} onChange={handleChange} required
-                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-gray-400 outline-none transition-colors text-sm">
+                <select
+                  name="services"
+                  value={formData.services}
+                  onChange={handleChange}
+                >
                   <option value="">Select Service</option>
-                  <option value="Web Development">Web Development</option>
-                  <option value="Mobile App">Mobile App</option>
-                  <option value="UI/UX Design">UI/UX Design</option>
-                  <option value="SEO">SEO</option>
-                  <option value="Digital Marketing">Digital Marketing</option>
+
+                  {services.map((service) => (
+                    <option key={service.id} value={service.id}>
+                      {service.serviceName}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>

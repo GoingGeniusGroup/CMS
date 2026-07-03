@@ -10,20 +10,26 @@ export interface CustomerRow {
   email: string;
   phoneNumber: string | null;
   address: string | null;
-  services: string | null;
+  servicesId: string | null;
   companyName: string | null;
   status: string;
   image: string;
 }
 
+interface Service {
+  id: string;
+  serviceName: string;
+}
+
 interface EditCustomerModalProps {
   isOpen: boolean;
   customer: CustomerRow | null;
+  services?: Service[];
   onClose: () => void;
   onSuccess?: () => void;
 }
 
-export function EditCustomerModal({ isOpen, customer, onClose, onSuccess }: EditCustomerModalProps) {
+export function EditCustomerModal({ isOpen, customer, services = [], onClose, onSuccess }: EditCustomerModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -31,7 +37,7 @@ export function EditCustomerModal({ isOpen, customer, onClose, onSuccess }: Edit
     email: "",
     phoneNumber: "",
     address: "",
-    services: "",
+    servicesId: "",
     companyName: "",
     status: "Active" as "Active" | "Inactive",
   });
@@ -44,7 +50,7 @@ export function EditCustomerModal({ isOpen, customer, onClose, onSuccess }: Edit
         email: customer.email,
         phoneNumber: customer.phoneNumber ?? "",
         address: customer.address ?? "",
-        services: customer.services ?? "",
+        servicesId: customer.servicesId ?? "",
         companyName: customer.companyName ?? "",
         status: customer.status === "Inactive" ? "Inactive" : "Active",
       });
@@ -70,7 +76,7 @@ export function EditCustomerModal({ isOpen, customer, onClose, onSuccess }: Edit
       email: formData.email,
       phoneNumber: formData.phoneNumber,
       address: formData.address,
-      services: formData.services,
+      servicesId: formData.servicesId,
       companyName: formData.companyName,
       status: formData.status,
     });
@@ -147,13 +153,18 @@ export function EditCustomerModal({ isOpen, customer, onClose, onSuccess }: Edit
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className={labelCls}>Services</label>
-                <select name="services" value={formData.services} onChange={handleChange} className={inputCls}>
+                <select
+                  name="servicesId"
+                  value={formData.servicesId}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-gray-400 outline-none transition-colors text-sm"
+                >
                   <option value="">Select Service</option>
-                  <option value="Web Development">Web Development</option>
-                  <option value="Mobile App">Mobile App</option>
-                  <option value="UI/UX Design">UI/UX Design</option>
-                  <option value="SEO">SEO</option>
-                  <option value="Digital Marketing">Digital Marketing</option>
+                  {services.map((service) => (
+                    <option key={service.id} value={service.id}>
+                      {service.serviceName}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
