@@ -9,6 +9,7 @@ import { StatCard } from "@/components/StatCard";
 import { RowActions } from "@/components/RowActions";
 import { Pagination } from "@/components/Pagination";
 import { BlogModal } from "@/components/BlogModal";
+import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { Filter, Plus, Search, Newspaper, Folder } from "lucide-react";
 import { getBlogs, deleteBlog } from "@/app/actions/blogs";
 
@@ -58,6 +59,7 @@ export function BlogsClient({
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
@@ -82,14 +84,19 @@ export function BlogsClient({
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Are you sure you want to delete this blog?")) return;
+    setDeleteId(id);
+  }
+
+  async function handleDeleteConfirm() {
+    if (!deleteId) return;
     // Optimistic: remove from UI immediately
     setData((prev) => ({
       ...prev,
-      blogs: prev.blogs.filter((b) => b.id !== id),
+      blogs: prev.blogs.filter((b) => b.id !== deleteId),
       total: prev.total - 1,
     }));
-    const result = await deleteBlog(id);
+    const result = await deleteBlog(deleteId);
+    setDeleteId(null);
     if (!result.success) {
       refresh();
     }
@@ -264,6 +271,15 @@ export function BlogsClient({
         onSuccess={() => { setModalOpen(false); refresh(); }}
         blog={editingBlog}
         authors={authors}
+      />
+
+      {/* Delete Confirmation */}
+      <DeleteConfirmModal
+        isOpen={!!deleteId}
+        title="Delete Blog"
+        description="Are you sure you want to delete this blog? This action cannot be undone."
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleDeleteConfirm}
       />
     </div>
   );

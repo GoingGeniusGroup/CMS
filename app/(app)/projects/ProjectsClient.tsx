@@ -10,6 +10,7 @@ import { StatCard } from "@/components/StatCard";
 import { RowActions } from "@/components/RowActions";
 import { Pagination } from "@/components/Pagination";
 import { ProjectModal } from "@/components/ProjectModal";
+import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { getProjects, deleteProject } from "@/app/actions/projects";
 
 type SelectOption = { id: string; label: string };
@@ -64,6 +65,7 @@ export function ProjectsClient({
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
@@ -88,14 +90,19 @@ export function ProjectsClient({
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Are you sure you want to delete this project?")) return;
+    setDeleteId(id);
+  }
+
+  async function handleDeleteConfirm() {
+    if (!deleteId) return;
     // Optimistic: remove from UI immediately
     setData((prev) => ({
       ...prev,
-      projects: prev.projects.filter((p) => p.id !== id),
+      projects: prev.projects.filter((p) => p.id !== deleteId),
       total: prev.total - 1,
     }));
-    const result = await deleteProject(id);
+    const result = await deleteProject(deleteId);
+    setDeleteId(null);
     if (!result.success) {
       refresh();
     }
@@ -265,6 +272,15 @@ export function ProjectsClient({
         customers={customers}
         teams={teams}
         services={services}
+      />
+
+      {/* Delete Confirmation */}
+      <DeleteConfirmModal
+        isOpen={!!deleteId}
+        title="Delete Project"
+        description="Are you sure you want to delete this project? This action cannot be undone."
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleDeleteConfirm}
       />
     </div>
   );

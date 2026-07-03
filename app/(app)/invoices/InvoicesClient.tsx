@@ -10,6 +10,7 @@ import { RowActions } from "@/components/RowActions";
 import { Pagination } from "@/components/Pagination";
 import { PageHeader } from "@/components/PageHeader";
 import { InvoiceModal } from "@/components/InvoiceModal";
+import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { getInvoices, deleteInvoice } from "@/app/actions/invoices";
 
 type SelectOption = { id: string; label: string };
@@ -101,14 +102,21 @@ export function InvoicesClient({
     setModalOpen(true);
   }
 
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
   async function handleDelete(id: string) {
-    if (!confirm("Are you sure you want to delete this invoice?")) return;
+    setDeleteId(id);
+  }
+
+  async function handleDeleteConfirm() {
+    if (!deleteId) return;
     setData((prev) => ({
       ...prev,
-      invoices: prev.invoices.filter((inv) => inv.id !== id),
+      invoices: prev.invoices.filter((inv) => inv.id !== deleteId),
       total: prev.total - 1,
     }));
-    const result = await deleteInvoice(id);
+    const result = await deleteInvoice(deleteId);
+    setDeleteId(null);
     if (!result.success) {
       refresh();
     }
@@ -266,6 +274,15 @@ export function InvoicesClient({
         invoice={editingInvoice}
         customers={customers}
         projects={projects}
+      />
+
+      {/* Delete Confirmation */}
+      <DeleteConfirmModal
+        isOpen={!!deleteId}
+        title="Delete Invoice"
+        description="Are you sure you want to delete this invoice? This action cannot be undone."
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleDeleteConfirm}
       />
     </div>
   );
