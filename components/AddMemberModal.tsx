@@ -114,6 +114,17 @@ export function AddMemberModal({
   const [showAddDesignation, setShowAddDesignation] = useState(false);
   const [form, setForm] = useState<MemberFormData>(() => buildInitialForm(editMember));
   const [errors, setErrors] = useState<FormErrors>({});
+  // Custom designations added via the "+ Add Designation" button this session
+  const [customDesignations, setCustomDesignations] = useState<string[]>([]);
+
+  const handleAddDesignation = (title: string) => {
+    setCustomDesignations((prev) =>
+      prev.includes(title) ? prev : [...prev, title]
+    );
+    // Auto-select the new designation
+    setForm((prev) => ({ ...prev, designation: title }));
+    if (errors.designation) setErrors((prev) => ({ ...prev, designation: undefined }));
+  };
 
   const handleField = (
     e: React.ChangeEvent<
@@ -198,6 +209,9 @@ export function AddMemberModal({
                     <option>Content Writer</option>
                     <option>Project Manager</option>
                     <option>Marketing Manager</option>
+                    {customDesignations.map((d) => (
+                      <option key={d}>{d}</option>
+                    ))}
                   </select>
                   {errors.designation && (
                     <p className="mt-0.5 text-xs text-red-500">
@@ -377,6 +391,7 @@ export function AddMemberModal({
       <AddDesignationModal
         open={showAddDesignation}
         onClose={() => setShowAddDesignation(false)}
+        onAdd={handleAddDesignation}
       />
     </>
   );
