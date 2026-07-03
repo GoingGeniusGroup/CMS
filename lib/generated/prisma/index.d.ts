@@ -5096,6 +5096,7 @@ export namespace Prisma {
     description: string | null
     isActive: boolean | null
     serviceName: string | null
+    thumbnailUrl: string | null
   }
 
   export type ServiceMaxAggregateOutputType = {
@@ -5107,6 +5108,7 @@ export namespace Prisma {
     description: string | null
     isActive: boolean | null
     serviceName: string | null
+    thumbnailUrl: string | null
   }
 
   export type ServiceCountAggregateOutputType = {
@@ -5118,6 +5120,7 @@ export namespace Prisma {
     description: number
     isActive: number
     serviceName: number
+    thumbnailUrl: number
     _all: number
   }
 
@@ -5139,6 +5142,7 @@ export namespace Prisma {
     description?: true
     isActive?: true
     serviceName?: true
+    thumbnailUrl?: true
   }
 
   export type ServiceMaxAggregateInputType = {
@@ -5150,6 +5154,7 @@ export namespace Prisma {
     description?: true
     isActive?: true
     serviceName?: true
+    thumbnailUrl?: true
   }
 
   export type ServiceCountAggregateInputType = {
@@ -5161,6 +5166,7 @@ export namespace Prisma {
     description?: true
     isActive?: true
     serviceName?: true
+    thumbnailUrl?: true
     _all?: true
   }
 
@@ -5259,6 +5265,7 @@ export namespace Prisma {
     description: string | null
     isActive: boolean
     serviceName: string
+    thumbnailUrl: string | null
     _count: ServiceCountAggregateOutputType | null
     _avg: ServiceAvgAggregateOutputType | null
     _sum: ServiceSumAggregateOutputType | null
@@ -5289,6 +5296,7 @@ export namespace Prisma {
     description?: boolean
     isActive?: boolean
     serviceName?: boolean
+    thumbnailUrl?: boolean
     customers?: boolean | Service$customersArgs<ExtArgs>
     projects?: boolean | Service$projectsArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
@@ -5303,6 +5311,7 @@ export namespace Prisma {
     description?: boolean
     isActive?: boolean
     serviceName?: boolean
+    thumbnailUrl?: boolean
   }, ExtArgs["result"]["service"]>
 
   export type ServiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5314,6 +5323,7 @@ export namespace Prisma {
     description?: boolean
     isActive?: boolean
     serviceName?: boolean
+    thumbnailUrl?: boolean
   }, ExtArgs["result"]["service"]>
 
   export type ServiceSelectScalar = {
@@ -5325,9 +5335,10 @@ export namespace Prisma {
     description?: boolean
     isActive?: boolean
     serviceName?: boolean
+    thumbnailUrl?: boolean
   }
 
-  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "basePrice" | "category" | "description" | "isActive" | "serviceName", ExtArgs["result"]["service"]>
+  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "basePrice" | "category" | "description" | "isActive" | "serviceName" | "thumbnailUrl", ExtArgs["result"]["service"]>
   export type ServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customers?: boolean | Service$customersArgs<ExtArgs>
     projects?: boolean | Service$projectsArgs<ExtArgs>
@@ -5351,6 +5362,7 @@ export namespace Prisma {
       description: string | null
       isActive: boolean
       serviceName: string
+      thumbnailUrl: string | null
     }, ExtArgs["result"]["service"]>
     composites: {}
   }
@@ -5784,6 +5796,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Service", 'String'>
     readonly isActive: FieldRef<"Service", 'Boolean'>
     readonly serviceName: FieldRef<"Service", 'String'>
+    readonly thumbnailUrl: FieldRef<"Service", 'String'>
   }
     
 
@@ -11137,7 +11150,8 @@ export namespace Prisma {
     category: 'category',
     description: 'description',
     isActive: 'isActive',
-    serviceName: 'serviceName'
+    serviceName: 'serviceName',
+    thumbnailUrl: 'thumbnailUrl'
   };
 
   export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
@@ -11556,6 +11570,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Service"> | string | null
     isActive?: BoolFilter<"Service"> | boolean
     serviceName?: StringFilter<"Service"> | string
+    thumbnailUrl?: StringNullableFilter<"Service"> | string | null
     customers?: CustomerListRelationFilter
     projects?: ProjectListRelationFilter
   }
@@ -11569,6 +11584,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     isActive?: SortOrder
     serviceName?: SortOrder
+    thumbnailUrl?: SortOrderInput | SortOrder
     customers?: CustomerOrderByRelationAggregateInput
     projects?: ProjectOrderByRelationAggregateInput
   }
@@ -11585,6 +11601,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Service"> | string | null
     isActive?: BoolFilter<"Service"> | boolean
     serviceName?: StringFilter<"Service"> | string
+    thumbnailUrl?: StringNullableFilter<"Service"> | string | null
     customers?: CustomerListRelationFilter
     projects?: ProjectListRelationFilter
   }, "id">
@@ -11598,6 +11615,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     isActive?: SortOrder
     serviceName?: SortOrder
+    thumbnailUrl?: SortOrderInput | SortOrder
     _count?: ServiceCountOrderByAggregateInput
     _avg?: ServiceAvgOrderByAggregateInput
     _max?: ServiceMaxOrderByAggregateInput
@@ -11617,6 +11635,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Service"> | string | null
     isActive?: BoolWithAggregatesFilter<"Service"> | boolean
     serviceName?: StringWithAggregatesFilter<"Service"> | string
+    thumbnailUrl?: StringNullableWithAggregatesFilter<"Service"> | string | null
   }
 
   export type ProjectWhereInput = {
@@ -12255,6 +12274,7 @@ export namespace Prisma {
     description?: string | null
     isActive?: boolean
     serviceName: string
+    thumbnailUrl?: string | null
     customers?: CustomerCreateNestedManyWithoutServiceInput
     projects?: ProjectCreateNestedManyWithoutServiceInput
   }
@@ -12268,6 +12288,7 @@ export namespace Prisma {
     description?: string | null
     isActive?: boolean
     serviceName: string
+    thumbnailUrl?: string | null
     customers?: CustomerUncheckedCreateNestedManyWithoutServiceInput
     projects?: ProjectUncheckedCreateNestedManyWithoutServiceInput
   }
@@ -12281,6 +12302,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     customers?: CustomerUpdateManyWithoutServiceNestedInput
     projects?: ProjectUpdateManyWithoutServiceNestedInput
   }
@@ -12294,6 +12316,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     customers?: CustomerUncheckedUpdateManyWithoutServiceNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutServiceNestedInput
   }
@@ -12307,6 +12330,7 @@ export namespace Prisma {
     description?: string | null
     isActive?: boolean
     serviceName: string
+    thumbnailUrl?: string | null
   }
 
   export type ServiceUpdateManyMutationInput = {
@@ -12318,6 +12342,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceUncheckedUpdateManyInput = {
@@ -12329,6 +12354,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProjectCreateInput = {
@@ -12991,6 +13017,7 @@ export namespace Prisma {
     description?: SortOrder
     isActive?: SortOrder
     serviceName?: SortOrder
+    thumbnailUrl?: SortOrder
   }
 
   export type ServiceAvgOrderByAggregateInput = {
@@ -13006,6 +13033,7 @@ export namespace Prisma {
     description?: SortOrder
     isActive?: SortOrder
     serviceName?: SortOrder
+    thumbnailUrl?: SortOrder
   }
 
   export type ServiceMinOrderByAggregateInput = {
@@ -13017,6 +13045,7 @@ export namespace Prisma {
     description?: SortOrder
     isActive?: SortOrder
     serviceName?: SortOrder
+    thumbnailUrl?: SortOrder
   }
 
   export type ServiceSumOrderByAggregateInput = {
@@ -14013,6 +14042,7 @@ export namespace Prisma {
     description?: string | null
     isActive?: boolean
     serviceName: string
+    thumbnailUrl?: string | null
     projects?: ProjectCreateNestedManyWithoutServiceInput
   }
 
@@ -14025,6 +14055,7 @@ export namespace Prisma {
     description?: string | null
     isActive?: boolean
     serviceName: string
+    thumbnailUrl?: string | null
     projects?: ProjectUncheckedCreateNestedManyWithoutServiceInput
   }
 
@@ -14133,6 +14164,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectUpdateManyWithoutServiceNestedInput
   }
 
@@ -14145,6 +14177,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectUncheckedUpdateManyWithoutServiceNestedInput
   }
 
@@ -14581,6 +14614,7 @@ export namespace Prisma {
     description?: string | null
     isActive?: boolean
     serviceName: string
+    thumbnailUrl?: string | null
     customers?: CustomerCreateNestedManyWithoutServiceInput
   }
 
@@ -14593,6 +14627,7 @@ export namespace Prisma {
     description?: string | null
     isActive?: boolean
     serviceName: string
+    thumbnailUrl?: string | null
     customers?: CustomerUncheckedCreateNestedManyWithoutServiceInput
   }
 
@@ -14740,6 +14775,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     customers?: CustomerUpdateManyWithoutServiceNestedInput
   }
 
@@ -14752,6 +14788,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     customers?: CustomerUncheckedUpdateManyWithoutServiceNestedInput
   }
 

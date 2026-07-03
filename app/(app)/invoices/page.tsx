@@ -79,7 +79,7 @@ export default function InvoicesPage() {
     <div className="flex min-h-screen flex-col gap-4 bg-[#F8FAFC] px-4 pb-8 sm:gap-6 md:px-6 lg:px-8">
 
       {/* ── Topbar ── */}
-      <Topbar />
+      <Topbar showSearch={false}/>
 
       {/* ── Page header ── */}
       <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
