@@ -1,7 +1,9 @@
 "use client";
 
-import { UploadCloud, X, Loader2 } from "lucide-react";
-import { useRef, useState } from "react";
+import { X, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { FileUploaderRegular } from "@uploadcare/react-uploader/next";
+import "@uploadcare/react-uploader/core.css";
 import { createService } from "@/app/actions/services";
 
 export function AddServiceModal({
@@ -14,9 +16,9 @@ export function AddServiceModal({
   onSuccess?: () => void;
 }) {
   const [fileName, setFileName] = useState<string | null>(null);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState({
     serviceName: "",
@@ -40,6 +42,7 @@ export function AddServiceModal({
     const result = await createService({
       serviceName: form.serviceName,
       description: form.description || form.shortDetails || undefined,
+      thumbnailUrl: thumbnailUrl || undefined,
     });
 
     setIsLoading(false);
@@ -52,6 +55,7 @@ export function AddServiceModal({
     // Reset form
     setForm({ serviceName: "", shortDetails: "", description: "" });
     setFileName(null);
+    setThumbnailUrl(null);
     onSuccess?.();
     onClose();
   };
@@ -130,33 +134,30 @@ export function AddServiceModal({
             />
           </div>
 
-          {/* Thumbnail */}
+          {/* Thumbnail — Uploadcare */}
           <div className="flex flex-col gap-2">
             <label className="text-sm font-bold text-zinc-800">
               Thumbnail <span className="text-red-500">*</span>
             </label>
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="flex flex-col items-center justify-center gap-2 rounded-xl bg-zinc-100 px-6 py-10 text-center transition-colors hover:bg-zinc-200"
-            >
-              <UploadCloud className="h-7 w-7 text-zinc-600" />
-              <span className="text-lg font-bold leading-tight text-zinc-800">
-                Click to upload
-                <br />
-                or drag and drop
-              </span>
-              <span className="text-xs text-zinc-400">
-                {fileName ?? "WEBP, JPEG, JPG (Max 2MB)"}
-              </span>
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".webp,.jpeg,.jpg,image/webp,image/jpeg"
-              className="hidden"
-              onChange={(e) => setFileName(e.target.files?.[0]?.name ?? null)}
+            <FileUploaderRegular
+              pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!}
+              maxLocalFileSizeBytes={2_000_000}
+              imgOnly
+              onFileUploadSuccess={(file) => {
+                setThumbnailUrl(file.cdnUrl ?? null);
+                setFileName(file.name ?? null);
+              }}
+              onFileRemoved={() => {
+                setThumbnailUrl(null);
+                setFileName(null);
+              }}
+              className="w-full"
             />
+            {thumbnailUrl && (
+              <p className="text-xs text-emerald-600">
+                ✓ Uploaded: {fileName}
+              </p>
+            )}
           </div>
 
           {/* Actions */}

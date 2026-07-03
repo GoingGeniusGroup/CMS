@@ -26,6 +26,7 @@ type Service = {
   description: string | null;
   isActive: boolean;
   createdAt: Date;
+  thumbnailUrl: string | null;
 };
 
 function StatusBadge({ isActive }: { isActive: boolean }) {
@@ -142,7 +143,15 @@ export default function ServicesPage() {
                       {(page - 1) * 10 + idx + 1}
                     </td>
                     <td className="px-6 py-4">
-                      <div className="h-10 w-14 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                      {service.thumbnailUrl ? (
+                        <img
+                          src={service.thumbnailUrl}
+                          alt={service.serviceName}
+                          className="h-10 w-14 rounded-md object-cover"
+                        />
+                      ) : (
+                        <div className="h-10 w-14 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                      )}
                     </td>
                     <td className="px-6 py-4 font-medium text-zinc-800">
                       {service.serviceName}
@@ -182,7 +191,15 @@ export default function ServicesPage() {
                   <div className="text-xs sm:text-sm text-gray-500 font-medium w-6 pt-1">
                     {(page - 1) * 10 + idx + 1}
                   </div>
-                  <div className="h-12 w-16 sm:h-14 sm:w-20 shrink-0 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                  {service.thumbnailUrl ? (
+                    <img
+                      src={service.thumbnailUrl}
+                      alt={service.serviceName}
+                      className="h-12 w-16 sm:h-14 sm:w-20 shrink-0 rounded-md object-cover"
+                    />
+                  ) : (
+                    <div className="h-12 w-16 sm:h-14 sm:w-20 shrink-0 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                  )}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-1">
                       {service.serviceName}
