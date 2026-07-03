@@ -28,6 +28,7 @@ type Project = {
   startDate: Date | null;
   endDate: Date | null;
   budget: number | null;
+  thumbnail: string | null;
   createdAt: Date;
   updatedAt: Date;
 };

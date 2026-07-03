@@ -59,16 +59,17 @@ model Team {
 }
 
 model Service {
-  id          String     @id @default(cuid())
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  basePrice   Float?
-  category    String?
-  description String?
-  isActive    Boolean    @default(true)
-  serviceName String
-  customers   Customer[] @relation("CustomerService")
-  projects    Project[]
+  id           String     @id @default(cuid())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  basePrice    Float?
+  category     String?
+  description  String?
+  isActive     Boolean    @default(true)
+  serviceName  String
+  thumbnailUrl String?
+  customers    Customer[] @relation("CustomerService")
+  projects     Project[]
 
   @@map("services")
 }
@@ -86,6 +87,7 @@ model Project {
   serviceId   String?
   startDate   DateTime?
   teamId      String?
+  thumbnail   String?
   analytics   Analytics[]
   invoices    Invoice[]
   customer    Customer?   @relation(fields: [customerId], references: [id])
@@ -106,6 +108,7 @@ model Blog {
   authorId    String?
   category    String?
   publishedAt DateTime?
+  thumbnail   String?
   author      Team?     @relation(fields: [authorId], references: [id])
 
   @@map("blogs")

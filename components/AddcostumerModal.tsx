@@ -1,8 +1,9 @@
 "use client";
 
-import { X, Upload, Loader2 } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { createCustomer } from "@/app/actions/customers";
+import { ImageUploader } from "@/components/ImageUploader";
 
 interface Service {
   id: string;
@@ -19,7 +20,6 @@ interface AddCustomerModalProps {
 export function AddCustomerModal({ isOpen, onClose, onSuccess,services }: AddCustomerModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [photoPreview, setPhotoPreview] = useState<string>("");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -31,18 +31,6 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess,services }: AddCus
     status: "Active" as "Active" | "Inactive",
     image: "",
   });
-
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const result = reader.result as string;
-      setPhotoPreview(result);
-      setFormData((prev) => ({ ...prev, image: result }));
-    };
-    reader.readAsDataURL(file);
-  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -80,7 +68,6 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess,services }: AddCus
       firstName: "", lastName: "", phoneNumber: "", address: "",
       email: "", services: "", companyName: "", status: "Active", image: "",
     });
-    setPhotoPreview("");
     onSuccess?.();
     onClose();
   };
@@ -107,30 +94,12 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess,services }: AddCus
             </div>
           )}
 
-          {/* Photo Upload */}
-          <div className="flex items-center gap-6">
-            <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
-              {photoPreview ? (
-                <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <Upload className="w-8 h-8 text-gray-400" />
-                </div>
-              )}
-            </div>
-            <div>
-              <p className="text-sm font-medium text-gray-700 mb-1">Upload New Photo</p>
-              <input type="file" accept="image/jpeg,image/png,image/jpg"
-                onChange={handlePhotoChange} className="hidden" id="photo-upload" />
-              <label htmlFor="photo-upload"
-                className="inline-block cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-                Choose File
-              </label>
-              <p className="mt-1 text-xs text-gray-400">
-                At least 150×150 px recommended. JPG, PNG or JPEG.
-              </p>
-            </div>
-          </div>
+          {/* Photo Upload via Uploadcare */}
+          <ImageUploader
+            label="Customer Photo"
+            value={formData.image || null}
+            onChange={(url) => setFormData((prev) => ({ ...prev, image: url || "" }))}
+          />
 
           {/* Basic Info */}
           <div>

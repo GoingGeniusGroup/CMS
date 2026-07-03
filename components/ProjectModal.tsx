@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/Button";
+import { ImageUploader } from "@/components/ImageUploader";
 import { createProject, updateProject, type ProjectInput } from "@/app/actions/projects";
 
 type SelectOption = { id: string; label: string };
@@ -18,6 +19,7 @@ type Project = {
   startDate: Date | null;
   endDate: Date | null;
   budget: number | null;
+  thumbnail: string | null;
 };
 
 export function ProjectModal({
@@ -54,6 +56,7 @@ export function ProjectModal({
     project?.endDate ? new Date(project.endDate).toISOString().split("T")[0] : ""
   );
   const [budget, setBudget] = useState(project?.budget?.toString() ?? "");
+  const [thumbnail, setThumbnail] = useState(project?.thumbnail ?? "");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -74,6 +77,7 @@ export function ProjectModal({
       startDate: startDate || undefined,
       endDate: endDate || undefined,
       budget: budget ? parseFloat(budget) : undefined,
+      thumbnail: thumbnail || undefined,
     };
 
     const result = isEditing
@@ -221,6 +225,13 @@ export function ProjectModal({
               className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
             />
           </div>
+
+          {/* Thumbnail */}
+          <ImageUploader
+            label="Thumbnail"
+            value={thumbnail}
+            onChange={(url) => setThumbnail(url || "")}
+          />
 
           <div>
             <label className="block text-sm font-medium text-gray-700">

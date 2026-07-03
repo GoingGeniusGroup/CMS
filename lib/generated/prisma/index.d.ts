@@ -6284,6 +6284,7 @@ export namespace Prisma {
     serviceId: string | null
     startDate: Date | null
     teamId: string | null
+    thumbnail: string | null
   }
 
   export type ProjectMaxAggregateOutputType = {
@@ -6299,6 +6300,7 @@ export namespace Prisma {
     serviceId: string | null
     startDate: Date | null
     teamId: string | null
+    thumbnail: string | null
   }
 
   export type ProjectCountAggregateOutputType = {
@@ -6314,6 +6316,7 @@ export namespace Prisma {
     serviceId: number
     startDate: number
     teamId: number
+    thumbnail: number
     _all: number
   }
 
@@ -6339,6 +6342,7 @@ export namespace Prisma {
     serviceId?: true
     startDate?: true
     teamId?: true
+    thumbnail?: true
   }
 
   export type ProjectMaxAggregateInputType = {
@@ -6354,6 +6358,7 @@ export namespace Prisma {
     serviceId?: true
     startDate?: true
     teamId?: true
+    thumbnail?: true
   }
 
   export type ProjectCountAggregateInputType = {
@@ -6369,6 +6374,7 @@ export namespace Prisma {
     serviceId?: true
     startDate?: true
     teamId?: true
+    thumbnail?: true
     _all?: true
   }
 
@@ -6471,6 +6477,7 @@ export namespace Prisma {
     serviceId: string | null
     startDate: Date | null
     teamId: string | null
+    thumbnail: string | null
     _count: ProjectCountAggregateOutputType | null
     _avg: ProjectAvgAggregateOutputType | null
     _sum: ProjectSumAggregateOutputType | null
@@ -6505,6 +6512,7 @@ export namespace Prisma {
     serviceId?: boolean
     startDate?: boolean
     teamId?: boolean
+    thumbnail?: boolean
     analytics?: boolean | Project$analyticsArgs<ExtArgs>
     invoices?: boolean | Project$invoicesArgs<ExtArgs>
     customer?: boolean | Project$customerArgs<ExtArgs>
@@ -6526,6 +6534,7 @@ export namespace Prisma {
     serviceId?: boolean
     startDate?: boolean
     teamId?: boolean
+    thumbnail?: boolean
     customer?: boolean | Project$customerArgs<ExtArgs>
     service?: boolean | Project$serviceArgs<ExtArgs>
     team?: boolean | Project$teamArgs<ExtArgs>
@@ -6544,6 +6553,7 @@ export namespace Prisma {
     serviceId?: boolean
     startDate?: boolean
     teamId?: boolean
+    thumbnail?: boolean
     customer?: boolean | Project$customerArgs<ExtArgs>
     service?: boolean | Project$serviceArgs<ExtArgs>
     team?: boolean | Project$teamArgs<ExtArgs>
@@ -6562,9 +6572,10 @@ export namespace Prisma {
     serviceId?: boolean
     startDate?: boolean
     teamId?: boolean
+    thumbnail?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "createdAt" | "updatedAt" | "budget" | "customerId" | "endDate" | "serviceId" | "startDate" | "teamId", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "createdAt" | "updatedAt" | "budget" | "customerId" | "endDate" | "serviceId" | "startDate" | "teamId" | "thumbnail", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     analytics?: boolean | Project$analyticsArgs<ExtArgs>
     invoices?: boolean | Project$invoicesArgs<ExtArgs>
@@ -6606,6 +6617,7 @@ export namespace Prisma {
       serviceId: string | null
       startDate: Date | null
       teamId: string | null
+      thumbnail: string | null
     }, ExtArgs["result"]["project"]>
     composites: {}
   }
@@ -7046,6 +7058,7 @@ export namespace Prisma {
     readonly serviceId: FieldRef<"Project", 'String'>
     readonly startDate: FieldRef<"Project", 'DateTime'>
     readonly teamId: FieldRef<"Project", 'String'>
+    readonly thumbnail: FieldRef<"Project", 'String'>
   }
     
 
@@ -7586,6 +7599,7 @@ export namespace Prisma {
     authorId: string | null
     category: string | null
     publishedAt: Date | null
+    thumbnail: string | null
   }
 
   export type BlogMaxAggregateOutputType = {
@@ -7599,6 +7613,7 @@ export namespace Prisma {
     authorId: string | null
     category: string | null
     publishedAt: Date | null
+    thumbnail: string | null
   }
 
   export type BlogCountAggregateOutputType = {
@@ -7612,6 +7627,7 @@ export namespace Prisma {
     authorId: number
     category: number
     publishedAt: number
+    thumbnail: number
     _all: number
   }
 
@@ -7627,6 +7643,7 @@ export namespace Prisma {
     authorId?: true
     category?: true
     publishedAt?: true
+    thumbnail?: true
   }
 
   export type BlogMaxAggregateInputType = {
@@ -7640,6 +7657,7 @@ export namespace Prisma {
     authorId?: true
     category?: true
     publishedAt?: true
+    thumbnail?: true
   }
 
   export type BlogCountAggregateInputType = {
@@ -7653,6 +7671,7 @@ export namespace Prisma {
     authorId?: true
     category?: true
     publishedAt?: true
+    thumbnail?: true
     _all?: true
   }
 
@@ -7739,6 +7758,7 @@ export namespace Prisma {
     authorId: string | null
     category: string | null
     publishedAt: Date | null
+    thumbnail: string | null
     _count: BlogCountAggregateOutputType | null
     _min: BlogMinAggregateOutputType | null
     _max: BlogMaxAggregateOutputType | null
@@ -7769,6 +7789,7 @@ export namespace Prisma {
     authorId?: boolean
     category?: boolean
     publishedAt?: boolean
+    thumbnail?: boolean
     author?: boolean | Blog$authorArgs<ExtArgs>
   }, ExtArgs["result"]["blog"]>
 
@@ -7783,6 +7804,7 @@ export namespace Prisma {
     authorId?: boolean
     category?: boolean
     publishedAt?: boolean
+    thumbnail?: boolean
     author?: boolean | Blog$authorArgs<ExtArgs>
   }, ExtArgs["result"]["blog"]>
 
@@ -7797,6 +7819,7 @@ export namespace Prisma {
     authorId?: boolean
     category?: boolean
     publishedAt?: boolean
+    thumbnail?: boolean
     author?: boolean | Blog$authorArgs<ExtArgs>
   }, ExtArgs["result"]["blog"]>
 
@@ -7811,9 +7834,10 @@ export namespace Prisma {
     authorId?: boolean
     category?: boolean
     publishedAt?: boolean
+    thumbnail?: boolean
   }
 
-  export type BlogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "status" | "createdAt" | "updatedAt" | "authorId" | "category" | "publishedAt", ExtArgs["result"]["blog"]>
+  export type BlogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "status" | "createdAt" | "updatedAt" | "authorId" | "category" | "publishedAt" | "thumbnail", ExtArgs["result"]["blog"]>
   export type BlogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | Blog$authorArgs<ExtArgs>
   }
@@ -7840,6 +7864,7 @@ export namespace Prisma {
       authorId: string | null
       category: string | null
       publishedAt: Date | null
+      thumbnail: string | null
     }, ExtArgs["result"]["blog"]>
     composites: {}
   }
@@ -8274,6 +8299,7 @@ export namespace Prisma {
     readonly authorId: FieldRef<"Blog", 'String'>
     readonly category: FieldRef<"Blog", 'String'>
     readonly publishedAt: FieldRef<"Blog", 'DateTime'>
+    readonly thumbnail: FieldRef<"Blog", 'String'>
   }
     
 
@@ -11169,7 +11195,8 @@ export namespace Prisma {
     endDate: 'endDate',
     serviceId: 'serviceId',
     startDate: 'startDate',
-    teamId: 'teamId'
+    teamId: 'teamId',
+    thumbnail: 'thumbnail'
   };
 
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
@@ -11185,7 +11212,8 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     authorId: 'authorId',
     category: 'category',
-    publishedAt: 'publishedAt'
+    publishedAt: 'publishedAt',
+    thumbnail: 'thumbnail'
   };
 
   export type BlogScalarFieldEnum = (typeof BlogScalarFieldEnum)[keyof typeof BlogScalarFieldEnum]
@@ -11654,6 +11682,7 @@ export namespace Prisma {
     serviceId?: StringNullableFilter<"Project"> | string | null
     startDate?: DateTimeNullableFilter<"Project"> | Date | string | null
     teamId?: StringNullableFilter<"Project"> | string | null
+    thumbnail?: StringNullableFilter<"Project"> | string | null
     analytics?: AnalyticsListRelationFilter
     invoices?: InvoiceListRelationFilter
     customer?: XOR<CustomerNullableScalarRelationFilter, CustomerWhereInput> | null
@@ -11674,6 +11703,7 @@ export namespace Prisma {
     serviceId?: SortOrderInput | SortOrder
     startDate?: SortOrderInput | SortOrder
     teamId?: SortOrderInput | SortOrder
+    thumbnail?: SortOrderInput | SortOrder
     analytics?: AnalyticsOrderByRelationAggregateInput
     invoices?: InvoiceOrderByRelationAggregateInput
     customer?: CustomerOrderByWithRelationInput
@@ -11697,6 +11727,7 @@ export namespace Prisma {
     serviceId?: StringNullableFilter<"Project"> | string | null
     startDate?: DateTimeNullableFilter<"Project"> | Date | string | null
     teamId?: StringNullableFilter<"Project"> | string | null
+    thumbnail?: StringNullableFilter<"Project"> | string | null
     analytics?: AnalyticsListRelationFilter
     invoices?: InvoiceListRelationFilter
     customer?: XOR<CustomerNullableScalarRelationFilter, CustomerWhereInput> | null
@@ -11717,6 +11748,7 @@ export namespace Prisma {
     serviceId?: SortOrderInput | SortOrder
     startDate?: SortOrderInput | SortOrder
     teamId?: SortOrderInput | SortOrder
+    thumbnail?: SortOrderInput | SortOrder
     _count?: ProjectCountOrderByAggregateInput
     _avg?: ProjectAvgOrderByAggregateInput
     _max?: ProjectMaxOrderByAggregateInput
@@ -11740,6 +11772,7 @@ export namespace Prisma {
     serviceId?: StringNullableWithAggregatesFilter<"Project"> | string | null
     startDate?: DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
     teamId?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    thumbnail?: StringNullableWithAggregatesFilter<"Project"> | string | null
   }
 
   export type BlogWhereInput = {
@@ -11756,6 +11789,7 @@ export namespace Prisma {
     authorId?: StringNullableFilter<"Blog"> | string | null
     category?: StringNullableFilter<"Blog"> | string | null
     publishedAt?: DateTimeNullableFilter<"Blog"> | Date | string | null
+    thumbnail?: StringNullableFilter<"Blog"> | string | null
     author?: XOR<TeamNullableScalarRelationFilter, TeamWhereInput> | null
   }
 
@@ -11770,6 +11804,7 @@ export namespace Prisma {
     authorId?: SortOrderInput | SortOrder
     category?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
+    thumbnail?: SortOrderInput | SortOrder
     author?: TeamOrderByWithRelationInput
   }
 
@@ -11787,6 +11822,7 @@ export namespace Prisma {
     authorId?: StringNullableFilter<"Blog"> | string | null
     category?: StringNullableFilter<"Blog"> | string | null
     publishedAt?: DateTimeNullableFilter<"Blog"> | Date | string | null
+    thumbnail?: StringNullableFilter<"Blog"> | string | null
     author?: XOR<TeamNullableScalarRelationFilter, TeamWhereInput> | null
   }, "id" | "slug">
 
@@ -11801,6 +11837,7 @@ export namespace Prisma {
     authorId?: SortOrderInput | SortOrder
     category?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
+    thumbnail?: SortOrderInput | SortOrder
     _count?: BlogCountOrderByAggregateInput
     _max?: BlogMaxOrderByAggregateInput
     _min?: BlogMinOrderByAggregateInput
@@ -11820,6 +11857,7 @@ export namespace Prisma {
     authorId?: StringNullableWithAggregatesFilter<"Blog"> | string | null
     category?: StringNullableWithAggregatesFilter<"Blog"> | string | null
     publishedAt?: DateTimeNullableWithAggregatesFilter<"Blog"> | Date | string | null
+    thumbnail?: StringNullableWithAggregatesFilter<"Blog"> | string | null
   }
 
   export type InvoiceWhereInput = {
@@ -12367,6 +12405,7 @@ export namespace Prisma {
     budget?: number | null
     endDate?: Date | string | null
     startDate?: Date | string | null
+    thumbnail?: string | null
     analytics?: AnalyticsCreateNestedManyWithoutProjectInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     customer?: CustomerCreateNestedOneWithoutProjectsInput
@@ -12387,6 +12426,7 @@ export namespace Prisma {
     serviceId?: string | null
     startDate?: Date | string | null
     teamId?: string | null
+    thumbnail?: string | null
     analytics?: AnalyticsUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -12401,6 +12441,7 @@ export namespace Prisma {
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     analytics?: AnalyticsUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     customer?: CustomerUpdateOneWithoutProjectsNestedInput
@@ -12421,6 +12462,7 @@ export namespace Prisma {
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     analytics?: AnalyticsUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -12438,6 +12480,7 @@ export namespace Prisma {
     serviceId?: string | null
     startDate?: Date | string | null
     teamId?: string | null
+    thumbnail?: string | null
   }
 
   export type ProjectUpdateManyMutationInput = {
@@ -12450,6 +12493,7 @@ export namespace Prisma {
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProjectUncheckedUpdateManyInput = {
@@ -12465,6 +12509,7 @@ export namespace Prisma {
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BlogCreateInput = {
@@ -12477,6 +12522,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     category?: string | null
     publishedAt?: Date | string | null
+    thumbnail?: string | null
     author?: TeamCreateNestedOneWithoutBlogsInput
   }
 
@@ -12491,6 +12537,7 @@ export namespace Prisma {
     authorId?: string | null
     category?: string | null
     publishedAt?: Date | string | null
+    thumbnail?: string | null
   }
 
   export type BlogUpdateInput = {
@@ -12503,6 +12550,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     author?: TeamUpdateOneWithoutBlogsNestedInput
   }
 
@@ -12517,6 +12565,7 @@ export namespace Prisma {
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BlogCreateManyInput = {
@@ -12530,6 +12579,7 @@ export namespace Prisma {
     authorId?: string | null
     category?: string | null
     publishedAt?: Date | string | null
+    thumbnail?: string | null
   }
 
   export type BlogUpdateManyMutationInput = {
@@ -12542,6 +12592,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BlogUncheckedUpdateManyInput = {
@@ -12555,6 +12606,7 @@ export namespace Prisma {
     authorId?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type InvoiceCreateInput = {
@@ -13112,6 +13164,7 @@ export namespace Prisma {
     serviceId?: SortOrder
     startDate?: SortOrder
     teamId?: SortOrder
+    thumbnail?: SortOrder
   }
 
   export type ProjectAvgOrderByAggregateInput = {
@@ -13131,6 +13184,7 @@ export namespace Prisma {
     serviceId?: SortOrder
     startDate?: SortOrder
     teamId?: SortOrder
+    thumbnail?: SortOrder
   }
 
   export type ProjectMinOrderByAggregateInput = {
@@ -13146,6 +13200,7 @@ export namespace Prisma {
     serviceId?: SortOrder
     startDate?: SortOrder
     teamId?: SortOrder
+    thumbnail?: SortOrder
   }
 
   export type ProjectSumOrderByAggregateInput = {
@@ -13177,6 +13232,7 @@ export namespace Prisma {
     authorId?: SortOrder
     category?: SortOrder
     publishedAt?: SortOrder
+    thumbnail?: SortOrder
   }
 
   export type BlogMaxOrderByAggregateInput = {
@@ -13190,6 +13246,7 @@ export namespace Prisma {
     authorId?: SortOrder
     category?: SortOrder
     publishedAt?: SortOrder
+    thumbnail?: SortOrder
   }
 
   export type BlogMinOrderByAggregateInput = {
@@ -13203,6 +13260,7 @@ export namespace Prisma {
     authorId?: SortOrder
     category?: SortOrder
     publishedAt?: SortOrder
+    thumbnail?: SortOrder
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -14112,6 +14170,7 @@ export namespace Prisma {
     budget?: number | null
     endDate?: Date | string | null
     startDate?: Date | string | null
+    thumbnail?: string | null
     analytics?: AnalyticsCreateNestedManyWithoutProjectInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     service?: ServiceCreateNestedOneWithoutProjectsInput
@@ -14130,6 +14189,7 @@ export namespace Prisma {
     serviceId?: string | null
     startDate?: Date | string | null
     teamId?: string | null
+    thumbnail?: string | null
     analytics?: AnalyticsUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -14247,6 +14307,7 @@ export namespace Prisma {
     serviceId?: StringNullableFilter<"Project"> | string | null
     startDate?: DateTimeNullableFilter<"Project"> | Date | string | null
     teamId?: StringNullableFilter<"Project"> | string | null
+    thumbnail?: StringNullableFilter<"Project"> | string | null
   }
 
   export type BlogCreateWithoutAuthorInput = {
@@ -14259,6 +14320,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     category?: string | null
     publishedAt?: Date | string | null
+    thumbnail?: string | null
   }
 
   export type BlogUncheckedCreateWithoutAuthorInput = {
@@ -14271,6 +14333,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     category?: string | null
     publishedAt?: Date | string | null
+    thumbnail?: string | null
   }
 
   export type BlogCreateOrConnectWithoutAuthorInput = {
@@ -14293,6 +14356,7 @@ export namespace Prisma {
     budget?: number | null
     endDate?: Date | string | null
     startDate?: Date | string | null
+    thumbnail?: string | null
     analytics?: AnalyticsCreateNestedManyWithoutProjectInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     customer?: CustomerCreateNestedOneWithoutProjectsInput
@@ -14311,6 +14375,7 @@ export namespace Prisma {
     endDate?: Date | string | null
     serviceId?: string | null
     startDate?: Date | string | null
+    thumbnail?: string | null
     analytics?: AnalyticsUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -14355,6 +14420,7 @@ export namespace Prisma {
     authorId?: StringNullableFilter<"Blog"> | string | null
     category?: StringNullableFilter<"Blog"> | string | null
     publishedAt?: DateTimeNullableFilter<"Blog"> | Date | string | null
+    thumbnail?: StringNullableFilter<"Blog"> | string | null
   }
 
   export type ProjectUpsertWithWhereUniqueWithoutTeamInput = {
@@ -14423,6 +14489,7 @@ export namespace Prisma {
     budget?: number | null
     endDate?: Date | string | null
     startDate?: Date | string | null
+    thumbnail?: string | null
     analytics?: AnalyticsCreateNestedManyWithoutProjectInput
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     customer?: CustomerCreateNestedOneWithoutProjectsInput
@@ -14441,6 +14508,7 @@ export namespace Prisma {
     endDate?: Date | string | null
     startDate?: Date | string | null
     teamId?: string | null
+    thumbnail?: string | null
     analytics?: AnalyticsUncheckedCreateNestedManyWithoutProjectInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -14948,6 +15016,7 @@ export namespace Prisma {
     budget?: number | null
     endDate?: Date | string | null
     startDate?: Date | string | null
+    thumbnail?: string | null
     analytics?: AnalyticsCreateNestedManyWithoutProjectInput
     customer?: CustomerCreateNestedOneWithoutProjectsInput
     service?: ServiceCreateNestedOneWithoutProjectsInput
@@ -14967,6 +15036,7 @@ export namespace Prisma {
     serviceId?: string | null
     startDate?: Date | string | null
     teamId?: string | null
+    thumbnail?: string | null
     analytics?: AnalyticsUncheckedCreateNestedManyWithoutProjectInput
   }
 
@@ -15037,6 +15107,7 @@ export namespace Prisma {
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     analytics?: AnalyticsUpdateManyWithoutProjectNestedInput
     customer?: CustomerUpdateOneWithoutProjectsNestedInput
     service?: ServiceUpdateOneWithoutProjectsNestedInput
@@ -15056,6 +15127,7 @@ export namespace Prisma {
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     analytics?: AnalyticsUncheckedUpdateManyWithoutProjectNestedInput
   }
 
@@ -15069,6 +15141,7 @@ export namespace Prisma {
     budget?: number | null
     endDate?: Date | string | null
     startDate?: Date | string | null
+    thumbnail?: string | null
     invoices?: InvoiceCreateNestedManyWithoutProjectInput
     customer?: CustomerCreateNestedOneWithoutProjectsInput
     service?: ServiceCreateNestedOneWithoutProjectsInput
@@ -15088,6 +15161,7 @@ export namespace Prisma {
     serviceId?: string | null
     startDate?: Date | string | null
     teamId?: string | null
+    thumbnail?: string | null
     invoices?: InvoiceUncheckedCreateNestedManyWithoutProjectInput
   }
 
@@ -15117,6 +15191,7 @@ export namespace Prisma {
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     customer?: CustomerUpdateOneWithoutProjectsNestedInput
     service?: ServiceUpdateOneWithoutProjectsNestedInput
@@ -15136,6 +15211,7 @@ export namespace Prisma {
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
   }
 
@@ -15165,6 +15241,7 @@ export namespace Prisma {
     serviceId?: string | null
     startDate?: Date | string | null
     teamId?: string | null
+    thumbnail?: string | null
   }
 
   export type InvoiceUpdateWithoutCustomerInput = {
@@ -15219,6 +15296,7 @@ export namespace Prisma {
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     analytics?: AnalyticsUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     service?: ServiceUpdateOneWithoutProjectsNestedInput
@@ -15237,6 +15315,7 @@ export namespace Prisma {
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     analytics?: AnalyticsUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -15253,6 +15332,7 @@ export namespace Prisma {
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BlogCreateManyAuthorInput = {
@@ -15265,6 +15345,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     category?: string | null
     publishedAt?: Date | string | null
+    thumbnail?: string | null
   }
 
   export type ProjectCreateManyTeamInput = {
@@ -15279,6 +15360,7 @@ export namespace Prisma {
     endDate?: Date | string | null
     serviceId?: string | null
     startDate?: Date | string | null
+    thumbnail?: string | null
   }
 
   export type BlogUpdateWithoutAuthorInput = {
@@ -15291,6 +15373,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BlogUncheckedUpdateWithoutAuthorInput = {
@@ -15303,6 +15386,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BlogUncheckedUpdateManyWithoutAuthorInput = {
@@ -15315,6 +15399,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProjectUpdateWithoutTeamInput = {
@@ -15327,6 +15412,7 @@ export namespace Prisma {
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     analytics?: AnalyticsUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     customer?: CustomerUpdateOneWithoutProjectsNestedInput
@@ -15345,6 +15431,7 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     analytics?: AnalyticsUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -15361,6 +15448,7 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     serviceId?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CustomerCreateManyServiceInput = {
@@ -15388,6 +15476,7 @@ export namespace Prisma {
     endDate?: Date | string | null
     startDate?: Date | string | null
     teamId?: string | null
+    thumbnail?: string | null
   }
 
   export type CustomerUpdateWithoutServiceInput = {
@@ -15443,6 +15532,7 @@ export namespace Prisma {
     budget?: NullableFloatFieldUpdateOperationsInput | number | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     analytics?: AnalyticsUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUpdateManyWithoutProjectNestedInput
     customer?: CustomerUpdateOneWithoutProjectsNestedInput
@@ -15461,6 +15551,7 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     analytics?: AnalyticsUncheckedUpdateManyWithoutProjectNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -15477,6 +15568,7 @@ export namespace Prisma {
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     teamId?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AnalyticsCreateManyProjectInput = {

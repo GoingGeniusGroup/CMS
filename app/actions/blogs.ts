@@ -10,6 +10,7 @@ const blogSchema = z.object({
   content: z.string().optional(),
   category: z.string().optional(),
   authorId: z.string().optional(),
+  thumbnail: z.string().optional(),
   status: z.enum(["Published", "Draft"]),
   publishedAt: z.string().optional(),
 });

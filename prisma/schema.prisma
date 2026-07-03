@@ -87,6 +87,7 @@ model Project {
   serviceId   String?
   startDate   DateTime?
   teamId      String?
+  thumbnail   String?
   analytics   Analytics[]
   invoices    Invoice[]
   customer    Customer?   @relation(fields: [customerId], references: [id])
@@ -107,6 +108,7 @@ model Blog {
   authorId    String?
   category    String?
   publishedAt DateTime?
+  thumbnail   String?
   author      Team?     @relation(fields: [authorId], references: [id])
 
   @@map("blogs")

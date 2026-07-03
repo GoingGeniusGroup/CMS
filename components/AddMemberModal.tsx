@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Camera } from "lucide-react";
+import { useState } from "react";
 import { AddDesignationModal } from "@/components/AddDesignationModal";
+import { ImageUploader } from "@/components/ImageUploader";
 
 export interface MemberFormData {
   name: string;
@@ -113,18 +113,7 @@ export function AddMemberModal({
   // State is initialised once per mount (controlled via `key` from parent).
   const [showAddDesignation, setShowAddDesignation] = useState(false);
   const [form, setForm] = useState<MemberFormData>(() => buildInitialForm(editMember));
-  const [photo, setPhoto] = useState<string | null>(editMember?.image ?? null);
   const [errors, setErrors] = useState<FormErrors>({});
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setPhoto(url);
-      setForm((prev) => ({ ...prev, image: url }));
-    }
-  };
 
   const handleField = (
     e: React.ChangeEvent<
@@ -158,46 +147,13 @@ export function AddMemberModal({
           </h2>
 
           <div className="flex flex-col gap-4 md:flex-row">
-            {/* Upload photo */}
-            <div
-              onClick={() => fileInputRef.current?.click()}
-              className="flex w-full cursor-pointer flex-col items-center gap-2.5 self-start rounded-xl bg-zinc-50 p-6 md:w-60"
-            >
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handlePhotoChange}
+            {/* Upload photo via Uploadcare */}
+            <div className="w-full md:w-60 self-start">
+              <ImageUploader
+                label="Member Photo"
+                value={form.image}
+                onChange={(url) => setForm((prev) => ({ ...prev, image: url }))}
               />
-              {photo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={photo}
-                  alt="Selected"
-                  className="h-20 w-20 rounded-full object-cover"
-                />
-              ) : (
-                <span className="flex h-12 w-12 items-center justify-center rounded-lg text-indigo-500">
-                  <Camera className="h-7 w-7" />
-                </span>
-              )}
-              <div className="text-lg font-semibold">Upload Photo</div>
-              <div className="text-center text-xs leading-tight text-zinc-400">
-                Best Resolution
-                <br />
-                500px * 400px
-              </div>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  fileInputRef.current?.click();
-                }}
-                className="rounded-md border border-indigo-200 px-4 py-2 text-sm font-semibold text-indigo-600"
-              >
-                Choose File
-              </button>
             </div>
 
             {/* Fields */}
