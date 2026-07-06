@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Upload, Plus } from "lucide-react";
+import { Upload, Plus, CloudUpload } from "lucide-react";
 import { FaFacebook, FaGithub, FaTwitter, FaWhatsapp, FaLinkedin } from "react-icons/fa";
+import { Card } from "@/components/Card";
+import { Button } from "@/components/Button";
 
 type SocialLink = { icon: React.ReactNode; placeholder: string; value: string };
 
@@ -27,6 +29,29 @@ export default function FooterWidgetsPage() {
     "2025 Going Genius Group of Companies. All Rights Reserved."
   );
   const [socials, setSocials] = useState<SocialLink[]>(defaultSocials);
+
+  // Contact Info Widget state
+  const [contactAddress, setContactAddress] = useState("Kathmandu, Nepal");
+  const [contactPhone, setContactPhone] = useState("+977 9821212121");
+  const [contactEmail, setContactEmail] = useState("goingenius2021@gmail.com");
+
+  // Payment Logo Widget state
+  const [paymentLogo, setPaymentLogo] = useState<File | null>(null);
+  const [paymentLogoPreview, setPaymentLogoPreview] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const paymentLogoRef = useRef<HTMLInputElement>(null);
+
+  const handlePaymentLogoChange = (file: File) => {
+    setPaymentLogo(file);
+    setPaymentLogoPreview(URL.createObjectURL(file));
+  };
+
+  const handlePaymentLogoDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) handlePaymentLogoChange(file);
+  };
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -215,6 +240,151 @@ export default function FooterWidgetsPage() {
           </button>
         </div>
       </div>
+
+      {/* ── Contact Info Widget card ── */}
+      <Card>
+        <h2 className="text-base font-bold text-zinc-900">Contact Info Widget</h2>
+        <p className="mt-0.5 text-xs text-zinc-500">Manage contact information in footer</p>
+
+        <div className="mt-5 space-y-5">
+          {/* Contact Address */}
+          <div>
+            <p className="mb-1.5 text-sm font-bold text-zinc-800">
+              Contact Address{" "}
+              <span className="font-normal text-zinc-400">(Translatable)</span>
+            </p>
+            <input
+              type="text"
+              value={contactAddress}
+              onChange={(e) => setContactAddress(e.target.value)}
+              className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-center text-sm text-zinc-600 outline-none focus:border-indigo-400 focus:bg-white"
+            />
+          </div>
+
+          {/* Contact Phone */}
+          <div>
+            <p className="mb-1.5 text-sm font-bold text-zinc-800">Contact Phone</p>
+            <input
+              type="text"
+              value={contactPhone}
+              onChange={(e) => setContactPhone(e.target.value)}
+              className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-center text-sm text-zinc-600 outline-none focus:border-indigo-400 focus:bg-white"
+            />
+          </div>
+
+          {/* Contact Email */}
+          <div>
+            <p className="mb-1.5 text-sm font-bold text-zinc-800">Contact Email</p>
+            <input
+              type="email"
+              value={contactEmail}
+              onChange={(e) => setContactEmail(e.target.value)}
+              className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-center text-sm text-zinc-600 outline-none focus:border-indigo-400 focus:bg-white"
+            />
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="mt-6 flex justify-end">
+          <button
+            type="button"
+            className="rounded-lg bg-amber-500 px-5 py-2 text-sm font-semibold text-white hover:bg-amber-600"
+          >
+            Update
+          </button>
+        </div>
+      </Card>
+
+      {/* ── Payment Logo Widget card ── */}
+      <Card>
+        <h2 className="text-base font-bold text-zinc-900">Payment Logo Widget</h2>
+        <p className="mt-0.5 text-xs text-zinc-500">
+          Upload payment method logos for the footer.
+        </p>
+
+        <div className="mt-5">
+          <p className="mb-2 text-sm font-bold text-zinc-800">
+            Upload Payment Logo <span className="text-red-500">*</span>
+          </p>
+
+          {/* Drag & Drop zone */}
+          <div
+            onDragOver={(e) => {
+              e.preventDefault();
+              setIsDragging(true);
+            }}
+            onDragLeave={() => setIsDragging(false)}
+            onDrop={handlePaymentLogoDrop}
+            onClick={() => paymentLogoRef.current?.click()}
+            className={`flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-10 transition-colors ${
+              isDragging
+                ? "border-indigo-400 bg-indigo-50"
+                : "border-zinc-200 bg-zinc-50 hover:border-indigo-300 hover:bg-indigo-50/40"
+            }`}
+          >
+            {paymentLogoPreview ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={paymentLogoPreview}
+                alt="Payment logo preview"
+                className="max-h-16 max-w-full object-contain"
+              />
+            ) : (
+              <CloudUpload
+                className="h-10 w-10 text-indigo-400"
+                strokeWidth={1.5}
+              />
+            )}
+
+            <p className="text-sm text-zinc-500">
+              {paymentLogoPreview
+                ? paymentLogo?.name
+                : "Drag & drop your image here"}
+            </p>
+
+            {!paymentLogoPreview && (
+              <>
+                <p className="text-xs text-zinc-400">or</p>
+                <span className="rounded-md bg-indigo-100 px-4 py-1.5 text-xs font-semibold text-indigo-600 hover:bg-indigo-200">
+                  Browse File
+                </span>
+                <p className="text-xs text-zinc-400">PNG, JPG, SVG (12 × 60px)</p>
+              </>
+            )}
+
+            <input
+              ref={paymentLogoRef}
+              type="file"
+              accept="image/png,image/jpeg,image/svg+xml"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handlePaymentLogoChange(file);
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="mt-6 flex flex-wrap justify-end gap-3">
+          <Button
+            variant="secondary"
+            className="px-6 py-2"
+            onClick={() => {
+              setPaymentLogo(null);
+              setPaymentLogoPreview(null);
+            }}
+          >
+            Cancel
+          </Button>
+           <button
+            type="button"
+            className="rounded-lg bg-amber-500 px-5 py-2 text-sm font-semibold text-white hover:bg-amber-600"
+          >
+            Update
+          </button>
+        </div>
+      </Card>
     </div>
   );
 }

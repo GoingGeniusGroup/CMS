@@ -51,7 +51,7 @@ export const navItems: NavItem[] = [
     children: [
       { label: "Website Header", href: "/website-setup/header", icon: Globe },
       { label: "Footer Widgets", href: "/website-setup/footer-widgets", icon: LayoutPanelTop },
-      { label: "Add New Page", href: "/website-setup/add-page", icon: FilePlus2 },
+      { label: "Add New Page", href: "/website-setup/add-newpage", icon: FilePlus2 },
     ],
   },
   { label: "Settings", href: "/settings", icon: Settings },
