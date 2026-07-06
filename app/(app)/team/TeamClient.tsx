@@ -341,38 +341,63 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
         /* ─── Card View (Grid) ─── */
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((m) => (
-            <Card key={m.id} className="flex flex-col gap-4 p-5">
-              <div className="flex items-center gap-4">
-                {m.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={m.image} alt={m.fullName} className="h-14 w-14 shrink-0 rounded-full object-cover" />
-                ) : (
-                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-sky-50 text-sky-500">
-                    <User className="h-7 w-7" />
-                  </span>
+            <div
+              key={m.id}
+              className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
+            >
+              {/* Avatar banner */}
+              {m.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={m.image}
+                  alt={m.fullName}
+                  className="mb-4 h-36 w-full rounded-xl object-cover"
+                />
+              ) : (
+                <div className="mb-4 flex h-36 w-full items-center justify-center rounded-xl bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600">
+                  <User className="h-14 w-14 text-white/80" />
+                </div>
+              )}
+
+              {/* Name & Status */}
+              <div className="mb-3 flex items-start justify-between gap-2">
+                <h3 className="text-sm font-bold text-gray-900 line-clamp-2">
+                  {m.fullName}
+                </h3>
+                <span
+                  className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-medium ${
+                    m.status === "Active"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
+                  }`}
+                >
+                  {m.status}
+                </span>
+              </div>
+
+              {/* Meta */}
+              <div className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                {m.role && (
+                  <span>Role: <span className="text-gray-700">{m.role}</span></span>
                 )}
-                <div className="min-w-0">
-                  <p className="font-semibold text-zinc-800 truncate">{m.fullName}</p>
-                  <p className="text-sm text-zinc-500 truncate">{m.role || "—"}</p>
-                  <span className={`mt-1 inline-block text-xs font-medium ${m.status === "Active" ? "text-emerald-600" : "text-zinc-400"}`}>
-                    {m.status}
-                  </span>
-                </div>
+                {m.department && (
+                  <span>Dept: <span className="text-gray-700">{m.department}</span></span>
+                )}
+                {m.phone && (
+                  <span>Phone: <span className="text-gray-700">{m.phone}</span></span>
+                )}
+                <span className="w-full truncate">
+                  Email: <span className="text-gray-700">{m.email}</span>
+                </span>
               </div>
-              <div className="space-y-1.5 text-sm text-zinc-600">
-                <div className="flex items-center gap-2">
-                  <Phone className="h-3.5 w-3.5 text-sky-500 shrink-0" />
-                  <span className="truncate">{m.phone || "—"}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Mail className="h-3.5 w-3.5 text-sky-500 shrink-0" />
-                  <span className="truncate">{m.email}</span>
-                </div>
-              </div>
-              <div className="mt-auto pt-2 border-t border-gray-100">
-                <RowActions variant="buttons" onEdit={() => handleEdit(m)} onDelete={() => handleDeleteRequest(m.id)} />
-              </div>
-            </Card>
+
+              {/* Actions */}
+              <RowActions
+                variant="buttons"
+                onEdit={() => handleEdit(m)}
+                onDelete={() => handleDeleteRequest(m.id)}
+              />
+            </div>
           ))}
         </div>
       )}
