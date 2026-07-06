@@ -2,6 +2,8 @@
 
 import {
   Filter,
+  LayoutGrid,
+  List,
   Plus,
   Layers,
   CheckCircle2,
@@ -53,6 +55,7 @@ export default function ServicesPage() {
   const [inactive, setInactive] = useState(0);
   const [pageCount, setPageCount] = useState(1);
   const [deleteTarget, setDeleteTarget] = useState<Service | null>(null);
+  const [viewMode, setViewMode] = useState<"list" | "card">("list");
 
   const loadServices = useCallback(async () => {
     const data = await getServicesPaginated(page);
@@ -108,117 +111,129 @@ export default function ServicesPage() {
       <Card noPadding className="overflow-hidden">
         <div className="flex items-center justify-between border-b border-gray-100 px-4 py-4 sm:px-6">
           <h2 className="text-lg font-bold text-black">Services</h2>
+          {/* View toggle */}
+          <div className="hidden sm:flex items-center rounded-lg border border-gray-200 bg-white p-1">
+            <button
+              type="button"
+              onClick={() => setViewMode("list")}
+              title="List view"
+              className={`flex items-center justify-center rounded-md p-2 transition-colors ${
+                viewMode === "list" ? "bg-indigo-600 text-white shadow-sm" : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <List className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("card")}
+              title="Card view"
+              className={`flex items-center justify-center rounded-md p-2 transition-colors ${
+                viewMode === "card" ? "bg-indigo-600 text-white shadow-sm" : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <LayoutGrid className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
-        {/* Desktop Table View */}
-        <div className="hidden lg:block overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="border-b border-gray-100 text-zinc-500">
-                <th className="px-6 py-4 font-medium">#</th>
-                <th className="px-6 py-4 font-medium">Thumbnail</th>
-                <th className="px-6 py-4 font-medium">Title</th>
-                <th className="px-6 py-4 font-medium">Short Details</th>
-                <th className="px-6 py-4 font-medium">Status</th>
-                <th className="px-6 py-4 font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
+        {viewMode === "list" ? (
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="border-b border-gray-100 text-zinc-500">
+                    <th className="px-6 py-4 font-medium">#</th>
+                    <th className="px-6 py-4 font-medium">Thumbnail</th>
+                    <th className="px-6 py-4 font-medium">Title</th>
+                    <th className="px-6 py-4 font-medium">Short Details</th>
+                    <th className="px-6 py-4 font-medium">Status</th>
+                    <th className="px-6 py-4 font-medium">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {services.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="px-6 py-10 text-center text-sm text-zinc-400">
+                        No services found. Add your first service!
+                      </td>
+                    </tr>
+                  ) : (
+                    services.map((service, idx) => (
+                      <tr key={service.id} className="border-b border-gray-50 text-sm text-zinc-600 hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4">{(page - 1) * 10 + idx + 1}</td>
+                        <td className="px-6 py-4">
+                          {service.thumbnailUrl ? (
+                            <img src={service.thumbnailUrl} alt={service.serviceName} className="h-10 w-14 rounded-md object-cover" />
+                          ) : (
+                            <div className="h-10 w-14 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                          )}
+                        </td>
+                        <td className="px-6 py-4 font-medium text-zinc-800">{service.serviceName}</td>
+                        <td className="px-6 py-4">{service.description ?? "—"}</td>
+                        <td className="px-6 py-4"><StatusBadge isActive={service.isActive} /></td>
+                        <td className="px-6 py-4">
+                          <RowActions onEdit={() => setEditTarget(service)} onDelete={() => setDeleteTarget(service)} />
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile list */}
+            <div className="lg:hidden divide-y divide-gray-100">
               {services.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={6}
-                    className="px-6 py-10 text-center text-sm text-zinc-400"
-                  >
-                    No services found. Add your first service!
-                  </td>
-                </tr>
+                <p className="p-6 text-center text-sm text-zinc-400">No services found. Add your first service!</p>
               ) : (
                 services.map((service, idx) => (
-                  <tr
-                    key={service.id}
-                    className="border-b border-gray-50 text-sm text-zinc-600 hover:bg-gray-50 transition-colors"
-                  >
-                    <td className="px-6 py-4">
-                      {(page - 1) * 10 + idx + 1}
-                    </td>
-                    <td className="px-6 py-4">
+                  <div key={service.id} className="p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="text-xs sm:text-sm text-gray-500 font-medium w-6 pt-1">{(page - 1) * 10 + idx + 1}</div>
                       {service.thumbnailUrl ? (
-                        <img
-                          src={service.thumbnailUrl}
-                          alt={service.serviceName}
-                          className="h-10 w-14 rounded-md object-cover"
-                        />
+                        <img src={service.thumbnailUrl} alt={service.serviceName} className="h-12 w-16 sm:h-14 sm:w-20 shrink-0 rounded-md object-cover" />
                       ) : (
-                        <div className="h-10 w-14 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                        <div className="h-12 w-16 sm:h-14 sm:w-20 shrink-0 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
                       )}
-                    </td>
-                    <td className="px-6 py-4 font-medium text-zinc-800">
-                      {service.serviceName}
-                    </td>
-                    <td className="px-6 py-4">
-                      {service.description ?? "—"}
-                    </td>
-                    <td className="px-6 py-4">
-                      <StatusBadge isActive={service.isActive} />
-                    </td>
-                    <td className="px-6 py-4">
-                      <RowActions
-                        onEdit={() => setEditTarget(service)}
-                        onDelete={() => setDeleteTarget(service)}
-                      />
-                    </td>
-                  </tr>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-1">{service.serviceName}</h3>
+                        <p className="text-xs sm:text-sm text-gray-600 mb-2">{service.description ?? "—"}</p>
+                        <StatusBadge isActive={service.isActive} />
+                      </div>
+                    </div>
+                    <RowActions variant="buttons" onEdit={() => setEditTarget(service)} onDelete={() => setDeleteTarget(service)} />
+                  </div>
                 ))
               )}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Mobile/Tablet Card View */}
-        <div className="lg:hidden divide-y divide-gray-100">
-          {services.length === 0 ? (
-            <p className="p-6 text-center text-sm text-zinc-400">
-              No services found. Add your first service!
-            </p>
-          ) : (
-            services.map((service, idx) => (
-              <div
-                key={service.id}
-                className="p-3 sm:p-4 hover:bg-gray-50 transition-colors"
-              >
-                <div className="flex items-start gap-3 mb-3">
-                  <div className="text-xs sm:text-sm text-gray-500 font-medium w-6 pt-1">
-                    {(page - 1) * 10 + idx + 1}
+            </div>
+          </>
+        ) : (
+          /* Card grid view */
+          <div className="p-4 sm:p-6">
+            {services.length === 0 ? (
+              <p className="py-10 text-center text-sm text-zinc-400">No services found. Add your first service!</p>
+            ) : (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {services.map((service) => (
+                  <div key={service.id} className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5">
+                    {service.thumbnailUrl ? (
+                      <img src={service.thumbnailUrl} alt={service.serviceName} className="mb-4 h-36 w-full rounded-xl object-cover" />
+                    ) : (
+                      <div className="mb-4 h-36 w-full rounded-xl bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                    )}
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <h3 className="font-semibold text-base text-gray-900 line-clamp-1">{service.serviceName}</h3>
+                      <StatusBadge isActive={service.isActive} />
+                    </div>
+                    <p className="text-sm text-gray-500 line-clamp-2 mb-4">{service.description ?? "—"}</p>
+                    <RowActions variant="buttons" onEdit={() => setEditTarget(service)} onDelete={() => setDeleteTarget(service)} />
                   </div>
-                  {service.thumbnailUrl ? (
-                    <img
-                      src={service.thumbnailUrl}
-                      alt={service.serviceName}
-                      className="h-12 w-16 sm:h-14 sm:w-20 shrink-0 rounded-md object-cover"
-                    />
-                  ) : (
-                    <div className="h-12 w-16 sm:h-14 sm:w-20 shrink-0 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-1">
-                      {service.serviceName}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-gray-600 mb-2">
-                      {service.description ?? "—"}
-                    </p>
-                    <StatusBadge isActive={service.isActive} />
-                  </div>
-                </div>
-                <RowActions
-                  variant="buttons"
-                  onEdit={() => setEditTarget(service)}
-                  onDelete={() => setDeleteTarget(service)}
-                />
+                ))}
               </div>
-            ))
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </Card>
 
       {/* Footer / pagination */}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Filter, Plus, Search, Wallet, FileText } from "lucide-react";
+import { Filter, LayoutGrid, List, Plus, Search, Wallet, FileText } from "lucide-react";
 import { Topbar } from "@/components/Topbar";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
@@ -103,6 +103,7 @@ export function InvoicesClient({
   }
 
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"list" | "card">("list");
 
   async function handleDelete(id: string) {
     setDeleteId(id);
@@ -159,101 +160,167 @@ export function InvoicesClient({
         <StatCard icon={Wallet} label="Overdue" value={data.overdue} />
       </div>
 
-      {/* Search */}
+      {/* Search + View Toggle */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-bold text-black">Invoice List</h2>
-        <div className="relative w-full sm:w-72">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
-          <input
-            type="search"
-            placeholder="Search invoices..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-10 pr-4 text-sm text-zinc-700 shadow-sm outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-sky-200"
-          />
+        <div className="flex items-center gap-3">
+          {/* View toggle */}
+          <div className="hidden sm:flex items-center rounded-lg border border-gray-200 bg-white p-1">
+            <button
+              type="button"
+              onClick={() => setViewMode("list")}
+              title="List view"
+              className={`flex items-center justify-center rounded-md p-2 transition-colors ${
+                viewMode === "list" ? "bg-indigo-600 text-white shadow-sm" : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <List className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("card")}
+              title="Card view"
+              className={`flex items-center justify-center rounded-md p-2 transition-colors ${
+                viewMode === "card" ? "bg-indigo-600 text-white shadow-sm" : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <LayoutGrid className="h-4 w-4" />
+            </button>
+          </div>
+          <div className="relative w-full sm:w-72">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+            <input
+              type="search"
+              placeholder="Search invoices..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-10 pr-4 text-sm text-zinc-700 shadow-sm outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-sky-200"
+            />
+          </div>
         </div>
       </div>
 
-      {/* Table */}
-      <Card noPadding className="overflow-hidden">
-        {filtered.length === 0 && !isPending ? (
-          <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
-            <FileText className="h-10 w-10 text-zinc-300" />
-            <p className="text-sm text-zinc-500">
-              {search ? "No invoices match your search" : "No invoices yet. Create your first invoice!"}
-            </p>
-          </div>
-        ) : (
-          <>
-            {/* Desktop */}
-            <div className="hidden lg:block overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="border-b border-gray-100 text-zinc-500">
-                    <th className="px-6 py-4 font-medium">Invoice #</th>
-                    <th className="px-6 py-4 font-medium">Customer</th>
-                    <th className="px-6 py-4 font-medium">Project</th>
-                    <th className="px-6 py-4 font-medium">Amount</th>
-                    <th className="px-6 py-4 font-medium">Issued</th>
-                    <th className="px-6 py-4 font-medium">Due</th>
-                    <th className="px-6 py-4 font-medium">Status</th>
-                    <th className="px-6 py-4 font-medium">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((inv) => (
-                    <tr key={inv.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-gray-900">{inv.invoiceNumber}</td>
-                      <td className="px-6 py-4 text-zinc-600">{inv.customer?.fullName || "—"}</td>
-                      <td className="px-6 py-4 text-zinc-600">{inv.project?.title || "—"}</td>
-                      <td className="px-6 py-4 text-zinc-700 font-medium">Rs. {inv.total.toLocaleString()}</td>
-                      <td className="px-6 py-4 text-zinc-600">{formatDate(inv.issuedDate)}</td>
-                      <td className="px-6 py-4 text-zinc-600">{formatDate(inv.dueDate)}</td>
-                      <td className="px-6 py-4"><StatusBadge status={inv.status} /></td>
-                      <td className="px-6 py-4">
-                        <RowActions
-                          onEdit={() => handleEdit(inv)}
-                          onDelete={() => handleDelete(inv.id)}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+      {/* Table / Card */}
+      {viewMode === "list" ? (
+        <Card noPadding className="overflow-hidden">
+          {filtered.length === 0 && !isPending ? (
+            <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
+              <FileText className="h-10 w-10 text-zinc-300" />
+              <p className="text-sm text-zinc-500">
+                {search ? "No invoices match your search" : "No invoices yet. Create your first invoice!"}
+              </p>
             </div>
-
-            {/* Mobile */}
-            <div className="lg:hidden divide-y divide-gray-100">
+          ) : (
+            <>
+              {/* Desktop */}
+              <div className="hidden lg:block overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-100 text-zinc-500">
+                      <th className="px-6 py-4 font-medium">Invoice #</th>
+                      <th className="px-6 py-4 font-medium">Customer</th>
+                      <th className="px-6 py-4 font-medium">Project</th>
+                      <th className="px-6 py-4 font-medium">Amount</th>
+                      <th className="px-6 py-4 font-medium">Issued</th>
+                      <th className="px-6 py-4 font-medium">Due</th>
+                      <th className="px-6 py-4 font-medium">Status</th>
+                      <th className="px-6 py-4 font-medium">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filtered.map((inv) => (
+                      <tr key={inv.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4 font-medium text-gray-900">{inv.invoiceNumber}</td>
+                        <td className="px-6 py-4 text-zinc-600">{inv.customer?.fullName || "—"}</td>
+                        <td className="px-6 py-4 text-zinc-600">{inv.project?.title || "—"}</td>
+                        <td className="px-6 py-4 text-zinc-700 font-medium">Rs. {inv.total.toLocaleString()}</td>
+                        <td className="px-6 py-4 text-zinc-600">{formatDate(inv.issuedDate)}</td>
+                        <td className="px-6 py-4 text-zinc-600">{formatDate(inv.dueDate)}</td>
+                        <td className="px-6 py-4"><StatusBadge status={inv.status} /></td>
+                        <td className="px-6 py-4">
+                          <RowActions onEdit={() => handleEdit(inv)} onDelete={() => handleDelete(inv.id)} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {/* Mobile */}
+              <div className="lg:hidden divide-y divide-gray-100">
+                {filtered.map((inv) => (
+                  <div key={inv.id} className="p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <h3 className="font-semibold text-sm text-gray-900">{inv.invoiceNumber}</h3>
+                        <p className="text-xs text-gray-600">{inv.customer?.fullName || "No customer"}</p>
+                      </div>
+                      <StatusBadge status={inv.status} />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 mb-3 text-xs sm:text-sm">
+                      <div>
+                        <span className="text-gray-500 block">Amount</span>
+                        <span className="font-medium text-gray-900">Rs. {inv.total.toLocaleString()}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500 block">Due</span>
+                        <span className="text-gray-900">{formatDate(inv.dueDate)}</span>
+                      </div>
+                    </div>
+                    <RowActions variant="buttons" onEdit={() => handleEdit(inv)} onDelete={() => handleDelete(inv.id)} />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </Card>
+      ) : (
+        /* Card grid view */
+        <div>
+          {filtered.length === 0 && !isPending ? (
+            <Card noPadding className="overflow-hidden">
+              <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
+                <FileText className="h-10 w-10 text-zinc-300" />
+                <p className="text-sm text-zinc-500">
+                  {search ? "No invoices match your search" : "No invoices yet. Create your first invoice!"}
+                </p>
+              </div>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((inv) => (
-                <div key={inv.id} className="p-3 sm:p-4 hover:bg-gray-50 transition-colors">
-                  <div className="flex items-start justify-between mb-2">
+                <div key={inv.id} className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5">
+                  <div className="flex items-start justify-between gap-2 mb-3">
                     <div>
-                      <h3 className="font-semibold text-sm text-gray-900">{inv.invoiceNumber}</h3>
-                      <p className="text-xs text-gray-600">{inv.customer?.fullName || "No customer"}</p>
+                      <p className="font-semibold text-base text-gray-900">{inv.invoiceNumber}</p>
+                      <p className="text-sm text-gray-500">{inv.customer?.fullName || "No customer"}</p>
                     </div>
                     <StatusBadge status={inv.status} />
                   </div>
-                  <div className="grid grid-cols-2 gap-2 mb-3 text-xs sm:text-sm">
+                  <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
                     <div>
-                      <span className="text-gray-500 block">Amount</span>
-                      <span className="font-medium text-gray-900">Rs. {inv.total.toLocaleString()}</span>
+                      <span className="text-gray-400 text-xs block">Project</span>
+                      <span className="text-gray-700 font-medium">{inv.project?.title || "—"}</span>
                     </div>
                     <div>
-                      <span className="text-gray-500 block">Due</span>
-                      <span className="text-gray-900">{formatDate(inv.dueDate)}</span>
+                      <span className="text-gray-400 text-xs block">Amount</span>
+                      <span className="text-gray-900 font-semibold">Rs. {inv.total.toLocaleString()}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400 text-xs block">Issued</span>
+                      <span className="text-gray-700">{formatDate(inv.issuedDate)}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400 text-xs block">Due</span>
+                      <span className="text-gray-700">{formatDate(inv.dueDate)}</span>
                     </div>
                   </div>
-                  <RowActions
-                    variant="buttons"
-                    onEdit={() => handleEdit(inv)}
-                    onDelete={() => handleDelete(inv.id)}
-                  />
+                  <RowActions variant="buttons" onEdit={() => handleEdit(inv)} onDelete={() => handleDelete(inv.id)} />
                 </div>
               ))}
             </div>
-          </>
-        )}
-      </Card>
+          )}
+        </div>
+      )}
 
       {/* Pagination */}
       {data.pageCount > 1 && (
