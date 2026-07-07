@@ -44,6 +44,7 @@ export const navItems: NavItem[] = [
   { label: "Analytics", href: "/analytics", icon: BarChart2 },
   { label: "Invoices", href: "/invoices", icon: FileText },
   { label: "Blog", href: "/blog", icon: Newspaper },
+  { label: "Pages", href: "/pages", icon: FilePlus2 },
   {
     label: "Website Setup",
     href: "/website-setup",
