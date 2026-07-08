@@ -54,6 +54,11 @@ export type Invoice = $Result.DefaultSelection<Prisma.$InvoicePayload>
  */
 export type Analytics = $Result.DefaultSelection<Prisma.$AnalyticsPayload>
 /**
+ * Model PopupSetting
+ * 
+ */
+export type PopupSetting = $Result.DefaultSelection<Prisma.$PopupSettingPayload>
+/**
  * Model Page
  * 
  */
@@ -261,6 +266,16 @@ export class PrismaClient<
     * ```
     */
   get analytics(): Prisma.AnalyticsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.popupSetting`: Exposes CRUD operations for the **PopupSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PopupSettings
+    * const popupSettings = await prisma.popupSetting.findMany()
+    * ```
+    */
+  get popupSetting(): Prisma.PopupSettingDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.page`: Exposes CRUD operations for the **Page** model.
@@ -730,6 +745,7 @@ export namespace Prisma {
     Blog: 'Blog',
     Invoice: 'Invoice',
     Analytics: 'Analytics',
+    PopupSetting: 'PopupSetting',
     Page: 'Page',
     Setting: 'Setting'
   };
@@ -750,7 +766,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "analytics" | "page" | "setting"
+      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "analytics" | "popupSetting" | "page" | "setting"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1346,6 +1362,80 @@ export namespace Prisma {
           }
         }
       }
+      PopupSetting: {
+        payload: Prisma.$PopupSettingPayload<ExtArgs>
+        fields: Prisma.PopupSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PopupSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PopupSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.PopupSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PopupSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>
+          }
+          findMany: {
+            args: Prisma.PopupSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>[]
+          }
+          create: {
+            args: Prisma.PopupSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>
+          }
+          createMany: {
+            args: Prisma.PopupSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PopupSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.PopupSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>
+          }
+          update: {
+            args: Prisma.PopupSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.PopupSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PopupSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PopupSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.PopupSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.PopupSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePopupSetting>
+          }
+          groupBy: {
+            args: Prisma.PopupSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PopupSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PopupSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<PopupSettingCountAggregateOutputType> | number
+          }
+        }
+      }
       Page: {
         payload: Prisma.$PagePayload<ExtArgs>
         fields: Prisma.PageFieldRefs
@@ -1598,6 +1688,7 @@ export namespace Prisma {
     blog?: BlogOmit
     invoice?: InvoiceOmit
     analytics?: AnalyticsOmit
+    popupSetting?: PopupSettingOmit
     page?: PageOmit
     setting?: SettingOmit
   }
@@ -11290,6 +11381,988 @@ export namespace Prisma {
 
 
   /**
+   * Model PopupSetting
+   */
+
+  export type AggregatePopupSetting = {
+    _count: PopupSettingCountAggregateOutputType | null
+    _min: PopupSettingMinAggregateOutputType | null
+    _max: PopupSettingMaxAggregateOutputType | null
+  }
+
+  export type PopupSettingMinAggregateOutputType = {
+    id: string | null
+    showPopup: boolean | null
+    content: string | null
+    updatedAt: Date | null
+  }
+
+  export type PopupSettingMaxAggregateOutputType = {
+    id: string | null
+    showPopup: boolean | null
+    content: string | null
+    updatedAt: Date | null
+  }
+
+  export type PopupSettingCountAggregateOutputType = {
+    id: number
+    showPopup: number
+    content: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PopupSettingMinAggregateInputType = {
+    id?: true
+    showPopup?: true
+    content?: true
+    updatedAt?: true
+  }
+
+  export type PopupSettingMaxAggregateInputType = {
+    id?: true
+    showPopup?: true
+    content?: true
+    updatedAt?: true
+  }
+
+  export type PopupSettingCountAggregateInputType = {
+    id?: true
+    showPopup?: true
+    content?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PopupSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PopupSetting to aggregate.
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopupSettings to fetch.
+     */
+    orderBy?: PopupSettingOrderByWithRelationInput | PopupSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PopupSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopupSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopupSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PopupSettings
+    **/
+    _count?: true | PopupSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PopupSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PopupSettingMaxAggregateInputType
+  }
+
+  export type GetPopupSettingAggregateType<T extends PopupSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregatePopupSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePopupSetting[P]>
+      : GetScalarType<T[P], AggregatePopupSetting[P]>
+  }
+
+
+
+
+  export type PopupSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PopupSettingWhereInput
+    orderBy?: PopupSettingOrderByWithAggregationInput | PopupSettingOrderByWithAggregationInput[]
+    by: PopupSettingScalarFieldEnum[] | PopupSettingScalarFieldEnum
+    having?: PopupSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PopupSettingCountAggregateInputType | true
+    _min?: PopupSettingMinAggregateInputType
+    _max?: PopupSettingMaxAggregateInputType
+  }
+
+  export type PopupSettingGroupByOutputType = {
+    id: string
+    showPopup: boolean
+    content: string
+    updatedAt: Date
+    _count: PopupSettingCountAggregateOutputType | null
+    _min: PopupSettingMinAggregateOutputType | null
+    _max: PopupSettingMaxAggregateOutputType | null
+  }
+
+  type GetPopupSettingGroupByPayload<T extends PopupSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PopupSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PopupSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PopupSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], PopupSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PopupSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    showPopup?: boolean
+    content?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["popupSetting"]>
+
+  export type PopupSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    showPopup?: boolean
+    content?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["popupSetting"]>
+
+  export type PopupSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    showPopup?: boolean
+    content?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["popupSetting"]>
+
+  export type PopupSettingSelectScalar = {
+    id?: boolean
+    showPopup?: boolean
+    content?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PopupSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "showPopup" | "content" | "updatedAt", ExtArgs["result"]["popupSetting"]>
+
+  export type $PopupSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PopupSetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      showPopup: boolean
+      content: string
+      updatedAt: Date
+    }, ExtArgs["result"]["popupSetting"]>
+    composites: {}
+  }
+
+  type PopupSettingGetPayload<S extends boolean | null | undefined | PopupSettingDefaultArgs> = $Result.GetResult<Prisma.$PopupSettingPayload, S>
+
+  type PopupSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PopupSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PopupSettingCountAggregateInputType | true
+    }
+
+  export interface PopupSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PopupSetting'], meta: { name: 'PopupSetting' } }
+    /**
+     * Find zero or one PopupSetting that matches the filter.
+     * @param {PopupSettingFindUniqueArgs} args - Arguments to find a PopupSetting
+     * @example
+     * // Get one PopupSetting
+     * const popupSetting = await prisma.popupSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PopupSettingFindUniqueArgs>(args: SelectSubset<T, PopupSettingFindUniqueArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PopupSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PopupSettingFindUniqueOrThrowArgs} args - Arguments to find a PopupSetting
+     * @example
+     * // Get one PopupSetting
+     * const popupSetting = await prisma.popupSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PopupSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, PopupSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PopupSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingFindFirstArgs} args - Arguments to find a PopupSetting
+     * @example
+     * // Get one PopupSetting
+     * const popupSetting = await prisma.popupSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PopupSettingFindFirstArgs>(args?: SelectSubset<T, PopupSettingFindFirstArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PopupSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingFindFirstOrThrowArgs} args - Arguments to find a PopupSetting
+     * @example
+     * // Get one PopupSetting
+     * const popupSetting = await prisma.popupSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PopupSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, PopupSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PopupSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PopupSettings
+     * const popupSettings = await prisma.popupSetting.findMany()
+     * 
+     * // Get first 10 PopupSettings
+     * const popupSettings = await prisma.popupSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const popupSettingWithIdOnly = await prisma.popupSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PopupSettingFindManyArgs>(args?: SelectSubset<T, PopupSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PopupSetting.
+     * @param {PopupSettingCreateArgs} args - Arguments to create a PopupSetting.
+     * @example
+     * // Create one PopupSetting
+     * const PopupSetting = await prisma.popupSetting.create({
+     *   data: {
+     *     // ... data to create a PopupSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends PopupSettingCreateArgs>(args: SelectSubset<T, PopupSettingCreateArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PopupSettings.
+     * @param {PopupSettingCreateManyArgs} args - Arguments to create many PopupSettings.
+     * @example
+     * // Create many PopupSettings
+     * const popupSetting = await prisma.popupSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PopupSettingCreateManyArgs>(args?: SelectSubset<T, PopupSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PopupSettings and returns the data saved in the database.
+     * @param {PopupSettingCreateManyAndReturnArgs} args - Arguments to create many PopupSettings.
+     * @example
+     * // Create many PopupSettings
+     * const popupSetting = await prisma.popupSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PopupSettings and only return the `id`
+     * const popupSettingWithIdOnly = await prisma.popupSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PopupSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, PopupSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PopupSetting.
+     * @param {PopupSettingDeleteArgs} args - Arguments to delete one PopupSetting.
+     * @example
+     * // Delete one PopupSetting
+     * const PopupSetting = await prisma.popupSetting.delete({
+     *   where: {
+     *     // ... filter to delete one PopupSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PopupSettingDeleteArgs>(args: SelectSubset<T, PopupSettingDeleteArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PopupSetting.
+     * @param {PopupSettingUpdateArgs} args - Arguments to update one PopupSetting.
+     * @example
+     * // Update one PopupSetting
+     * const popupSetting = await prisma.popupSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PopupSettingUpdateArgs>(args: SelectSubset<T, PopupSettingUpdateArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PopupSettings.
+     * @param {PopupSettingDeleteManyArgs} args - Arguments to filter PopupSettings to delete.
+     * @example
+     * // Delete a few PopupSettings
+     * const { count } = await prisma.popupSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PopupSettingDeleteManyArgs>(args?: SelectSubset<T, PopupSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PopupSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PopupSettings
+     * const popupSetting = await prisma.popupSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PopupSettingUpdateManyArgs>(args: SelectSubset<T, PopupSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PopupSettings and returns the data updated in the database.
+     * @param {PopupSettingUpdateManyAndReturnArgs} args - Arguments to update many PopupSettings.
+     * @example
+     * // Update many PopupSettings
+     * const popupSetting = await prisma.popupSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PopupSettings and only return the `id`
+     * const popupSettingWithIdOnly = await prisma.popupSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PopupSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, PopupSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PopupSetting.
+     * @param {PopupSettingUpsertArgs} args - Arguments to update or create a PopupSetting.
+     * @example
+     * // Update or create a PopupSetting
+     * const popupSetting = await prisma.popupSetting.upsert({
+     *   create: {
+     *     // ... data to create a PopupSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PopupSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PopupSettingUpsertArgs>(args: SelectSubset<T, PopupSettingUpsertArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PopupSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingCountArgs} args - Arguments to filter PopupSettings to count.
+     * @example
+     * // Count the number of PopupSettings
+     * const count = await prisma.popupSetting.count({
+     *   where: {
+     *     // ... the filter for the PopupSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends PopupSettingCountArgs>(
+      args?: Subset<T, PopupSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PopupSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PopupSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PopupSettingAggregateArgs>(args: Subset<T, PopupSettingAggregateArgs>): Prisma.PrismaPromise<GetPopupSettingAggregateType<T>>
+
+    /**
+     * Group by PopupSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PopupSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PopupSettingGroupByArgs['orderBy'] }
+        : { orderBy?: PopupSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PopupSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPopupSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PopupSetting model
+   */
+  readonly fields: PopupSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PopupSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PopupSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PopupSetting model
+   */
+  interface PopupSettingFieldRefs {
+    readonly id: FieldRef<"PopupSetting", 'String'>
+    readonly showPopup: FieldRef<"PopupSetting", 'Boolean'>
+    readonly content: FieldRef<"PopupSetting", 'String'>
+    readonly updatedAt: FieldRef<"PopupSetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PopupSetting findUnique
+   */
+  export type PopupSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PopupSetting to fetch.
+     */
+    where: PopupSettingWhereUniqueInput
+  }
+
+  /**
+   * PopupSetting findUniqueOrThrow
+   */
+  export type PopupSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PopupSetting to fetch.
+     */
+    where: PopupSettingWhereUniqueInput
+  }
+
+  /**
+   * PopupSetting findFirst
+   */
+  export type PopupSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PopupSetting to fetch.
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopupSettings to fetch.
+     */
+    orderBy?: PopupSettingOrderByWithRelationInput | PopupSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PopupSettings.
+     */
+    cursor?: PopupSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopupSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopupSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PopupSettings.
+     */
+    distinct?: PopupSettingScalarFieldEnum | PopupSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PopupSetting findFirstOrThrow
+   */
+  export type PopupSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PopupSetting to fetch.
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopupSettings to fetch.
+     */
+    orderBy?: PopupSettingOrderByWithRelationInput | PopupSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PopupSettings.
+     */
+    cursor?: PopupSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopupSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopupSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PopupSettings.
+     */
+    distinct?: PopupSettingScalarFieldEnum | PopupSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PopupSetting findMany
+   */
+  export type PopupSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PopupSettings to fetch.
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopupSettings to fetch.
+     */
+    orderBy?: PopupSettingOrderByWithRelationInput | PopupSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PopupSettings.
+     */
+    cursor?: PopupSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopupSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopupSettings.
+     */
+    skip?: number
+    distinct?: PopupSettingScalarFieldEnum | PopupSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PopupSetting create
+   */
+  export type PopupSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a PopupSetting.
+     */
+    data: XOR<PopupSettingCreateInput, PopupSettingUncheckedCreateInput>
+  }
+
+  /**
+   * PopupSetting createMany
+   */
+  export type PopupSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PopupSettings.
+     */
+    data: PopupSettingCreateManyInput | PopupSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PopupSetting createManyAndReturn
+   */
+  export type PopupSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many PopupSettings.
+     */
+    data: PopupSettingCreateManyInput | PopupSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PopupSetting update
+   */
+  export type PopupSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a PopupSetting.
+     */
+    data: XOR<PopupSettingUpdateInput, PopupSettingUncheckedUpdateInput>
+    /**
+     * Choose, which PopupSetting to update.
+     */
+    where: PopupSettingWhereUniqueInput
+  }
+
+  /**
+   * PopupSetting updateMany
+   */
+  export type PopupSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PopupSettings.
+     */
+    data: XOR<PopupSettingUpdateManyMutationInput, PopupSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which PopupSettings to update
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * Limit how many PopupSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PopupSetting updateManyAndReturn
+   */
+  export type PopupSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update PopupSettings.
+     */
+    data: XOR<PopupSettingUpdateManyMutationInput, PopupSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which PopupSettings to update
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * Limit how many PopupSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PopupSetting upsert
+   */
+  export type PopupSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the PopupSetting to update in case it exists.
+     */
+    where: PopupSettingWhereUniqueInput
+    /**
+     * In case the PopupSetting found by the `where` argument doesn't exist, create a new PopupSetting with this data.
+     */
+    create: XOR<PopupSettingCreateInput, PopupSettingUncheckedCreateInput>
+    /**
+     * In case the PopupSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PopupSettingUpdateInput, PopupSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * PopupSetting delete
+   */
+  export type PopupSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * Filter which PopupSetting to delete.
+     */
+    where: PopupSettingWhereUniqueInput
+  }
+
+  /**
+   * PopupSetting deleteMany
+   */
+  export type PopupSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PopupSettings to delete
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * Limit how many PopupSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PopupSetting without action
+   */
+  export type PopupSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model Page
    */
 
@@ -13483,6 +14556,16 @@ export namespace Prisma {
   export type AnalyticsScalarFieldEnum = (typeof AnalyticsScalarFieldEnum)[keyof typeof AnalyticsScalarFieldEnum]
 
 
+  export const PopupSettingScalarFieldEnum: {
+    id: 'id',
+    showPopup: 'showPopup',
+    content: 'content',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PopupSettingScalarFieldEnum = (typeof PopupSettingScalarFieldEnum)[keyof typeof PopupSettingScalarFieldEnum]
+
+
   export const PageScalarFieldEnum: {
     id: 'id',
     title: 'title',
@@ -14310,6 +15393,53 @@ export namespace Prisma {
     dimension?: StringNullableWithAggregatesFilter<"Analytics"> | string | null
     recordedDate?: DateTimeNullableWithAggregatesFilter<"Analytics"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Analytics"> | Date | string
+  }
+
+  export type PopupSettingWhereInput = {
+    AND?: PopupSettingWhereInput | PopupSettingWhereInput[]
+    OR?: PopupSettingWhereInput[]
+    NOT?: PopupSettingWhereInput | PopupSettingWhereInput[]
+    id?: StringFilter<"PopupSetting"> | string
+    showPopup?: BoolFilter<"PopupSetting"> | boolean
+    content?: StringFilter<"PopupSetting"> | string
+    updatedAt?: DateTimeFilter<"PopupSetting"> | Date | string
+  }
+
+  export type PopupSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    showPopup?: SortOrder
+    content?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PopupSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PopupSettingWhereInput | PopupSettingWhereInput[]
+    OR?: PopupSettingWhereInput[]
+    NOT?: PopupSettingWhereInput | PopupSettingWhereInput[]
+    showPopup?: BoolFilter<"PopupSetting"> | boolean
+    content?: StringFilter<"PopupSetting"> | string
+    updatedAt?: DateTimeFilter<"PopupSetting"> | Date | string
+  }, "id">
+
+  export type PopupSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    showPopup?: SortOrder
+    content?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PopupSettingCountOrderByAggregateInput
+    _max?: PopupSettingMaxOrderByAggregateInput
+    _min?: PopupSettingMinOrderByAggregateInput
+  }
+
+  export type PopupSettingScalarWhereWithAggregatesInput = {
+    AND?: PopupSettingScalarWhereWithAggregatesInput | PopupSettingScalarWhereWithAggregatesInput[]
+    OR?: PopupSettingScalarWhereWithAggregatesInput[]
+    NOT?: PopupSettingScalarWhereWithAggregatesInput | PopupSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PopupSetting"> | string
+    showPopup?: BoolWithAggregatesFilter<"PopupSetting"> | boolean
+    content?: StringWithAggregatesFilter<"PopupSetting"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PopupSetting"> | Date | string
   }
 
   export type PageWhereInput = {
@@ -15200,6 +16330,55 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PopupSettingCreateInput = {
+    id?: string
+    showPopup?: boolean
+    content?: string
+    updatedAt?: Date | string
+  }
+
+  export type PopupSettingUncheckedCreateInput = {
+    id?: string
+    showPopup?: boolean
+    content?: string
+    updatedAt?: Date | string
+  }
+
+  export type PopupSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    showPopup?: BoolFieldUpdateOperationsInput | boolean
+    content?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PopupSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    showPopup?: BoolFieldUpdateOperationsInput | boolean
+    content?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PopupSettingCreateManyInput = {
+    id?: string
+    showPopup?: boolean
+    content?: string
+    updatedAt?: Date | string
+  }
+
+  export type PopupSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    showPopup?: BoolFieldUpdateOperationsInput | boolean
+    content?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PopupSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    showPopup?: BoolFieldUpdateOperationsInput | boolean
+    content?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PageCreateInput = {
     id?: string
     title: string
@@ -15954,6 +17133,27 @@ export namespace Prisma {
 
   export type AnalyticsSumOrderByAggregateInput = {
     metricValue?: SortOrder
+  }
+
+  export type PopupSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    showPopup?: SortOrder
+    content?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PopupSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    showPopup?: SortOrder
+    content?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PopupSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    showPopup?: SortOrder
+    content?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type PageCountOrderByAggregateInput = {
