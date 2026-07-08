@@ -146,6 +146,15 @@ model Analytics {
   @@map("analytics")
 }
 
+model PopupSetting {
+  id        String   @id @default(cuid())
+  showPopup Boolean  @default(true)
+  content   String   @default("")
+  updatedAt DateTime @updatedAt
+
+  @@map("popup_settings")
+}
+
 model Page {
   id        String   @id @default(cuid())
   title     String
