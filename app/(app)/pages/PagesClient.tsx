@@ -9,6 +9,7 @@ import { StatCard } from "@/components/StatCard";
 import { Pagination } from "@/components/Pagination";
 import { RowActions } from "@/components/RowActions";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { PageEditModal } from "@/components/PageEditModal";
 import { getPages, deletePage } from "@/app/actions/pages";
 
 type Page = {
@@ -49,6 +50,7 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
   const [isPending, startTransition] = useTransition();
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [editingPage, setEditingPage] = useState<Page | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
@@ -203,7 +205,7 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
                       </span>
                     </td>
                     <td className="p-4">
-                      <RowActions onDelete={() => setDeleteId(p.id)} />
+                      <RowActions onEdit={() => setEditingPage(p)} onDelete={() => setDeleteId(p.id)} />
                     </td>
                   </tr>
                 ))}
@@ -232,7 +234,7 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
                     </div>
                   </div>
                 </div>
-                <RowActions variant="buttons" onDelete={() => setDeleteId(p.id)} />
+                <RowActions variant="buttons" onEdit={() => setEditingPage(p)} onDelete={() => setDeleteId(p.id)} />
               </div>
             ))}
           </div>
@@ -268,7 +270,7 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
                 <span>Created: <span className="text-gray-700">{formatDate(p.createdAt)}</span></span>
               </div>
 
-              <RowActions variant="buttons" onDelete={() => setDeleteId(p.id)} />
+              <RowActions variant="buttons" onEdit={() => setEditingPage(p)} onDelete={() => setDeleteId(p.id)} />
             </div>
           ))}
         </div>
@@ -291,6 +293,15 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
         description="Are you sure you want to delete this page? This action cannot be undone."
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
+      />
+
+      {/* Edit Page Modal */}
+      <PageEditModal
+        key={editingPage?.id ?? "closed"}
+        open={!!editingPage}
+        onClose={() => setEditingPage(null)}
+        onSuccess={() => { setEditingPage(null); refresh(); }}
+        page={editingPage}
       />
     </div>
   );

@@ -146,7 +146,6 @@ model Analytics {
   @@map("analytics")
 }
 
-<<<<<<< HEAD
 model Page {
   id        String   @id @default(cuid())
   title     String
@@ -162,13 +161,12 @@ model Page {
   updatedAt DateTime @updatedAt
 
   @@map("pages")
-=======
-// Key-value settings store. Each category is one row (key = "cookies" | "general" | …)
+}
+
 model Setting {
-  key       String   @id // e.g. "cookies", "general"
-  value     Json // JSON blob for the category
+  key       String   @id
+  value     Json
   updatedAt DateTime @updatedAt
 
   @@map("settings")
->>>>>>> 4adcd71fe7a84cf421b2ea7a19e678ff8906ee55
 }

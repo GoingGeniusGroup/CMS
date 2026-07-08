@@ -13,13 +13,21 @@ export default function AppLayout({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Lock body scroll while the mobile drawer is open
+  // Lock html/body scroll — the app uses its own internal scroll container
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
+    const html = document.documentElement;
+    const body = document.body;
+    html.style.overflow = "hidden";
+    html.style.height = "100%";
+    body.style.overflow = "hidden";
+    body.style.height = "100%";
     return () => {
-      document.body.style.overflow = "";
+      html.style.overflow = "";
+      html.style.height = "";
+      body.style.overflow = "";
+      body.style.height = "";
     };
-  }, [isOpen]);
+  }, []);
 
   // Allow closing the drawer with Escape
   useEffect(() => {
@@ -40,9 +48,9 @@ export default function AppLayout({
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      <div ref={scrollRef} className="flex flex-1 flex-col overflow-y-auto">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto bg-[#f5f3f3]">
         <MobileHeader isOpen={isOpen} onToggle={() => setIsOpen((v) => !v)} />
-        <main className="flex-1 p-8">{children}</main>
+        <main className="p-4 pb-8 sm:p-6 sm:pb-10 lg:p-8 lg:pb-10">{children}</main>
       </div>
     </div>
   );

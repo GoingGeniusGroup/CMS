@@ -35,3 +35,8 @@ body {
 .animate-spin-slow {
   animation: spin-slow 2.5s linear infinite;
 }
+
+/* Prevent Uploadcare widget from creating extra scroll height */
+.uploadcare-config {
+  position: fixed !important;
+}
