@@ -59,7 +59,7 @@ export const navItems: NavItem[] = [
 ];
 
 /**
- * Mobile top bar — logo + hamburger toggle.
+ * Mobile top bar—logo + hamburger toggle.
  */
 export function MobileHeader({
   isOpen,
