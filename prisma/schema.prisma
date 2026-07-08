@@ -145,3 +145,12 @@ model Analytics {
 
   @@map("analytics")
 }
+
+// Key-value settings store. Each category is one row (key = "cookies" | "general" | …)
+model Setting {
+  key       String   @id          // e.g. "cookies", "general"
+  value     Json                   // JSON blob for the category
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
