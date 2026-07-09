@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { UploadCloud } from "lucide-react";
+import { useState } from "react";
+import { ImageUploader } from "@/components/ImageUploader";
 
 interface AddCategoryModalProps {
   open: boolean;
@@ -15,19 +15,6 @@ export function AddCategoryModal({ open, onClose }: AddCategoryModalProps) {
   const [link, setLink] = useState("");
   const [banner, setBanner] = useState<string | null>(null);
   const [icon, setIcon] = useState<string | null>(null);
-
-  const bannerRef = useRef<HTMLInputElement>(null);
-  const iconRef = useRef<HTMLInputElement>(null);
-
-  const handleBanner = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) setBanner(URL.createObjectURL(file));
-  };
-
-  const handleIcon = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) setIcon(URL.createObjectURL(file));
-  };
 
   if (!open) return null;
 
@@ -93,52 +80,21 @@ export function AddCategoryModal({ open, onClose }: AddCategoryModalProps) {
             <p className="mt-1 text-xs text-amber-500">Lower numbers appear first.</p>
           </div>
 
-          {/* Banner */}
-          <div>
-            <label className="mb-0.5 block text-sm font-bold text-zinc-800">Banner</label>
-            <p className="mb-1.5 text-xs text-zinc-400">Upload a banner image for this category.</p>
-            <input ref={bannerRef} type="file" accept="image/*" className="hidden" onChange={handleBanner} />
-            <div
-              onClick={() => bannerRef.current?.click()}
-              className="flex min-h-[140px] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-white transition-colors hover:bg-zinc-50"
-            >
-              {banner ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={banner} alt="Banner preview" className="max-h-32 rounded-md object-contain" />
-              ) : (
-                <>
-                  <UploadCloud className="h-8 w-8 text-amber-500" />
-                  <p className="text-sm text-zinc-600">Drag &amp; drop your banner image here</p>
-                  <p className="text-xs text-zinc-400">or</p>
-                  <span className="text-sm font-semibold text-amber-500 hover:underline">Browse File</span>
-                  <p className="text-xs text-zinc-400">Recommended size: 1920 × 600px</p>
-                </>
-              )}
-            </div>
-          </div>
+          {/* Banner — Uploadcare */}
+          <ImageUploader
+            label="Banner"
+            value={banner}
+            onChange={setBanner}
+          />
+          <p className="-mt-3 text-xs text-zinc-400">Recommended size: 1920 × 600px</p>
 
-          {/* Icon */}
-          <div>
-            <label className="mb-0.5 block text-sm font-bold text-zinc-800">Icon</label>
-            <p className="mb-1.5 text-xs text-zinc-400">Upload an icon to represent this category.</p>
-            <input ref={iconRef} type="file" accept="image/*,.svg" className="hidden" onChange={handleIcon} />
-            <div
-              onClick={() => iconRef.current?.click()}
-              className="flex min-h-[120px] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-white transition-colors hover:bg-zinc-50"
-            >
-              {icon ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={icon} alt="Icon preview" className="h-16 w-16 rounded-md object-contain" />
-              ) : (
-                <>
-                  <UploadCloud className="h-7 w-7 text-amber-500" />
-                  <p className="text-sm font-medium text-zinc-600">Upload Icon</p>
-                  <p className="text-xs text-zinc-400">Only SVG, PNG, JPG, WEBP</p>
-                  <p className="text-xs text-zinc-400">Recommended: 64×64px</p>
-                </>
-              )}
-            </div>
-          </div>
+          {/* Icon — Uploadcare */}
+          <ImageUploader
+            label="Icon"
+            value={icon}
+            onChange={setIcon}
+          />
+          <p className="-mt-3 text-xs text-zinc-400">Only SVG, PNG, JPG, WEBP · Recommended: 64×64px</p>
 
           {/* Link */}
           <div>
