@@ -25,6 +25,7 @@ import {
   LayoutPanelTop,
   FilePlus2,
   LogOut,
+  Tag,
   type LucideIcon,
 } from "lucide-react";
 
@@ -45,6 +46,7 @@ export const navItems: NavItem[] = [
   { label: "Invoices", href: "/invoices", icon: FileText },
   { label: "Blog", href: "/blog", icon: Newspaper },
   { label: "Pages", href: "/pages", icon: FilePlus2 },
+  { label: "Category", href: "/category", icon: Tag },
   {
     label: "Website Setup",
     href: "/website-setup",
