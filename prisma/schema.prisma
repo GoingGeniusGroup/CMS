@@ -179,3 +179,14 @@ model Setting {
 
   @@map("settings")
 }
+
+model GeneralSetting {
+  id          String   @id @default(cuid())
+  siteName    String   @default("")
+  description String   @default("")
+  logoUrl     String   @default("")
+  faviconUrl  String   @default("")
+  updatedAt   DateTime @updatedAt
+
+  @@map("general_settings")
+}
