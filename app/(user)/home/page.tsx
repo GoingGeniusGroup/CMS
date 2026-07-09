@@ -3,148 +3,51 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Footer from "../../../components/footer";
-import {
-  ChevronDown,
-  ChevronUp,
-  Mail,
-  Phone,
-  MapPin,
-  Menu,
-  X,
-} from "lucide-react";
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaYoutube } from "react-icons/fa";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { images } from "@/lib/images";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
-// Navbar inlined below per request to keep code in the page
-
-const navLinks: { label: string; href: string }[] = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Products", href: "#products" },
-  { label: "Company", href: "#company" },
-  { label: "Blog", href: "#blog" },
-  { label: "Contact", href: "#contact" },
-];
-
-const dropdownItems: string[] = ["Services", "Portfolio", "Products", "Company", "Blog"];
-
 const techStack = [
-  { name: "PHP", src: "/php.png", w: 60, h: 30 },
-  { name: "Supabase", src: "/supabase.png", w: 110, h: 26 },
-  { name: ".NET", src: "/dotnet.png", w: 60, h: 28 },
-  { name: "Flutter", src: "/flutter.png", w: 80, h: 28 },
-  { name: "Prisma", src: "/prisma.png", w: 100, h: 28 },
-
+  { name: "PHP", src: images.php, w: 60, h: 30 },
+  { name: "Supabase", src: images.supabase, w: 110, h: 26 },
+  { name: ".NET", src: images.dotnet, w: 60, h: 28 },
+  { name: "Flutter", src: images.flutter, w: 80, h: 28 },
+  { name: "Prisma", src: images.prisma, w: 100, h: 28 },
 ];
-
-function Navbar() {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/95 backdrop-blur shadow-sm">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="#home" className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-600 to-purple-600 text-sm font-extrabold text-white overflow-hidden">
-            <img src="/logo.png" alt="Going Genius" className="h-8 w-8 object-contain" />
-          </div>
-          <span className="text-sm font-bold text-zinc-900">Going Genius</span>
-        </Link>
-
-        <nav className="hidden items-center gap-6 md:flex">
-          {navLinks.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="flex items-center gap-1 text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900"
-            >
-              {item.label}
-              {dropdownItems.includes(item.label) && <ChevronDown className="h-3.5 w-3.5" />}
-            </a>
-          ))}
-        </nav>
-
-        <div className="hidden md:block">
-          <a
-            href="#contact"
-            className="rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
-          >
-            Get in Touch
-          </a>
-        </div>
-
-        <button
-          className="ml-3 inline-flex items-center rounded-md p-2 text-zinc-600 md:hidden"
-          aria-label="Toggle menu"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
-      </div>
-
-      {open && (
-        <div className="md:hidden border-t border-zinc-100 bg-white/95">
-          <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-            <div className="space-y-3">
-              {navLinks.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="block rounded-md px-3 py-2 text-base font-medium text-zinc-700 hover:bg-zinc-50"
-                  onClick={() => setOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ))}
-
-              <a
-                href="#contact"
-                className="mt-2 inline-block w-full rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-2 text-center text-sm font-semibold text-white shadow-sm"
-                onClick={() => setOpen(false)}
-              >
-                Get in Touch
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
-    </header>
-  );
-}
 
 const services = [
-  { title: "Web Development", desc: "Custom websites built for speed, scale, and conversion." },
-  { title: "Mobile Apps", desc: "iOS and Android apps designed around real user needs." },
-  { title: "UI/UX Design", desc: "Interfaces that feel obvious in hindsight and delightful in use." },
-  { title: "Digital Marketing", desc: "Campaigns that turn attention into measurable growth." },
+  { title: "Web Development", desc: "Custom websites built for speed, scale, and conversion.", image: images.web },
+  { title: "Mobile Apps", desc: "iOS and Android apps designed around real user needs.", image: images.omniscaleAnalytics },
+  { title: "UI/UX Design", desc: "Interfaces that feel obvious in hindsight and delightful in use.", image: images.component49 },
+  { title: "Digital Marketing", desc: "Campaigns that turn attention into measurable growth.", image: images.background },
 ];
 
 const projects = [
   {
-    src: "/Background-1.png",
+    src: images.background,
     title: "E-Commerce Websites",
     desc: "Scalable online shopping platform with secure payments, inventory management, responsive design, and an intuitive customer experience.",
     tags: ["Web Development", "E-Commerce"],
   },
   {
-    src: "/OmniScale-1.png",
+    src: images.omniscaleAnalytics,
     title: "Business Dashboard",
     desc: "Modern dashboard with analytics and reporting.",
     tags: ["Dashboard", "UI/UX"],
   },
 ];
+
 const posts = [
   {
-    src: "/Container-1.png",
+    src: images.container1,
     tag: "Web Development",
     date: "Jan 15, 2026",
     title: "Top 10 Web Design Trends",
     desc: "Exploring modern web technologies.",
   },
   {
-    src: "/Container-2.png",
+    src: images.container2,
     tag: "Design",
     date: "Feb 02, 2026",
     title: "Choosing the Right UI/UX",
@@ -153,8 +56,8 @@ const posts = [
 ];
 
 const team = [
-  { name: "John Doe", role: "Developer", src: "/Alex.png" },
-  { name: "John Doe", role: "Design Director", src: "/girl.png" },
+  { name: "John Doe", role: "Developer", src: images.alex },
+  { name: "John Doe", role: "Design Director", src: images.girl },
 ];
 
 const faqs = [
@@ -211,18 +114,18 @@ function Hero() {
             <div className="mt-8">
               <p className="mb-2 text-xs font-semibold text-zinc-500">Our Top Products</p>
               <Image
-                src="/picture-1.png"
+                src={images.frame1}
                 alt="Our top products"
-                width={110}
-                height={40}
-                className="h-9 w-auto"
+                width={300}
+                height={60}
+                className="h-12 w-auto"
               />
             </div>
           </div>
 
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
             <Image
-              src="/container-2.png"
+              src={images.picture1}
               alt="Developer building a digital product"
               fill
               className="object-cover"
@@ -246,11 +149,11 @@ function Partners() {
         </p>
         <div className="flex items-center justify-center">
           <Image
-            src="/images/partners-strip.png"
+            src={images.frame2}
             alt="Our partners"
             width={900}
-            height={40}
-            className="h-8 w-auto object-contain sm:h-9"
+            height={60}
+            className="h-10 w-auto object-contain sm:h-12"
           />
         </div>
       </div>
@@ -290,38 +193,45 @@ function Services() {
   return (
     <section id="services" className="bg-[#f6f4f3] px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <p className="mb-8 text-center text-xs font-bold uppercase tracking-widest text-indigo-600">
-          Our Services
-        </p>
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-indigo-600">
+            Our Services
+          </p>
+          <h2 className="text-2xl font-extrabold text-zinc-900 sm:text-3xl">
+            What We Do Best
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-500">
+            End-to-end digital solutions to help your business grow and scale.
+          </p>
+        </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {services.map((s, i) => {
             const isOpen = openIndex === i;
             return (
               <div
                 key={s.title}
-                className="rounded-2xl border border-zinc-200 bg-white p-6 text-center shadow-sm"
+                onClick={() => setOpenIndex(isOpen ? null : i)}
+                className="group cursor-pointer rounded-2xl border border-zinc-200 bg-white p-7 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-indigo-200"
               >
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center">
+                <div className="mx-auto mb-5 h-32 w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/service-icon.png"
+                    src={s.image}
                     alt={s.title}
-                    width={56}
-                    height={56}
-                    className="h-14 w-14 object-contain"
+                    width={280}
+                    height={128}
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-sm font-bold text-zinc-900">{s.title}</h3>
-                <button
-                  onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="mx-auto mt-2 flex items-center justify-center text-zinc-400 transition-colors hover:text-indigo-600"
-                  aria-label={isOpen ? "Collapse" : "Expand"}
-                >
-                  {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-                </button>
-                {isOpen && (
-                  <p className="mt-2 text-xs leading-relaxed text-zinc-500">{s.desc}</p>
-                )}
+                <h3 className="text-base font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">{s.title}</h3>
+                <p className={`mt-3 text-sm leading-relaxed text-zinc-500 transition-all duration-300 ${isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0 overflow-hidden"}`}>
+                  {s.desc}
+                </p>
+                <div className="mt-4 flex items-center justify-center">
+                  <span className={`flex h-7 w-7 items-center justify-center rounded-full border border-zinc-200 text-zinc-400 transition-all group-hover:border-indigo-300 group-hover:text-indigo-500 ${isOpen ? "rotate-180" : ""}`}>
+                    <ChevronDown className="h-4 w-4" />
+                  </span>
+                </div>
               </div>
             );
           })}
@@ -520,16 +430,11 @@ function FAQ() {
   );
 }
 
-// ─── Footer ───────────────────────────────────────────────────────────────────
-
-
-
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Page() {
   return (
     <>
-      <Navbar />
       <Hero />
       <Partners />
       <TechStack />
@@ -539,7 +444,6 @@ export default function Page() {
       <Insights />
       <Team />
       <FAQ />
-      <Footer />
     </>
   );
 }
