@@ -55,6 +55,7 @@ function Footer() {
                 <p className="text-base font-medium">
                   <span className="text-white">Group of</span>{" "}
                   <span className="text-yellow-400">Companies</span>
+                  
                 </p>
               </div>
             </div>
