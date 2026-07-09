@@ -101,7 +101,7 @@ function Hero() {
                 href="#contact"
                 className="rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
               >
-                Get Started
+                Get Started.
               </a>
               <a
                 href="#services"
