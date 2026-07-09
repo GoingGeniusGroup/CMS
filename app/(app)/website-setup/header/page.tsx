@@ -17,6 +17,8 @@ export default async function WebsiteHeaderPage() {
     bannerLink?: string;
     helpNumber?: string;
     menuItems?: { label: string; path: string }[];
+    partners?: string[];
+    technologies?: string[];
   }) ?? {};
 
   return <WebsiteHeaderClient initialData={initialData} />;
