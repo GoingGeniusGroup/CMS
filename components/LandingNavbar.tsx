@@ -7,13 +7,13 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { images } from "@/lib/images";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Products", href: "#products" },
-  { label: "Company", href: "#company" },
-  { label: "Blog", href: "#blog" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home",      href: "/home"           },
+  { label: "Services",  href: "/our-services"   },
+  { label: "Portfolio", href: "/home#portfolio" },
+  { label: "Products",  href: "/home#products"  },
+  { label: "Company",   href: "/home#company"   },
+  { label: "Blog",      href: "/home#blog"      },
+  { label: "Contact",   href: "/home#contact"   },
 ];
 
 const servicesMega = {
@@ -65,13 +65,13 @@ export function LandingNavbar() {
                 onMouseEnter={() => setServicesOpen(true)}
                 onMouseLeave={() => setServicesOpen(false)}
               >
-                <a
-                  href={item.href}
+                <Link
+                  href="/our-services"
                   className="flex items-center gap-1 text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900"
                 >
                   {item.label}
                   <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`} />
-                </a>
+                </Link>
 
                 {/* Mega Dropdown */}
                 <div className={`absolute left-1/2 top-full pt-4 -translate-x-1/2 transition-all duration-200 ease-out ${servicesOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"}`}>
@@ -86,12 +86,12 @@ export function LandingNavbar() {
                           <ul className="space-y-1.5">
                             {col.items.map((subItem) => (
                               <li key={subItem}>
-                                <a
-                                  href="#services"
+                                <Link
+                                  href="/our-services"
                                   className="block rounded-md px-2 py-1.5 text-[13px] text-zinc-600 transition-colors hover:bg-purple-50 hover:text-purple-700"
                                 >
                                   {subItem}
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
@@ -113,12 +113,12 @@ export function LandingNavbar() {
                           height={90}
                           className="mt-3 h-20 w-full rounded-lg object-cover"
                         />
-                        <a
-                          href="#services"
+                        <Link
+                          href="/our-services"
                           className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-purple-600 hover:text-purple-800"
                         >
                           Explore Services →
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>

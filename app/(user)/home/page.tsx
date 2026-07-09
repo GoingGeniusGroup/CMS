@@ -128,6 +128,7 @@ function Hero() {
               src={images.picture1}
               alt="Developer building a digital product"
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
               priority
             />
@@ -273,7 +274,7 @@ function FeaturedWorks() {
                 ))}
               </div>
               <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-xl bg-zinc-50">
-                <Image src={p.src} alt={p.title} fill className="object-contain" />
+                <Image src={p.src} alt={p.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-contain" />
               </div>
             </div>
           ))}
@@ -346,7 +347,7 @@ function Insights() {
           {posts.map((post) => (
             <div key={post.title} className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
               <div className="relative aspect-[16/9]">
-                <Image src={post.src} alt={post.title} fill className="object-cover" />
+                <Image src={post.src} alt={post.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
                 <span className="absolute left-4 top-4 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white">
                   {post.tag}
                 </span>
@@ -377,7 +378,7 @@ function Team() {
           {team.map((member, i) => (
             <div key={i} className="overflow-hidden rounded-2xl border border-zinc-200 shadow-sm">
               <div className="relative aspect-[4/3] bg-zinc-50">
-                <Image src={member.src} alt={member.name} fill className="object-contain" />
+                <Image src={member.src} alt={member.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-contain" />
               </div>
               <div className="p-4">
                 <p className="text-sm font-bold text-zinc-900">{member.name}</p>
