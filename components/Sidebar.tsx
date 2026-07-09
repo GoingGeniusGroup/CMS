@@ -25,6 +25,9 @@ import {
   LayoutPanelTop,
   FilePlus2,
   LogOut,
+  Tag,
+  Handshake,
+  Cpu,
   type LucideIcon,
 } from "lucide-react";
 
@@ -45,6 +48,7 @@ export const navItems: NavItem[] = [
   { label: "Invoices", href: "/invoices", icon: FileText },
   { label: "Blog", href: "/blog", icon: Newspaper },
   { label: "Pages", href: "/pages", icon: FilePlus2 },
+  { label: "Category", href: "/category", icon: Tag },
   {
     label: "Website Setup",
     href: "/website-setup",
@@ -52,6 +56,8 @@ export const navItems: NavItem[] = [
     children: [
       { label: "Website Header", href: "/website-setup/header", icon: Globe },
       { label: "Footer Widgets", href: "/website-setup/footer-widgets", icon: LayoutPanelTop },
+      { label: "Our Partners", href: "/website-setup/partners", icon: Handshake },
+      { label: "Technologies", href: "/website-setup/technologies", icon: Cpu },
       { label: "Add New Page", href: "/website-setup/add-newpage", icon: FilePlus2 },
     ],
   },
