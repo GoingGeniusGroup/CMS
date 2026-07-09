@@ -22,6 +22,7 @@ export function AddServiceModal({
     serviceName: "",
     shortDetails: "",
     description: "",
+    image: "",
   });
 
   if (!open) return null;
@@ -32,6 +33,17 @@ export function AddServiceModal({
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setFileName(file.name);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setForm((prev) => ({ ...prev, image: reader.result as string }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
@@ -40,6 +52,7 @@ export function AddServiceModal({
     const result = await createService({
       serviceName: form.serviceName,
       description: form.description || form.shortDetails || undefined,
+      image: form.image || undefined,
     });
 
     setIsLoading(false);
@@ -50,7 +63,7 @@ export function AddServiceModal({
     }
 
     // Reset form
-    setForm({ serviceName: "", shortDetails: "", description: "" });
+    setForm({ serviceName: "", shortDetails: "", description: "", image: "" });
     setFileName(null);
     onSuccess?.();
     onClose();
@@ -138,24 +151,31 @@ export function AddServiceModal({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex flex-col items-center justify-center gap-2 rounded-xl bg-zinc-100 px-6 py-10 text-center transition-colors hover:bg-zinc-200"
+              className="flex flex-col items-center justify-center gap-2 rounded-xl bg-zinc-100 px-6 py-10 text-center transition-colors hover:bg-zinc-200 overflow-hidden relative w-full h-40"
             >
-              <UploadCloud className="h-7 w-7 text-zinc-600" />
-              <span className="text-lg font-bold leading-tight text-zinc-800">
-                Click to upload
-                <br />
-                or drag and drop
-              </span>
-              <span className="text-xs text-zinc-400">
-                {fileName ?? "WEBP, JPEG, JPG (Max 2MB)"}
-              </span>
+              {form.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={form.image} alt="Preview" className="absolute inset-0 w-full h-full object-cover" />
+              ) : (
+                <>
+                  <UploadCloud className="h-7 w-7 text-zinc-600" />
+                  <span className="text-lg font-bold leading-tight text-zinc-800">
+                    Click to upload
+                    <br />
+                    or drag and drop
+                  </span>
+                  <span className="text-xs text-zinc-400">
+                    WEBP, JPEG, JPG (Max 2MB)
+                  </span>
+                </>
+              )}
             </button>
             <input
               ref={fileInputRef}
               type="file"
               accept=".webp,.jpeg,.jpg,image/webp,image/jpeg"
               className="hidden"
-              onChange={(e) => setFileName(e.target.files?.[0]?.name ?? null)}
+              onChange={handlePhotoChange}
             />
           </div>
 

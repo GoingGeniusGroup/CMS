@@ -23,20 +23,20 @@ model User {
 }
 
 model Customer {
-  id           String    @id @default(cuid())
-  image        String
-  email        String    @unique
-  status       String    @default("Active")
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  address      String?
-  companyName  String?
-  fullName     String
-  phoneNumber  String?
-    serviceId    String?
-    service      Service?  @relation("CustomerService", fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  invoices     Invoice[]
-  projects     Project[]
+  id          String    @id @default(cuid())
+  email       String    @unique
+  status      String    @default("Active")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  address     String?
+  companyName String?
+  fullName    String
+  phoneNumber String?
+  image       String
+  serviceId   String?
+  service     Service?  @relation("CustomerService", fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  invoices    Invoice[]
+  projects    Project[]
 
   @@map("customers")
 }
@@ -59,7 +59,7 @@ model Team {
 }
 
 model Service {
-  id           String       @id @default(cuid())
+  id           String     @id @default(cuid())
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   basePrice    Float?
@@ -67,6 +67,7 @@ model Service {
   description  String?
   isActive     Boolean    @default(true)
   serviceName  String
+  thumbnailUrl String?
   customers    Customer[] @relation("CustomerService")
   projects     Project[]
 
@@ -86,6 +87,7 @@ model Project {
   serviceId   String?
   startDate   DateTime?
   teamId      String?
+  thumbnail   String?
   analytics   Analytics[]
   invoices    Invoice[]
   customer    Customer?   @relation(fields: [customerId], references: [id])
@@ -106,6 +108,7 @@ model Blog {
   authorId    String?
   category    String?
   publishedAt DateTime?
+  thumbnail   String?
   author      Team?     @relation(fields: [authorId], references: [id])
 
   @@map("blogs")
