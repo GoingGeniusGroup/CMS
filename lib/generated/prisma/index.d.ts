@@ -69,10 +69,25 @@ export type Page = $Result.DefaultSelection<Prisma.$PagePayload>
  */
 export type Setting = $Result.DefaultSelection<Prisma.$SettingPayload>
 /**
+ * Model SeoSetting
+ * 
+ */
+export type SeoSetting = $Result.DefaultSelection<Prisma.$SeoSettingPayload>
+/**
+ * Model AppearanceSetting
+ * 
+ */
+export type AppearanceSetting = $Result.DefaultSelection<Prisma.$AppearanceSettingPayload>
+/**
  * Model GeneralSetting
  * 
  */
 export type GeneralSetting = $Result.DefaultSelection<Prisma.$GeneralSettingPayload>
+/**
+ * Model Category
+ * 
+ */
+export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -303,6 +318,26 @@ export class PrismaClient<
   get setting(): Prisma.SettingDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.seoSetting`: Exposes CRUD operations for the **SeoSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SeoSettings
+    * const seoSettings = await prisma.seoSetting.findMany()
+    * ```
+    */
+  get seoSetting(): Prisma.SeoSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.appearanceSetting`: Exposes CRUD operations for the **AppearanceSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AppearanceSettings
+    * const appearanceSettings = await prisma.appearanceSetting.findMany()
+    * ```
+    */
+  get appearanceSetting(): Prisma.AppearanceSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.generalSetting`: Exposes CRUD operations for the **GeneralSetting** model.
     * Example usage:
     * ```ts
@@ -311,6 +346,16 @@ export class PrismaClient<
     * ```
     */
   get generalSetting(): Prisma.GeneralSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.category`: Exposes CRUD operations for the **Category** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Categories
+    * const categories = await prisma.category.findMany()
+    * ```
+    */
+  get category(): Prisma.CategoryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -763,7 +808,10 @@ export namespace Prisma {
     PopupSetting: 'PopupSetting',
     Page: 'Page',
     Setting: 'Setting',
-    GeneralSetting: 'GeneralSetting'
+    SeoSetting: 'SeoSetting',
+    AppearanceSetting: 'AppearanceSetting',
+    GeneralSetting: 'GeneralSetting',
+    Category: 'Category'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -782,7 +830,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "analytics" | "popupSetting" | "page" | "setting" | "generalSetting"
+      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "analytics" | "popupSetting" | "page" | "setting" | "seoSetting" | "appearanceSetting" | "generalSetting" | "category"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1600,6 +1648,154 @@ export namespace Prisma {
           }
         }
       }
+      SeoSetting: {
+        payload: Prisma.$SeoSettingPayload<ExtArgs>
+        fields: Prisma.SeoSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SeoSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeoSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SeoSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeoSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.SeoSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeoSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SeoSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeoSettingPayload>
+          }
+          findMany: {
+            args: Prisma.SeoSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeoSettingPayload>[]
+          }
+          create: {
+            args: Prisma.SeoSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeoSettingPayload>
+          }
+          createMany: {
+            args: Prisma.SeoSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SeoSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeoSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.SeoSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeoSettingPayload>
+          }
+          update: {
+            args: Prisma.SeoSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeoSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.SeoSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SeoSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SeoSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeoSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.SeoSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeoSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.SeoSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSeoSetting>
+          }
+          groupBy: {
+            args: Prisma.SeoSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SeoSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SeoSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<SeoSettingCountAggregateOutputType> | number
+          }
+        }
+      }
+      AppearanceSetting: {
+        payload: Prisma.$AppearanceSettingPayload<ExtArgs>
+        fields: Prisma.AppearanceSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AppearanceSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppearanceSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AppearanceSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppearanceSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.AppearanceSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppearanceSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AppearanceSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppearanceSettingPayload>
+          }
+          findMany: {
+            args: Prisma.AppearanceSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppearanceSettingPayload>[]
+          }
+          create: {
+            args: Prisma.AppearanceSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppearanceSettingPayload>
+          }
+          createMany: {
+            args: Prisma.AppearanceSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AppearanceSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppearanceSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.AppearanceSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppearanceSettingPayload>
+          }
+          update: {
+            args: Prisma.AppearanceSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppearanceSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.AppearanceSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AppearanceSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AppearanceSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppearanceSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.AppearanceSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AppearanceSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.AppearanceSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAppearanceSetting>
+          }
+          groupBy: {
+            args: Prisma.AppearanceSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AppearanceSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AppearanceSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<AppearanceSettingCountAggregateOutputType> | number
+          }
+        }
+      }
       GeneralSetting: {
         payload: Prisma.$GeneralSettingPayload<ExtArgs>
         fields: Prisma.GeneralSettingFieldRefs
@@ -1671,6 +1867,80 @@ export namespace Prisma {
           count: {
             args: Prisma.GeneralSettingCountArgs<ExtArgs>
             result: $Utils.Optional<GeneralSettingCountAggregateOutputType> | number
+          }
+        }
+      }
+      Category: {
+        payload: Prisma.$CategoryPayload<ExtArgs>
+        fields: Prisma.CategoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CategoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CategoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>
+          }
+          findFirst: {
+            args: Prisma.CategoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CategoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>
+          }
+          findMany: {
+            args: Prisma.CategoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>[]
+          }
+          create: {
+            args: Prisma.CategoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>
+          }
+          createMany: {
+            args: Prisma.CategoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CategoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>[]
+          }
+          delete: {
+            args: Prisma.CategoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>
+          }
+          update: {
+            args: Prisma.CategoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.CategoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CategoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CategoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.CategoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>
+          }
+          aggregate: {
+            args: Prisma.CategoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCategory>
+          }
+          groupBy: {
+            args: Prisma.CategoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CategoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CategoryCountArgs<ExtArgs>
+            result: $Utils.Optional<CategoryCountAggregateOutputType> | number
           }
         }
       }
@@ -1781,7 +2051,10 @@ export namespace Prisma {
     popupSetting?: PopupSettingOmit
     page?: PageOmit
     setting?: SettingOmit
+    seoSetting?: SeoSettingOmit
+    appearanceSetting?: AppearanceSettingOmit
     generalSetting?: GeneralSettingOmit
+    category?: CategoryOmit
   }
 
   /* Types for Logging */
@@ -14505,6 +14778,2009 @@ export namespace Prisma {
 
 
   /**
+   * Model SeoSetting
+   */
+
+  export type AggregateSeoSetting = {
+    _count: SeoSettingCountAggregateOutputType | null
+    _min: SeoSettingMinAggregateOutputType | null
+    _max: SeoSettingMaxAggregateOutputType | null
+  }
+
+  export type SeoSettingMinAggregateOutputType = {
+    id: string | null
+    metaTitle: string | null
+    metaDescription: string | null
+    metaKeywords: string | null
+    metaImage: string | null
+    updatedAt: Date | null
+  }
+
+  export type SeoSettingMaxAggregateOutputType = {
+    id: string | null
+    metaTitle: string | null
+    metaDescription: string | null
+    metaKeywords: string | null
+    metaImage: string | null
+    updatedAt: Date | null
+  }
+
+  export type SeoSettingCountAggregateOutputType = {
+    id: number
+    metaTitle: number
+    metaDescription: number
+    metaKeywords: number
+    metaImage: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SeoSettingMinAggregateInputType = {
+    id?: true
+    metaTitle?: true
+    metaDescription?: true
+    metaKeywords?: true
+    metaImage?: true
+    updatedAt?: true
+  }
+
+  export type SeoSettingMaxAggregateInputType = {
+    id?: true
+    metaTitle?: true
+    metaDescription?: true
+    metaKeywords?: true
+    metaImage?: true
+    updatedAt?: true
+  }
+
+  export type SeoSettingCountAggregateInputType = {
+    id?: true
+    metaTitle?: true
+    metaDescription?: true
+    metaKeywords?: true
+    metaImage?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SeoSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SeoSetting to aggregate.
+     */
+    where?: SeoSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SeoSettings to fetch.
+     */
+    orderBy?: SeoSettingOrderByWithRelationInput | SeoSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SeoSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SeoSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SeoSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SeoSettings
+    **/
+    _count?: true | SeoSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SeoSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SeoSettingMaxAggregateInputType
+  }
+
+  export type GetSeoSettingAggregateType<T extends SeoSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateSeoSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSeoSetting[P]>
+      : GetScalarType<T[P], AggregateSeoSetting[P]>
+  }
+
+
+
+
+  export type SeoSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SeoSettingWhereInput
+    orderBy?: SeoSettingOrderByWithAggregationInput | SeoSettingOrderByWithAggregationInput[]
+    by: SeoSettingScalarFieldEnum[] | SeoSettingScalarFieldEnum
+    having?: SeoSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SeoSettingCountAggregateInputType | true
+    _min?: SeoSettingMinAggregateInputType
+    _max?: SeoSettingMaxAggregateInputType
+  }
+
+  export type SeoSettingGroupByOutputType = {
+    id: string
+    metaTitle: string
+    metaDescription: string
+    metaKeywords: string
+    metaImage: string
+    updatedAt: Date
+    _count: SeoSettingCountAggregateOutputType | null
+    _min: SeoSettingMinAggregateOutputType | null
+    _max: SeoSettingMaxAggregateOutputType | null
+  }
+
+  type GetSeoSettingGroupByPayload<T extends SeoSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SeoSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SeoSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SeoSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], SeoSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SeoSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    metaTitle?: boolean
+    metaDescription?: boolean
+    metaKeywords?: boolean
+    metaImage?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["seoSetting"]>
+
+  export type SeoSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    metaTitle?: boolean
+    metaDescription?: boolean
+    metaKeywords?: boolean
+    metaImage?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["seoSetting"]>
+
+  export type SeoSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    metaTitle?: boolean
+    metaDescription?: boolean
+    metaKeywords?: boolean
+    metaImage?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["seoSetting"]>
+
+  export type SeoSettingSelectScalar = {
+    id?: boolean
+    metaTitle?: boolean
+    metaDescription?: boolean
+    metaKeywords?: boolean
+    metaImage?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SeoSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "metaTitle" | "metaDescription" | "metaKeywords" | "metaImage" | "updatedAt", ExtArgs["result"]["seoSetting"]>
+
+  export type $SeoSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SeoSetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      metaTitle: string
+      metaDescription: string
+      metaKeywords: string
+      metaImage: string
+      updatedAt: Date
+    }, ExtArgs["result"]["seoSetting"]>
+    composites: {}
+  }
+
+  type SeoSettingGetPayload<S extends boolean | null | undefined | SeoSettingDefaultArgs> = $Result.GetResult<Prisma.$SeoSettingPayload, S>
+
+  type SeoSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SeoSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SeoSettingCountAggregateInputType | true
+    }
+
+  export interface SeoSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SeoSetting'], meta: { name: 'SeoSetting' } }
+    /**
+     * Find zero or one SeoSetting that matches the filter.
+     * @param {SeoSettingFindUniqueArgs} args - Arguments to find a SeoSetting
+     * @example
+     * // Get one SeoSetting
+     * const seoSetting = await prisma.seoSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SeoSettingFindUniqueArgs>(args: SelectSubset<T, SeoSettingFindUniqueArgs<ExtArgs>>): Prisma__SeoSettingClient<$Result.GetResult<Prisma.$SeoSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SeoSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SeoSettingFindUniqueOrThrowArgs} args - Arguments to find a SeoSetting
+     * @example
+     * // Get one SeoSetting
+     * const seoSetting = await prisma.seoSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SeoSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, SeoSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SeoSettingClient<$Result.GetResult<Prisma.$SeoSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SeoSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeoSettingFindFirstArgs} args - Arguments to find a SeoSetting
+     * @example
+     * // Get one SeoSetting
+     * const seoSetting = await prisma.seoSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SeoSettingFindFirstArgs>(args?: SelectSubset<T, SeoSettingFindFirstArgs<ExtArgs>>): Prisma__SeoSettingClient<$Result.GetResult<Prisma.$SeoSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SeoSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeoSettingFindFirstOrThrowArgs} args - Arguments to find a SeoSetting
+     * @example
+     * // Get one SeoSetting
+     * const seoSetting = await prisma.seoSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SeoSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, SeoSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__SeoSettingClient<$Result.GetResult<Prisma.$SeoSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SeoSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeoSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SeoSettings
+     * const seoSettings = await prisma.seoSetting.findMany()
+     * 
+     * // Get first 10 SeoSettings
+     * const seoSettings = await prisma.seoSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const seoSettingWithIdOnly = await prisma.seoSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SeoSettingFindManyArgs>(args?: SelectSubset<T, SeoSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeoSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SeoSetting.
+     * @param {SeoSettingCreateArgs} args - Arguments to create a SeoSetting.
+     * @example
+     * // Create one SeoSetting
+     * const SeoSetting = await prisma.seoSetting.create({
+     *   data: {
+     *     // ... data to create a SeoSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends SeoSettingCreateArgs>(args: SelectSubset<T, SeoSettingCreateArgs<ExtArgs>>): Prisma__SeoSettingClient<$Result.GetResult<Prisma.$SeoSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SeoSettings.
+     * @param {SeoSettingCreateManyArgs} args - Arguments to create many SeoSettings.
+     * @example
+     * // Create many SeoSettings
+     * const seoSetting = await prisma.seoSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SeoSettingCreateManyArgs>(args?: SelectSubset<T, SeoSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SeoSettings and returns the data saved in the database.
+     * @param {SeoSettingCreateManyAndReturnArgs} args - Arguments to create many SeoSettings.
+     * @example
+     * // Create many SeoSettings
+     * const seoSetting = await prisma.seoSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SeoSettings and only return the `id`
+     * const seoSettingWithIdOnly = await prisma.seoSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SeoSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, SeoSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeoSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SeoSetting.
+     * @param {SeoSettingDeleteArgs} args - Arguments to delete one SeoSetting.
+     * @example
+     * // Delete one SeoSetting
+     * const SeoSetting = await prisma.seoSetting.delete({
+     *   where: {
+     *     // ... filter to delete one SeoSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SeoSettingDeleteArgs>(args: SelectSubset<T, SeoSettingDeleteArgs<ExtArgs>>): Prisma__SeoSettingClient<$Result.GetResult<Prisma.$SeoSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SeoSetting.
+     * @param {SeoSettingUpdateArgs} args - Arguments to update one SeoSetting.
+     * @example
+     * // Update one SeoSetting
+     * const seoSetting = await prisma.seoSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SeoSettingUpdateArgs>(args: SelectSubset<T, SeoSettingUpdateArgs<ExtArgs>>): Prisma__SeoSettingClient<$Result.GetResult<Prisma.$SeoSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SeoSettings.
+     * @param {SeoSettingDeleteManyArgs} args - Arguments to filter SeoSettings to delete.
+     * @example
+     * // Delete a few SeoSettings
+     * const { count } = await prisma.seoSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SeoSettingDeleteManyArgs>(args?: SelectSubset<T, SeoSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SeoSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeoSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SeoSettings
+     * const seoSetting = await prisma.seoSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SeoSettingUpdateManyArgs>(args: SelectSubset<T, SeoSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SeoSettings and returns the data updated in the database.
+     * @param {SeoSettingUpdateManyAndReturnArgs} args - Arguments to update many SeoSettings.
+     * @example
+     * // Update many SeoSettings
+     * const seoSetting = await prisma.seoSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SeoSettings and only return the `id`
+     * const seoSettingWithIdOnly = await prisma.seoSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SeoSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, SeoSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeoSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SeoSetting.
+     * @param {SeoSettingUpsertArgs} args - Arguments to update or create a SeoSetting.
+     * @example
+     * // Update or create a SeoSetting
+     * const seoSetting = await prisma.seoSetting.upsert({
+     *   create: {
+     *     // ... data to create a SeoSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SeoSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SeoSettingUpsertArgs>(args: SelectSubset<T, SeoSettingUpsertArgs<ExtArgs>>): Prisma__SeoSettingClient<$Result.GetResult<Prisma.$SeoSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SeoSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeoSettingCountArgs} args - Arguments to filter SeoSettings to count.
+     * @example
+     * // Count the number of SeoSettings
+     * const count = await prisma.seoSetting.count({
+     *   where: {
+     *     // ... the filter for the SeoSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends SeoSettingCountArgs>(
+      args?: Subset<T, SeoSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SeoSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SeoSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeoSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SeoSettingAggregateArgs>(args: Subset<T, SeoSettingAggregateArgs>): Prisma.PrismaPromise<GetSeoSettingAggregateType<T>>
+
+    /**
+     * Group by SeoSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeoSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SeoSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SeoSettingGroupByArgs['orderBy'] }
+        : { orderBy?: SeoSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SeoSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSeoSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SeoSetting model
+   */
+  readonly fields: SeoSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SeoSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SeoSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SeoSetting model
+   */
+  interface SeoSettingFieldRefs {
+    readonly id: FieldRef<"SeoSetting", 'String'>
+    readonly metaTitle: FieldRef<"SeoSetting", 'String'>
+    readonly metaDescription: FieldRef<"SeoSetting", 'String'>
+    readonly metaKeywords: FieldRef<"SeoSetting", 'String'>
+    readonly metaImage: FieldRef<"SeoSetting", 'String'>
+    readonly updatedAt: FieldRef<"SeoSetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SeoSetting findUnique
+   */
+  export type SeoSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeoSetting
+     */
+    select?: SeoSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeoSetting
+     */
+    omit?: SeoSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SeoSetting to fetch.
+     */
+    where: SeoSettingWhereUniqueInput
+  }
+
+  /**
+   * SeoSetting findUniqueOrThrow
+   */
+  export type SeoSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeoSetting
+     */
+    select?: SeoSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeoSetting
+     */
+    omit?: SeoSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SeoSetting to fetch.
+     */
+    where: SeoSettingWhereUniqueInput
+  }
+
+  /**
+   * SeoSetting findFirst
+   */
+  export type SeoSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeoSetting
+     */
+    select?: SeoSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeoSetting
+     */
+    omit?: SeoSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SeoSetting to fetch.
+     */
+    where?: SeoSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SeoSettings to fetch.
+     */
+    orderBy?: SeoSettingOrderByWithRelationInput | SeoSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SeoSettings.
+     */
+    cursor?: SeoSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SeoSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SeoSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SeoSettings.
+     */
+    distinct?: SeoSettingScalarFieldEnum | SeoSettingScalarFieldEnum[]
+  }
+
+  /**
+   * SeoSetting findFirstOrThrow
+   */
+  export type SeoSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeoSetting
+     */
+    select?: SeoSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeoSetting
+     */
+    omit?: SeoSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SeoSetting to fetch.
+     */
+    where?: SeoSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SeoSettings to fetch.
+     */
+    orderBy?: SeoSettingOrderByWithRelationInput | SeoSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SeoSettings.
+     */
+    cursor?: SeoSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SeoSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SeoSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SeoSettings.
+     */
+    distinct?: SeoSettingScalarFieldEnum | SeoSettingScalarFieldEnum[]
+  }
+
+  /**
+   * SeoSetting findMany
+   */
+  export type SeoSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeoSetting
+     */
+    select?: SeoSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeoSetting
+     */
+    omit?: SeoSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SeoSettings to fetch.
+     */
+    where?: SeoSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SeoSettings to fetch.
+     */
+    orderBy?: SeoSettingOrderByWithRelationInput | SeoSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SeoSettings.
+     */
+    cursor?: SeoSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SeoSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SeoSettings.
+     */
+    skip?: number
+    distinct?: SeoSettingScalarFieldEnum | SeoSettingScalarFieldEnum[]
+  }
+
+  /**
+   * SeoSetting create
+   */
+  export type SeoSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeoSetting
+     */
+    select?: SeoSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeoSetting
+     */
+    omit?: SeoSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SeoSetting.
+     */
+    data: XOR<SeoSettingCreateInput, SeoSettingUncheckedCreateInput>
+  }
+
+  /**
+   * SeoSetting createMany
+   */
+  export type SeoSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SeoSettings.
+     */
+    data: SeoSettingCreateManyInput | SeoSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SeoSetting createManyAndReturn
+   */
+  export type SeoSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeoSetting
+     */
+    select?: SeoSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeoSetting
+     */
+    omit?: SeoSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many SeoSettings.
+     */
+    data: SeoSettingCreateManyInput | SeoSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SeoSetting update
+   */
+  export type SeoSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeoSetting
+     */
+    select?: SeoSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeoSetting
+     */
+    omit?: SeoSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SeoSetting.
+     */
+    data: XOR<SeoSettingUpdateInput, SeoSettingUncheckedUpdateInput>
+    /**
+     * Choose, which SeoSetting to update.
+     */
+    where: SeoSettingWhereUniqueInput
+  }
+
+  /**
+   * SeoSetting updateMany
+   */
+  export type SeoSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SeoSettings.
+     */
+    data: XOR<SeoSettingUpdateManyMutationInput, SeoSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which SeoSettings to update
+     */
+    where?: SeoSettingWhereInput
+    /**
+     * Limit how many SeoSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SeoSetting updateManyAndReturn
+   */
+  export type SeoSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeoSetting
+     */
+    select?: SeoSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeoSetting
+     */
+    omit?: SeoSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update SeoSettings.
+     */
+    data: XOR<SeoSettingUpdateManyMutationInput, SeoSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which SeoSettings to update
+     */
+    where?: SeoSettingWhereInput
+    /**
+     * Limit how many SeoSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SeoSetting upsert
+   */
+  export type SeoSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeoSetting
+     */
+    select?: SeoSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeoSetting
+     */
+    omit?: SeoSettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SeoSetting to update in case it exists.
+     */
+    where: SeoSettingWhereUniqueInput
+    /**
+     * In case the SeoSetting found by the `where` argument doesn't exist, create a new SeoSetting with this data.
+     */
+    create: XOR<SeoSettingCreateInput, SeoSettingUncheckedCreateInput>
+    /**
+     * In case the SeoSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SeoSettingUpdateInput, SeoSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * SeoSetting delete
+   */
+  export type SeoSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeoSetting
+     */
+    select?: SeoSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeoSetting
+     */
+    omit?: SeoSettingOmit<ExtArgs> | null
+    /**
+     * Filter which SeoSetting to delete.
+     */
+    where: SeoSettingWhereUniqueInput
+  }
+
+  /**
+   * SeoSetting deleteMany
+   */
+  export type SeoSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SeoSettings to delete
+     */
+    where?: SeoSettingWhereInput
+    /**
+     * Limit how many SeoSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SeoSetting without action
+   */
+  export type SeoSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeoSetting
+     */
+    select?: SeoSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeoSetting
+     */
+    omit?: SeoSettingOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AppearanceSetting
+   */
+
+  export type AggregateAppearanceSetting = {
+    _count: AppearanceSettingCountAggregateOutputType | null
+    _min: AppearanceSettingMinAggregateOutputType | null
+    _max: AppearanceSettingMaxAggregateOutputType | null
+  }
+
+  export type AppearanceSettingMinAggregateOutputType = {
+    id: string | null
+    baseColor: string | null
+    hoverColor: string | null
+    timezone: string | null
+    updatedAt: Date | null
+  }
+
+  export type AppearanceSettingMaxAggregateOutputType = {
+    id: string | null
+    baseColor: string | null
+    hoverColor: string | null
+    timezone: string | null
+    updatedAt: Date | null
+  }
+
+  export type AppearanceSettingCountAggregateOutputType = {
+    id: number
+    baseColor: number
+    hoverColor: number
+    timezone: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AppearanceSettingMinAggregateInputType = {
+    id?: true
+    baseColor?: true
+    hoverColor?: true
+    timezone?: true
+    updatedAt?: true
+  }
+
+  export type AppearanceSettingMaxAggregateInputType = {
+    id?: true
+    baseColor?: true
+    hoverColor?: true
+    timezone?: true
+    updatedAt?: true
+  }
+
+  export type AppearanceSettingCountAggregateInputType = {
+    id?: true
+    baseColor?: true
+    hoverColor?: true
+    timezone?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AppearanceSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AppearanceSetting to aggregate.
+     */
+    where?: AppearanceSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AppearanceSettings to fetch.
+     */
+    orderBy?: AppearanceSettingOrderByWithRelationInput | AppearanceSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AppearanceSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AppearanceSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AppearanceSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AppearanceSettings
+    **/
+    _count?: true | AppearanceSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AppearanceSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AppearanceSettingMaxAggregateInputType
+  }
+
+  export type GetAppearanceSettingAggregateType<T extends AppearanceSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateAppearanceSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAppearanceSetting[P]>
+      : GetScalarType<T[P], AggregateAppearanceSetting[P]>
+  }
+
+
+
+
+  export type AppearanceSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AppearanceSettingWhereInput
+    orderBy?: AppearanceSettingOrderByWithAggregationInput | AppearanceSettingOrderByWithAggregationInput[]
+    by: AppearanceSettingScalarFieldEnum[] | AppearanceSettingScalarFieldEnum
+    having?: AppearanceSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AppearanceSettingCountAggregateInputType | true
+    _min?: AppearanceSettingMinAggregateInputType
+    _max?: AppearanceSettingMaxAggregateInputType
+  }
+
+  export type AppearanceSettingGroupByOutputType = {
+    id: string
+    baseColor: string
+    hoverColor: string
+    timezone: string
+    updatedAt: Date
+    _count: AppearanceSettingCountAggregateOutputType | null
+    _min: AppearanceSettingMinAggregateOutputType | null
+    _max: AppearanceSettingMaxAggregateOutputType | null
+  }
+
+  type GetAppearanceSettingGroupByPayload<T extends AppearanceSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AppearanceSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AppearanceSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AppearanceSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], AppearanceSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AppearanceSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    baseColor?: boolean
+    hoverColor?: boolean
+    timezone?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["appearanceSetting"]>
+
+  export type AppearanceSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    baseColor?: boolean
+    hoverColor?: boolean
+    timezone?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["appearanceSetting"]>
+
+  export type AppearanceSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    baseColor?: boolean
+    hoverColor?: boolean
+    timezone?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["appearanceSetting"]>
+
+  export type AppearanceSettingSelectScalar = {
+    id?: boolean
+    baseColor?: boolean
+    hoverColor?: boolean
+    timezone?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AppearanceSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "baseColor" | "hoverColor" | "timezone" | "updatedAt", ExtArgs["result"]["appearanceSetting"]>
+
+  export type $AppearanceSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AppearanceSetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      baseColor: string
+      hoverColor: string
+      timezone: string
+      updatedAt: Date
+    }, ExtArgs["result"]["appearanceSetting"]>
+    composites: {}
+  }
+
+  type AppearanceSettingGetPayload<S extends boolean | null | undefined | AppearanceSettingDefaultArgs> = $Result.GetResult<Prisma.$AppearanceSettingPayload, S>
+
+  type AppearanceSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AppearanceSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AppearanceSettingCountAggregateInputType | true
+    }
+
+  export interface AppearanceSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AppearanceSetting'], meta: { name: 'AppearanceSetting' } }
+    /**
+     * Find zero or one AppearanceSetting that matches the filter.
+     * @param {AppearanceSettingFindUniqueArgs} args - Arguments to find a AppearanceSetting
+     * @example
+     * // Get one AppearanceSetting
+     * const appearanceSetting = await prisma.appearanceSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AppearanceSettingFindUniqueArgs>(args: SelectSubset<T, AppearanceSettingFindUniqueArgs<ExtArgs>>): Prisma__AppearanceSettingClient<$Result.GetResult<Prisma.$AppearanceSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AppearanceSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AppearanceSettingFindUniqueOrThrowArgs} args - Arguments to find a AppearanceSetting
+     * @example
+     * // Get one AppearanceSetting
+     * const appearanceSetting = await prisma.appearanceSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AppearanceSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, AppearanceSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AppearanceSettingClient<$Result.GetResult<Prisma.$AppearanceSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AppearanceSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppearanceSettingFindFirstArgs} args - Arguments to find a AppearanceSetting
+     * @example
+     * // Get one AppearanceSetting
+     * const appearanceSetting = await prisma.appearanceSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AppearanceSettingFindFirstArgs>(args?: SelectSubset<T, AppearanceSettingFindFirstArgs<ExtArgs>>): Prisma__AppearanceSettingClient<$Result.GetResult<Prisma.$AppearanceSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AppearanceSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppearanceSettingFindFirstOrThrowArgs} args - Arguments to find a AppearanceSetting
+     * @example
+     * // Get one AppearanceSetting
+     * const appearanceSetting = await prisma.appearanceSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AppearanceSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, AppearanceSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__AppearanceSettingClient<$Result.GetResult<Prisma.$AppearanceSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AppearanceSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppearanceSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AppearanceSettings
+     * const appearanceSettings = await prisma.appearanceSetting.findMany()
+     * 
+     * // Get first 10 AppearanceSettings
+     * const appearanceSettings = await prisma.appearanceSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const appearanceSettingWithIdOnly = await prisma.appearanceSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AppearanceSettingFindManyArgs>(args?: SelectSubset<T, AppearanceSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AppearanceSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AppearanceSetting.
+     * @param {AppearanceSettingCreateArgs} args - Arguments to create a AppearanceSetting.
+     * @example
+     * // Create one AppearanceSetting
+     * const AppearanceSetting = await prisma.appearanceSetting.create({
+     *   data: {
+     *     // ... data to create a AppearanceSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends AppearanceSettingCreateArgs>(args: SelectSubset<T, AppearanceSettingCreateArgs<ExtArgs>>): Prisma__AppearanceSettingClient<$Result.GetResult<Prisma.$AppearanceSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AppearanceSettings.
+     * @param {AppearanceSettingCreateManyArgs} args - Arguments to create many AppearanceSettings.
+     * @example
+     * // Create many AppearanceSettings
+     * const appearanceSetting = await prisma.appearanceSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AppearanceSettingCreateManyArgs>(args?: SelectSubset<T, AppearanceSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AppearanceSettings and returns the data saved in the database.
+     * @param {AppearanceSettingCreateManyAndReturnArgs} args - Arguments to create many AppearanceSettings.
+     * @example
+     * // Create many AppearanceSettings
+     * const appearanceSetting = await prisma.appearanceSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AppearanceSettings and only return the `id`
+     * const appearanceSettingWithIdOnly = await prisma.appearanceSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AppearanceSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, AppearanceSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AppearanceSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AppearanceSetting.
+     * @param {AppearanceSettingDeleteArgs} args - Arguments to delete one AppearanceSetting.
+     * @example
+     * // Delete one AppearanceSetting
+     * const AppearanceSetting = await prisma.appearanceSetting.delete({
+     *   where: {
+     *     // ... filter to delete one AppearanceSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AppearanceSettingDeleteArgs>(args: SelectSubset<T, AppearanceSettingDeleteArgs<ExtArgs>>): Prisma__AppearanceSettingClient<$Result.GetResult<Prisma.$AppearanceSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AppearanceSetting.
+     * @param {AppearanceSettingUpdateArgs} args - Arguments to update one AppearanceSetting.
+     * @example
+     * // Update one AppearanceSetting
+     * const appearanceSetting = await prisma.appearanceSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AppearanceSettingUpdateArgs>(args: SelectSubset<T, AppearanceSettingUpdateArgs<ExtArgs>>): Prisma__AppearanceSettingClient<$Result.GetResult<Prisma.$AppearanceSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AppearanceSettings.
+     * @param {AppearanceSettingDeleteManyArgs} args - Arguments to filter AppearanceSettings to delete.
+     * @example
+     * // Delete a few AppearanceSettings
+     * const { count } = await prisma.appearanceSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AppearanceSettingDeleteManyArgs>(args?: SelectSubset<T, AppearanceSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AppearanceSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppearanceSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AppearanceSettings
+     * const appearanceSetting = await prisma.appearanceSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AppearanceSettingUpdateManyArgs>(args: SelectSubset<T, AppearanceSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AppearanceSettings and returns the data updated in the database.
+     * @param {AppearanceSettingUpdateManyAndReturnArgs} args - Arguments to update many AppearanceSettings.
+     * @example
+     * // Update many AppearanceSettings
+     * const appearanceSetting = await prisma.appearanceSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AppearanceSettings and only return the `id`
+     * const appearanceSettingWithIdOnly = await prisma.appearanceSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AppearanceSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, AppearanceSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AppearanceSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AppearanceSetting.
+     * @param {AppearanceSettingUpsertArgs} args - Arguments to update or create a AppearanceSetting.
+     * @example
+     * // Update or create a AppearanceSetting
+     * const appearanceSetting = await prisma.appearanceSetting.upsert({
+     *   create: {
+     *     // ... data to create a AppearanceSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AppearanceSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AppearanceSettingUpsertArgs>(args: SelectSubset<T, AppearanceSettingUpsertArgs<ExtArgs>>): Prisma__AppearanceSettingClient<$Result.GetResult<Prisma.$AppearanceSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AppearanceSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppearanceSettingCountArgs} args - Arguments to filter AppearanceSettings to count.
+     * @example
+     * // Count the number of AppearanceSettings
+     * const count = await prisma.appearanceSetting.count({
+     *   where: {
+     *     // ... the filter for the AppearanceSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends AppearanceSettingCountArgs>(
+      args?: Subset<T, AppearanceSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AppearanceSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AppearanceSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppearanceSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AppearanceSettingAggregateArgs>(args: Subset<T, AppearanceSettingAggregateArgs>): Prisma.PrismaPromise<GetAppearanceSettingAggregateType<T>>
+
+    /**
+     * Group by AppearanceSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppearanceSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AppearanceSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AppearanceSettingGroupByArgs['orderBy'] }
+        : { orderBy?: AppearanceSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AppearanceSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAppearanceSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AppearanceSetting model
+   */
+  readonly fields: AppearanceSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AppearanceSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AppearanceSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AppearanceSetting model
+   */
+  interface AppearanceSettingFieldRefs {
+    readonly id: FieldRef<"AppearanceSetting", 'String'>
+    readonly baseColor: FieldRef<"AppearanceSetting", 'String'>
+    readonly hoverColor: FieldRef<"AppearanceSetting", 'String'>
+    readonly timezone: FieldRef<"AppearanceSetting", 'String'>
+    readonly updatedAt: FieldRef<"AppearanceSetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AppearanceSetting findUnique
+   */
+  export type AppearanceSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppearanceSetting
+     */
+    select?: AppearanceSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppearanceSetting
+     */
+    omit?: AppearanceSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which AppearanceSetting to fetch.
+     */
+    where: AppearanceSettingWhereUniqueInput
+  }
+
+  /**
+   * AppearanceSetting findUniqueOrThrow
+   */
+  export type AppearanceSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppearanceSetting
+     */
+    select?: AppearanceSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppearanceSetting
+     */
+    omit?: AppearanceSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which AppearanceSetting to fetch.
+     */
+    where: AppearanceSettingWhereUniqueInput
+  }
+
+  /**
+   * AppearanceSetting findFirst
+   */
+  export type AppearanceSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppearanceSetting
+     */
+    select?: AppearanceSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppearanceSetting
+     */
+    omit?: AppearanceSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which AppearanceSetting to fetch.
+     */
+    where?: AppearanceSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AppearanceSettings to fetch.
+     */
+    orderBy?: AppearanceSettingOrderByWithRelationInput | AppearanceSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AppearanceSettings.
+     */
+    cursor?: AppearanceSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AppearanceSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AppearanceSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AppearanceSettings.
+     */
+    distinct?: AppearanceSettingScalarFieldEnum | AppearanceSettingScalarFieldEnum[]
+  }
+
+  /**
+   * AppearanceSetting findFirstOrThrow
+   */
+  export type AppearanceSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppearanceSetting
+     */
+    select?: AppearanceSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppearanceSetting
+     */
+    omit?: AppearanceSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which AppearanceSetting to fetch.
+     */
+    where?: AppearanceSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AppearanceSettings to fetch.
+     */
+    orderBy?: AppearanceSettingOrderByWithRelationInput | AppearanceSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AppearanceSettings.
+     */
+    cursor?: AppearanceSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AppearanceSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AppearanceSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AppearanceSettings.
+     */
+    distinct?: AppearanceSettingScalarFieldEnum | AppearanceSettingScalarFieldEnum[]
+  }
+
+  /**
+   * AppearanceSetting findMany
+   */
+  export type AppearanceSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppearanceSetting
+     */
+    select?: AppearanceSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppearanceSetting
+     */
+    omit?: AppearanceSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which AppearanceSettings to fetch.
+     */
+    where?: AppearanceSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AppearanceSettings to fetch.
+     */
+    orderBy?: AppearanceSettingOrderByWithRelationInput | AppearanceSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AppearanceSettings.
+     */
+    cursor?: AppearanceSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AppearanceSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AppearanceSettings.
+     */
+    skip?: number
+    distinct?: AppearanceSettingScalarFieldEnum | AppearanceSettingScalarFieldEnum[]
+  }
+
+  /**
+   * AppearanceSetting create
+   */
+  export type AppearanceSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppearanceSetting
+     */
+    select?: AppearanceSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppearanceSetting
+     */
+    omit?: AppearanceSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a AppearanceSetting.
+     */
+    data: XOR<AppearanceSettingCreateInput, AppearanceSettingUncheckedCreateInput>
+  }
+
+  /**
+   * AppearanceSetting createMany
+   */
+  export type AppearanceSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AppearanceSettings.
+     */
+    data: AppearanceSettingCreateManyInput | AppearanceSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AppearanceSetting createManyAndReturn
+   */
+  export type AppearanceSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppearanceSetting
+     */
+    select?: AppearanceSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppearanceSetting
+     */
+    omit?: AppearanceSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many AppearanceSettings.
+     */
+    data: AppearanceSettingCreateManyInput | AppearanceSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AppearanceSetting update
+   */
+  export type AppearanceSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppearanceSetting
+     */
+    select?: AppearanceSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppearanceSetting
+     */
+    omit?: AppearanceSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a AppearanceSetting.
+     */
+    data: XOR<AppearanceSettingUpdateInput, AppearanceSettingUncheckedUpdateInput>
+    /**
+     * Choose, which AppearanceSetting to update.
+     */
+    where: AppearanceSettingWhereUniqueInput
+  }
+
+  /**
+   * AppearanceSetting updateMany
+   */
+  export type AppearanceSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AppearanceSettings.
+     */
+    data: XOR<AppearanceSettingUpdateManyMutationInput, AppearanceSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which AppearanceSettings to update
+     */
+    where?: AppearanceSettingWhereInput
+    /**
+     * Limit how many AppearanceSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AppearanceSetting updateManyAndReturn
+   */
+  export type AppearanceSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppearanceSetting
+     */
+    select?: AppearanceSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppearanceSetting
+     */
+    omit?: AppearanceSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update AppearanceSettings.
+     */
+    data: XOR<AppearanceSettingUpdateManyMutationInput, AppearanceSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which AppearanceSettings to update
+     */
+    where?: AppearanceSettingWhereInput
+    /**
+     * Limit how many AppearanceSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AppearanceSetting upsert
+   */
+  export type AppearanceSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppearanceSetting
+     */
+    select?: AppearanceSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppearanceSetting
+     */
+    omit?: AppearanceSettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the AppearanceSetting to update in case it exists.
+     */
+    where: AppearanceSettingWhereUniqueInput
+    /**
+     * In case the AppearanceSetting found by the `where` argument doesn't exist, create a new AppearanceSetting with this data.
+     */
+    create: XOR<AppearanceSettingCreateInput, AppearanceSettingUncheckedCreateInput>
+    /**
+     * In case the AppearanceSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AppearanceSettingUpdateInput, AppearanceSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * AppearanceSetting delete
+   */
+  export type AppearanceSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppearanceSetting
+     */
+    select?: AppearanceSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppearanceSetting
+     */
+    omit?: AppearanceSettingOmit<ExtArgs> | null
+    /**
+     * Filter which AppearanceSetting to delete.
+     */
+    where: AppearanceSettingWhereUniqueInput
+  }
+
+  /**
+   * AppearanceSetting deleteMany
+   */
+  export type AppearanceSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AppearanceSettings to delete
+     */
+    where?: AppearanceSettingWhereInput
+    /**
+     * Limit how many AppearanceSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AppearanceSetting without action
+   */
+  export type AppearanceSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AppearanceSetting
+     */
+    select?: AppearanceSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AppearanceSetting
+     */
+    omit?: AppearanceSettingOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model GeneralSetting
    */
 
@@ -15513,6 +17789,1113 @@ export namespace Prisma {
 
 
   /**
+   * Model Category
+   */
+
+  export type AggregateCategory = {
+    _count: CategoryCountAggregateOutputType | null
+    _avg: CategoryAvgAggregateOutputType | null
+    _sum: CategorySumAggregateOutputType | null
+    _min: CategoryMinAggregateOutputType | null
+    _max: CategoryMaxAggregateOutputType | null
+  }
+
+  export type CategoryAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type CategorySumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type CategoryMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+    parent: string | null
+    order: number | null
+    banner: string | null
+    icon: string | null
+    link: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CategoryMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+    parent: string | null
+    order: number | null
+    banner: string | null
+    icon: string | null
+    link: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CategoryCountAggregateOutputType = {
+    id: number
+    name: number
+    slug: number
+    parent: number
+    order: number
+    banner: number
+    icon: number
+    link: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CategoryAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type CategorySumAggregateInputType = {
+    order?: true
+  }
+
+  export type CategoryMinAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    parent?: true
+    order?: true
+    banner?: true
+    icon?: true
+    link?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CategoryMaxAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    parent?: true
+    order?: true
+    banner?: true
+    icon?: true
+    link?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CategoryCountAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    parent?: true
+    order?: true
+    banner?: true
+    icon?: true
+    link?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CategoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Category to aggregate.
+     */
+    where?: CategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Categories to fetch.
+     */
+    orderBy?: CategoryOrderByWithRelationInput | CategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Categories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Categories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Categories
+    **/
+    _count?: true | CategoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CategoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CategorySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CategoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CategoryMaxAggregateInputType
+  }
+
+  export type GetCategoryAggregateType<T extends CategoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateCategory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCategory[P]>
+      : GetScalarType<T[P], AggregateCategory[P]>
+  }
+
+
+
+
+  export type CategoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CategoryWhereInput
+    orderBy?: CategoryOrderByWithAggregationInput | CategoryOrderByWithAggregationInput[]
+    by: CategoryScalarFieldEnum[] | CategoryScalarFieldEnum
+    having?: CategoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CategoryCountAggregateInputType | true
+    _avg?: CategoryAvgAggregateInputType
+    _sum?: CategorySumAggregateInputType
+    _min?: CategoryMinAggregateInputType
+    _max?: CategoryMaxAggregateInputType
+  }
+
+  export type CategoryGroupByOutputType = {
+    id: string
+    name: string
+    slug: string
+    parent: string | null
+    order: number
+    banner: string | null
+    icon: string | null
+    link: string | null
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: CategoryCountAggregateOutputType | null
+    _avg: CategoryAvgAggregateOutputType | null
+    _sum: CategorySumAggregateOutputType | null
+    _min: CategoryMinAggregateOutputType | null
+    _max: CategoryMaxAggregateOutputType | null
+  }
+
+  type GetCategoryGroupByPayload<T extends CategoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CategoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CategoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CategoryGroupByOutputType[P]>
+            : GetScalarType<T[P], CategoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    parent?: boolean
+    order?: boolean
+    banner?: boolean
+    icon?: boolean
+    link?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["category"]>
+
+  export type CategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    parent?: boolean
+    order?: boolean
+    banner?: boolean
+    icon?: boolean
+    link?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["category"]>
+
+  export type CategorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    parent?: boolean
+    order?: boolean
+    banner?: boolean
+    icon?: boolean
+    link?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["category"]>
+
+  export type CategorySelectScalar = {
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    parent?: boolean
+    order?: boolean
+    banner?: boolean
+    icon?: boolean
+    link?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "parent" | "order" | "banner" | "icon" | "link" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
+
+  export type $CategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Category"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      slug: string
+      parent: string | null
+      order: number
+      banner: string | null
+      icon: string | null
+      link: string | null
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["category"]>
+    composites: {}
+  }
+
+  type CategoryGetPayload<S extends boolean | null | undefined | CategoryDefaultArgs> = $Result.GetResult<Prisma.$CategoryPayload, S>
+
+  type CategoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CategoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CategoryCountAggregateInputType | true
+    }
+
+  export interface CategoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Category'], meta: { name: 'Category' } }
+    /**
+     * Find zero or one Category that matches the filter.
+     * @param {CategoryFindUniqueArgs} args - Arguments to find a Category
+     * @example
+     * // Get one Category
+     * const category = await prisma.category.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CategoryFindUniqueArgs>(args: SelectSubset<T, CategoryFindUniqueArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Category that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CategoryFindUniqueOrThrowArgs} args - Arguments to find a Category
+     * @example
+     * // Get one Category
+     * const category = await prisma.category.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CategoryFindUniqueOrThrowArgs>(args: SelectSubset<T, CategoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Category that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryFindFirstArgs} args - Arguments to find a Category
+     * @example
+     * // Get one Category
+     * const category = await prisma.category.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CategoryFindFirstArgs>(args?: SelectSubset<T, CategoryFindFirstArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Category that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryFindFirstOrThrowArgs} args - Arguments to find a Category
+     * @example
+     * // Get one Category
+     * const category = await prisma.category.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CategoryFindFirstOrThrowArgs>(args?: SelectSubset<T, CategoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Categories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Categories
+     * const categories = await prisma.category.findMany()
+     * 
+     * // Get first 10 Categories
+     * const categories = await prisma.category.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const categoryWithIdOnly = await prisma.category.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CategoryFindManyArgs>(args?: SelectSubset<T, CategoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Category.
+     * @param {CategoryCreateArgs} args - Arguments to create a Category.
+     * @example
+     * // Create one Category
+     * const Category = await prisma.category.create({
+     *   data: {
+     *     // ... data to create a Category
+     *   }
+     * })
+     * 
+     */
+    create<T extends CategoryCreateArgs>(args: SelectSubset<T, CategoryCreateArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Categories.
+     * @param {CategoryCreateManyArgs} args - Arguments to create many Categories.
+     * @example
+     * // Create many Categories
+     * const category = await prisma.category.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CategoryCreateManyArgs>(args?: SelectSubset<T, CategoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Categories and returns the data saved in the database.
+     * @param {CategoryCreateManyAndReturnArgs} args - Arguments to create many Categories.
+     * @example
+     * // Create many Categories
+     * const category = await prisma.category.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Categories and only return the `id`
+     * const categoryWithIdOnly = await prisma.category.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CategoryCreateManyAndReturnArgs>(args?: SelectSubset<T, CategoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Category.
+     * @param {CategoryDeleteArgs} args - Arguments to delete one Category.
+     * @example
+     * // Delete one Category
+     * const Category = await prisma.category.delete({
+     *   where: {
+     *     // ... filter to delete one Category
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CategoryDeleteArgs>(args: SelectSubset<T, CategoryDeleteArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Category.
+     * @param {CategoryUpdateArgs} args - Arguments to update one Category.
+     * @example
+     * // Update one Category
+     * const category = await prisma.category.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CategoryUpdateArgs>(args: SelectSubset<T, CategoryUpdateArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Categories.
+     * @param {CategoryDeleteManyArgs} args - Arguments to filter Categories to delete.
+     * @example
+     * // Delete a few Categories
+     * const { count } = await prisma.category.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CategoryDeleteManyArgs>(args?: SelectSubset<T, CategoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Categories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Categories
+     * const category = await prisma.category.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CategoryUpdateManyArgs>(args: SelectSubset<T, CategoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Categories and returns the data updated in the database.
+     * @param {CategoryUpdateManyAndReturnArgs} args - Arguments to update many Categories.
+     * @example
+     * // Update many Categories
+     * const category = await prisma.category.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Categories and only return the `id`
+     * const categoryWithIdOnly = await prisma.category.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CategoryUpdateManyAndReturnArgs>(args: SelectSubset<T, CategoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Category.
+     * @param {CategoryUpsertArgs} args - Arguments to update or create a Category.
+     * @example
+     * // Update or create a Category
+     * const category = await prisma.category.upsert({
+     *   create: {
+     *     // ... data to create a Category
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Category we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CategoryUpsertArgs>(args: SelectSubset<T, CategoryUpsertArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Categories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryCountArgs} args - Arguments to filter Categories to count.
+     * @example
+     * // Count the number of Categories
+     * const count = await prisma.category.count({
+     *   where: {
+     *     // ... the filter for the Categories we want to count
+     *   }
+     * })
+    **/
+    count<T extends CategoryCountArgs>(
+      args?: Subset<T, CategoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CategoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Category.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CategoryAggregateArgs>(args: Subset<T, CategoryAggregateArgs>): Prisma.PrismaPromise<GetCategoryAggregateType<T>>
+
+    /**
+     * Group by Category.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CategoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CategoryGroupByArgs['orderBy'] }
+        : { orderBy?: CategoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Category model
+   */
+  readonly fields: CategoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Category.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Category model
+   */
+  interface CategoryFieldRefs {
+    readonly id: FieldRef<"Category", 'String'>
+    readonly name: FieldRef<"Category", 'String'>
+    readonly slug: FieldRef<"Category", 'String'>
+    readonly parent: FieldRef<"Category", 'String'>
+    readonly order: FieldRef<"Category", 'Int'>
+    readonly banner: FieldRef<"Category", 'String'>
+    readonly icon: FieldRef<"Category", 'String'>
+    readonly link: FieldRef<"Category", 'String'>
+    readonly status: FieldRef<"Category", 'String'>
+    readonly createdAt: FieldRef<"Category", 'DateTime'>
+    readonly updatedAt: FieldRef<"Category", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Category findUnique
+   */
+  export type CategoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Filter, which Category to fetch.
+     */
+    where: CategoryWhereUniqueInput
+  }
+
+  /**
+   * Category findUniqueOrThrow
+   */
+  export type CategoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Filter, which Category to fetch.
+     */
+    where: CategoryWhereUniqueInput
+  }
+
+  /**
+   * Category findFirst
+   */
+  export type CategoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Filter, which Category to fetch.
+     */
+    where?: CategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Categories to fetch.
+     */
+    orderBy?: CategoryOrderByWithRelationInput | CategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Categories.
+     */
+    cursor?: CategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Categories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Categories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Categories.
+     */
+    distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
+  }
+
+  /**
+   * Category findFirstOrThrow
+   */
+  export type CategoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Filter, which Category to fetch.
+     */
+    where?: CategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Categories to fetch.
+     */
+    orderBy?: CategoryOrderByWithRelationInput | CategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Categories.
+     */
+    cursor?: CategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Categories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Categories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Categories.
+     */
+    distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
+  }
+
+  /**
+   * Category findMany
+   */
+  export type CategoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Filter, which Categories to fetch.
+     */
+    where?: CategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Categories to fetch.
+     */
+    orderBy?: CategoryOrderByWithRelationInput | CategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Categories.
+     */
+    cursor?: CategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Categories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Categories.
+     */
+    skip?: number
+    distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
+  }
+
+  /**
+   * Category create
+   */
+  export type CategoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Category.
+     */
+    data: XOR<CategoryCreateInput, CategoryUncheckedCreateInput>
+  }
+
+  /**
+   * Category createMany
+   */
+  export type CategoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Categories.
+     */
+    data: CategoryCreateManyInput | CategoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Category createManyAndReturn
+   */
+  export type CategoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many Categories.
+     */
+    data: CategoryCreateManyInput | CategoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Category update
+   */
+  export type CategoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Category.
+     */
+    data: XOR<CategoryUpdateInput, CategoryUncheckedUpdateInput>
+    /**
+     * Choose, which Category to update.
+     */
+    where: CategoryWhereUniqueInput
+  }
+
+  /**
+   * Category updateMany
+   */
+  export type CategoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Categories.
+     */
+    data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which Categories to update
+     */
+    where?: CategoryWhereInput
+    /**
+     * Limit how many Categories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Category updateManyAndReturn
+   */
+  export type CategoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * The data used to update Categories.
+     */
+    data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which Categories to update
+     */
+    where?: CategoryWhereInput
+    /**
+     * Limit how many Categories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Category upsert
+   */
+  export type CategoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Category to update in case it exists.
+     */
+    where: CategoryWhereUniqueInput
+    /**
+     * In case the Category found by the `where` argument doesn't exist, create a new Category with this data.
+     */
+    create: XOR<CategoryCreateInput, CategoryUncheckedCreateInput>
+    /**
+     * In case the Category was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CategoryUpdateInput, CategoryUncheckedUpdateInput>
+  }
+
+  /**
+   * Category delete
+   */
+  export type CategoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Filter which Category to delete.
+     */
+    where: CategoryWhereUniqueInput
+  }
+
+  /**
+   * Category deleteMany
+   */
+  export type CategoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Categories to delete
+     */
+    where?: CategoryWhereInput
+    /**
+     * Limit how many Categories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Category without action
+   */
+  export type CategoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -15692,6 +19075,29 @@ export namespace Prisma {
   export type SettingScalarFieldEnum = (typeof SettingScalarFieldEnum)[keyof typeof SettingScalarFieldEnum]
 
 
+  export const SeoSettingScalarFieldEnum: {
+    id: 'id',
+    metaTitle: 'metaTitle',
+    metaDescription: 'metaDescription',
+    metaKeywords: 'metaKeywords',
+    metaImage: 'metaImage',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SeoSettingScalarFieldEnum = (typeof SeoSettingScalarFieldEnum)[keyof typeof SeoSettingScalarFieldEnum]
+
+
+  export const AppearanceSettingScalarFieldEnum: {
+    id: 'id',
+    baseColor: 'baseColor',
+    hoverColor: 'hoverColor',
+    timezone: 'timezone',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AppearanceSettingScalarFieldEnum = (typeof AppearanceSettingScalarFieldEnum)[keyof typeof AppearanceSettingScalarFieldEnum]
+
+
   export const GeneralSettingScalarFieldEnum: {
     id: 'id',
     siteName: 'siteName',
@@ -15702,6 +19108,23 @@ export namespace Prisma {
   };
 
   export type GeneralSettingScalarFieldEnum = (typeof GeneralSettingScalarFieldEnum)[keyof typeof GeneralSettingScalarFieldEnum]
+
+
+  export const CategoryScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    slug: 'slug',
+    parent: 'parent',
+    order: 'order',
+    banner: 'banner',
+    icon: 'icon',
+    link: 'link',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -16682,6 +20105,115 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Setting"> | Date | string
   }
 
+  export type SeoSettingWhereInput = {
+    AND?: SeoSettingWhereInput | SeoSettingWhereInput[]
+    OR?: SeoSettingWhereInput[]
+    NOT?: SeoSettingWhereInput | SeoSettingWhereInput[]
+    id?: StringFilter<"SeoSetting"> | string
+    metaTitle?: StringFilter<"SeoSetting"> | string
+    metaDescription?: StringFilter<"SeoSetting"> | string
+    metaKeywords?: StringFilter<"SeoSetting"> | string
+    metaImage?: StringFilter<"SeoSetting"> | string
+    updatedAt?: DateTimeFilter<"SeoSetting"> | Date | string
+  }
+
+  export type SeoSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    metaTitle?: SortOrder
+    metaDescription?: SortOrder
+    metaKeywords?: SortOrder
+    metaImage?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeoSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SeoSettingWhereInput | SeoSettingWhereInput[]
+    OR?: SeoSettingWhereInput[]
+    NOT?: SeoSettingWhereInput | SeoSettingWhereInput[]
+    metaTitle?: StringFilter<"SeoSetting"> | string
+    metaDescription?: StringFilter<"SeoSetting"> | string
+    metaKeywords?: StringFilter<"SeoSetting"> | string
+    metaImage?: StringFilter<"SeoSetting"> | string
+    updatedAt?: DateTimeFilter<"SeoSetting"> | Date | string
+  }, "id">
+
+  export type SeoSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    metaTitle?: SortOrder
+    metaDescription?: SortOrder
+    metaKeywords?: SortOrder
+    metaImage?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SeoSettingCountOrderByAggregateInput
+    _max?: SeoSettingMaxOrderByAggregateInput
+    _min?: SeoSettingMinOrderByAggregateInput
+  }
+
+  export type SeoSettingScalarWhereWithAggregatesInput = {
+    AND?: SeoSettingScalarWhereWithAggregatesInput | SeoSettingScalarWhereWithAggregatesInput[]
+    OR?: SeoSettingScalarWhereWithAggregatesInput[]
+    NOT?: SeoSettingScalarWhereWithAggregatesInput | SeoSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SeoSetting"> | string
+    metaTitle?: StringWithAggregatesFilter<"SeoSetting"> | string
+    metaDescription?: StringWithAggregatesFilter<"SeoSetting"> | string
+    metaKeywords?: StringWithAggregatesFilter<"SeoSetting"> | string
+    metaImage?: StringWithAggregatesFilter<"SeoSetting"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SeoSetting"> | Date | string
+  }
+
+  export type AppearanceSettingWhereInput = {
+    AND?: AppearanceSettingWhereInput | AppearanceSettingWhereInput[]
+    OR?: AppearanceSettingWhereInput[]
+    NOT?: AppearanceSettingWhereInput | AppearanceSettingWhereInput[]
+    id?: StringFilter<"AppearanceSetting"> | string
+    baseColor?: StringFilter<"AppearanceSetting"> | string
+    hoverColor?: StringFilter<"AppearanceSetting"> | string
+    timezone?: StringFilter<"AppearanceSetting"> | string
+    updatedAt?: DateTimeFilter<"AppearanceSetting"> | Date | string
+  }
+
+  export type AppearanceSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    baseColor?: SortOrder
+    hoverColor?: SortOrder
+    timezone?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AppearanceSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AppearanceSettingWhereInput | AppearanceSettingWhereInput[]
+    OR?: AppearanceSettingWhereInput[]
+    NOT?: AppearanceSettingWhereInput | AppearanceSettingWhereInput[]
+    baseColor?: StringFilter<"AppearanceSetting"> | string
+    hoverColor?: StringFilter<"AppearanceSetting"> | string
+    timezone?: StringFilter<"AppearanceSetting"> | string
+    updatedAt?: DateTimeFilter<"AppearanceSetting"> | Date | string
+  }, "id">
+
+  export type AppearanceSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    baseColor?: SortOrder
+    hoverColor?: SortOrder
+    timezone?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AppearanceSettingCountOrderByAggregateInput
+    _max?: AppearanceSettingMaxOrderByAggregateInput
+    _min?: AppearanceSettingMinOrderByAggregateInput
+  }
+
+  export type AppearanceSettingScalarWhereWithAggregatesInput = {
+    AND?: AppearanceSettingScalarWhereWithAggregatesInput | AppearanceSettingScalarWhereWithAggregatesInput[]
+    OR?: AppearanceSettingScalarWhereWithAggregatesInput[]
+    NOT?: AppearanceSettingScalarWhereWithAggregatesInput | AppearanceSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AppearanceSetting"> | string
+    baseColor?: StringWithAggregatesFilter<"AppearanceSetting"> | string
+    hoverColor?: StringWithAggregatesFilter<"AppearanceSetting"> | string
+    timezone?: StringWithAggregatesFilter<"AppearanceSetting"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AppearanceSetting"> | Date | string
+  }
+
   export type GeneralSettingWhereInput = {
     AND?: GeneralSettingWhereInput | GeneralSettingWhereInput[]
     OR?: GeneralSettingWhereInput[]
@@ -16737,6 +20269,90 @@ export namespace Prisma {
     logoUrl?: StringWithAggregatesFilter<"GeneralSetting"> | string
     faviconUrl?: StringWithAggregatesFilter<"GeneralSetting"> | string
     updatedAt?: DateTimeWithAggregatesFilter<"GeneralSetting"> | Date | string
+  }
+
+  export type CategoryWhereInput = {
+    AND?: CategoryWhereInput | CategoryWhereInput[]
+    OR?: CategoryWhereInput[]
+    NOT?: CategoryWhereInput | CategoryWhereInput[]
+    id?: StringFilter<"Category"> | string
+    name?: StringFilter<"Category"> | string
+    slug?: StringFilter<"Category"> | string
+    parent?: StringNullableFilter<"Category"> | string | null
+    order?: IntFilter<"Category"> | number
+    banner?: StringNullableFilter<"Category"> | string | null
+    icon?: StringNullableFilter<"Category"> | string | null
+    link?: StringNullableFilter<"Category"> | string | null
+    status?: StringFilter<"Category"> | string
+    createdAt?: DateTimeFilter<"Category"> | Date | string
+    updatedAt?: DateTimeFilter<"Category"> | Date | string
+  }
+
+  export type CategoryOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    parent?: SortOrderInput | SortOrder
+    order?: SortOrder
+    banner?: SortOrderInput | SortOrder
+    icon?: SortOrderInput | SortOrder
+    link?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CategoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: CategoryWhereInput | CategoryWhereInput[]
+    OR?: CategoryWhereInput[]
+    NOT?: CategoryWhereInput | CategoryWhereInput[]
+    name?: StringFilter<"Category"> | string
+    parent?: StringNullableFilter<"Category"> | string | null
+    order?: IntFilter<"Category"> | number
+    banner?: StringNullableFilter<"Category"> | string | null
+    icon?: StringNullableFilter<"Category"> | string | null
+    link?: StringNullableFilter<"Category"> | string | null
+    status?: StringFilter<"Category"> | string
+    createdAt?: DateTimeFilter<"Category"> | Date | string
+    updatedAt?: DateTimeFilter<"Category"> | Date | string
+  }, "id" | "slug">
+
+  export type CategoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    parent?: SortOrderInput | SortOrder
+    order?: SortOrder
+    banner?: SortOrderInput | SortOrder
+    icon?: SortOrderInput | SortOrder
+    link?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CategoryCountOrderByAggregateInput
+    _avg?: CategoryAvgOrderByAggregateInput
+    _max?: CategoryMaxOrderByAggregateInput
+    _min?: CategoryMinOrderByAggregateInput
+    _sum?: CategorySumOrderByAggregateInput
+  }
+
+  export type CategoryScalarWhereWithAggregatesInput = {
+    AND?: CategoryScalarWhereWithAggregatesInput | CategoryScalarWhereWithAggregatesInput[]
+    OR?: CategoryScalarWhereWithAggregatesInput[]
+    NOT?: CategoryScalarWhereWithAggregatesInput | CategoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Category"> | string
+    name?: StringWithAggregatesFilter<"Category"> | string
+    slug?: StringWithAggregatesFilter<"Category"> | string
+    parent?: StringNullableWithAggregatesFilter<"Category"> | string | null
+    order?: IntWithAggregatesFilter<"Category"> | number
+    banner?: StringNullableWithAggregatesFilter<"Category"> | string | null
+    icon?: StringNullableWithAggregatesFilter<"Category"> | string | null
+    link?: StringNullableWithAggregatesFilter<"Category"> | string | null
+    status?: StringWithAggregatesFilter<"Category"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -17694,6 +21310,125 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SeoSettingCreateInput = {
+    id?: string
+    metaTitle?: string
+    metaDescription?: string
+    metaKeywords?: string
+    metaImage?: string
+    updatedAt?: Date | string
+  }
+
+  export type SeoSettingUncheckedCreateInput = {
+    id?: string
+    metaTitle?: string
+    metaDescription?: string
+    metaKeywords?: string
+    metaImage?: string
+    updatedAt?: Date | string
+  }
+
+  export type SeoSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaTitle?: StringFieldUpdateOperationsInput | string
+    metaDescription?: StringFieldUpdateOperationsInput | string
+    metaKeywords?: StringFieldUpdateOperationsInput | string
+    metaImage?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeoSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaTitle?: StringFieldUpdateOperationsInput | string
+    metaDescription?: StringFieldUpdateOperationsInput | string
+    metaKeywords?: StringFieldUpdateOperationsInput | string
+    metaImage?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeoSettingCreateManyInput = {
+    id?: string
+    metaTitle?: string
+    metaDescription?: string
+    metaKeywords?: string
+    metaImage?: string
+    updatedAt?: Date | string
+  }
+
+  export type SeoSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaTitle?: StringFieldUpdateOperationsInput | string
+    metaDescription?: StringFieldUpdateOperationsInput | string
+    metaKeywords?: StringFieldUpdateOperationsInput | string
+    metaImage?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeoSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    metaTitle?: StringFieldUpdateOperationsInput | string
+    metaDescription?: StringFieldUpdateOperationsInput | string
+    metaKeywords?: StringFieldUpdateOperationsInput | string
+    metaImage?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AppearanceSettingCreateInput = {
+    id?: string
+    baseColor?: string
+    hoverColor?: string
+    timezone?: string
+    updatedAt?: Date | string
+  }
+
+  export type AppearanceSettingUncheckedCreateInput = {
+    id?: string
+    baseColor?: string
+    hoverColor?: string
+    timezone?: string
+    updatedAt?: Date | string
+  }
+
+  export type AppearanceSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    baseColor?: StringFieldUpdateOperationsInput | string
+    hoverColor?: StringFieldUpdateOperationsInput | string
+    timezone?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AppearanceSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    baseColor?: StringFieldUpdateOperationsInput | string
+    hoverColor?: StringFieldUpdateOperationsInput | string
+    timezone?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AppearanceSettingCreateManyInput = {
+    id?: string
+    baseColor?: string
+    hoverColor?: string
+    timezone?: string
+    updatedAt?: Date | string
+  }
+
+  export type AppearanceSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    baseColor?: StringFieldUpdateOperationsInput | string
+    hoverColor?: StringFieldUpdateOperationsInput | string
+    timezone?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AppearanceSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    baseColor?: StringFieldUpdateOperationsInput | string
+    hoverColor?: StringFieldUpdateOperationsInput | string
+    timezone?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type GeneralSettingCreateInput = {
     id?: string
     siteName?: string
@@ -17754,6 +21489,104 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     logoUrl?: StringFieldUpdateOperationsInput | string
     faviconUrl?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CategoryCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    parent?: string | null
+    order?: number
+    banner?: string | null
+    icon?: string | null
+    link?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CategoryUncheckedCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    parent?: string | null
+    order?: number
+    banner?: string | null
+    icon?: string | null
+    link?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CategoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    parent?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    banner?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CategoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    parent?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    banner?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CategoryCreateManyInput = {
+    id?: string
+    name: string
+    slug: string
+    parent?: string | null
+    order?: number
+    banner?: string | null
+    icon?: string | null
+    link?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CategoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    parent?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    banner?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CategoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    parent?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    banner?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -18497,6 +22330,57 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
+  export type SeoSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    metaTitle?: SortOrder
+    metaDescription?: SortOrder
+    metaKeywords?: SortOrder
+    metaImage?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeoSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    metaTitle?: SortOrder
+    metaDescription?: SortOrder
+    metaKeywords?: SortOrder
+    metaImage?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeoSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    metaTitle?: SortOrder
+    metaDescription?: SortOrder
+    metaKeywords?: SortOrder
+    metaImage?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AppearanceSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    baseColor?: SortOrder
+    hoverColor?: SortOrder
+    timezone?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AppearanceSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    baseColor?: SortOrder
+    hoverColor?: SortOrder
+    timezone?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AppearanceSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    baseColor?: SortOrder
+    hoverColor?: SortOrder
+    timezone?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type GeneralSettingCountOrderByAggregateInput = {
     id?: SortOrder
     siteName?: SortOrder
@@ -18522,6 +22406,83 @@ export namespace Prisma {
     logoUrl?: SortOrder
     faviconUrl?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type CategoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    parent?: SortOrder
+    order?: SortOrder
+    banner?: SortOrder
+    icon?: SortOrder
+    link?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CategoryAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type CategoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    parent?: SortOrder
+    order?: SortOrder
+    banner?: SortOrder
+    icon?: SortOrder
+    link?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CategoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    parent?: SortOrder
+    order?: SortOrder
+    banner?: SortOrder
+    icon?: SortOrder
+    link?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CategorySumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -19024,6 +22985,14 @@ export namespace Prisma {
     update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutAnalyticsInput, ProjectUpdateWithoutAnalyticsInput>, ProjectUncheckedUpdateWithoutAnalyticsInput>
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -19246,6 +23215,22 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type ServiceCreateWithoutCustomersInput = {

@@ -180,6 +180,27 @@ model Setting {
   @@map("settings")
 }
 
+model SeoSetting {
+  id              String   @id @default(cuid())
+  metaTitle       String   @default("")
+  metaDescription String   @default("")
+  metaKeywords    String   @default("")
+  metaImage       String   @default("")
+  updatedAt       DateTime @updatedAt
+
+  @@map("seo_settings")
+}
+
+model AppearanceSetting {
+  id         String   @id @default(cuid())
+  baseColor  String   @default("#825DD2")
+  hoverColor String   @default("#D78539")
+  timezone   String   @default("(GMT+06:45) Asia/Kathmandu")
+  updatedAt  DateTime @updatedAt
+
+  @@map("appearance_settings")
+}
+
 model GeneralSetting {
   id          String   @id @default(cuid())
   siteName    String   @default("")
@@ -189,4 +210,20 @@ model GeneralSetting {
   updatedAt   DateTime @updatedAt
 
   @@map("general_settings")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  parent    String?
+  order     Int      @default(0)
+  banner    String?
+  icon      String?
+  link      String?
+  status    String   @default("Active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
 }

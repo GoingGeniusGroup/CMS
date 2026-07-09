@@ -26,6 +26,8 @@ import {
   FilePlus2,
   LogOut,
   Tag,
+  Handshake,
+  Cpu,
   type LucideIcon,
 } from "lucide-react";
 
@@ -54,6 +56,8 @@ export const navItems: NavItem[] = [
     children: [
       { label: "Website Header", href: "/website-setup/header", icon: Globe },
       { label: "Footer Widgets", href: "/website-setup/footer-widgets", icon: LayoutPanelTop },
+      { label: "Our Partners", href: "/website-setup/partners", icon: Handshake },
+      { label: "Technologies", href: "/website-setup/technologies", icon: Cpu },
       { label: "Add New Page", href: "/website-setup/add-newpage", icon: FilePlus2 },
     ],
   },
