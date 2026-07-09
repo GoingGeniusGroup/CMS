@@ -1,12 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { ShieldCheck } from "lucide-react";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
+import { getPopupSettings, savePopupSettings } from "@/app/actions/popup";
 
 export default function PopupSettingsPage() {
   const [showPopup, setShowPopup] = useState(true);
+  const [content, setContent] = useState("");
+  const [toast, setToast] = useState<{ message: string; ok: boolean } | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  // Load saved settings on mount
+  useEffect(() => {
+    getPopupSettings().then((data) => {
+      setShowPopup(data.showPopup);
+      setContent(data.content);
+    });
+  }, []);
+
+  // Auto-dismiss toast after 3s
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 3000);
+    return () => clearTimeout(t);
+  }, [toast]);
+
+  function handleSave() {
+    if (!content.trim()) {
+      setToast({ message: "Popup content cannot be empty. Please write something before saving.", ok: false });
+      return;
+    }
+    startTransition(async () => {
+      const result = await savePopupSettings({ showPopup, content });
+      setToast(
+        result.success
+          ? { message: "Settings saved successfully.", ok: true }
+          : { message: result.error ?? "Failed to save.", ok: false }
+      );
+    });
+  }
 
   return (
     <Card className="p-6 sm:p-8">
@@ -21,8 +55,27 @@ export default function PopupSettingsPage() {
             Manage Website popup display settings and content.
           </p>
         </div>
-        <Button className="w-full shrink-0 sm:w-auto">Save Changes</Button>
+        <Button
+          className="w-full shrink-0 sm:w-auto"
+          onClick={handleSave}
+          disabled={isPending}
+        >
+          {isPending ? "Saving..." : "Save Changes"}
+        </Button>
       </div>
+
+      {/* Toast */}
+      {toast && (
+        <div
+          className={`mb-4 rounded-lg px-4 py-2.5 text-sm font-medium ${
+            toast.ok
+              ? "bg-green-50 text-green-700 border border-green-200"
+              : "bg-red-50 text-red-700 border border-red-200"
+          }`}
+        >
+          {toast.message}
+        </div>
+      )}
 
       <div className="space-y-6">
         {/* Show website popup toggle */}
@@ -52,11 +105,11 @@ export default function PopupSettingsPage() {
           </label>
           <textarea
             rows={5}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
             className="w-full resize-none rounded-lg border border-zinc-300 bg-white px-3 py-3 text-sm outline-none focus:border-indigo-400"
           />
         </div>
-
-        {/* Save button removed from bottom — moved to header */}
       </div>
     </Card>
   );

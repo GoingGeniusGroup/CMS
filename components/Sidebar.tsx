@@ -25,6 +25,7 @@ import {
   LayoutPanelTop,
   FilePlus2,
   LogOut,
+  Tag,
   type LucideIcon,
 } from "lucide-react";
 
@@ -44,6 +45,8 @@ export const navItems: NavItem[] = [
   { label: "Analytics", href: "/analytics", icon: BarChart2 },
   { label: "Invoices", href: "/invoices", icon: FileText },
   { label: "Blog", href: "/blog", icon: Newspaper },
+  { label: "Pages", href: "/pages", icon: FilePlus2 },
+  { label: "Category", href: "/category", icon: Tag },
   {
     label: "Website Setup",
     href: "/website-setup",
@@ -51,14 +54,14 @@ export const navItems: NavItem[] = [
     children: [
       { label: "Website Header", href: "/website-setup/header", icon: Globe },
       { label: "Footer Widgets", href: "/website-setup/footer-widgets", icon: LayoutPanelTop },
-      { label: "Add New Page", href: "/website-setup/add-page", icon: FilePlus2 },
+      { label: "Add New Page", href: "/website-setup/add-newpage", icon: FilePlus2 },
     ],
   },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 
 /**
- * Mobile top bar — logo + hamburger toggle.
+ * Mobile top bar—logo + hamburger toggle.
  */
 export function MobileHeader({
   isOpen,

@@ -10,7 +10,6 @@ const serviceSchema = z.object({
   category: z.string().optional(),
   basePrice: z.number().optional(),
   isActive: z.boolean().optional(),
-  image: z.string().optional(),
 });
 
 export type ServiceInput = z.infer<typeof serviceSchema>;

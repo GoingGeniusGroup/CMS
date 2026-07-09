@@ -145,3 +145,48 @@ model Analytics {
 
   @@map("analytics")
 }
+
+model PopupSetting {
+  id        String   @id @default(cuid())
+  showPopup Boolean  @default(true)
+  content   String   @default("")
+  updatedAt DateTime @updatedAt
+
+  @@map("popup_settings")
+}
+
+model Page {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String?
+  thumbnail String?
+  metaTitle String?
+  metaDesc  String?
+  keywords  String?
+  metaImage String?
+  status    String   @default("Draft")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("pages")
+}
+
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
+
+model GeneralSetting {
+  id          String   @id @default(cuid())
+  siteName    String   @default("")
+  description String   @default("")
+  logoUrl     String   @default("")
+  faviconUrl  String   @default("")
+  updatedAt   DateTime @updatedAt
+
+  @@map("general_settings")
+}

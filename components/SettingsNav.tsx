@@ -21,6 +21,10 @@ export const settingsNavItems = [
   { label: "Email", href: "/settings/email", icon: Mail },
   { label: "Social", href: "/settings/social", icon: Share2 },
   { label: "Security", href: "/settings/security", icon: Shield },
+  { label: "Appearance", href: "/settings/appearance", icon: Paintbrush },
+  { label: "SEO", href: "/settings/seo", icon: Search },
+  { label: "Popup", href: "/settings/popup", icon: LayoutTemplate },
+  { label: "Cookies", href: "/settings/cookies", icon: Cookie },
 ];
 
 export function SettingsNav() {

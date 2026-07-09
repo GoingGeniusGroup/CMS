@@ -16,7 +16,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!email || !password) return null;
 
-        // Dynamic import keeps Prisma out of Edge runtime bundle
         const { validateUserCredentials } = await import("@/lib/auth-service");
 
         const user = await validateUserCredentials(email, password);

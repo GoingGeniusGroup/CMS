@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/Button";
+import { ImageUploader } from "@/components/ImageUploader";
 import { createBlog, updateBlog, type BlogInput } from "@/app/actions/blogs";
 
 type Author = {
@@ -19,6 +20,7 @@ type Blog = {
   authorId: string | null;
   author: Author | null;
   status: string;
+  thumbnail?: string | null;
 };
 
 export function BlogModal({
@@ -41,6 +43,7 @@ export function BlogModal({
   const [content, setContent] = useState(blog?.content ?? "");
   const [category, setCategory] = useState(blog?.category ?? "");
   const [authorId, setAuthorId] = useState(blog?.authorId ?? "");
+  const [thumbnail, setThumbnail] = useState(blog?.thumbnail ?? "");
   const [status, setStatus] = useState<"Published" | "Draft">(
     (blog?.status as "Published" | "Draft") ?? "Draft"
   );
@@ -76,6 +79,7 @@ export function BlogModal({
       content: content || undefined,
       category: category || undefined,
       authorId: authorId || undefined,
+      thumbnail: thumbnail || undefined,
       status,
     };
 
@@ -180,6 +184,13 @@ export function BlogModal({
               className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
             />
           </div>
+
+          {/* Thumbnail */}
+          <ImageUploader
+            label="Thumbnail"
+            value={thumbnail}
+            onChange={(url) => setThumbnail(url || "")}
+          />
 
           {/* Author */}
           <div>

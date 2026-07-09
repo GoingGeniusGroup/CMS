@@ -9,7 +9,8 @@ import { StatCard } from "@/components/StatCard";
 import { RowActions } from "@/components/RowActions";
 import { Pagination } from "@/components/Pagination";
 import { BlogModal } from "@/components/BlogModal";
-import { Filter, Plus, Search, Newspaper, Folder } from "lucide-react";
+import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { Filter, Plus, Search, Newspaper, Folder, List, LayoutGrid } from "lucide-react";
 import { getBlogs, deleteBlog } from "@/app/actions/blogs";
 
 type Author = {
@@ -54,10 +55,12 @@ export function BlogsClient({
   const [currentPage, setCurrentPage] = useState(initialData.page);
   const [search, setSearch] = useState("");
   const [isPending, startTransition] = useTransition();
+  const [viewMode, setViewMode] = useState<"list" | "card">("list");
 
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
@@ -82,9 +85,20 @@ export function BlogsClient({
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Are you sure you want to delete this blog?")) return;
-    const result = await deleteBlog(id);
-    if (result.success) {
+    setDeleteId(id);
+  }
+
+  async function handleDeleteConfirm() {
+    if (!deleteId) return;
+    // Optimistic: remove from UI immediately
+    setData((prev) => ({
+      ...prev,
+      blogs: prev.blogs.filter((b) => b.id !== deleteId),
+      total: prev.total - 1,
+    }));
+    const result = await deleteBlog(deleteId);
+    setDeleteId(null);
+    if (!result.success) {
       refresh();
     }
   }
@@ -125,124 +139,166 @@ export function BlogsClient({
         <StatCard icon={Newspaper} label="Draft" value={data.drafts} />
       </div>
 
-      {/* Search */}
+      {/* Search + View Toggle */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-bold text-black">Blogs</h2>
-        <div className="relative w-full sm:w-72">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
-          <input
-            type="search"
-            placeholder="Search blogs..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-10 pr-4 text-sm text-zinc-700 shadow-sm outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-sky-200"
-          />
+        <div className="flex items-center gap-3">
+          {/* View Toggle */}
+          <div className="hidden sm:flex items-center rounded-lg border border-gray-200 bg-white p-1">
+            <button
+              type="button"
+              onClick={() => setViewMode("list")}
+              className={`flex items-center justify-center rounded-md p-2 transition-colors ${
+                viewMode === "list"
+                  ? "bg-indigo-600 text-white shadow-sm"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+              title="List view"
+            >
+              <List className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("card")}
+              className={`flex items-center justify-center rounded-md p-2 transition-colors ${
+                viewMode === "card"
+                  ? "bg-indigo-600 text-white shadow-sm"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+              title="Card view"
+            >
+              <LayoutGrid className="h-4 w-4" />
+            </button>
+          </div>
+
+          {/* Search */}
+          <div className="relative w-full sm:w-72">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+            <input
+              type="search"
+              placeholder="Search blogs..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-10 pr-4 text-sm text-zinc-700 shadow-sm outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-sky-200"
+            />
+          </div>
         </div>
       </div>
 
-      {/* Blogs Table/Cards */}
-      <Card noPadding className="overflow-hidden">
-        {isPending ? (
-          <div className="flex items-center justify-center p-12 text-sm text-zinc-500">
-            Loading...
-          </div>
-        ) : filtered.length === 0 ? (
+      {/* Content */}
+      {filtered.length === 0 && !isPending ? (
+        <Card noPadding className="overflow-hidden">
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <Folder className="h-10 w-10 text-zinc-300" />
             <p className="text-sm text-zinc-500">
               {search ? "No blogs match your search" : "No blogs yet. Add your first blog!"}
             </p>
           </div>
-        ) : (
-          <>
-            {/* Desktop Table View */}
-            <div className="hidden lg:block overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="border-b border-gray-100 text-zinc-500">
-                    <th className="px-6 py-4 font-medium">#</th>
-                    <th className="px-6 py-4 font-medium">Title</th>
-                    <th className="px-6 py-4 font-medium">Slug</th>
-                    <th className="px-6 py-4 font-medium">Category</th>
-                    <th className="px-6 py-4 font-medium">Author</th>
-                    <th className="px-6 py-4 font-medium">Status</th>
-                    <th className="px-6 py-4 font-medium">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((blog, index) => (
-                    <tr key={blog.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 text-zinc-600">
-                        {String((currentPage - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}
-                      </td>
-                      <td className="px-6 py-4 font-medium text-gray-900">{blog.title}</td>
-                      <td className="px-6 py-4 text-zinc-600">{blog.slug}</td>
-                      <td className="px-6 py-4 text-zinc-600">{blog.category || "—"}</td>
-                      <td className="px-6 py-4 text-zinc-600">{blog.author?.fullName || "—"}</td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`inline-flex items-center justify-center min-w-[90px] px-3 py-1 rounded-full text-xs font-medium ${
-                            blog.status === "Published"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-red-100 text-red-700"
-                          }`}
-                        >
-                          {blog.status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <RowActions
-                          onEdit={() => handleEdit(blog)}
-                          onDelete={() => handleDelete(blog.id)}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Mobile/Tablet Card View */}
-            <div className="lg:hidden divide-y divide-gray-100">
-              {filtered.map((blog, index) => (
-                <div key={blog.id} className="p-3 sm:p-4 hover:bg-gray-50 transition-colors">
-                  <div className="flex items-start gap-3 mb-3">
-                    <div className="text-xs sm:text-sm text-gray-500 font-medium w-8">
+        </Card>
+      ) : viewMode === "list" ? (
+        /* ─── List View (Table) ─── */
+        <Card noPadding className="overflow-hidden">
+          <div className="hidden sm:block overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left p-4 text-sm font-semibold text-gray-700 w-16">#</th>
+                  <th className="text-left p-4 text-sm font-semibold text-gray-700">Title</th>
+                  <th className="text-left p-4 text-sm font-semibold text-gray-700">Slug</th>
+                  <th className="text-left p-4 text-sm font-semibold text-gray-700">Category</th>
+                  <th className="text-left p-4 text-sm font-semibold text-gray-700">Author</th>
+                  <th className="text-left p-4 text-sm font-semibold text-gray-700">Status</th>
+                  <th className="text-left p-4 text-sm font-semibold text-gray-700">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((blog, index) => (
+                  <tr key={blog.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                    <td className="p-4 text-sm text-gray-600">
                       {String((currentPage - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-1">
-                        {blog.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-gray-600 mb-1 truncate">{blog.slug}</p>
-                      <div className="flex flex-wrap items-center gap-2">
-                        {blog.category && (
-                          <span className="text-xs text-gray-500">{blog.category}</span>
-                        )}
-                        <span
-                          className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                            blog.status === "Published"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-red-100 text-red-700"
-                          }`}
-                        >
-                          {blog.status}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                    </td>
+                    <td className="p-4 text-sm font-medium text-gray-900">{blog.title}</td>
+                    <td className="p-4 text-sm text-gray-600">{blog.slug}</td>
+                    <td className="p-4 text-sm text-gray-600">{blog.category || "—"}</td>
+                    <td className="p-4 text-sm text-gray-600">{blog.author?.fullName || "—"}</td>
+                    <td className="p-4">
+                      <span className={`px-4 py-1.5 rounded-full text-xs font-medium ${
+                        blog.status === "Published"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                      }`}>
+                        {blog.status}
+                      </span>
+                    </td>
+                    <td className="p-4">
+                      <RowActions onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-                  <RowActions
-                    variant="buttons"
-                    onEdit={() => handleEdit(blog)}
-                    onDelete={() => handleDelete(blog.id)}
-                  />
+          {/* Mobile fallback */}
+          <div className="sm:hidden divide-y divide-gray-100">
+            {filtered.map((blog, index) => (
+              <div key={blog.id} className="p-3 hover:bg-gray-50 transition-colors">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="text-xs text-gray-500 font-medium w-6">
+                    {String((currentPage - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-sm text-gray-900 mb-1">{blog.title}</h3>
+                    <p className="text-xs text-gray-600 mb-2 truncate">{blog.slug}</p>
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                      blog.status === "Published" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                    }`}>
+                      {blog.status}
+                    </span>
+                  </div>
                 </div>
-              ))}
+                <RowActions variant="buttons" onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
+              </div>
+            ))}
+          </div>
+        </Card>
+      ) : (
+        /* ─── Card View (Grid) ─── */
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((blog) => (
+            <div
+              key={blog.id}
+              className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
+            >
+              {/* Title & Status */}
+              <div className="mb-3 flex items-start justify-between gap-2">
+                <h3 className="text-sm font-bold text-gray-900 line-clamp-2">{blog.title}</h3>
+                <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-medium ${
+                  blog.status === "Published" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                }`}>
+                  {blog.status}
+                </span>
+              </div>
+
+              {/* Slug */}
+              <p className="mb-3 text-xs text-gray-400 truncate">{blog.slug}</p>
+
+              {/* Meta */}
+              <div className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                {blog.category && (
+                  <span>Category: <span className="text-gray-700">{blog.category}</span></span>
+                )}
+                {blog.author && (
+                  <span>Author: <span className="text-gray-700">{blog.author.fullName}</span></span>
+                )}
+              </div>
+
+              {/* Actions */}
+              <RowActions variant="buttons" onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
             </div>
-          </>
-        )}
-      </Card>
+          ))}
+        </div>
+      )}
 
       {/* Pagination */}
       {data.pageCount > 1 && (
@@ -259,9 +315,18 @@ export function BlogsClient({
         key={editingBlog?.id ?? "new"}
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        onSuccess={() => refresh()}
+        onSuccess={() => { setModalOpen(false); refresh(); }}
         blog={editingBlog}
         authors={authors}
+      />
+
+      {/* Delete Confirmation */}
+      <DeleteConfirmModal
+        isOpen={!!deleteId}
+        title="Delete Blog"
+        description="Are you sure you want to delete this blog? This action cannot be undone."
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleDeleteConfirm}
       />
     </div>
   );

@@ -53,6 +53,26 @@ export type Invoice = $Result.DefaultSelection<Prisma.$InvoicePayload>
  * 
  */
 export type Analytics = $Result.DefaultSelection<Prisma.$AnalyticsPayload>
+/**
+ * Model PopupSetting
+ * 
+ */
+export type PopupSetting = $Result.DefaultSelection<Prisma.$PopupSettingPayload>
+/**
+ * Model Page
+ * 
+ */
+export type Page = $Result.DefaultSelection<Prisma.$PagePayload>
+/**
+ * Model Setting
+ * 
+ */
+export type Setting = $Result.DefaultSelection<Prisma.$SettingPayload>
+/**
+ * Model GeneralSetting
+ * 
+ */
+export type GeneralSetting = $Result.DefaultSelection<Prisma.$GeneralSettingPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -251,6 +271,46 @@ export class PrismaClient<
     * ```
     */
   get analytics(): Prisma.AnalyticsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.popupSetting`: Exposes CRUD operations for the **PopupSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PopupSettings
+    * const popupSettings = await prisma.popupSetting.findMany()
+    * ```
+    */
+  get popupSetting(): Prisma.PopupSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.page`: Exposes CRUD operations for the **Page** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Pages
+    * const pages = await prisma.page.findMany()
+    * ```
+    */
+  get page(): Prisma.PageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.setting`: Exposes CRUD operations for the **Setting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Settings
+    * const settings = await prisma.setting.findMany()
+    * ```
+    */
+  get setting(): Prisma.SettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.generalSetting`: Exposes CRUD operations for the **GeneralSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GeneralSettings
+    * const generalSettings = await prisma.generalSetting.findMany()
+    * ```
+    */
+  get generalSetting(): Prisma.GeneralSettingDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -699,7 +759,11 @@ export namespace Prisma {
     Project: 'Project',
     Blog: 'Blog',
     Invoice: 'Invoice',
-    Analytics: 'Analytics'
+    Analytics: 'Analytics',
+    PopupSetting: 'PopupSetting',
+    Page: 'Page',
+    Setting: 'Setting',
+    GeneralSetting: 'GeneralSetting'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -718,7 +782,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "analytics"
+      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "analytics" | "popupSetting" | "page" | "setting" | "generalSetting"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1314,6 +1378,302 @@ export namespace Prisma {
           }
         }
       }
+      PopupSetting: {
+        payload: Prisma.$PopupSettingPayload<ExtArgs>
+        fields: Prisma.PopupSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PopupSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PopupSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.PopupSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PopupSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>
+          }
+          findMany: {
+            args: Prisma.PopupSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>[]
+          }
+          create: {
+            args: Prisma.PopupSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>
+          }
+          createMany: {
+            args: Prisma.PopupSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PopupSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.PopupSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>
+          }
+          update: {
+            args: Prisma.PopupSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.PopupSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PopupSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PopupSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.PopupSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.PopupSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePopupSetting>
+          }
+          groupBy: {
+            args: Prisma.PopupSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PopupSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PopupSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<PopupSettingCountAggregateOutputType> | number
+          }
+        }
+      }
+      Page: {
+        payload: Prisma.$PagePayload<ExtArgs>
+        fields: Prisma.PageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>
+          }
+          findFirst: {
+            args: Prisma.PageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>
+          }
+          findMany: {
+            args: Prisma.PageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>[]
+          }
+          create: {
+            args: Prisma.PageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>
+          }
+          createMany: {
+            args: Prisma.PageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>[]
+          }
+          delete: {
+            args: Prisma.PageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>
+          }
+          update: {
+            args: Prisma.PageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>
+          }
+          deleteMany: {
+            args: Prisma.PageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>[]
+          }
+          upsert: {
+            args: Prisma.PageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PagePayload>
+          }
+          aggregate: {
+            args: Prisma.PageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePage>
+          }
+          groupBy: {
+            args: Prisma.PageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PageCountArgs<ExtArgs>
+            result: $Utils.Optional<PageCountAggregateOutputType> | number
+          }
+        }
+      }
+      Setting: {
+        payload: Prisma.$SettingPayload<ExtArgs>
+        fields: Prisma.SettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingPayload>
+          }
+          findFirst: {
+            args: Prisma.SettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingPayload>
+          }
+          findMany: {
+            args: Prisma.SettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingPayload>[]
+          }
+          create: {
+            args: Prisma.SettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingPayload>
+          }
+          createMany: {
+            args: Prisma.SettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingPayload>[]
+          }
+          delete: {
+            args: Prisma.SettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingPayload>
+          }
+          update: {
+            args: Prisma.SettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.SettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.SettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingPayload>
+          }
+          aggregate: {
+            args: Prisma.SettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSetting>
+          }
+          groupBy: {
+            args: Prisma.SettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SettingCountArgs<ExtArgs>
+            result: $Utils.Optional<SettingCountAggregateOutputType> | number
+          }
+        }
+      }
+      GeneralSetting: {
+        payload: Prisma.$GeneralSettingPayload<ExtArgs>
+        fields: Prisma.GeneralSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GeneralSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneralSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GeneralSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneralSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.GeneralSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneralSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GeneralSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneralSettingPayload>
+          }
+          findMany: {
+            args: Prisma.GeneralSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneralSettingPayload>[]
+          }
+          create: {
+            args: Prisma.GeneralSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneralSettingPayload>
+          }
+          createMany: {
+            args: Prisma.GeneralSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GeneralSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneralSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.GeneralSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneralSettingPayload>
+          }
+          update: {
+            args: Prisma.GeneralSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneralSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.GeneralSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GeneralSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GeneralSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneralSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.GeneralSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneralSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.GeneralSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGeneralSetting>
+          }
+          groupBy: {
+            args: Prisma.GeneralSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GeneralSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GeneralSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<GeneralSettingCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1418,6 +1778,10 @@ export namespace Prisma {
     blog?: BlogOmit
     invoice?: InvoiceOmit
     analytics?: AnalyticsOmit
+    popupSetting?: PopupSettingOmit
+    page?: PageOmit
+    setting?: SettingOmit
+    generalSetting?: GeneralSettingOmit
   }
 
   /* Types for Logging */
@@ -11108,6 +11472,4047 @@ export namespace Prisma {
 
 
   /**
+   * Model PopupSetting
+   */
+
+  export type AggregatePopupSetting = {
+    _count: PopupSettingCountAggregateOutputType | null
+    _min: PopupSettingMinAggregateOutputType | null
+    _max: PopupSettingMaxAggregateOutputType | null
+  }
+
+  export type PopupSettingMinAggregateOutputType = {
+    id: string | null
+    showPopup: boolean | null
+    content: string | null
+    updatedAt: Date | null
+  }
+
+  export type PopupSettingMaxAggregateOutputType = {
+    id: string | null
+    showPopup: boolean | null
+    content: string | null
+    updatedAt: Date | null
+  }
+
+  export type PopupSettingCountAggregateOutputType = {
+    id: number
+    showPopup: number
+    content: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PopupSettingMinAggregateInputType = {
+    id?: true
+    showPopup?: true
+    content?: true
+    updatedAt?: true
+  }
+
+  export type PopupSettingMaxAggregateInputType = {
+    id?: true
+    showPopup?: true
+    content?: true
+    updatedAt?: true
+  }
+
+  export type PopupSettingCountAggregateInputType = {
+    id?: true
+    showPopup?: true
+    content?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PopupSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PopupSetting to aggregate.
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopupSettings to fetch.
+     */
+    orderBy?: PopupSettingOrderByWithRelationInput | PopupSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PopupSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopupSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopupSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PopupSettings
+    **/
+    _count?: true | PopupSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PopupSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PopupSettingMaxAggregateInputType
+  }
+
+  export type GetPopupSettingAggregateType<T extends PopupSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregatePopupSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePopupSetting[P]>
+      : GetScalarType<T[P], AggregatePopupSetting[P]>
+  }
+
+
+
+
+  export type PopupSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PopupSettingWhereInput
+    orderBy?: PopupSettingOrderByWithAggregationInput | PopupSettingOrderByWithAggregationInput[]
+    by: PopupSettingScalarFieldEnum[] | PopupSettingScalarFieldEnum
+    having?: PopupSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PopupSettingCountAggregateInputType | true
+    _min?: PopupSettingMinAggregateInputType
+    _max?: PopupSettingMaxAggregateInputType
+  }
+
+  export type PopupSettingGroupByOutputType = {
+    id: string
+    showPopup: boolean
+    content: string
+    updatedAt: Date
+    _count: PopupSettingCountAggregateOutputType | null
+    _min: PopupSettingMinAggregateOutputType | null
+    _max: PopupSettingMaxAggregateOutputType | null
+  }
+
+  type GetPopupSettingGroupByPayload<T extends PopupSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PopupSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PopupSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PopupSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], PopupSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PopupSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    showPopup?: boolean
+    content?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["popupSetting"]>
+
+  export type PopupSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    showPopup?: boolean
+    content?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["popupSetting"]>
+
+  export type PopupSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    showPopup?: boolean
+    content?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["popupSetting"]>
+
+  export type PopupSettingSelectScalar = {
+    id?: boolean
+    showPopup?: boolean
+    content?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PopupSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "showPopup" | "content" | "updatedAt", ExtArgs["result"]["popupSetting"]>
+
+  export type $PopupSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PopupSetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      showPopup: boolean
+      content: string
+      updatedAt: Date
+    }, ExtArgs["result"]["popupSetting"]>
+    composites: {}
+  }
+
+  type PopupSettingGetPayload<S extends boolean | null | undefined | PopupSettingDefaultArgs> = $Result.GetResult<Prisma.$PopupSettingPayload, S>
+
+  type PopupSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PopupSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PopupSettingCountAggregateInputType | true
+    }
+
+  export interface PopupSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PopupSetting'], meta: { name: 'PopupSetting' } }
+    /**
+     * Find zero or one PopupSetting that matches the filter.
+     * @param {PopupSettingFindUniqueArgs} args - Arguments to find a PopupSetting
+     * @example
+     * // Get one PopupSetting
+     * const popupSetting = await prisma.popupSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PopupSettingFindUniqueArgs>(args: SelectSubset<T, PopupSettingFindUniqueArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PopupSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PopupSettingFindUniqueOrThrowArgs} args - Arguments to find a PopupSetting
+     * @example
+     * // Get one PopupSetting
+     * const popupSetting = await prisma.popupSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PopupSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, PopupSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PopupSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingFindFirstArgs} args - Arguments to find a PopupSetting
+     * @example
+     * // Get one PopupSetting
+     * const popupSetting = await prisma.popupSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PopupSettingFindFirstArgs>(args?: SelectSubset<T, PopupSettingFindFirstArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PopupSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingFindFirstOrThrowArgs} args - Arguments to find a PopupSetting
+     * @example
+     * // Get one PopupSetting
+     * const popupSetting = await prisma.popupSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PopupSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, PopupSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PopupSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PopupSettings
+     * const popupSettings = await prisma.popupSetting.findMany()
+     * 
+     * // Get first 10 PopupSettings
+     * const popupSettings = await prisma.popupSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const popupSettingWithIdOnly = await prisma.popupSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PopupSettingFindManyArgs>(args?: SelectSubset<T, PopupSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PopupSetting.
+     * @param {PopupSettingCreateArgs} args - Arguments to create a PopupSetting.
+     * @example
+     * // Create one PopupSetting
+     * const PopupSetting = await prisma.popupSetting.create({
+     *   data: {
+     *     // ... data to create a PopupSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends PopupSettingCreateArgs>(args: SelectSubset<T, PopupSettingCreateArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PopupSettings.
+     * @param {PopupSettingCreateManyArgs} args - Arguments to create many PopupSettings.
+     * @example
+     * // Create many PopupSettings
+     * const popupSetting = await prisma.popupSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PopupSettingCreateManyArgs>(args?: SelectSubset<T, PopupSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PopupSettings and returns the data saved in the database.
+     * @param {PopupSettingCreateManyAndReturnArgs} args - Arguments to create many PopupSettings.
+     * @example
+     * // Create many PopupSettings
+     * const popupSetting = await prisma.popupSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PopupSettings and only return the `id`
+     * const popupSettingWithIdOnly = await prisma.popupSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PopupSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, PopupSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PopupSetting.
+     * @param {PopupSettingDeleteArgs} args - Arguments to delete one PopupSetting.
+     * @example
+     * // Delete one PopupSetting
+     * const PopupSetting = await prisma.popupSetting.delete({
+     *   where: {
+     *     // ... filter to delete one PopupSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PopupSettingDeleteArgs>(args: SelectSubset<T, PopupSettingDeleteArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PopupSetting.
+     * @param {PopupSettingUpdateArgs} args - Arguments to update one PopupSetting.
+     * @example
+     * // Update one PopupSetting
+     * const popupSetting = await prisma.popupSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PopupSettingUpdateArgs>(args: SelectSubset<T, PopupSettingUpdateArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PopupSettings.
+     * @param {PopupSettingDeleteManyArgs} args - Arguments to filter PopupSettings to delete.
+     * @example
+     * // Delete a few PopupSettings
+     * const { count } = await prisma.popupSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PopupSettingDeleteManyArgs>(args?: SelectSubset<T, PopupSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PopupSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PopupSettings
+     * const popupSetting = await prisma.popupSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PopupSettingUpdateManyArgs>(args: SelectSubset<T, PopupSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PopupSettings and returns the data updated in the database.
+     * @param {PopupSettingUpdateManyAndReturnArgs} args - Arguments to update many PopupSettings.
+     * @example
+     * // Update many PopupSettings
+     * const popupSetting = await prisma.popupSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PopupSettings and only return the `id`
+     * const popupSettingWithIdOnly = await prisma.popupSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PopupSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, PopupSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PopupSetting.
+     * @param {PopupSettingUpsertArgs} args - Arguments to update or create a PopupSetting.
+     * @example
+     * // Update or create a PopupSetting
+     * const popupSetting = await prisma.popupSetting.upsert({
+     *   create: {
+     *     // ... data to create a PopupSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PopupSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PopupSettingUpsertArgs>(args: SelectSubset<T, PopupSettingUpsertArgs<ExtArgs>>): Prisma__PopupSettingClient<$Result.GetResult<Prisma.$PopupSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PopupSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingCountArgs} args - Arguments to filter PopupSettings to count.
+     * @example
+     * // Count the number of PopupSettings
+     * const count = await prisma.popupSetting.count({
+     *   where: {
+     *     // ... the filter for the PopupSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends PopupSettingCountArgs>(
+      args?: Subset<T, PopupSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PopupSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PopupSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PopupSettingAggregateArgs>(args: Subset<T, PopupSettingAggregateArgs>): Prisma.PrismaPromise<GetPopupSettingAggregateType<T>>
+
+    /**
+     * Group by PopupSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PopupSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PopupSettingGroupByArgs['orderBy'] }
+        : { orderBy?: PopupSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PopupSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPopupSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PopupSetting model
+   */
+  readonly fields: PopupSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PopupSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PopupSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PopupSetting model
+   */
+  interface PopupSettingFieldRefs {
+    readonly id: FieldRef<"PopupSetting", 'String'>
+    readonly showPopup: FieldRef<"PopupSetting", 'Boolean'>
+    readonly content: FieldRef<"PopupSetting", 'String'>
+    readonly updatedAt: FieldRef<"PopupSetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PopupSetting findUnique
+   */
+  export type PopupSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PopupSetting to fetch.
+     */
+    where: PopupSettingWhereUniqueInput
+  }
+
+  /**
+   * PopupSetting findUniqueOrThrow
+   */
+  export type PopupSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PopupSetting to fetch.
+     */
+    where: PopupSettingWhereUniqueInput
+  }
+
+  /**
+   * PopupSetting findFirst
+   */
+  export type PopupSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PopupSetting to fetch.
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopupSettings to fetch.
+     */
+    orderBy?: PopupSettingOrderByWithRelationInput | PopupSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PopupSettings.
+     */
+    cursor?: PopupSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopupSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopupSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PopupSettings.
+     */
+    distinct?: PopupSettingScalarFieldEnum | PopupSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PopupSetting findFirstOrThrow
+   */
+  export type PopupSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PopupSetting to fetch.
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopupSettings to fetch.
+     */
+    orderBy?: PopupSettingOrderByWithRelationInput | PopupSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PopupSettings.
+     */
+    cursor?: PopupSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopupSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopupSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PopupSettings.
+     */
+    distinct?: PopupSettingScalarFieldEnum | PopupSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PopupSetting findMany
+   */
+  export type PopupSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PopupSettings to fetch.
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopupSettings to fetch.
+     */
+    orderBy?: PopupSettingOrderByWithRelationInput | PopupSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PopupSettings.
+     */
+    cursor?: PopupSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopupSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopupSettings.
+     */
+    skip?: number
+    distinct?: PopupSettingScalarFieldEnum | PopupSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PopupSetting create
+   */
+  export type PopupSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a PopupSetting.
+     */
+    data: XOR<PopupSettingCreateInput, PopupSettingUncheckedCreateInput>
+  }
+
+  /**
+   * PopupSetting createMany
+   */
+  export type PopupSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PopupSettings.
+     */
+    data: PopupSettingCreateManyInput | PopupSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PopupSetting createManyAndReturn
+   */
+  export type PopupSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many PopupSettings.
+     */
+    data: PopupSettingCreateManyInput | PopupSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PopupSetting update
+   */
+  export type PopupSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a PopupSetting.
+     */
+    data: XOR<PopupSettingUpdateInput, PopupSettingUncheckedUpdateInput>
+    /**
+     * Choose, which PopupSetting to update.
+     */
+    where: PopupSettingWhereUniqueInput
+  }
+
+  /**
+   * PopupSetting updateMany
+   */
+  export type PopupSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PopupSettings.
+     */
+    data: XOR<PopupSettingUpdateManyMutationInput, PopupSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which PopupSettings to update
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * Limit how many PopupSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PopupSetting updateManyAndReturn
+   */
+  export type PopupSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update PopupSettings.
+     */
+    data: XOR<PopupSettingUpdateManyMutationInput, PopupSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which PopupSettings to update
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * Limit how many PopupSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PopupSetting upsert
+   */
+  export type PopupSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the PopupSetting to update in case it exists.
+     */
+    where: PopupSettingWhereUniqueInput
+    /**
+     * In case the PopupSetting found by the `where` argument doesn't exist, create a new PopupSetting with this data.
+     */
+    create: XOR<PopupSettingCreateInput, PopupSettingUncheckedCreateInput>
+    /**
+     * In case the PopupSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PopupSettingUpdateInput, PopupSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * PopupSetting delete
+   */
+  export type PopupSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+    /**
+     * Filter which PopupSetting to delete.
+     */
+    where: PopupSettingWhereUniqueInput
+  }
+
+  /**
+   * PopupSetting deleteMany
+   */
+  export type PopupSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PopupSettings to delete
+     */
+    where?: PopupSettingWhereInput
+    /**
+     * Limit how many PopupSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PopupSetting without action
+   */
+  export type PopupSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupSetting
+     */
+    select?: PopupSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupSetting
+     */
+    omit?: PopupSettingOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Page
+   */
+
+  export type AggregatePage = {
+    _count: PageCountAggregateOutputType | null
+    _min: PageMinAggregateOutputType | null
+    _max: PageMaxAggregateOutputType | null
+  }
+
+  export type PageMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    content: string | null
+    thumbnail: string | null
+    metaTitle: string | null
+    metaDesc: string | null
+    keywords: string | null
+    metaImage: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PageMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    content: string | null
+    thumbnail: string | null
+    metaTitle: string | null
+    metaDesc: string | null
+    keywords: string | null
+    metaImage: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PageCountAggregateOutputType = {
+    id: number
+    title: number
+    slug: number
+    content: number
+    thumbnail: number
+    metaTitle: number
+    metaDesc: number
+    keywords: number
+    metaImage: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PageMinAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    content?: true
+    thumbnail?: true
+    metaTitle?: true
+    metaDesc?: true
+    keywords?: true
+    metaImage?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PageMaxAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    content?: true
+    thumbnail?: true
+    metaTitle?: true
+    metaDesc?: true
+    keywords?: true
+    metaImage?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PageCountAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    content?: true
+    thumbnail?: true
+    metaTitle?: true
+    metaDesc?: true
+    keywords?: true
+    metaImage?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Page to aggregate.
+     */
+    where?: PageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pages to fetch.
+     */
+    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Pages
+    **/
+    _count?: true | PageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PageMaxAggregateInputType
+  }
+
+  export type GetPageAggregateType<T extends PageAggregateArgs> = {
+        [P in keyof T & keyof AggregatePage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePage[P]>
+      : GetScalarType<T[P], AggregatePage[P]>
+  }
+
+
+
+
+  export type PageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PageWhereInput
+    orderBy?: PageOrderByWithAggregationInput | PageOrderByWithAggregationInput[]
+    by: PageScalarFieldEnum[] | PageScalarFieldEnum
+    having?: PageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PageCountAggregateInputType | true
+    _min?: PageMinAggregateInputType
+    _max?: PageMaxAggregateInputType
+  }
+
+  export type PageGroupByOutputType = {
+    id: string
+    title: string
+    slug: string
+    content: string | null
+    thumbnail: string | null
+    metaTitle: string | null
+    metaDesc: string | null
+    keywords: string | null
+    metaImage: string | null
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: PageCountAggregateOutputType | null
+    _min: PageMinAggregateOutputType | null
+    _max: PageMaxAggregateOutputType | null
+  }
+
+  type GetPageGroupByPayload<T extends PageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PageGroupByOutputType[P]>
+            : GetScalarType<T[P], PageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    content?: boolean
+    thumbnail?: boolean
+    metaTitle?: boolean
+    metaDesc?: boolean
+    keywords?: boolean
+    metaImage?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["page"]>
+
+  export type PageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    content?: boolean
+    thumbnail?: boolean
+    metaTitle?: boolean
+    metaDesc?: boolean
+    keywords?: boolean
+    metaImage?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["page"]>
+
+  export type PageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    content?: boolean
+    thumbnail?: boolean
+    metaTitle?: boolean
+    metaDesc?: boolean
+    keywords?: boolean
+    metaImage?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["page"]>
+
+  export type PageSelectScalar = {
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    content?: boolean
+    thumbnail?: boolean
+    metaTitle?: boolean
+    metaDesc?: boolean
+    keywords?: boolean
+    metaImage?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "thumbnail" | "metaTitle" | "metaDesc" | "keywords" | "metaImage" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["page"]>
+
+  export type $PagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Page"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      slug: string
+      content: string | null
+      thumbnail: string | null
+      metaTitle: string | null
+      metaDesc: string | null
+      keywords: string | null
+      metaImage: string | null
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["page"]>
+    composites: {}
+  }
+
+  type PageGetPayload<S extends boolean | null | undefined | PageDefaultArgs> = $Result.GetResult<Prisma.$PagePayload, S>
+
+  type PageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PageCountAggregateInputType | true
+    }
+
+  export interface PageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Page'], meta: { name: 'Page' } }
+    /**
+     * Find zero or one Page that matches the filter.
+     * @param {PageFindUniqueArgs} args - Arguments to find a Page
+     * @example
+     * // Get one Page
+     * const page = await prisma.page.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PageFindUniqueArgs>(args: SelectSubset<T, PageFindUniqueArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Page that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PageFindUniqueOrThrowArgs} args - Arguments to find a Page
+     * @example
+     * // Get one Page
+     * const page = await prisma.page.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PageFindUniqueOrThrowArgs>(args: SelectSubset<T, PageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Page that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageFindFirstArgs} args - Arguments to find a Page
+     * @example
+     * // Get one Page
+     * const page = await prisma.page.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PageFindFirstArgs>(args?: SelectSubset<T, PageFindFirstArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Page that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageFindFirstOrThrowArgs} args - Arguments to find a Page
+     * @example
+     * // Get one Page
+     * const page = await prisma.page.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PageFindFirstOrThrowArgs>(args?: SelectSubset<T, PageFindFirstOrThrowArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Pages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Pages
+     * const pages = await prisma.page.findMany()
+     * 
+     * // Get first 10 Pages
+     * const pages = await prisma.page.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pageWithIdOnly = await prisma.page.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PageFindManyArgs>(args?: SelectSubset<T, PageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Page.
+     * @param {PageCreateArgs} args - Arguments to create a Page.
+     * @example
+     * // Create one Page
+     * const Page = await prisma.page.create({
+     *   data: {
+     *     // ... data to create a Page
+     *   }
+     * })
+     * 
+     */
+    create<T extends PageCreateArgs>(args: SelectSubset<T, PageCreateArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Pages.
+     * @param {PageCreateManyArgs} args - Arguments to create many Pages.
+     * @example
+     * // Create many Pages
+     * const page = await prisma.page.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PageCreateManyArgs>(args?: SelectSubset<T, PageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Pages and returns the data saved in the database.
+     * @param {PageCreateManyAndReturnArgs} args - Arguments to create many Pages.
+     * @example
+     * // Create many Pages
+     * const page = await prisma.page.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Pages and only return the `id`
+     * const pageWithIdOnly = await prisma.page.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PageCreateManyAndReturnArgs>(args?: SelectSubset<T, PageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Page.
+     * @param {PageDeleteArgs} args - Arguments to delete one Page.
+     * @example
+     * // Delete one Page
+     * const Page = await prisma.page.delete({
+     *   where: {
+     *     // ... filter to delete one Page
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PageDeleteArgs>(args: SelectSubset<T, PageDeleteArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Page.
+     * @param {PageUpdateArgs} args - Arguments to update one Page.
+     * @example
+     * // Update one Page
+     * const page = await prisma.page.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PageUpdateArgs>(args: SelectSubset<T, PageUpdateArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Pages.
+     * @param {PageDeleteManyArgs} args - Arguments to filter Pages to delete.
+     * @example
+     * // Delete a few Pages
+     * const { count } = await prisma.page.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PageDeleteManyArgs>(args?: SelectSubset<T, PageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Pages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Pages
+     * const page = await prisma.page.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PageUpdateManyArgs>(args: SelectSubset<T, PageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Pages and returns the data updated in the database.
+     * @param {PageUpdateManyAndReturnArgs} args - Arguments to update many Pages.
+     * @example
+     * // Update many Pages
+     * const page = await prisma.page.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Pages and only return the `id`
+     * const pageWithIdOnly = await prisma.page.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PageUpdateManyAndReturnArgs>(args: SelectSubset<T, PageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Page.
+     * @param {PageUpsertArgs} args - Arguments to update or create a Page.
+     * @example
+     * // Update or create a Page
+     * const page = await prisma.page.upsert({
+     *   create: {
+     *     // ... data to create a Page
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Page we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PageUpsertArgs>(args: SelectSubset<T, PageUpsertArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Pages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageCountArgs} args - Arguments to filter Pages to count.
+     * @example
+     * // Count the number of Pages
+     * const count = await prisma.page.count({
+     *   where: {
+     *     // ... the filter for the Pages we want to count
+     *   }
+     * })
+    **/
+    count<T extends PageCountArgs>(
+      args?: Subset<T, PageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Page.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PageAggregateArgs>(args: Subset<T, PageAggregateArgs>): Prisma.PrismaPromise<GetPageAggregateType<T>>
+
+    /**
+     * Group by Page.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PageGroupByArgs['orderBy'] }
+        : { orderBy?: PageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Page model
+   */
+  readonly fields: PageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Page.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Page model
+   */
+  interface PageFieldRefs {
+    readonly id: FieldRef<"Page", 'String'>
+    readonly title: FieldRef<"Page", 'String'>
+    readonly slug: FieldRef<"Page", 'String'>
+    readonly content: FieldRef<"Page", 'String'>
+    readonly thumbnail: FieldRef<"Page", 'String'>
+    readonly metaTitle: FieldRef<"Page", 'String'>
+    readonly metaDesc: FieldRef<"Page", 'String'>
+    readonly keywords: FieldRef<"Page", 'String'>
+    readonly metaImage: FieldRef<"Page", 'String'>
+    readonly status: FieldRef<"Page", 'String'>
+    readonly createdAt: FieldRef<"Page", 'DateTime'>
+    readonly updatedAt: FieldRef<"Page", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Page findUnique
+   */
+  export type PageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Filter, which Page to fetch.
+     */
+    where: PageWhereUniqueInput
+  }
+
+  /**
+   * Page findUniqueOrThrow
+   */
+  export type PageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Filter, which Page to fetch.
+     */
+    where: PageWhereUniqueInput
+  }
+
+  /**
+   * Page findFirst
+   */
+  export type PageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Filter, which Page to fetch.
+     */
+    where?: PageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pages to fetch.
+     */
+    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Pages.
+     */
+    cursor?: PageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Pages.
+     */
+    distinct?: PageScalarFieldEnum | PageScalarFieldEnum[]
+  }
+
+  /**
+   * Page findFirstOrThrow
+   */
+  export type PageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Filter, which Page to fetch.
+     */
+    where?: PageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pages to fetch.
+     */
+    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Pages.
+     */
+    cursor?: PageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Pages.
+     */
+    distinct?: PageScalarFieldEnum | PageScalarFieldEnum[]
+  }
+
+  /**
+   * Page findMany
+   */
+  export type PageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Filter, which Pages to fetch.
+     */
+    where?: PageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pages to fetch.
+     */
+    orderBy?: PageOrderByWithRelationInput | PageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Pages.
+     */
+    cursor?: PageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pages.
+     */
+    skip?: number
+    distinct?: PageScalarFieldEnum | PageScalarFieldEnum[]
+  }
+
+  /**
+   * Page create
+   */
+  export type PageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Page.
+     */
+    data: XOR<PageCreateInput, PageUncheckedCreateInput>
+  }
+
+  /**
+   * Page createMany
+   */
+  export type PageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Pages.
+     */
+    data: PageCreateManyInput | PageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Page createManyAndReturn
+   */
+  export type PageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * The data used to create many Pages.
+     */
+    data: PageCreateManyInput | PageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Page update
+   */
+  export type PageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Page.
+     */
+    data: XOR<PageUpdateInput, PageUncheckedUpdateInput>
+    /**
+     * Choose, which Page to update.
+     */
+    where: PageWhereUniqueInput
+  }
+
+  /**
+   * Page updateMany
+   */
+  export type PageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Pages.
+     */
+    data: XOR<PageUpdateManyMutationInput, PageUncheckedUpdateManyInput>
+    /**
+     * Filter which Pages to update
+     */
+    where?: PageWhereInput
+    /**
+     * Limit how many Pages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Page updateManyAndReturn
+   */
+  export type PageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * The data used to update Pages.
+     */
+    data: XOR<PageUpdateManyMutationInput, PageUncheckedUpdateManyInput>
+    /**
+     * Filter which Pages to update
+     */
+    where?: PageWhereInput
+    /**
+     * Limit how many Pages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Page upsert
+   */
+  export type PageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Page to update in case it exists.
+     */
+    where: PageWhereUniqueInput
+    /**
+     * In case the Page found by the `where` argument doesn't exist, create a new Page with this data.
+     */
+    create: XOR<PageCreateInput, PageUncheckedCreateInput>
+    /**
+     * In case the Page was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PageUpdateInput, PageUncheckedUpdateInput>
+  }
+
+  /**
+   * Page delete
+   */
+  export type PageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Filter which Page to delete.
+     */
+    where: PageWhereUniqueInput
+  }
+
+  /**
+   * Page deleteMany
+   */
+  export type PageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Pages to delete
+     */
+    where?: PageWhereInput
+    /**
+     * Limit how many Pages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Page without action
+   */
+  export type PageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Setting
+   */
+
+  export type AggregateSetting = {
+    _count: SettingCountAggregateOutputType | null
+    _min: SettingMinAggregateOutputType | null
+    _max: SettingMaxAggregateOutputType | null
+  }
+
+  export type SettingMinAggregateOutputType = {
+    key: string | null
+    updatedAt: Date | null
+  }
+
+  export type SettingMaxAggregateOutputType = {
+    key: string | null
+    updatedAt: Date | null
+  }
+
+  export type SettingCountAggregateOutputType = {
+    key: number
+    value: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SettingMinAggregateInputType = {
+    key?: true
+    updatedAt?: true
+  }
+
+  export type SettingMaxAggregateInputType = {
+    key?: true
+    updatedAt?: true
+  }
+
+  export type SettingCountAggregateInputType = {
+    key?: true
+    value?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Setting to aggregate.
+     */
+    where?: SettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: SettingOrderByWithRelationInput | SettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Settings
+    **/
+    _count?: true | SettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SettingMaxAggregateInputType
+  }
+
+  export type GetSettingAggregateType<T extends SettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSetting[P]>
+      : GetScalarType<T[P], AggregateSetting[P]>
+  }
+
+
+
+
+  export type SettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SettingWhereInput
+    orderBy?: SettingOrderByWithAggregationInput | SettingOrderByWithAggregationInput[]
+    by: SettingScalarFieldEnum[] | SettingScalarFieldEnum
+    having?: SettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SettingCountAggregateInputType | true
+    _min?: SettingMinAggregateInputType
+    _max?: SettingMaxAggregateInputType
+  }
+
+  export type SettingGroupByOutputType = {
+    key: string
+    value: JsonValue
+    updatedAt: Date
+    _count: SettingCountAggregateOutputType | null
+    _min: SettingMinAggregateOutputType | null
+    _max: SettingMaxAggregateOutputType | null
+  }
+
+  type GetSettingGroupByPayload<T extends SettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SettingGroupByOutputType[P]>
+            : GetScalarType<T[P], SettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    key?: boolean
+    value?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["setting"]>
+
+  export type SettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    key?: boolean
+    value?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["setting"]>
+
+  export type SettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    key?: boolean
+    value?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["setting"]>
+
+  export type SettingSelectScalar = {
+    key?: boolean
+    value?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"key" | "value" | "updatedAt", ExtArgs["result"]["setting"]>
+
+  export type $SettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Setting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      key: string
+      value: Prisma.JsonValue
+      updatedAt: Date
+    }, ExtArgs["result"]["setting"]>
+    composites: {}
+  }
+
+  type SettingGetPayload<S extends boolean | null | undefined | SettingDefaultArgs> = $Result.GetResult<Prisma.$SettingPayload, S>
+
+  type SettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SettingCountAggregateInputType | true
+    }
+
+  export interface SettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Setting'], meta: { name: 'Setting' } }
+    /**
+     * Find zero or one Setting that matches the filter.
+     * @param {SettingFindUniqueArgs} args - Arguments to find a Setting
+     * @example
+     * // Get one Setting
+     * const setting = await prisma.setting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SettingFindUniqueArgs>(args: SelectSubset<T, SettingFindUniqueArgs<ExtArgs>>): Prisma__SettingClient<$Result.GetResult<Prisma.$SettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Setting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SettingFindUniqueOrThrowArgs} args - Arguments to find a Setting
+     * @example
+     * // Get one Setting
+     * const setting = await prisma.setting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SettingFindUniqueOrThrowArgs>(args: SelectSubset<T, SettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SettingClient<$Result.GetResult<Prisma.$SettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Setting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingFindFirstArgs} args - Arguments to find a Setting
+     * @example
+     * // Get one Setting
+     * const setting = await prisma.setting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SettingFindFirstArgs>(args?: SelectSubset<T, SettingFindFirstArgs<ExtArgs>>): Prisma__SettingClient<$Result.GetResult<Prisma.$SettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Setting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingFindFirstOrThrowArgs} args - Arguments to find a Setting
+     * @example
+     * // Get one Setting
+     * const setting = await prisma.setting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SettingFindFirstOrThrowArgs>(args?: SelectSubset<T, SettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__SettingClient<$Result.GetResult<Prisma.$SettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Settings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Settings
+     * const settings = await prisma.setting.findMany()
+     * 
+     * // Get first 10 Settings
+     * const settings = await prisma.setting.findMany({ take: 10 })
+     * 
+     * // Only select the `key`
+     * const settingWithKeyOnly = await prisma.setting.findMany({ select: { key: true } })
+     * 
+     */
+    findMany<T extends SettingFindManyArgs>(args?: SelectSubset<T, SettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Setting.
+     * @param {SettingCreateArgs} args - Arguments to create a Setting.
+     * @example
+     * // Create one Setting
+     * const Setting = await prisma.setting.create({
+     *   data: {
+     *     // ... data to create a Setting
+     *   }
+     * })
+     * 
+     */
+    create<T extends SettingCreateArgs>(args: SelectSubset<T, SettingCreateArgs<ExtArgs>>): Prisma__SettingClient<$Result.GetResult<Prisma.$SettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Settings.
+     * @param {SettingCreateManyArgs} args - Arguments to create many Settings.
+     * @example
+     * // Create many Settings
+     * const setting = await prisma.setting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SettingCreateManyArgs>(args?: SelectSubset<T, SettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Settings and returns the data saved in the database.
+     * @param {SettingCreateManyAndReturnArgs} args - Arguments to create many Settings.
+     * @example
+     * // Create many Settings
+     * const setting = await prisma.setting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Settings and only return the `key`
+     * const settingWithKeyOnly = await prisma.setting.createManyAndReturn({
+     *   select: { key: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SettingCreateManyAndReturnArgs>(args?: SelectSubset<T, SettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Setting.
+     * @param {SettingDeleteArgs} args - Arguments to delete one Setting.
+     * @example
+     * // Delete one Setting
+     * const Setting = await prisma.setting.delete({
+     *   where: {
+     *     // ... filter to delete one Setting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SettingDeleteArgs>(args: SelectSubset<T, SettingDeleteArgs<ExtArgs>>): Prisma__SettingClient<$Result.GetResult<Prisma.$SettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Setting.
+     * @param {SettingUpdateArgs} args - Arguments to update one Setting.
+     * @example
+     * // Update one Setting
+     * const setting = await prisma.setting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SettingUpdateArgs>(args: SelectSubset<T, SettingUpdateArgs<ExtArgs>>): Prisma__SettingClient<$Result.GetResult<Prisma.$SettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Settings.
+     * @param {SettingDeleteManyArgs} args - Arguments to filter Settings to delete.
+     * @example
+     * // Delete a few Settings
+     * const { count } = await prisma.setting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SettingDeleteManyArgs>(args?: SelectSubset<T, SettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Settings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Settings
+     * const setting = await prisma.setting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SettingUpdateManyArgs>(args: SelectSubset<T, SettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Settings and returns the data updated in the database.
+     * @param {SettingUpdateManyAndReturnArgs} args - Arguments to update many Settings.
+     * @example
+     * // Update many Settings
+     * const setting = await prisma.setting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Settings and only return the `key`
+     * const settingWithKeyOnly = await prisma.setting.updateManyAndReturn({
+     *   select: { key: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SettingUpdateManyAndReturnArgs>(args: SelectSubset<T, SettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Setting.
+     * @param {SettingUpsertArgs} args - Arguments to update or create a Setting.
+     * @example
+     * // Update or create a Setting
+     * const setting = await prisma.setting.upsert({
+     *   create: {
+     *     // ... data to create a Setting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Setting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SettingUpsertArgs>(args: SelectSubset<T, SettingUpsertArgs<ExtArgs>>): Prisma__SettingClient<$Result.GetResult<Prisma.$SettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Settings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingCountArgs} args - Arguments to filter Settings to count.
+     * @example
+     * // Count the number of Settings
+     * const count = await prisma.setting.count({
+     *   where: {
+     *     // ... the filter for the Settings we want to count
+     *   }
+     * })
+    **/
+    count<T extends SettingCountArgs>(
+      args?: Subset<T, SettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Setting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SettingAggregateArgs>(args: Subset<T, SettingAggregateArgs>): Prisma.PrismaPromise<GetSettingAggregateType<T>>
+
+    /**
+     * Group by Setting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SettingGroupByArgs['orderBy'] }
+        : { orderBy?: SettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Setting model
+   */
+  readonly fields: SettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Setting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Setting model
+   */
+  interface SettingFieldRefs {
+    readonly key: FieldRef<"Setting", 'String'>
+    readonly value: FieldRef<"Setting", 'Json'>
+    readonly updatedAt: FieldRef<"Setting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Setting findUnique
+   */
+  export type SettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Setting
+     */
+    omit?: SettingOmit<ExtArgs> | null
+    /**
+     * Filter, which Setting to fetch.
+     */
+    where: SettingWhereUniqueInput
+  }
+
+  /**
+   * Setting findUniqueOrThrow
+   */
+  export type SettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Setting
+     */
+    omit?: SettingOmit<ExtArgs> | null
+    /**
+     * Filter, which Setting to fetch.
+     */
+    where: SettingWhereUniqueInput
+  }
+
+  /**
+   * Setting findFirst
+   */
+  export type SettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Setting
+     */
+    omit?: SettingOmit<ExtArgs> | null
+    /**
+     * Filter, which Setting to fetch.
+     */
+    where?: SettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: SettingOrderByWithRelationInput | SettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Settings.
+     */
+    cursor?: SettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Settings.
+     */
+    distinct?: SettingScalarFieldEnum | SettingScalarFieldEnum[]
+  }
+
+  /**
+   * Setting findFirstOrThrow
+   */
+  export type SettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Setting
+     */
+    omit?: SettingOmit<ExtArgs> | null
+    /**
+     * Filter, which Setting to fetch.
+     */
+    where?: SettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: SettingOrderByWithRelationInput | SettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Settings.
+     */
+    cursor?: SettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Settings.
+     */
+    distinct?: SettingScalarFieldEnum | SettingScalarFieldEnum[]
+  }
+
+  /**
+   * Setting findMany
+   */
+  export type SettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Setting
+     */
+    omit?: SettingOmit<ExtArgs> | null
+    /**
+     * Filter, which Settings to fetch.
+     */
+    where?: SettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: SettingOrderByWithRelationInput | SettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Settings.
+     */
+    cursor?: SettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
+    skip?: number
+    distinct?: SettingScalarFieldEnum | SettingScalarFieldEnum[]
+  }
+
+  /**
+   * Setting create
+   */
+  export type SettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Setting
+     */
+    omit?: SettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Setting.
+     */
+    data: XOR<SettingCreateInput, SettingUncheckedCreateInput>
+  }
+
+  /**
+   * Setting createMany
+   */
+  export type SettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Settings.
+     */
+    data: SettingCreateManyInput | SettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Setting createManyAndReturn
+   */
+  export type SettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Setting
+     */
+    omit?: SettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many Settings.
+     */
+    data: SettingCreateManyInput | SettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Setting update
+   */
+  export type SettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Setting
+     */
+    omit?: SettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Setting.
+     */
+    data: XOR<SettingUpdateInput, SettingUncheckedUpdateInput>
+    /**
+     * Choose, which Setting to update.
+     */
+    where: SettingWhereUniqueInput
+  }
+
+  /**
+   * Setting updateMany
+   */
+  export type SettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Settings.
+     */
+    data: XOR<SettingUpdateManyMutationInput, SettingUncheckedUpdateManyInput>
+    /**
+     * Filter which Settings to update
+     */
+    where?: SettingWhereInput
+    /**
+     * Limit how many Settings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Setting updateManyAndReturn
+   */
+  export type SettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Setting
+     */
+    omit?: SettingOmit<ExtArgs> | null
+    /**
+     * The data used to update Settings.
+     */
+    data: XOR<SettingUpdateManyMutationInput, SettingUncheckedUpdateManyInput>
+    /**
+     * Filter which Settings to update
+     */
+    where?: SettingWhereInput
+    /**
+     * Limit how many Settings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Setting upsert
+   */
+  export type SettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Setting
+     */
+    omit?: SettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Setting to update in case it exists.
+     */
+    where: SettingWhereUniqueInput
+    /**
+     * In case the Setting found by the `where` argument doesn't exist, create a new Setting with this data.
+     */
+    create: XOR<SettingCreateInput, SettingUncheckedCreateInput>
+    /**
+     * In case the Setting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SettingUpdateInput, SettingUncheckedUpdateInput>
+  }
+
+  /**
+   * Setting delete
+   */
+  export type SettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Setting
+     */
+    omit?: SettingOmit<ExtArgs> | null
+    /**
+     * Filter which Setting to delete.
+     */
+    where: SettingWhereUniqueInput
+  }
+
+  /**
+   * Setting deleteMany
+   */
+  export type SettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Settings to delete
+     */
+    where?: SettingWhereInput
+    /**
+     * Limit how many Settings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Setting without action
+   */
+  export type SettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Setting
+     */
+    select?: SettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Setting
+     */
+    omit?: SettingOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GeneralSetting
+   */
+
+  export type AggregateGeneralSetting = {
+    _count: GeneralSettingCountAggregateOutputType | null
+    _min: GeneralSettingMinAggregateOutputType | null
+    _max: GeneralSettingMaxAggregateOutputType | null
+  }
+
+  export type GeneralSettingMinAggregateOutputType = {
+    id: string | null
+    siteName: string | null
+    description: string | null
+    logoUrl: string | null
+    faviconUrl: string | null
+    updatedAt: Date | null
+  }
+
+  export type GeneralSettingMaxAggregateOutputType = {
+    id: string | null
+    siteName: string | null
+    description: string | null
+    logoUrl: string | null
+    faviconUrl: string | null
+    updatedAt: Date | null
+  }
+
+  export type GeneralSettingCountAggregateOutputType = {
+    id: number
+    siteName: number
+    description: number
+    logoUrl: number
+    faviconUrl: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GeneralSettingMinAggregateInputType = {
+    id?: true
+    siteName?: true
+    description?: true
+    logoUrl?: true
+    faviconUrl?: true
+    updatedAt?: true
+  }
+
+  export type GeneralSettingMaxAggregateInputType = {
+    id?: true
+    siteName?: true
+    description?: true
+    logoUrl?: true
+    faviconUrl?: true
+    updatedAt?: true
+  }
+
+  export type GeneralSettingCountAggregateInputType = {
+    id?: true
+    siteName?: true
+    description?: true
+    logoUrl?: true
+    faviconUrl?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GeneralSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GeneralSetting to aggregate.
+     */
+    where?: GeneralSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeneralSettings to fetch.
+     */
+    orderBy?: GeneralSettingOrderByWithRelationInput | GeneralSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GeneralSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeneralSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeneralSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GeneralSettings
+    **/
+    _count?: true | GeneralSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GeneralSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GeneralSettingMaxAggregateInputType
+  }
+
+  export type GetGeneralSettingAggregateType<T extends GeneralSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateGeneralSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGeneralSetting[P]>
+      : GetScalarType<T[P], AggregateGeneralSetting[P]>
+  }
+
+
+
+
+  export type GeneralSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GeneralSettingWhereInput
+    orderBy?: GeneralSettingOrderByWithAggregationInput | GeneralSettingOrderByWithAggregationInput[]
+    by: GeneralSettingScalarFieldEnum[] | GeneralSettingScalarFieldEnum
+    having?: GeneralSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GeneralSettingCountAggregateInputType | true
+    _min?: GeneralSettingMinAggregateInputType
+    _max?: GeneralSettingMaxAggregateInputType
+  }
+
+  export type GeneralSettingGroupByOutputType = {
+    id: string
+    siteName: string
+    description: string
+    logoUrl: string
+    faviconUrl: string
+    updatedAt: Date
+    _count: GeneralSettingCountAggregateOutputType | null
+    _min: GeneralSettingMinAggregateOutputType | null
+    _max: GeneralSettingMaxAggregateOutputType | null
+  }
+
+  type GetGeneralSettingGroupByPayload<T extends GeneralSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GeneralSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GeneralSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GeneralSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], GeneralSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GeneralSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    siteName?: boolean
+    description?: boolean
+    logoUrl?: boolean
+    faviconUrl?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["generalSetting"]>
+
+  export type GeneralSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    siteName?: boolean
+    description?: boolean
+    logoUrl?: boolean
+    faviconUrl?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["generalSetting"]>
+
+  export type GeneralSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    siteName?: boolean
+    description?: boolean
+    logoUrl?: boolean
+    faviconUrl?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["generalSetting"]>
+
+  export type GeneralSettingSelectScalar = {
+    id?: boolean
+    siteName?: boolean
+    description?: boolean
+    logoUrl?: boolean
+    faviconUrl?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GeneralSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "description" | "logoUrl" | "faviconUrl" | "updatedAt", ExtArgs["result"]["generalSetting"]>
+
+  export type $GeneralSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GeneralSetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      siteName: string
+      description: string
+      logoUrl: string
+      faviconUrl: string
+      updatedAt: Date
+    }, ExtArgs["result"]["generalSetting"]>
+    composites: {}
+  }
+
+  type GeneralSettingGetPayload<S extends boolean | null | undefined | GeneralSettingDefaultArgs> = $Result.GetResult<Prisma.$GeneralSettingPayload, S>
+
+  type GeneralSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GeneralSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GeneralSettingCountAggregateInputType | true
+    }
+
+  export interface GeneralSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GeneralSetting'], meta: { name: 'GeneralSetting' } }
+    /**
+     * Find zero or one GeneralSetting that matches the filter.
+     * @param {GeneralSettingFindUniqueArgs} args - Arguments to find a GeneralSetting
+     * @example
+     * // Get one GeneralSetting
+     * const generalSetting = await prisma.generalSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GeneralSettingFindUniqueArgs>(args: SelectSubset<T, GeneralSettingFindUniqueArgs<ExtArgs>>): Prisma__GeneralSettingClient<$Result.GetResult<Prisma.$GeneralSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GeneralSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GeneralSettingFindUniqueOrThrowArgs} args - Arguments to find a GeneralSetting
+     * @example
+     * // Get one GeneralSetting
+     * const generalSetting = await prisma.generalSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GeneralSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, GeneralSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GeneralSettingClient<$Result.GetResult<Prisma.$GeneralSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GeneralSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneralSettingFindFirstArgs} args - Arguments to find a GeneralSetting
+     * @example
+     * // Get one GeneralSetting
+     * const generalSetting = await prisma.generalSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GeneralSettingFindFirstArgs>(args?: SelectSubset<T, GeneralSettingFindFirstArgs<ExtArgs>>): Prisma__GeneralSettingClient<$Result.GetResult<Prisma.$GeneralSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GeneralSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneralSettingFindFirstOrThrowArgs} args - Arguments to find a GeneralSetting
+     * @example
+     * // Get one GeneralSetting
+     * const generalSetting = await prisma.generalSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GeneralSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, GeneralSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__GeneralSettingClient<$Result.GetResult<Prisma.$GeneralSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GeneralSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneralSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GeneralSettings
+     * const generalSettings = await prisma.generalSetting.findMany()
+     * 
+     * // Get first 10 GeneralSettings
+     * const generalSettings = await prisma.generalSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const generalSettingWithIdOnly = await prisma.generalSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GeneralSettingFindManyArgs>(args?: SelectSubset<T, GeneralSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeneralSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GeneralSetting.
+     * @param {GeneralSettingCreateArgs} args - Arguments to create a GeneralSetting.
+     * @example
+     * // Create one GeneralSetting
+     * const GeneralSetting = await prisma.generalSetting.create({
+     *   data: {
+     *     // ... data to create a GeneralSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends GeneralSettingCreateArgs>(args: SelectSubset<T, GeneralSettingCreateArgs<ExtArgs>>): Prisma__GeneralSettingClient<$Result.GetResult<Prisma.$GeneralSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GeneralSettings.
+     * @param {GeneralSettingCreateManyArgs} args - Arguments to create many GeneralSettings.
+     * @example
+     * // Create many GeneralSettings
+     * const generalSetting = await prisma.generalSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GeneralSettingCreateManyArgs>(args?: SelectSubset<T, GeneralSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GeneralSettings and returns the data saved in the database.
+     * @param {GeneralSettingCreateManyAndReturnArgs} args - Arguments to create many GeneralSettings.
+     * @example
+     * // Create many GeneralSettings
+     * const generalSetting = await prisma.generalSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GeneralSettings and only return the `id`
+     * const generalSettingWithIdOnly = await prisma.generalSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GeneralSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, GeneralSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeneralSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GeneralSetting.
+     * @param {GeneralSettingDeleteArgs} args - Arguments to delete one GeneralSetting.
+     * @example
+     * // Delete one GeneralSetting
+     * const GeneralSetting = await prisma.generalSetting.delete({
+     *   where: {
+     *     // ... filter to delete one GeneralSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GeneralSettingDeleteArgs>(args: SelectSubset<T, GeneralSettingDeleteArgs<ExtArgs>>): Prisma__GeneralSettingClient<$Result.GetResult<Prisma.$GeneralSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GeneralSetting.
+     * @param {GeneralSettingUpdateArgs} args - Arguments to update one GeneralSetting.
+     * @example
+     * // Update one GeneralSetting
+     * const generalSetting = await prisma.generalSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GeneralSettingUpdateArgs>(args: SelectSubset<T, GeneralSettingUpdateArgs<ExtArgs>>): Prisma__GeneralSettingClient<$Result.GetResult<Prisma.$GeneralSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GeneralSettings.
+     * @param {GeneralSettingDeleteManyArgs} args - Arguments to filter GeneralSettings to delete.
+     * @example
+     * // Delete a few GeneralSettings
+     * const { count } = await prisma.generalSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GeneralSettingDeleteManyArgs>(args?: SelectSubset<T, GeneralSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GeneralSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneralSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GeneralSettings
+     * const generalSetting = await prisma.generalSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GeneralSettingUpdateManyArgs>(args: SelectSubset<T, GeneralSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GeneralSettings and returns the data updated in the database.
+     * @param {GeneralSettingUpdateManyAndReturnArgs} args - Arguments to update many GeneralSettings.
+     * @example
+     * // Update many GeneralSettings
+     * const generalSetting = await prisma.generalSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GeneralSettings and only return the `id`
+     * const generalSettingWithIdOnly = await prisma.generalSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GeneralSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, GeneralSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeneralSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GeneralSetting.
+     * @param {GeneralSettingUpsertArgs} args - Arguments to update or create a GeneralSetting.
+     * @example
+     * // Update or create a GeneralSetting
+     * const generalSetting = await prisma.generalSetting.upsert({
+     *   create: {
+     *     // ... data to create a GeneralSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GeneralSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GeneralSettingUpsertArgs>(args: SelectSubset<T, GeneralSettingUpsertArgs<ExtArgs>>): Prisma__GeneralSettingClient<$Result.GetResult<Prisma.$GeneralSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GeneralSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneralSettingCountArgs} args - Arguments to filter GeneralSettings to count.
+     * @example
+     * // Count the number of GeneralSettings
+     * const count = await prisma.generalSetting.count({
+     *   where: {
+     *     // ... the filter for the GeneralSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends GeneralSettingCountArgs>(
+      args?: Subset<T, GeneralSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GeneralSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GeneralSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneralSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GeneralSettingAggregateArgs>(args: Subset<T, GeneralSettingAggregateArgs>): Prisma.PrismaPromise<GetGeneralSettingAggregateType<T>>
+
+    /**
+     * Group by GeneralSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneralSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GeneralSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GeneralSettingGroupByArgs['orderBy'] }
+        : { orderBy?: GeneralSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GeneralSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGeneralSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GeneralSetting model
+   */
+  readonly fields: GeneralSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GeneralSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GeneralSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GeneralSetting model
+   */
+  interface GeneralSettingFieldRefs {
+    readonly id: FieldRef<"GeneralSetting", 'String'>
+    readonly siteName: FieldRef<"GeneralSetting", 'String'>
+    readonly description: FieldRef<"GeneralSetting", 'String'>
+    readonly logoUrl: FieldRef<"GeneralSetting", 'String'>
+    readonly faviconUrl: FieldRef<"GeneralSetting", 'String'>
+    readonly updatedAt: FieldRef<"GeneralSetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GeneralSetting findUnique
+   */
+  export type GeneralSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneralSetting
+     */
+    select?: GeneralSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneralSetting
+     */
+    omit?: GeneralSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which GeneralSetting to fetch.
+     */
+    where: GeneralSettingWhereUniqueInput
+  }
+
+  /**
+   * GeneralSetting findUniqueOrThrow
+   */
+  export type GeneralSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneralSetting
+     */
+    select?: GeneralSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneralSetting
+     */
+    omit?: GeneralSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which GeneralSetting to fetch.
+     */
+    where: GeneralSettingWhereUniqueInput
+  }
+
+  /**
+   * GeneralSetting findFirst
+   */
+  export type GeneralSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneralSetting
+     */
+    select?: GeneralSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneralSetting
+     */
+    omit?: GeneralSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which GeneralSetting to fetch.
+     */
+    where?: GeneralSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeneralSettings to fetch.
+     */
+    orderBy?: GeneralSettingOrderByWithRelationInput | GeneralSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GeneralSettings.
+     */
+    cursor?: GeneralSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeneralSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeneralSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GeneralSettings.
+     */
+    distinct?: GeneralSettingScalarFieldEnum | GeneralSettingScalarFieldEnum[]
+  }
+
+  /**
+   * GeneralSetting findFirstOrThrow
+   */
+  export type GeneralSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneralSetting
+     */
+    select?: GeneralSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneralSetting
+     */
+    omit?: GeneralSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which GeneralSetting to fetch.
+     */
+    where?: GeneralSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeneralSettings to fetch.
+     */
+    orderBy?: GeneralSettingOrderByWithRelationInput | GeneralSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GeneralSettings.
+     */
+    cursor?: GeneralSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeneralSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeneralSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GeneralSettings.
+     */
+    distinct?: GeneralSettingScalarFieldEnum | GeneralSettingScalarFieldEnum[]
+  }
+
+  /**
+   * GeneralSetting findMany
+   */
+  export type GeneralSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneralSetting
+     */
+    select?: GeneralSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneralSetting
+     */
+    omit?: GeneralSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which GeneralSettings to fetch.
+     */
+    where?: GeneralSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeneralSettings to fetch.
+     */
+    orderBy?: GeneralSettingOrderByWithRelationInput | GeneralSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GeneralSettings.
+     */
+    cursor?: GeneralSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeneralSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeneralSettings.
+     */
+    skip?: number
+    distinct?: GeneralSettingScalarFieldEnum | GeneralSettingScalarFieldEnum[]
+  }
+
+  /**
+   * GeneralSetting create
+   */
+  export type GeneralSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneralSetting
+     */
+    select?: GeneralSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneralSetting
+     */
+    omit?: GeneralSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a GeneralSetting.
+     */
+    data: XOR<GeneralSettingCreateInput, GeneralSettingUncheckedCreateInput>
+  }
+
+  /**
+   * GeneralSetting createMany
+   */
+  export type GeneralSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GeneralSettings.
+     */
+    data: GeneralSettingCreateManyInput | GeneralSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GeneralSetting createManyAndReturn
+   */
+  export type GeneralSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneralSetting
+     */
+    select?: GeneralSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneralSetting
+     */
+    omit?: GeneralSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many GeneralSettings.
+     */
+    data: GeneralSettingCreateManyInput | GeneralSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GeneralSetting update
+   */
+  export type GeneralSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneralSetting
+     */
+    select?: GeneralSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneralSetting
+     */
+    omit?: GeneralSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a GeneralSetting.
+     */
+    data: XOR<GeneralSettingUpdateInput, GeneralSettingUncheckedUpdateInput>
+    /**
+     * Choose, which GeneralSetting to update.
+     */
+    where: GeneralSettingWhereUniqueInput
+  }
+
+  /**
+   * GeneralSetting updateMany
+   */
+  export type GeneralSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GeneralSettings.
+     */
+    data: XOR<GeneralSettingUpdateManyMutationInput, GeneralSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which GeneralSettings to update
+     */
+    where?: GeneralSettingWhereInput
+    /**
+     * Limit how many GeneralSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GeneralSetting updateManyAndReturn
+   */
+  export type GeneralSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneralSetting
+     */
+    select?: GeneralSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneralSetting
+     */
+    omit?: GeneralSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update GeneralSettings.
+     */
+    data: XOR<GeneralSettingUpdateManyMutationInput, GeneralSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which GeneralSettings to update
+     */
+    where?: GeneralSettingWhereInput
+    /**
+     * Limit how many GeneralSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GeneralSetting upsert
+   */
+  export type GeneralSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneralSetting
+     */
+    select?: GeneralSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneralSetting
+     */
+    omit?: GeneralSettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the GeneralSetting to update in case it exists.
+     */
+    where: GeneralSettingWhereUniqueInput
+    /**
+     * In case the GeneralSetting found by the `where` argument doesn't exist, create a new GeneralSetting with this data.
+     */
+    create: XOR<GeneralSettingCreateInput, GeneralSettingUncheckedCreateInput>
+    /**
+     * In case the GeneralSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GeneralSettingUpdateInput, GeneralSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * GeneralSetting delete
+   */
+  export type GeneralSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneralSetting
+     */
+    select?: GeneralSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneralSetting
+     */
+    omit?: GeneralSettingOmit<ExtArgs> | null
+    /**
+     * Filter which GeneralSetting to delete.
+     */
+    where: GeneralSettingWhereUniqueInput
+  }
+
+  /**
+   * GeneralSetting deleteMany
+   */
+  export type GeneralSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GeneralSettings to delete
+     */
+    where?: GeneralSettingWhereInput
+    /**
+     * Limit how many GeneralSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GeneralSetting without action
+   */
+  export type GeneralSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneralSetting
+     */
+    select?: GeneralSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneralSetting
+     */
+    omit?: GeneralSettingOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -11250,12 +15655,68 @@ export namespace Prisma {
   export type AnalyticsScalarFieldEnum = (typeof AnalyticsScalarFieldEnum)[keyof typeof AnalyticsScalarFieldEnum]
 
 
+  export const PopupSettingScalarFieldEnum: {
+    id: 'id',
+    showPopup: 'showPopup',
+    content: 'content',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PopupSettingScalarFieldEnum = (typeof PopupSettingScalarFieldEnum)[keyof typeof PopupSettingScalarFieldEnum]
+
+
+  export const PageScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    slug: 'slug',
+    content: 'content',
+    thumbnail: 'thumbnail',
+    metaTitle: 'metaTitle',
+    metaDesc: 'metaDesc',
+    keywords: 'keywords',
+    metaImage: 'metaImage',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PageScalarFieldEnum = (typeof PageScalarFieldEnum)[keyof typeof PageScalarFieldEnum]
+
+
+  export const SettingScalarFieldEnum: {
+    key: 'key',
+    value: 'value',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SettingScalarFieldEnum = (typeof SettingScalarFieldEnum)[keyof typeof SettingScalarFieldEnum]
+
+
+  export const GeneralSettingScalarFieldEnum: {
+    id: 'id',
+    siteName: 'siteName',
+    description: 'description',
+    logoUrl: 'logoUrl',
+    faviconUrl: 'faviconUrl',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GeneralSettingScalarFieldEnum = (typeof GeneralSettingScalarFieldEnum)[keyof typeof GeneralSettingScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -11272,6 +15733,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -11325,6 +15795,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -12020,6 +16504,239 @@ export namespace Prisma {
     dimension?: StringNullableWithAggregatesFilter<"Analytics"> | string | null
     recordedDate?: DateTimeNullableWithAggregatesFilter<"Analytics"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Analytics"> | Date | string
+  }
+
+  export type PopupSettingWhereInput = {
+    AND?: PopupSettingWhereInput | PopupSettingWhereInput[]
+    OR?: PopupSettingWhereInput[]
+    NOT?: PopupSettingWhereInput | PopupSettingWhereInput[]
+    id?: StringFilter<"PopupSetting"> | string
+    showPopup?: BoolFilter<"PopupSetting"> | boolean
+    content?: StringFilter<"PopupSetting"> | string
+    updatedAt?: DateTimeFilter<"PopupSetting"> | Date | string
+  }
+
+  export type PopupSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    showPopup?: SortOrder
+    content?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PopupSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PopupSettingWhereInput | PopupSettingWhereInput[]
+    OR?: PopupSettingWhereInput[]
+    NOT?: PopupSettingWhereInput | PopupSettingWhereInput[]
+    showPopup?: BoolFilter<"PopupSetting"> | boolean
+    content?: StringFilter<"PopupSetting"> | string
+    updatedAt?: DateTimeFilter<"PopupSetting"> | Date | string
+  }, "id">
+
+  export type PopupSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    showPopup?: SortOrder
+    content?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PopupSettingCountOrderByAggregateInput
+    _max?: PopupSettingMaxOrderByAggregateInput
+    _min?: PopupSettingMinOrderByAggregateInput
+  }
+
+  export type PopupSettingScalarWhereWithAggregatesInput = {
+    AND?: PopupSettingScalarWhereWithAggregatesInput | PopupSettingScalarWhereWithAggregatesInput[]
+    OR?: PopupSettingScalarWhereWithAggregatesInput[]
+    NOT?: PopupSettingScalarWhereWithAggregatesInput | PopupSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PopupSetting"> | string
+    showPopup?: BoolWithAggregatesFilter<"PopupSetting"> | boolean
+    content?: StringWithAggregatesFilter<"PopupSetting"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PopupSetting"> | Date | string
+  }
+
+  export type PageWhereInput = {
+    AND?: PageWhereInput | PageWhereInput[]
+    OR?: PageWhereInput[]
+    NOT?: PageWhereInput | PageWhereInput[]
+    id?: StringFilter<"Page"> | string
+    title?: StringFilter<"Page"> | string
+    slug?: StringFilter<"Page"> | string
+    content?: StringNullableFilter<"Page"> | string | null
+    thumbnail?: StringNullableFilter<"Page"> | string | null
+    metaTitle?: StringNullableFilter<"Page"> | string | null
+    metaDesc?: StringNullableFilter<"Page"> | string | null
+    keywords?: StringNullableFilter<"Page"> | string | null
+    metaImage?: StringNullableFilter<"Page"> | string | null
+    status?: StringFilter<"Page"> | string
+    createdAt?: DateTimeFilter<"Page"> | Date | string
+    updatedAt?: DateTimeFilter<"Page"> | Date | string
+  }
+
+  export type PageOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    content?: SortOrderInput | SortOrder
+    thumbnail?: SortOrderInput | SortOrder
+    metaTitle?: SortOrderInput | SortOrder
+    metaDesc?: SortOrderInput | SortOrder
+    keywords?: SortOrderInput | SortOrder
+    metaImage?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: PageWhereInput | PageWhereInput[]
+    OR?: PageWhereInput[]
+    NOT?: PageWhereInput | PageWhereInput[]
+    title?: StringFilter<"Page"> | string
+    content?: StringNullableFilter<"Page"> | string | null
+    thumbnail?: StringNullableFilter<"Page"> | string | null
+    metaTitle?: StringNullableFilter<"Page"> | string | null
+    metaDesc?: StringNullableFilter<"Page"> | string | null
+    keywords?: StringNullableFilter<"Page"> | string | null
+    metaImage?: StringNullableFilter<"Page"> | string | null
+    status?: StringFilter<"Page"> | string
+    createdAt?: DateTimeFilter<"Page"> | Date | string
+    updatedAt?: DateTimeFilter<"Page"> | Date | string
+  }, "id" | "slug">
+
+  export type PageOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    content?: SortOrderInput | SortOrder
+    thumbnail?: SortOrderInput | SortOrder
+    metaTitle?: SortOrderInput | SortOrder
+    metaDesc?: SortOrderInput | SortOrder
+    keywords?: SortOrderInput | SortOrder
+    metaImage?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PageCountOrderByAggregateInput
+    _max?: PageMaxOrderByAggregateInput
+    _min?: PageMinOrderByAggregateInput
+  }
+
+  export type PageScalarWhereWithAggregatesInput = {
+    AND?: PageScalarWhereWithAggregatesInput | PageScalarWhereWithAggregatesInput[]
+    OR?: PageScalarWhereWithAggregatesInput[]
+    NOT?: PageScalarWhereWithAggregatesInput | PageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Page"> | string
+    title?: StringWithAggregatesFilter<"Page"> | string
+    slug?: StringWithAggregatesFilter<"Page"> | string
+    content?: StringNullableWithAggregatesFilter<"Page"> | string | null
+    thumbnail?: StringNullableWithAggregatesFilter<"Page"> | string | null
+    metaTitle?: StringNullableWithAggregatesFilter<"Page"> | string | null
+    metaDesc?: StringNullableWithAggregatesFilter<"Page"> | string | null
+    keywords?: StringNullableWithAggregatesFilter<"Page"> | string | null
+    metaImage?: StringNullableWithAggregatesFilter<"Page"> | string | null
+    status?: StringWithAggregatesFilter<"Page"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Page"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Page"> | Date | string
+  }
+
+  export type SettingWhereInput = {
+    AND?: SettingWhereInput | SettingWhereInput[]
+    OR?: SettingWhereInput[]
+    NOT?: SettingWhereInput | SettingWhereInput[]
+    key?: StringFilter<"Setting"> | string
+    value?: JsonFilter<"Setting">
+    updatedAt?: DateTimeFilter<"Setting"> | Date | string
+  }
+
+  export type SettingOrderByWithRelationInput = {
+    key?: SortOrder
+    value?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SettingWhereUniqueInput = Prisma.AtLeast<{
+    key?: string
+    AND?: SettingWhereInput | SettingWhereInput[]
+    OR?: SettingWhereInput[]
+    NOT?: SettingWhereInput | SettingWhereInput[]
+    value?: JsonFilter<"Setting">
+    updatedAt?: DateTimeFilter<"Setting"> | Date | string
+  }, "key">
+
+  export type SettingOrderByWithAggregationInput = {
+    key?: SortOrder
+    value?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SettingCountOrderByAggregateInput
+    _max?: SettingMaxOrderByAggregateInput
+    _min?: SettingMinOrderByAggregateInput
+  }
+
+  export type SettingScalarWhereWithAggregatesInput = {
+    AND?: SettingScalarWhereWithAggregatesInput | SettingScalarWhereWithAggregatesInput[]
+    OR?: SettingScalarWhereWithAggregatesInput[]
+    NOT?: SettingScalarWhereWithAggregatesInput | SettingScalarWhereWithAggregatesInput[]
+    key?: StringWithAggregatesFilter<"Setting"> | string
+    value?: JsonWithAggregatesFilter<"Setting">
+    updatedAt?: DateTimeWithAggregatesFilter<"Setting"> | Date | string
+  }
+
+  export type GeneralSettingWhereInput = {
+    AND?: GeneralSettingWhereInput | GeneralSettingWhereInput[]
+    OR?: GeneralSettingWhereInput[]
+    NOT?: GeneralSettingWhereInput | GeneralSettingWhereInput[]
+    id?: StringFilter<"GeneralSetting"> | string
+    siteName?: StringFilter<"GeneralSetting"> | string
+    description?: StringFilter<"GeneralSetting"> | string
+    logoUrl?: StringFilter<"GeneralSetting"> | string
+    faviconUrl?: StringFilter<"GeneralSetting"> | string
+    updatedAt?: DateTimeFilter<"GeneralSetting"> | Date | string
+  }
+
+  export type GeneralSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    siteName?: SortOrder
+    description?: SortOrder
+    logoUrl?: SortOrder
+    faviconUrl?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GeneralSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GeneralSettingWhereInput | GeneralSettingWhereInput[]
+    OR?: GeneralSettingWhereInput[]
+    NOT?: GeneralSettingWhereInput | GeneralSettingWhereInput[]
+    siteName?: StringFilter<"GeneralSetting"> | string
+    description?: StringFilter<"GeneralSetting"> | string
+    logoUrl?: StringFilter<"GeneralSetting"> | string
+    faviconUrl?: StringFilter<"GeneralSetting"> | string
+    updatedAt?: DateTimeFilter<"GeneralSetting"> | Date | string
+  }, "id">
+
+  export type GeneralSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    siteName?: SortOrder
+    description?: SortOrder
+    logoUrl?: SortOrder
+    faviconUrl?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GeneralSettingCountOrderByAggregateInput
+    _max?: GeneralSettingMaxOrderByAggregateInput
+    _min?: GeneralSettingMinOrderByAggregateInput
+  }
+
+  export type GeneralSettingScalarWhereWithAggregatesInput = {
+    AND?: GeneralSettingScalarWhereWithAggregatesInput | GeneralSettingScalarWhereWithAggregatesInput[]
+    OR?: GeneralSettingScalarWhereWithAggregatesInput[]
+    NOT?: GeneralSettingScalarWhereWithAggregatesInput | GeneralSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GeneralSetting"> | string
+    siteName?: StringWithAggregatesFilter<"GeneralSetting"> | string
+    description?: StringWithAggregatesFilter<"GeneralSetting"> | string
+    logoUrl?: StringWithAggregatesFilter<"GeneralSetting"> | string
+    faviconUrl?: StringWithAggregatesFilter<"GeneralSetting"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"GeneralSetting"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -12781,6 +17498,265 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PopupSettingCreateInput = {
+    id?: string
+    showPopup?: boolean
+    content?: string
+    updatedAt?: Date | string
+  }
+
+  export type PopupSettingUncheckedCreateInput = {
+    id?: string
+    showPopup?: boolean
+    content?: string
+    updatedAt?: Date | string
+  }
+
+  export type PopupSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    showPopup?: BoolFieldUpdateOperationsInput | boolean
+    content?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PopupSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    showPopup?: BoolFieldUpdateOperationsInput | boolean
+    content?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PopupSettingCreateManyInput = {
+    id?: string
+    showPopup?: boolean
+    content?: string
+    updatedAt?: Date | string
+  }
+
+  export type PopupSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    showPopup?: BoolFieldUpdateOperationsInput | boolean
+    content?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PopupSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    showPopup?: BoolFieldUpdateOperationsInput | boolean
+    content?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PageCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    content?: string | null
+    thumbnail?: string | null
+    metaTitle?: string | null
+    metaDesc?: string | null
+    keywords?: string | null
+    metaImage?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PageUncheckedCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    content?: string | null
+    thumbnail?: string | null
+    metaTitle?: string | null
+    metaDesc?: string | null
+    keywords?: string | null
+    metaImage?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    keywords?: NullableStringFieldUpdateOperationsInput | string | null
+    metaImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    keywords?: NullableStringFieldUpdateOperationsInput | string | null
+    metaImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PageCreateManyInput = {
+    id?: string
+    title: string
+    slug: string
+    content?: string | null
+    thumbnail?: string | null
+    metaTitle?: string | null
+    metaDesc?: string | null
+    keywords?: string | null
+    metaImage?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    keywords?: NullableStringFieldUpdateOperationsInput | string | null
+    metaImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    keywords?: NullableStringFieldUpdateOperationsInput | string | null
+    metaImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SettingCreateInput = {
+    key: string
+    value: JsonNullValueInput | InputJsonValue
+    updatedAt?: Date | string
+  }
+
+  export type SettingUncheckedCreateInput = {
+    key: string
+    value: JsonNullValueInput | InputJsonValue
+    updatedAt?: Date | string
+  }
+
+  export type SettingUpdateInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SettingUncheckedUpdateInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SettingCreateManyInput = {
+    key: string
+    value: JsonNullValueInput | InputJsonValue
+    updatedAt?: Date | string
+  }
+
+  export type SettingUpdateManyMutationInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SettingUncheckedUpdateManyInput = {
+    key?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeneralSettingCreateInput = {
+    id?: string
+    siteName?: string
+    description?: string
+    logoUrl?: string
+    faviconUrl?: string
+    updatedAt?: Date | string
+  }
+
+  export type GeneralSettingUncheckedCreateInput = {
+    id?: string
+    siteName?: string
+    description?: string
+    logoUrl?: string
+    faviconUrl?: string
+    updatedAt?: Date | string
+  }
+
+  export type GeneralSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    siteName?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    logoUrl?: StringFieldUpdateOperationsInput | string
+    faviconUrl?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeneralSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    siteName?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    logoUrl?: StringFieldUpdateOperationsInput | string
+    faviconUrl?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeneralSettingCreateManyInput = {
+    id?: string
+    siteName?: string
+    description?: string
+    logoUrl?: string
+    faviconUrl?: string
+    updatedAt?: Date | string
+  }
+
+  export type GeneralSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    siteName?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    logoUrl?: StringFieldUpdateOperationsInput | string
+    faviconUrl?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeneralSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    siteName?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    logoUrl?: StringFieldUpdateOperationsInput | string
+    faviconUrl?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -13388,6 +18364,164 @@ export namespace Prisma {
 
   export type AnalyticsSumOrderByAggregateInput = {
     metricValue?: SortOrder
+  }
+
+  export type PopupSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    showPopup?: SortOrder
+    content?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PopupSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    showPopup?: SortOrder
+    content?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PopupSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    showPopup?: SortOrder
+    content?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PageCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    content?: SortOrder
+    thumbnail?: SortOrder
+    metaTitle?: SortOrder
+    metaDesc?: SortOrder
+    keywords?: SortOrder
+    metaImage?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    content?: SortOrder
+    thumbnail?: SortOrder
+    metaTitle?: SortOrder
+    metaDesc?: SortOrder
+    keywords?: SortOrder
+    metaImage?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PageMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    content?: SortOrder
+    thumbnail?: SortOrder
+    metaTitle?: SortOrder
+    metaDesc?: SortOrder
+    keywords?: SortOrder
+    metaImage?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type SettingCountOrderByAggregateInput = {
+    key?: SortOrder
+    value?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SettingMaxOrderByAggregateInput = {
+    key?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SettingMinOrderByAggregateInput = {
+    key?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type GeneralSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    siteName?: SortOrder
+    description?: SortOrder
+    logoUrl?: SortOrder
+    faviconUrl?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GeneralSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    siteName?: SortOrder
+    description?: SortOrder
+    logoUrl?: SortOrder
+    faviconUrl?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GeneralSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    siteName?: SortOrder
+    description?: SortOrder
+    logoUrl?: SortOrder
+    faviconUrl?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -14089,6 +19223,29 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type ServiceCreateWithoutCustomersInput = {

@@ -1,30 +1,11 @@
-"use client";
-
-import {
-  Filter,
-  Plus,
-  Layers,
-  CheckCircle2,
-  XCircle,
-} from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
-import { AddServiceModal } from "@/components/AddServiceModal";
-import { EditServiceModal, type ServiceRow } from "@/components/EditServiceModal";
-import { PageHeader } from "@/components/PageHeader";
-import { Topbar } from "@/components/Topbar";
-import { Button } from "@/components/Button";
-import { Card } from "@/components/Card";
-import { StatCard } from "@/components/StatCard";
-import { RowActions } from "@/components/RowActions";
-import { Pagination } from "@/components/Pagination";
-import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
-import { getServicesPaginated, deleteService } from "@/app/actions/services";
+import { ServicesClient } from "./ServicesClient";
+import prisma from "@/lib/prisma";
+import { auth } from "@/auth";
 
 type Service = {
   id: string;
   serviceName: string;
   description: string | null;
-  image: string | null;
   isActive: boolean;
   createdAt: Date;
 };
@@ -143,12 +124,7 @@ export default function ServicesPage() {
                       {(page - 1) * 10 + idx + 1}
                     </td>
                     <td className="px-6 py-4">
-                      {service.image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={service.image} alt={service.serviceName} className="h-10 w-14 rounded-md object-cover" />
-                      ) : (
-                        <div className="h-10 w-14 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
-                      )}
+                      <div className="h-10 w-14 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
                     </td>
                     <td className="px-6 py-4 font-medium text-zinc-800">
                       {service.serviceName}
@@ -188,12 +164,7 @@ export default function ServicesPage() {
                   <div className="text-xs sm:text-sm text-gray-500 font-medium w-6 pt-1">
                     {(page - 1) * 10 + idx + 1}
                   </div>
-                  {service.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={service.image} alt={service.serviceName} className="h-12 w-16 sm:h-14 sm:w-20 shrink-0 rounded-md object-cover" />
-                  ) : (
-                    <div className="h-12 w-16 sm:h-14 sm:w-20 shrink-0 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
-                  )}
+                  <div className="h-12 w-16 sm:h-14 sm:w-20 shrink-0 rounded-md bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-1">
                       {service.serviceName}

@@ -37,6 +37,9 @@ export const authConfig: NextAuthConfig = {
       // Block register
       if (pathname.startsWith("/register")) return false;
 
+      // Public pages — always accessible
+      if (pathname === "/" || pathname.startsWith("/home")) return true;
+
       const isAuthPage = pathname.startsWith("/login");
       const isOnboardingPage = pathname.startsWith("/onboarding");
 

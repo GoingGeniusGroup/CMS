@@ -14,6 +14,7 @@ const projectSchema = z.object({
   startDate: z.string().optional(),
   endDate: z.string().optional(),
   budget: z.number().optional(),
+  thumbnail: z.string().optional(),
 });
 
 export type ProjectInput = z.infer<typeof projectSchema>;
