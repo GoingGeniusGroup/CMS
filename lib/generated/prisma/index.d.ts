@@ -808,14 +808,10 @@ export namespace Prisma {
     PopupSetting: 'PopupSetting',
     Page: 'Page',
     Setting: 'Setting',
-<<<<<<< HEAD
     SeoSetting: 'SeoSetting',
     AppearanceSetting: 'AppearanceSetting',
-    GeneralSetting: 'GeneralSetting'
-=======
     GeneralSetting: 'GeneralSetting',
     Category: 'Category'
->>>>>>> a4bdaac7dce133f4ad3d77bf87b597d00a876356
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -834,11 +830,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-<<<<<<< HEAD
-      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "analytics" | "popupSetting" | "page" | "setting" | "seoSetting" | "appearanceSetting" | "generalSetting"
-=======
-      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "analytics" | "popupSetting" | "page" | "setting" | "generalSetting" | "category"
->>>>>>> a4bdaac7dce133f4ad3d77bf87b597d00a876356
+      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "analytics" | "popupSetting" | "page" | "setting" | "seoSetting" | "appearanceSetting" | "generalSetting" | "category"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
