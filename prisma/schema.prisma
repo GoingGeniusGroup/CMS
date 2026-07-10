@@ -289,5 +289,6 @@ model CookieSetting {
   cookiesAgreementText String   @default("")
   updatedAt            DateTime @updatedAt
 
+  
   @@map("cookie_settings")
 }
