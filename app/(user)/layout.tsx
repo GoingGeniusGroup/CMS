@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: {
-      default: `${settings.siteName} — Group of Companies`,
+      default: settings.siteName,
       template: `%s | ${settings.siteName}`,
     },
     description: settings.description,
