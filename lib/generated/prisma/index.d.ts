@@ -88,6 +88,31 @@ export type GeneralSetting = $Result.DefaultSelection<Prisma.$GeneralSettingPayl
  * 
  */
 export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
+/**
+ * Model ContactSetting
+ * 
+ */
+export type ContactSetting = $Result.DefaultSelection<Prisma.$ContactSettingPayload>
+/**
+ * Model SocialSetting
+ * 
+ */
+export type SocialSetting = $Result.DefaultSelection<Prisma.$SocialSettingPayload>
+/**
+ * Model EmailSetting
+ * 
+ */
+export type EmailSetting = $Result.DefaultSelection<Prisma.$EmailSettingPayload>
+/**
+ * Model SecuritySetting
+ * 
+ */
+export type SecuritySetting = $Result.DefaultSelection<Prisma.$SecuritySettingPayload>
+/**
+ * Model CookieSetting
+ * 
+ */
+export type CookieSetting = $Result.DefaultSelection<Prisma.$CookieSettingPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -356,6 +381,56 @@ export class PrismaClient<
     * ```
     */
   get category(): Prisma.CategoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.contactSetting`: Exposes CRUD operations for the **ContactSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ContactSettings
+    * const contactSettings = await prisma.contactSetting.findMany()
+    * ```
+    */
+  get contactSetting(): Prisma.ContactSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.socialSetting`: Exposes CRUD operations for the **SocialSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SocialSettings
+    * const socialSettings = await prisma.socialSetting.findMany()
+    * ```
+    */
+  get socialSetting(): Prisma.SocialSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.emailSetting`: Exposes CRUD operations for the **EmailSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EmailSettings
+    * const emailSettings = await prisma.emailSetting.findMany()
+    * ```
+    */
+  get emailSetting(): Prisma.EmailSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.securitySetting`: Exposes CRUD operations for the **SecuritySetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SecuritySettings
+    * const securitySettings = await prisma.securitySetting.findMany()
+    * ```
+    */
+  get securitySetting(): Prisma.SecuritySettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cookieSetting`: Exposes CRUD operations for the **CookieSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CookieSettings
+    * const cookieSettings = await prisma.cookieSetting.findMany()
+    * ```
+    */
+  get cookieSetting(): Prisma.CookieSettingDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -811,7 +886,12 @@ export namespace Prisma {
     SeoSetting: 'SeoSetting',
     AppearanceSetting: 'AppearanceSetting',
     GeneralSetting: 'GeneralSetting',
-    Category: 'Category'
+    Category: 'Category',
+    ContactSetting: 'ContactSetting',
+    SocialSetting: 'SocialSetting',
+    EmailSetting: 'EmailSetting',
+    SecuritySetting: 'SecuritySetting',
+    CookieSetting: 'CookieSetting'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -830,7 +910,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "analytics" | "popupSetting" | "page" | "setting" | "seoSetting" | "appearanceSetting" | "generalSetting" | "category"
+      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "analytics" | "popupSetting" | "page" | "setting" | "seoSetting" | "appearanceSetting" | "generalSetting" | "category" | "contactSetting" | "socialSetting" | "emailSetting" | "securitySetting" | "cookieSetting"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1944,6 +2024,376 @@ export namespace Prisma {
           }
         }
       }
+      ContactSetting: {
+        payload: Prisma.$ContactSettingPayload<ExtArgs>
+        fields: Prisma.ContactSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ContactSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ContactSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.ContactSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ContactSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactSettingPayload>
+          }
+          findMany: {
+            args: Prisma.ContactSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactSettingPayload>[]
+          }
+          create: {
+            args: Prisma.ContactSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactSettingPayload>
+          }
+          createMany: {
+            args: Prisma.ContactSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ContactSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.ContactSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactSettingPayload>
+          }
+          update: {
+            args: Prisma.ContactSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.ContactSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ContactSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ContactSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.ContactSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.ContactSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateContactSetting>
+          }
+          groupBy: {
+            args: Prisma.ContactSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ContactSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ContactSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<ContactSettingCountAggregateOutputType> | number
+          }
+        }
+      }
+      SocialSetting: {
+        payload: Prisma.$SocialSettingPayload<ExtArgs>
+        fields: Prisma.SocialSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SocialSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SocialSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.SocialSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SocialSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialSettingPayload>
+          }
+          findMany: {
+            args: Prisma.SocialSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialSettingPayload>[]
+          }
+          create: {
+            args: Prisma.SocialSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialSettingPayload>
+          }
+          createMany: {
+            args: Prisma.SocialSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SocialSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.SocialSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialSettingPayload>
+          }
+          update: {
+            args: Prisma.SocialSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.SocialSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SocialSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SocialSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.SocialSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.SocialSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSocialSetting>
+          }
+          groupBy: {
+            args: Prisma.SocialSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SocialSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SocialSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<SocialSettingCountAggregateOutputType> | number
+          }
+        }
+      }
+      EmailSetting: {
+        payload: Prisma.$EmailSettingPayload<ExtArgs>
+        fields: Prisma.EmailSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EmailSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EmailSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.EmailSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EmailSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailSettingPayload>
+          }
+          findMany: {
+            args: Prisma.EmailSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailSettingPayload>[]
+          }
+          create: {
+            args: Prisma.EmailSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailSettingPayload>
+          }
+          createMany: {
+            args: Prisma.EmailSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EmailSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.EmailSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailSettingPayload>
+          }
+          update: {
+            args: Prisma.EmailSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.EmailSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EmailSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EmailSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.EmailSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.EmailSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEmailSetting>
+          }
+          groupBy: {
+            args: Prisma.EmailSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EmailSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EmailSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<EmailSettingCountAggregateOutputType> | number
+          }
+        }
+      }
+      SecuritySetting: {
+        payload: Prisma.$SecuritySettingPayload<ExtArgs>
+        fields: Prisma.SecuritySettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SecuritySettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecuritySettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SecuritySettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecuritySettingPayload>
+          }
+          findFirst: {
+            args: Prisma.SecuritySettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecuritySettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SecuritySettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecuritySettingPayload>
+          }
+          findMany: {
+            args: Prisma.SecuritySettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecuritySettingPayload>[]
+          }
+          create: {
+            args: Prisma.SecuritySettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecuritySettingPayload>
+          }
+          createMany: {
+            args: Prisma.SecuritySettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SecuritySettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecuritySettingPayload>[]
+          }
+          delete: {
+            args: Prisma.SecuritySettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecuritySettingPayload>
+          }
+          update: {
+            args: Prisma.SecuritySettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecuritySettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.SecuritySettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SecuritySettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SecuritySettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecuritySettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.SecuritySettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SecuritySettingPayload>
+          }
+          aggregate: {
+            args: Prisma.SecuritySettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSecuritySetting>
+          }
+          groupBy: {
+            args: Prisma.SecuritySettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SecuritySettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SecuritySettingCountArgs<ExtArgs>
+            result: $Utils.Optional<SecuritySettingCountAggregateOutputType> | number
+          }
+        }
+      }
+      CookieSetting: {
+        payload: Prisma.$CookieSettingPayload<ExtArgs>
+        fields: Prisma.CookieSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CookieSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CookieSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CookieSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CookieSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.CookieSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CookieSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CookieSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CookieSettingPayload>
+          }
+          findMany: {
+            args: Prisma.CookieSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CookieSettingPayload>[]
+          }
+          create: {
+            args: Prisma.CookieSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CookieSettingPayload>
+          }
+          createMany: {
+            args: Prisma.CookieSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CookieSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CookieSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.CookieSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CookieSettingPayload>
+          }
+          update: {
+            args: Prisma.CookieSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CookieSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.CookieSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CookieSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CookieSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CookieSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.CookieSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CookieSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.CookieSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCookieSetting>
+          }
+          groupBy: {
+            args: Prisma.CookieSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CookieSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CookieSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<CookieSettingCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2055,6 +2505,11 @@ export namespace Prisma {
     appearanceSetting?: AppearanceSettingOmit
     generalSetting?: GeneralSettingOmit
     category?: CategoryOmit
+    contactSetting?: ContactSettingOmit
+    socialSetting?: SocialSettingOmit
+    emailSetting?: EmailSettingOmit
+    securitySetting?: SecuritySettingOmit
+    cookieSetting?: CookieSettingOmit
   }
 
   /* Types for Logging */
@@ -18896,6 +19351,5205 @@ export namespace Prisma {
 
 
   /**
+   * Model ContactSetting
+   */
+
+  export type AggregateContactSetting = {
+    _count: ContactSettingCountAggregateOutputType | null
+    _min: ContactSettingMinAggregateOutputType | null
+    _max: ContactSettingMaxAggregateOutputType | null
+  }
+
+  export type ContactSettingMinAggregateOutputType = {
+    id: string | null
+    phone1: string | null
+    phone2: string | null
+    email1: string | null
+    email2: string | null
+    address: string | null
+    contactMail: string | null
+    officeHours: string | null
+    googleMapEmbed: string | null
+    updatedAt: Date | null
+  }
+
+  export type ContactSettingMaxAggregateOutputType = {
+    id: string | null
+    phone1: string | null
+    phone2: string | null
+    email1: string | null
+    email2: string | null
+    address: string | null
+    contactMail: string | null
+    officeHours: string | null
+    googleMapEmbed: string | null
+    updatedAt: Date | null
+  }
+
+  export type ContactSettingCountAggregateOutputType = {
+    id: number
+    phone1: number
+    phone2: number
+    email1: number
+    email2: number
+    address: number
+    contactMail: number
+    officeHours: number
+    googleMapEmbed: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ContactSettingMinAggregateInputType = {
+    id?: true
+    phone1?: true
+    phone2?: true
+    email1?: true
+    email2?: true
+    address?: true
+    contactMail?: true
+    officeHours?: true
+    googleMapEmbed?: true
+    updatedAt?: true
+  }
+
+  export type ContactSettingMaxAggregateInputType = {
+    id?: true
+    phone1?: true
+    phone2?: true
+    email1?: true
+    email2?: true
+    address?: true
+    contactMail?: true
+    officeHours?: true
+    googleMapEmbed?: true
+    updatedAt?: true
+  }
+
+  export type ContactSettingCountAggregateInputType = {
+    id?: true
+    phone1?: true
+    phone2?: true
+    email1?: true
+    email2?: true
+    address?: true
+    contactMail?: true
+    officeHours?: true
+    googleMapEmbed?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ContactSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ContactSetting to aggregate.
+     */
+    where?: ContactSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ContactSettings to fetch.
+     */
+    orderBy?: ContactSettingOrderByWithRelationInput | ContactSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ContactSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ContactSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ContactSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ContactSettings
+    **/
+    _count?: true | ContactSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ContactSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ContactSettingMaxAggregateInputType
+  }
+
+  export type GetContactSettingAggregateType<T extends ContactSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateContactSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateContactSetting[P]>
+      : GetScalarType<T[P], AggregateContactSetting[P]>
+  }
+
+
+
+
+  export type ContactSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ContactSettingWhereInput
+    orderBy?: ContactSettingOrderByWithAggregationInput | ContactSettingOrderByWithAggregationInput[]
+    by: ContactSettingScalarFieldEnum[] | ContactSettingScalarFieldEnum
+    having?: ContactSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ContactSettingCountAggregateInputType | true
+    _min?: ContactSettingMinAggregateInputType
+    _max?: ContactSettingMaxAggregateInputType
+  }
+
+  export type ContactSettingGroupByOutputType = {
+    id: string
+    phone1: string
+    phone2: string
+    email1: string
+    email2: string
+    address: string
+    contactMail: string
+    officeHours: string
+    googleMapEmbed: string
+    updatedAt: Date
+    _count: ContactSettingCountAggregateOutputType | null
+    _min: ContactSettingMinAggregateOutputType | null
+    _max: ContactSettingMaxAggregateOutputType | null
+  }
+
+  type GetContactSettingGroupByPayload<T extends ContactSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ContactSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ContactSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ContactSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], ContactSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ContactSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    phone1?: boolean
+    phone2?: boolean
+    email1?: boolean
+    email2?: boolean
+    address?: boolean
+    contactMail?: boolean
+    officeHours?: boolean
+    googleMapEmbed?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["contactSetting"]>
+
+  export type ContactSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    phone1?: boolean
+    phone2?: boolean
+    email1?: boolean
+    email2?: boolean
+    address?: boolean
+    contactMail?: boolean
+    officeHours?: boolean
+    googleMapEmbed?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["contactSetting"]>
+
+  export type ContactSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    phone1?: boolean
+    phone2?: boolean
+    email1?: boolean
+    email2?: boolean
+    address?: boolean
+    contactMail?: boolean
+    officeHours?: boolean
+    googleMapEmbed?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["contactSetting"]>
+
+  export type ContactSettingSelectScalar = {
+    id?: boolean
+    phone1?: boolean
+    phone2?: boolean
+    email1?: boolean
+    email2?: boolean
+    address?: boolean
+    contactMail?: boolean
+    officeHours?: boolean
+    googleMapEmbed?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ContactSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "phone1" | "phone2" | "email1" | "email2" | "address" | "contactMail" | "officeHours" | "googleMapEmbed" | "updatedAt", ExtArgs["result"]["contactSetting"]>
+
+  export type $ContactSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ContactSetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      phone1: string
+      phone2: string
+      email1: string
+      email2: string
+      address: string
+      contactMail: string
+      officeHours: string
+      googleMapEmbed: string
+      updatedAt: Date
+    }, ExtArgs["result"]["contactSetting"]>
+    composites: {}
+  }
+
+  type ContactSettingGetPayload<S extends boolean | null | undefined | ContactSettingDefaultArgs> = $Result.GetResult<Prisma.$ContactSettingPayload, S>
+
+  type ContactSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ContactSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ContactSettingCountAggregateInputType | true
+    }
+
+  export interface ContactSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ContactSetting'], meta: { name: 'ContactSetting' } }
+    /**
+     * Find zero or one ContactSetting that matches the filter.
+     * @param {ContactSettingFindUniqueArgs} args - Arguments to find a ContactSetting
+     * @example
+     * // Get one ContactSetting
+     * const contactSetting = await prisma.contactSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ContactSettingFindUniqueArgs>(args: SelectSubset<T, ContactSettingFindUniqueArgs<ExtArgs>>): Prisma__ContactSettingClient<$Result.GetResult<Prisma.$ContactSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ContactSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ContactSettingFindUniqueOrThrowArgs} args - Arguments to find a ContactSetting
+     * @example
+     * // Get one ContactSetting
+     * const contactSetting = await prisma.contactSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ContactSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, ContactSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ContactSettingClient<$Result.GetResult<Prisma.$ContactSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ContactSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactSettingFindFirstArgs} args - Arguments to find a ContactSetting
+     * @example
+     * // Get one ContactSetting
+     * const contactSetting = await prisma.contactSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ContactSettingFindFirstArgs>(args?: SelectSubset<T, ContactSettingFindFirstArgs<ExtArgs>>): Prisma__ContactSettingClient<$Result.GetResult<Prisma.$ContactSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ContactSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactSettingFindFirstOrThrowArgs} args - Arguments to find a ContactSetting
+     * @example
+     * // Get one ContactSetting
+     * const contactSetting = await prisma.contactSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ContactSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, ContactSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__ContactSettingClient<$Result.GetResult<Prisma.$ContactSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ContactSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ContactSettings
+     * const contactSettings = await prisma.contactSetting.findMany()
+     * 
+     * // Get first 10 ContactSettings
+     * const contactSettings = await prisma.contactSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const contactSettingWithIdOnly = await prisma.contactSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ContactSettingFindManyArgs>(args?: SelectSubset<T, ContactSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ContactSetting.
+     * @param {ContactSettingCreateArgs} args - Arguments to create a ContactSetting.
+     * @example
+     * // Create one ContactSetting
+     * const ContactSetting = await prisma.contactSetting.create({
+     *   data: {
+     *     // ... data to create a ContactSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends ContactSettingCreateArgs>(args: SelectSubset<T, ContactSettingCreateArgs<ExtArgs>>): Prisma__ContactSettingClient<$Result.GetResult<Prisma.$ContactSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ContactSettings.
+     * @param {ContactSettingCreateManyArgs} args - Arguments to create many ContactSettings.
+     * @example
+     * // Create many ContactSettings
+     * const contactSetting = await prisma.contactSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ContactSettingCreateManyArgs>(args?: SelectSubset<T, ContactSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ContactSettings and returns the data saved in the database.
+     * @param {ContactSettingCreateManyAndReturnArgs} args - Arguments to create many ContactSettings.
+     * @example
+     * // Create many ContactSettings
+     * const contactSetting = await prisma.contactSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ContactSettings and only return the `id`
+     * const contactSettingWithIdOnly = await prisma.contactSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ContactSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, ContactSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ContactSetting.
+     * @param {ContactSettingDeleteArgs} args - Arguments to delete one ContactSetting.
+     * @example
+     * // Delete one ContactSetting
+     * const ContactSetting = await prisma.contactSetting.delete({
+     *   where: {
+     *     // ... filter to delete one ContactSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ContactSettingDeleteArgs>(args: SelectSubset<T, ContactSettingDeleteArgs<ExtArgs>>): Prisma__ContactSettingClient<$Result.GetResult<Prisma.$ContactSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ContactSetting.
+     * @param {ContactSettingUpdateArgs} args - Arguments to update one ContactSetting.
+     * @example
+     * // Update one ContactSetting
+     * const contactSetting = await prisma.contactSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ContactSettingUpdateArgs>(args: SelectSubset<T, ContactSettingUpdateArgs<ExtArgs>>): Prisma__ContactSettingClient<$Result.GetResult<Prisma.$ContactSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ContactSettings.
+     * @param {ContactSettingDeleteManyArgs} args - Arguments to filter ContactSettings to delete.
+     * @example
+     * // Delete a few ContactSettings
+     * const { count } = await prisma.contactSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ContactSettingDeleteManyArgs>(args?: SelectSubset<T, ContactSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ContactSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ContactSettings
+     * const contactSetting = await prisma.contactSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ContactSettingUpdateManyArgs>(args: SelectSubset<T, ContactSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ContactSettings and returns the data updated in the database.
+     * @param {ContactSettingUpdateManyAndReturnArgs} args - Arguments to update many ContactSettings.
+     * @example
+     * // Update many ContactSettings
+     * const contactSetting = await prisma.contactSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ContactSettings and only return the `id`
+     * const contactSettingWithIdOnly = await prisma.contactSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ContactSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, ContactSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ContactSetting.
+     * @param {ContactSettingUpsertArgs} args - Arguments to update or create a ContactSetting.
+     * @example
+     * // Update or create a ContactSetting
+     * const contactSetting = await prisma.contactSetting.upsert({
+     *   create: {
+     *     // ... data to create a ContactSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ContactSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ContactSettingUpsertArgs>(args: SelectSubset<T, ContactSettingUpsertArgs<ExtArgs>>): Prisma__ContactSettingClient<$Result.GetResult<Prisma.$ContactSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ContactSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactSettingCountArgs} args - Arguments to filter ContactSettings to count.
+     * @example
+     * // Count the number of ContactSettings
+     * const count = await prisma.contactSetting.count({
+     *   where: {
+     *     // ... the filter for the ContactSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends ContactSettingCountArgs>(
+      args?: Subset<T, ContactSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ContactSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ContactSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ContactSettingAggregateArgs>(args: Subset<T, ContactSettingAggregateArgs>): Prisma.PrismaPromise<GetContactSettingAggregateType<T>>
+
+    /**
+     * Group by ContactSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ContactSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ContactSettingGroupByArgs['orderBy'] }
+        : { orderBy?: ContactSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ContactSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetContactSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ContactSetting model
+   */
+  readonly fields: ContactSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ContactSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ContactSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ContactSetting model
+   */
+  interface ContactSettingFieldRefs {
+    readonly id: FieldRef<"ContactSetting", 'String'>
+    readonly phone1: FieldRef<"ContactSetting", 'String'>
+    readonly phone2: FieldRef<"ContactSetting", 'String'>
+    readonly email1: FieldRef<"ContactSetting", 'String'>
+    readonly email2: FieldRef<"ContactSetting", 'String'>
+    readonly address: FieldRef<"ContactSetting", 'String'>
+    readonly contactMail: FieldRef<"ContactSetting", 'String'>
+    readonly officeHours: FieldRef<"ContactSetting", 'String'>
+    readonly googleMapEmbed: FieldRef<"ContactSetting", 'String'>
+    readonly updatedAt: FieldRef<"ContactSetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ContactSetting findUnique
+   */
+  export type ContactSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactSetting
+     */
+    select?: ContactSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactSetting
+     */
+    omit?: ContactSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which ContactSetting to fetch.
+     */
+    where: ContactSettingWhereUniqueInput
+  }
+
+  /**
+   * ContactSetting findUniqueOrThrow
+   */
+  export type ContactSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactSetting
+     */
+    select?: ContactSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactSetting
+     */
+    omit?: ContactSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which ContactSetting to fetch.
+     */
+    where: ContactSettingWhereUniqueInput
+  }
+
+  /**
+   * ContactSetting findFirst
+   */
+  export type ContactSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactSetting
+     */
+    select?: ContactSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactSetting
+     */
+    omit?: ContactSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which ContactSetting to fetch.
+     */
+    where?: ContactSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ContactSettings to fetch.
+     */
+    orderBy?: ContactSettingOrderByWithRelationInput | ContactSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ContactSettings.
+     */
+    cursor?: ContactSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ContactSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ContactSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ContactSettings.
+     */
+    distinct?: ContactSettingScalarFieldEnum | ContactSettingScalarFieldEnum[]
+  }
+
+  /**
+   * ContactSetting findFirstOrThrow
+   */
+  export type ContactSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactSetting
+     */
+    select?: ContactSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactSetting
+     */
+    omit?: ContactSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which ContactSetting to fetch.
+     */
+    where?: ContactSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ContactSettings to fetch.
+     */
+    orderBy?: ContactSettingOrderByWithRelationInput | ContactSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ContactSettings.
+     */
+    cursor?: ContactSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ContactSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ContactSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ContactSettings.
+     */
+    distinct?: ContactSettingScalarFieldEnum | ContactSettingScalarFieldEnum[]
+  }
+
+  /**
+   * ContactSetting findMany
+   */
+  export type ContactSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactSetting
+     */
+    select?: ContactSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactSetting
+     */
+    omit?: ContactSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which ContactSettings to fetch.
+     */
+    where?: ContactSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ContactSettings to fetch.
+     */
+    orderBy?: ContactSettingOrderByWithRelationInput | ContactSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ContactSettings.
+     */
+    cursor?: ContactSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ContactSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ContactSettings.
+     */
+    skip?: number
+    distinct?: ContactSettingScalarFieldEnum | ContactSettingScalarFieldEnum[]
+  }
+
+  /**
+   * ContactSetting create
+   */
+  export type ContactSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactSetting
+     */
+    select?: ContactSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactSetting
+     */
+    omit?: ContactSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ContactSetting.
+     */
+    data: XOR<ContactSettingCreateInput, ContactSettingUncheckedCreateInput>
+  }
+
+  /**
+   * ContactSetting createMany
+   */
+  export type ContactSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ContactSettings.
+     */
+    data: ContactSettingCreateManyInput | ContactSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ContactSetting createManyAndReturn
+   */
+  export type ContactSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactSetting
+     */
+    select?: ContactSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactSetting
+     */
+    omit?: ContactSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many ContactSettings.
+     */
+    data: ContactSettingCreateManyInput | ContactSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ContactSetting update
+   */
+  export type ContactSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactSetting
+     */
+    select?: ContactSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactSetting
+     */
+    omit?: ContactSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ContactSetting.
+     */
+    data: XOR<ContactSettingUpdateInput, ContactSettingUncheckedUpdateInput>
+    /**
+     * Choose, which ContactSetting to update.
+     */
+    where: ContactSettingWhereUniqueInput
+  }
+
+  /**
+   * ContactSetting updateMany
+   */
+  export type ContactSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ContactSettings.
+     */
+    data: XOR<ContactSettingUpdateManyMutationInput, ContactSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which ContactSettings to update
+     */
+    where?: ContactSettingWhereInput
+    /**
+     * Limit how many ContactSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ContactSetting updateManyAndReturn
+   */
+  export type ContactSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactSetting
+     */
+    select?: ContactSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactSetting
+     */
+    omit?: ContactSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update ContactSettings.
+     */
+    data: XOR<ContactSettingUpdateManyMutationInput, ContactSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which ContactSettings to update
+     */
+    where?: ContactSettingWhereInput
+    /**
+     * Limit how many ContactSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ContactSetting upsert
+   */
+  export type ContactSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactSetting
+     */
+    select?: ContactSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactSetting
+     */
+    omit?: ContactSettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ContactSetting to update in case it exists.
+     */
+    where: ContactSettingWhereUniqueInput
+    /**
+     * In case the ContactSetting found by the `where` argument doesn't exist, create a new ContactSetting with this data.
+     */
+    create: XOR<ContactSettingCreateInput, ContactSettingUncheckedCreateInput>
+    /**
+     * In case the ContactSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ContactSettingUpdateInput, ContactSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * ContactSetting delete
+   */
+  export type ContactSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactSetting
+     */
+    select?: ContactSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactSetting
+     */
+    omit?: ContactSettingOmit<ExtArgs> | null
+    /**
+     * Filter which ContactSetting to delete.
+     */
+    where: ContactSettingWhereUniqueInput
+  }
+
+  /**
+   * ContactSetting deleteMany
+   */
+  export type ContactSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ContactSettings to delete
+     */
+    where?: ContactSettingWhereInput
+    /**
+     * Limit how many ContactSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ContactSetting without action
+   */
+  export type ContactSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactSetting
+     */
+    select?: ContactSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactSetting
+     */
+    omit?: ContactSettingOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SocialSetting
+   */
+
+  export type AggregateSocialSetting = {
+    _count: SocialSettingCountAggregateOutputType | null
+    _min: SocialSettingMinAggregateOutputType | null
+    _max: SocialSettingMaxAggregateOutputType | null
+  }
+
+  export type SocialSettingMinAggregateOutputType = {
+    id: string | null
+    facebook: string | null
+    twitter: string | null
+    instagram: string | null
+    linkedin: string | null
+    pinterest: string | null
+    youtube: string | null
+    whatsapp: string | null
+    updatedAt: Date | null
+  }
+
+  export type SocialSettingMaxAggregateOutputType = {
+    id: string | null
+    facebook: string | null
+    twitter: string | null
+    instagram: string | null
+    linkedin: string | null
+    pinterest: string | null
+    youtube: string | null
+    whatsapp: string | null
+    updatedAt: Date | null
+  }
+
+  export type SocialSettingCountAggregateOutputType = {
+    id: number
+    facebook: number
+    twitter: number
+    instagram: number
+    linkedin: number
+    pinterest: number
+    youtube: number
+    whatsapp: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SocialSettingMinAggregateInputType = {
+    id?: true
+    facebook?: true
+    twitter?: true
+    instagram?: true
+    linkedin?: true
+    pinterest?: true
+    youtube?: true
+    whatsapp?: true
+    updatedAt?: true
+  }
+
+  export type SocialSettingMaxAggregateInputType = {
+    id?: true
+    facebook?: true
+    twitter?: true
+    instagram?: true
+    linkedin?: true
+    pinterest?: true
+    youtube?: true
+    whatsapp?: true
+    updatedAt?: true
+  }
+
+  export type SocialSettingCountAggregateInputType = {
+    id?: true
+    facebook?: true
+    twitter?: true
+    instagram?: true
+    linkedin?: true
+    pinterest?: true
+    youtube?: true
+    whatsapp?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SocialSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SocialSetting to aggregate.
+     */
+    where?: SocialSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SocialSettings to fetch.
+     */
+    orderBy?: SocialSettingOrderByWithRelationInput | SocialSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SocialSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SocialSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SocialSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SocialSettings
+    **/
+    _count?: true | SocialSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SocialSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SocialSettingMaxAggregateInputType
+  }
+
+  export type GetSocialSettingAggregateType<T extends SocialSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateSocialSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSocialSetting[P]>
+      : GetScalarType<T[P], AggregateSocialSetting[P]>
+  }
+
+
+
+
+  export type SocialSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SocialSettingWhereInput
+    orderBy?: SocialSettingOrderByWithAggregationInput | SocialSettingOrderByWithAggregationInput[]
+    by: SocialSettingScalarFieldEnum[] | SocialSettingScalarFieldEnum
+    having?: SocialSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SocialSettingCountAggregateInputType | true
+    _min?: SocialSettingMinAggregateInputType
+    _max?: SocialSettingMaxAggregateInputType
+  }
+
+  export type SocialSettingGroupByOutputType = {
+    id: string
+    facebook: string
+    twitter: string
+    instagram: string
+    linkedin: string
+    pinterest: string
+    youtube: string
+    whatsapp: string
+    updatedAt: Date
+    _count: SocialSettingCountAggregateOutputType | null
+    _min: SocialSettingMinAggregateOutputType | null
+    _max: SocialSettingMaxAggregateOutputType | null
+  }
+
+  type GetSocialSettingGroupByPayload<T extends SocialSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SocialSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SocialSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SocialSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], SocialSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SocialSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    facebook?: boolean
+    twitter?: boolean
+    instagram?: boolean
+    linkedin?: boolean
+    pinterest?: boolean
+    youtube?: boolean
+    whatsapp?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["socialSetting"]>
+
+  export type SocialSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    facebook?: boolean
+    twitter?: boolean
+    instagram?: boolean
+    linkedin?: boolean
+    pinterest?: boolean
+    youtube?: boolean
+    whatsapp?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["socialSetting"]>
+
+  export type SocialSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    facebook?: boolean
+    twitter?: boolean
+    instagram?: boolean
+    linkedin?: boolean
+    pinterest?: boolean
+    youtube?: boolean
+    whatsapp?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["socialSetting"]>
+
+  export type SocialSettingSelectScalar = {
+    id?: boolean
+    facebook?: boolean
+    twitter?: boolean
+    instagram?: boolean
+    linkedin?: boolean
+    pinterest?: boolean
+    youtube?: boolean
+    whatsapp?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SocialSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "facebook" | "twitter" | "instagram" | "linkedin" | "pinterest" | "youtube" | "whatsapp" | "updatedAt", ExtArgs["result"]["socialSetting"]>
+
+  export type $SocialSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SocialSetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      facebook: string
+      twitter: string
+      instagram: string
+      linkedin: string
+      pinterest: string
+      youtube: string
+      whatsapp: string
+      updatedAt: Date
+    }, ExtArgs["result"]["socialSetting"]>
+    composites: {}
+  }
+
+  type SocialSettingGetPayload<S extends boolean | null | undefined | SocialSettingDefaultArgs> = $Result.GetResult<Prisma.$SocialSettingPayload, S>
+
+  type SocialSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SocialSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SocialSettingCountAggregateInputType | true
+    }
+
+  export interface SocialSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SocialSetting'], meta: { name: 'SocialSetting' } }
+    /**
+     * Find zero or one SocialSetting that matches the filter.
+     * @param {SocialSettingFindUniqueArgs} args - Arguments to find a SocialSetting
+     * @example
+     * // Get one SocialSetting
+     * const socialSetting = await prisma.socialSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SocialSettingFindUniqueArgs>(args: SelectSubset<T, SocialSettingFindUniqueArgs<ExtArgs>>): Prisma__SocialSettingClient<$Result.GetResult<Prisma.$SocialSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SocialSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SocialSettingFindUniqueOrThrowArgs} args - Arguments to find a SocialSetting
+     * @example
+     * // Get one SocialSetting
+     * const socialSetting = await prisma.socialSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SocialSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, SocialSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SocialSettingClient<$Result.GetResult<Prisma.$SocialSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SocialSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialSettingFindFirstArgs} args - Arguments to find a SocialSetting
+     * @example
+     * // Get one SocialSetting
+     * const socialSetting = await prisma.socialSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SocialSettingFindFirstArgs>(args?: SelectSubset<T, SocialSettingFindFirstArgs<ExtArgs>>): Prisma__SocialSettingClient<$Result.GetResult<Prisma.$SocialSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SocialSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialSettingFindFirstOrThrowArgs} args - Arguments to find a SocialSetting
+     * @example
+     * // Get one SocialSetting
+     * const socialSetting = await prisma.socialSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SocialSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, SocialSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__SocialSettingClient<$Result.GetResult<Prisma.$SocialSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SocialSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SocialSettings
+     * const socialSettings = await prisma.socialSetting.findMany()
+     * 
+     * // Get first 10 SocialSettings
+     * const socialSettings = await prisma.socialSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const socialSettingWithIdOnly = await prisma.socialSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SocialSettingFindManyArgs>(args?: SelectSubset<T, SocialSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SocialSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SocialSetting.
+     * @param {SocialSettingCreateArgs} args - Arguments to create a SocialSetting.
+     * @example
+     * // Create one SocialSetting
+     * const SocialSetting = await prisma.socialSetting.create({
+     *   data: {
+     *     // ... data to create a SocialSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends SocialSettingCreateArgs>(args: SelectSubset<T, SocialSettingCreateArgs<ExtArgs>>): Prisma__SocialSettingClient<$Result.GetResult<Prisma.$SocialSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SocialSettings.
+     * @param {SocialSettingCreateManyArgs} args - Arguments to create many SocialSettings.
+     * @example
+     * // Create many SocialSettings
+     * const socialSetting = await prisma.socialSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SocialSettingCreateManyArgs>(args?: SelectSubset<T, SocialSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SocialSettings and returns the data saved in the database.
+     * @param {SocialSettingCreateManyAndReturnArgs} args - Arguments to create many SocialSettings.
+     * @example
+     * // Create many SocialSettings
+     * const socialSetting = await prisma.socialSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SocialSettings and only return the `id`
+     * const socialSettingWithIdOnly = await prisma.socialSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SocialSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, SocialSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SocialSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SocialSetting.
+     * @param {SocialSettingDeleteArgs} args - Arguments to delete one SocialSetting.
+     * @example
+     * // Delete one SocialSetting
+     * const SocialSetting = await prisma.socialSetting.delete({
+     *   where: {
+     *     // ... filter to delete one SocialSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SocialSettingDeleteArgs>(args: SelectSubset<T, SocialSettingDeleteArgs<ExtArgs>>): Prisma__SocialSettingClient<$Result.GetResult<Prisma.$SocialSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SocialSetting.
+     * @param {SocialSettingUpdateArgs} args - Arguments to update one SocialSetting.
+     * @example
+     * // Update one SocialSetting
+     * const socialSetting = await prisma.socialSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SocialSettingUpdateArgs>(args: SelectSubset<T, SocialSettingUpdateArgs<ExtArgs>>): Prisma__SocialSettingClient<$Result.GetResult<Prisma.$SocialSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SocialSettings.
+     * @param {SocialSettingDeleteManyArgs} args - Arguments to filter SocialSettings to delete.
+     * @example
+     * // Delete a few SocialSettings
+     * const { count } = await prisma.socialSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SocialSettingDeleteManyArgs>(args?: SelectSubset<T, SocialSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SocialSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SocialSettings
+     * const socialSetting = await prisma.socialSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SocialSettingUpdateManyArgs>(args: SelectSubset<T, SocialSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SocialSettings and returns the data updated in the database.
+     * @param {SocialSettingUpdateManyAndReturnArgs} args - Arguments to update many SocialSettings.
+     * @example
+     * // Update many SocialSettings
+     * const socialSetting = await prisma.socialSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SocialSettings and only return the `id`
+     * const socialSettingWithIdOnly = await prisma.socialSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SocialSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, SocialSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SocialSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SocialSetting.
+     * @param {SocialSettingUpsertArgs} args - Arguments to update or create a SocialSetting.
+     * @example
+     * // Update or create a SocialSetting
+     * const socialSetting = await prisma.socialSetting.upsert({
+     *   create: {
+     *     // ... data to create a SocialSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SocialSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SocialSettingUpsertArgs>(args: SelectSubset<T, SocialSettingUpsertArgs<ExtArgs>>): Prisma__SocialSettingClient<$Result.GetResult<Prisma.$SocialSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SocialSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialSettingCountArgs} args - Arguments to filter SocialSettings to count.
+     * @example
+     * // Count the number of SocialSettings
+     * const count = await prisma.socialSetting.count({
+     *   where: {
+     *     // ... the filter for the SocialSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends SocialSettingCountArgs>(
+      args?: Subset<T, SocialSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SocialSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SocialSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SocialSettingAggregateArgs>(args: Subset<T, SocialSettingAggregateArgs>): Prisma.PrismaPromise<GetSocialSettingAggregateType<T>>
+
+    /**
+     * Group by SocialSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SocialSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SocialSettingGroupByArgs['orderBy'] }
+        : { orderBy?: SocialSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SocialSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSocialSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SocialSetting model
+   */
+  readonly fields: SocialSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SocialSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SocialSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SocialSetting model
+   */
+  interface SocialSettingFieldRefs {
+    readonly id: FieldRef<"SocialSetting", 'String'>
+    readonly facebook: FieldRef<"SocialSetting", 'String'>
+    readonly twitter: FieldRef<"SocialSetting", 'String'>
+    readonly instagram: FieldRef<"SocialSetting", 'String'>
+    readonly linkedin: FieldRef<"SocialSetting", 'String'>
+    readonly pinterest: FieldRef<"SocialSetting", 'String'>
+    readonly youtube: FieldRef<"SocialSetting", 'String'>
+    readonly whatsapp: FieldRef<"SocialSetting", 'String'>
+    readonly updatedAt: FieldRef<"SocialSetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SocialSetting findUnique
+   */
+  export type SocialSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialSetting
+     */
+    select?: SocialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialSetting
+     */
+    omit?: SocialSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SocialSetting to fetch.
+     */
+    where: SocialSettingWhereUniqueInput
+  }
+
+  /**
+   * SocialSetting findUniqueOrThrow
+   */
+  export type SocialSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialSetting
+     */
+    select?: SocialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialSetting
+     */
+    omit?: SocialSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SocialSetting to fetch.
+     */
+    where: SocialSettingWhereUniqueInput
+  }
+
+  /**
+   * SocialSetting findFirst
+   */
+  export type SocialSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialSetting
+     */
+    select?: SocialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialSetting
+     */
+    omit?: SocialSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SocialSetting to fetch.
+     */
+    where?: SocialSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SocialSettings to fetch.
+     */
+    orderBy?: SocialSettingOrderByWithRelationInput | SocialSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SocialSettings.
+     */
+    cursor?: SocialSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SocialSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SocialSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SocialSettings.
+     */
+    distinct?: SocialSettingScalarFieldEnum | SocialSettingScalarFieldEnum[]
+  }
+
+  /**
+   * SocialSetting findFirstOrThrow
+   */
+  export type SocialSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialSetting
+     */
+    select?: SocialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialSetting
+     */
+    omit?: SocialSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SocialSetting to fetch.
+     */
+    where?: SocialSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SocialSettings to fetch.
+     */
+    orderBy?: SocialSettingOrderByWithRelationInput | SocialSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SocialSettings.
+     */
+    cursor?: SocialSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SocialSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SocialSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SocialSettings.
+     */
+    distinct?: SocialSettingScalarFieldEnum | SocialSettingScalarFieldEnum[]
+  }
+
+  /**
+   * SocialSetting findMany
+   */
+  export type SocialSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialSetting
+     */
+    select?: SocialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialSetting
+     */
+    omit?: SocialSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SocialSettings to fetch.
+     */
+    where?: SocialSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SocialSettings to fetch.
+     */
+    orderBy?: SocialSettingOrderByWithRelationInput | SocialSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SocialSettings.
+     */
+    cursor?: SocialSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SocialSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SocialSettings.
+     */
+    skip?: number
+    distinct?: SocialSettingScalarFieldEnum | SocialSettingScalarFieldEnum[]
+  }
+
+  /**
+   * SocialSetting create
+   */
+  export type SocialSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialSetting
+     */
+    select?: SocialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialSetting
+     */
+    omit?: SocialSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SocialSetting.
+     */
+    data: XOR<SocialSettingCreateInput, SocialSettingUncheckedCreateInput>
+  }
+
+  /**
+   * SocialSetting createMany
+   */
+  export type SocialSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SocialSettings.
+     */
+    data: SocialSettingCreateManyInput | SocialSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SocialSetting createManyAndReturn
+   */
+  export type SocialSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialSetting
+     */
+    select?: SocialSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialSetting
+     */
+    omit?: SocialSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many SocialSettings.
+     */
+    data: SocialSettingCreateManyInput | SocialSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SocialSetting update
+   */
+  export type SocialSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialSetting
+     */
+    select?: SocialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialSetting
+     */
+    omit?: SocialSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SocialSetting.
+     */
+    data: XOR<SocialSettingUpdateInput, SocialSettingUncheckedUpdateInput>
+    /**
+     * Choose, which SocialSetting to update.
+     */
+    where: SocialSettingWhereUniqueInput
+  }
+
+  /**
+   * SocialSetting updateMany
+   */
+  export type SocialSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SocialSettings.
+     */
+    data: XOR<SocialSettingUpdateManyMutationInput, SocialSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which SocialSettings to update
+     */
+    where?: SocialSettingWhereInput
+    /**
+     * Limit how many SocialSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SocialSetting updateManyAndReturn
+   */
+  export type SocialSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialSetting
+     */
+    select?: SocialSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialSetting
+     */
+    omit?: SocialSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update SocialSettings.
+     */
+    data: XOR<SocialSettingUpdateManyMutationInput, SocialSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which SocialSettings to update
+     */
+    where?: SocialSettingWhereInput
+    /**
+     * Limit how many SocialSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SocialSetting upsert
+   */
+  export type SocialSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialSetting
+     */
+    select?: SocialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialSetting
+     */
+    omit?: SocialSettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SocialSetting to update in case it exists.
+     */
+    where: SocialSettingWhereUniqueInput
+    /**
+     * In case the SocialSetting found by the `where` argument doesn't exist, create a new SocialSetting with this data.
+     */
+    create: XOR<SocialSettingCreateInput, SocialSettingUncheckedCreateInput>
+    /**
+     * In case the SocialSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SocialSettingUpdateInput, SocialSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * SocialSetting delete
+   */
+  export type SocialSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialSetting
+     */
+    select?: SocialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialSetting
+     */
+    omit?: SocialSettingOmit<ExtArgs> | null
+    /**
+     * Filter which SocialSetting to delete.
+     */
+    where: SocialSettingWhereUniqueInput
+  }
+
+  /**
+   * SocialSetting deleteMany
+   */
+  export type SocialSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SocialSettings to delete
+     */
+    where?: SocialSettingWhereInput
+    /**
+     * Limit how many SocialSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SocialSetting without action
+   */
+  export type SocialSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialSetting
+     */
+    select?: SocialSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialSetting
+     */
+    omit?: SocialSettingOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EmailSetting
+   */
+
+  export type AggregateEmailSetting = {
+    _count: EmailSettingCountAggregateOutputType | null
+    _min: EmailSettingMinAggregateOutputType | null
+    _max: EmailSettingMaxAggregateOutputType | null
+  }
+
+  export type EmailSettingMinAggregateOutputType = {
+    id: string | null
+    smtpHost: string | null
+    smtpPort: string | null
+    smtpUser: string | null
+    smtpPassword: string | null
+    fromName: string | null
+    fromEmail: string | null
+    encryption: string | null
+    updatedAt: Date | null
+  }
+
+  export type EmailSettingMaxAggregateOutputType = {
+    id: string | null
+    smtpHost: string | null
+    smtpPort: string | null
+    smtpUser: string | null
+    smtpPassword: string | null
+    fromName: string | null
+    fromEmail: string | null
+    encryption: string | null
+    updatedAt: Date | null
+  }
+
+  export type EmailSettingCountAggregateOutputType = {
+    id: number
+    smtpHost: number
+    smtpPort: number
+    smtpUser: number
+    smtpPassword: number
+    fromName: number
+    fromEmail: number
+    encryption: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EmailSettingMinAggregateInputType = {
+    id?: true
+    smtpHost?: true
+    smtpPort?: true
+    smtpUser?: true
+    smtpPassword?: true
+    fromName?: true
+    fromEmail?: true
+    encryption?: true
+    updatedAt?: true
+  }
+
+  export type EmailSettingMaxAggregateInputType = {
+    id?: true
+    smtpHost?: true
+    smtpPort?: true
+    smtpUser?: true
+    smtpPassword?: true
+    fromName?: true
+    fromEmail?: true
+    encryption?: true
+    updatedAt?: true
+  }
+
+  export type EmailSettingCountAggregateInputType = {
+    id?: true
+    smtpHost?: true
+    smtpPort?: true
+    smtpUser?: true
+    smtpPassword?: true
+    fromName?: true
+    fromEmail?: true
+    encryption?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EmailSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmailSetting to aggregate.
+     */
+    where?: EmailSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailSettings to fetch.
+     */
+    orderBy?: EmailSettingOrderByWithRelationInput | EmailSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EmailSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EmailSettings
+    **/
+    _count?: true | EmailSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EmailSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EmailSettingMaxAggregateInputType
+  }
+
+  export type GetEmailSettingAggregateType<T extends EmailSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateEmailSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEmailSetting[P]>
+      : GetScalarType<T[P], AggregateEmailSetting[P]>
+  }
+
+
+
+
+  export type EmailSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailSettingWhereInput
+    orderBy?: EmailSettingOrderByWithAggregationInput | EmailSettingOrderByWithAggregationInput[]
+    by: EmailSettingScalarFieldEnum[] | EmailSettingScalarFieldEnum
+    having?: EmailSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EmailSettingCountAggregateInputType | true
+    _min?: EmailSettingMinAggregateInputType
+    _max?: EmailSettingMaxAggregateInputType
+  }
+
+  export type EmailSettingGroupByOutputType = {
+    id: string
+    smtpHost: string
+    smtpPort: string
+    smtpUser: string
+    smtpPassword: string
+    fromName: string
+    fromEmail: string
+    encryption: string
+    updatedAt: Date
+    _count: EmailSettingCountAggregateOutputType | null
+    _min: EmailSettingMinAggregateOutputType | null
+    _max: EmailSettingMaxAggregateOutputType | null
+  }
+
+  type GetEmailSettingGroupByPayload<T extends EmailSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EmailSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EmailSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EmailSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], EmailSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EmailSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    smtpHost?: boolean
+    smtpPort?: boolean
+    smtpUser?: boolean
+    smtpPassword?: boolean
+    fromName?: boolean
+    fromEmail?: boolean
+    encryption?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["emailSetting"]>
+
+  export type EmailSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    smtpHost?: boolean
+    smtpPort?: boolean
+    smtpUser?: boolean
+    smtpPassword?: boolean
+    fromName?: boolean
+    fromEmail?: boolean
+    encryption?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["emailSetting"]>
+
+  export type EmailSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    smtpHost?: boolean
+    smtpPort?: boolean
+    smtpUser?: boolean
+    smtpPassword?: boolean
+    fromName?: boolean
+    fromEmail?: boolean
+    encryption?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["emailSetting"]>
+
+  export type EmailSettingSelectScalar = {
+    id?: boolean
+    smtpHost?: boolean
+    smtpPort?: boolean
+    smtpUser?: boolean
+    smtpPassword?: boolean
+    fromName?: boolean
+    fromEmail?: boolean
+    encryption?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EmailSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "smtpHost" | "smtpPort" | "smtpUser" | "smtpPassword" | "fromName" | "fromEmail" | "encryption" | "updatedAt", ExtArgs["result"]["emailSetting"]>
+
+  export type $EmailSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EmailSetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      smtpHost: string
+      smtpPort: string
+      smtpUser: string
+      smtpPassword: string
+      fromName: string
+      fromEmail: string
+      encryption: string
+      updatedAt: Date
+    }, ExtArgs["result"]["emailSetting"]>
+    composites: {}
+  }
+
+  type EmailSettingGetPayload<S extends boolean | null | undefined | EmailSettingDefaultArgs> = $Result.GetResult<Prisma.$EmailSettingPayload, S>
+
+  type EmailSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EmailSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EmailSettingCountAggregateInputType | true
+    }
+
+  export interface EmailSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EmailSetting'], meta: { name: 'EmailSetting' } }
+    /**
+     * Find zero or one EmailSetting that matches the filter.
+     * @param {EmailSettingFindUniqueArgs} args - Arguments to find a EmailSetting
+     * @example
+     * // Get one EmailSetting
+     * const emailSetting = await prisma.emailSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EmailSettingFindUniqueArgs>(args: SelectSubset<T, EmailSettingFindUniqueArgs<ExtArgs>>): Prisma__EmailSettingClient<$Result.GetResult<Prisma.$EmailSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EmailSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EmailSettingFindUniqueOrThrowArgs} args - Arguments to find a EmailSetting
+     * @example
+     * // Get one EmailSetting
+     * const emailSetting = await prisma.emailSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EmailSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, EmailSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EmailSettingClient<$Result.GetResult<Prisma.$EmailSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmailSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailSettingFindFirstArgs} args - Arguments to find a EmailSetting
+     * @example
+     * // Get one EmailSetting
+     * const emailSetting = await prisma.emailSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EmailSettingFindFirstArgs>(args?: SelectSubset<T, EmailSettingFindFirstArgs<ExtArgs>>): Prisma__EmailSettingClient<$Result.GetResult<Prisma.$EmailSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmailSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailSettingFindFirstOrThrowArgs} args - Arguments to find a EmailSetting
+     * @example
+     * // Get one EmailSetting
+     * const emailSetting = await prisma.emailSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EmailSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, EmailSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__EmailSettingClient<$Result.GetResult<Prisma.$EmailSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EmailSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EmailSettings
+     * const emailSettings = await prisma.emailSetting.findMany()
+     * 
+     * // Get first 10 EmailSettings
+     * const emailSettings = await prisma.emailSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const emailSettingWithIdOnly = await prisma.emailSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EmailSettingFindManyArgs>(args?: SelectSubset<T, EmailSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EmailSetting.
+     * @param {EmailSettingCreateArgs} args - Arguments to create a EmailSetting.
+     * @example
+     * // Create one EmailSetting
+     * const EmailSetting = await prisma.emailSetting.create({
+     *   data: {
+     *     // ... data to create a EmailSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends EmailSettingCreateArgs>(args: SelectSubset<T, EmailSettingCreateArgs<ExtArgs>>): Prisma__EmailSettingClient<$Result.GetResult<Prisma.$EmailSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EmailSettings.
+     * @param {EmailSettingCreateManyArgs} args - Arguments to create many EmailSettings.
+     * @example
+     * // Create many EmailSettings
+     * const emailSetting = await prisma.emailSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EmailSettingCreateManyArgs>(args?: SelectSubset<T, EmailSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EmailSettings and returns the data saved in the database.
+     * @param {EmailSettingCreateManyAndReturnArgs} args - Arguments to create many EmailSettings.
+     * @example
+     * // Create many EmailSettings
+     * const emailSetting = await prisma.emailSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EmailSettings and only return the `id`
+     * const emailSettingWithIdOnly = await prisma.emailSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EmailSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, EmailSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EmailSetting.
+     * @param {EmailSettingDeleteArgs} args - Arguments to delete one EmailSetting.
+     * @example
+     * // Delete one EmailSetting
+     * const EmailSetting = await prisma.emailSetting.delete({
+     *   where: {
+     *     // ... filter to delete one EmailSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EmailSettingDeleteArgs>(args: SelectSubset<T, EmailSettingDeleteArgs<ExtArgs>>): Prisma__EmailSettingClient<$Result.GetResult<Prisma.$EmailSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EmailSetting.
+     * @param {EmailSettingUpdateArgs} args - Arguments to update one EmailSetting.
+     * @example
+     * // Update one EmailSetting
+     * const emailSetting = await prisma.emailSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EmailSettingUpdateArgs>(args: SelectSubset<T, EmailSettingUpdateArgs<ExtArgs>>): Prisma__EmailSettingClient<$Result.GetResult<Prisma.$EmailSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EmailSettings.
+     * @param {EmailSettingDeleteManyArgs} args - Arguments to filter EmailSettings to delete.
+     * @example
+     * // Delete a few EmailSettings
+     * const { count } = await prisma.emailSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EmailSettingDeleteManyArgs>(args?: SelectSubset<T, EmailSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmailSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EmailSettings
+     * const emailSetting = await prisma.emailSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EmailSettingUpdateManyArgs>(args: SelectSubset<T, EmailSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmailSettings and returns the data updated in the database.
+     * @param {EmailSettingUpdateManyAndReturnArgs} args - Arguments to update many EmailSettings.
+     * @example
+     * // Update many EmailSettings
+     * const emailSetting = await prisma.emailSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EmailSettings and only return the `id`
+     * const emailSettingWithIdOnly = await prisma.emailSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EmailSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, EmailSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EmailSetting.
+     * @param {EmailSettingUpsertArgs} args - Arguments to update or create a EmailSetting.
+     * @example
+     * // Update or create a EmailSetting
+     * const emailSetting = await prisma.emailSetting.upsert({
+     *   create: {
+     *     // ... data to create a EmailSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EmailSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EmailSettingUpsertArgs>(args: SelectSubset<T, EmailSettingUpsertArgs<ExtArgs>>): Prisma__EmailSettingClient<$Result.GetResult<Prisma.$EmailSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EmailSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailSettingCountArgs} args - Arguments to filter EmailSettings to count.
+     * @example
+     * // Count the number of EmailSettings
+     * const count = await prisma.emailSetting.count({
+     *   where: {
+     *     // ... the filter for the EmailSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends EmailSettingCountArgs>(
+      args?: Subset<T, EmailSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EmailSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EmailSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EmailSettingAggregateArgs>(args: Subset<T, EmailSettingAggregateArgs>): Prisma.PrismaPromise<GetEmailSettingAggregateType<T>>
+
+    /**
+     * Group by EmailSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EmailSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EmailSettingGroupByArgs['orderBy'] }
+        : { orderBy?: EmailSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EmailSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEmailSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EmailSetting model
+   */
+  readonly fields: EmailSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EmailSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EmailSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EmailSetting model
+   */
+  interface EmailSettingFieldRefs {
+    readonly id: FieldRef<"EmailSetting", 'String'>
+    readonly smtpHost: FieldRef<"EmailSetting", 'String'>
+    readonly smtpPort: FieldRef<"EmailSetting", 'String'>
+    readonly smtpUser: FieldRef<"EmailSetting", 'String'>
+    readonly smtpPassword: FieldRef<"EmailSetting", 'String'>
+    readonly fromName: FieldRef<"EmailSetting", 'String'>
+    readonly fromEmail: FieldRef<"EmailSetting", 'String'>
+    readonly encryption: FieldRef<"EmailSetting", 'String'>
+    readonly updatedAt: FieldRef<"EmailSetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EmailSetting findUnique
+   */
+  export type EmailSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailSetting
+     */
+    select?: EmailSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailSetting
+     */
+    omit?: EmailSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which EmailSetting to fetch.
+     */
+    where: EmailSettingWhereUniqueInput
+  }
+
+  /**
+   * EmailSetting findUniqueOrThrow
+   */
+  export type EmailSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailSetting
+     */
+    select?: EmailSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailSetting
+     */
+    omit?: EmailSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which EmailSetting to fetch.
+     */
+    where: EmailSettingWhereUniqueInput
+  }
+
+  /**
+   * EmailSetting findFirst
+   */
+  export type EmailSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailSetting
+     */
+    select?: EmailSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailSetting
+     */
+    omit?: EmailSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which EmailSetting to fetch.
+     */
+    where?: EmailSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailSettings to fetch.
+     */
+    orderBy?: EmailSettingOrderByWithRelationInput | EmailSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmailSettings.
+     */
+    cursor?: EmailSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmailSettings.
+     */
+    distinct?: EmailSettingScalarFieldEnum | EmailSettingScalarFieldEnum[]
+  }
+
+  /**
+   * EmailSetting findFirstOrThrow
+   */
+  export type EmailSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailSetting
+     */
+    select?: EmailSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailSetting
+     */
+    omit?: EmailSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which EmailSetting to fetch.
+     */
+    where?: EmailSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailSettings to fetch.
+     */
+    orderBy?: EmailSettingOrderByWithRelationInput | EmailSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmailSettings.
+     */
+    cursor?: EmailSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmailSettings.
+     */
+    distinct?: EmailSettingScalarFieldEnum | EmailSettingScalarFieldEnum[]
+  }
+
+  /**
+   * EmailSetting findMany
+   */
+  export type EmailSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailSetting
+     */
+    select?: EmailSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailSetting
+     */
+    omit?: EmailSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which EmailSettings to fetch.
+     */
+    where?: EmailSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailSettings to fetch.
+     */
+    orderBy?: EmailSettingOrderByWithRelationInput | EmailSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EmailSettings.
+     */
+    cursor?: EmailSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailSettings.
+     */
+    skip?: number
+    distinct?: EmailSettingScalarFieldEnum | EmailSettingScalarFieldEnum[]
+  }
+
+  /**
+   * EmailSetting create
+   */
+  export type EmailSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailSetting
+     */
+    select?: EmailSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailSetting
+     */
+    omit?: EmailSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a EmailSetting.
+     */
+    data: XOR<EmailSettingCreateInput, EmailSettingUncheckedCreateInput>
+  }
+
+  /**
+   * EmailSetting createMany
+   */
+  export type EmailSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EmailSettings.
+     */
+    data: EmailSettingCreateManyInput | EmailSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EmailSetting createManyAndReturn
+   */
+  export type EmailSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailSetting
+     */
+    select?: EmailSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailSetting
+     */
+    omit?: EmailSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many EmailSettings.
+     */
+    data: EmailSettingCreateManyInput | EmailSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EmailSetting update
+   */
+  export type EmailSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailSetting
+     */
+    select?: EmailSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailSetting
+     */
+    omit?: EmailSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a EmailSetting.
+     */
+    data: XOR<EmailSettingUpdateInput, EmailSettingUncheckedUpdateInput>
+    /**
+     * Choose, which EmailSetting to update.
+     */
+    where: EmailSettingWhereUniqueInput
+  }
+
+  /**
+   * EmailSetting updateMany
+   */
+  export type EmailSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EmailSettings.
+     */
+    data: XOR<EmailSettingUpdateManyMutationInput, EmailSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which EmailSettings to update
+     */
+    where?: EmailSettingWhereInput
+    /**
+     * Limit how many EmailSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmailSetting updateManyAndReturn
+   */
+  export type EmailSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailSetting
+     */
+    select?: EmailSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailSetting
+     */
+    omit?: EmailSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update EmailSettings.
+     */
+    data: XOR<EmailSettingUpdateManyMutationInput, EmailSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which EmailSettings to update
+     */
+    where?: EmailSettingWhereInput
+    /**
+     * Limit how many EmailSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmailSetting upsert
+   */
+  export type EmailSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailSetting
+     */
+    select?: EmailSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailSetting
+     */
+    omit?: EmailSettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the EmailSetting to update in case it exists.
+     */
+    where: EmailSettingWhereUniqueInput
+    /**
+     * In case the EmailSetting found by the `where` argument doesn't exist, create a new EmailSetting with this data.
+     */
+    create: XOR<EmailSettingCreateInput, EmailSettingUncheckedCreateInput>
+    /**
+     * In case the EmailSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EmailSettingUpdateInput, EmailSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * EmailSetting delete
+   */
+  export type EmailSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailSetting
+     */
+    select?: EmailSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailSetting
+     */
+    omit?: EmailSettingOmit<ExtArgs> | null
+    /**
+     * Filter which EmailSetting to delete.
+     */
+    where: EmailSettingWhereUniqueInput
+  }
+
+  /**
+   * EmailSetting deleteMany
+   */
+  export type EmailSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmailSettings to delete
+     */
+    where?: EmailSettingWhereInput
+    /**
+     * Limit how many EmailSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmailSetting without action
+   */
+  export type EmailSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailSetting
+     */
+    select?: EmailSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailSetting
+     */
+    omit?: EmailSettingOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SecuritySetting
+   */
+
+  export type AggregateSecuritySetting = {
+    _count: SecuritySettingCountAggregateOutputType | null
+    _avg: SecuritySettingAvgAggregateOutputType | null
+    _sum: SecuritySettingSumAggregateOutputType | null
+    _min: SecuritySettingMinAggregateOutputType | null
+    _max: SecuritySettingMaxAggregateOutputType | null
+  }
+
+  export type SecuritySettingAvgAggregateOutputType = {
+    loginAttempts: number | null
+    sessionTimeout: number | null
+    passwordMinLength: number | null
+  }
+
+  export type SecuritySettingSumAggregateOutputType = {
+    loginAttempts: number | null
+    sessionTimeout: number | null
+    passwordMinLength: number | null
+  }
+
+  export type SecuritySettingMinAggregateOutputType = {
+    id: string | null
+    twoFactorEnabled: boolean | null
+    loginAttempts: number | null
+    sessionTimeout: number | null
+    passwordMinLength: number | null
+    updatedAt: Date | null
+  }
+
+  export type SecuritySettingMaxAggregateOutputType = {
+    id: string | null
+    twoFactorEnabled: boolean | null
+    loginAttempts: number | null
+    sessionTimeout: number | null
+    passwordMinLength: number | null
+    updatedAt: Date | null
+  }
+
+  export type SecuritySettingCountAggregateOutputType = {
+    id: number
+    twoFactorEnabled: number
+    loginAttempts: number
+    sessionTimeout: number
+    passwordMinLength: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SecuritySettingAvgAggregateInputType = {
+    loginAttempts?: true
+    sessionTimeout?: true
+    passwordMinLength?: true
+  }
+
+  export type SecuritySettingSumAggregateInputType = {
+    loginAttempts?: true
+    sessionTimeout?: true
+    passwordMinLength?: true
+  }
+
+  export type SecuritySettingMinAggregateInputType = {
+    id?: true
+    twoFactorEnabled?: true
+    loginAttempts?: true
+    sessionTimeout?: true
+    passwordMinLength?: true
+    updatedAt?: true
+  }
+
+  export type SecuritySettingMaxAggregateInputType = {
+    id?: true
+    twoFactorEnabled?: true
+    loginAttempts?: true
+    sessionTimeout?: true
+    passwordMinLength?: true
+    updatedAt?: true
+  }
+
+  export type SecuritySettingCountAggregateInputType = {
+    id?: true
+    twoFactorEnabled?: true
+    loginAttempts?: true
+    sessionTimeout?: true
+    passwordMinLength?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SecuritySettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SecuritySetting to aggregate.
+     */
+    where?: SecuritySettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SecuritySettings to fetch.
+     */
+    orderBy?: SecuritySettingOrderByWithRelationInput | SecuritySettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SecuritySettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SecuritySettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SecuritySettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SecuritySettings
+    **/
+    _count?: true | SecuritySettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SecuritySettingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SecuritySettingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SecuritySettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SecuritySettingMaxAggregateInputType
+  }
+
+  export type GetSecuritySettingAggregateType<T extends SecuritySettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateSecuritySetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSecuritySetting[P]>
+      : GetScalarType<T[P], AggregateSecuritySetting[P]>
+  }
+
+
+
+
+  export type SecuritySettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SecuritySettingWhereInput
+    orderBy?: SecuritySettingOrderByWithAggregationInput | SecuritySettingOrderByWithAggregationInput[]
+    by: SecuritySettingScalarFieldEnum[] | SecuritySettingScalarFieldEnum
+    having?: SecuritySettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SecuritySettingCountAggregateInputType | true
+    _avg?: SecuritySettingAvgAggregateInputType
+    _sum?: SecuritySettingSumAggregateInputType
+    _min?: SecuritySettingMinAggregateInputType
+    _max?: SecuritySettingMaxAggregateInputType
+  }
+
+  export type SecuritySettingGroupByOutputType = {
+    id: string
+    twoFactorEnabled: boolean
+    loginAttempts: number
+    sessionTimeout: number
+    passwordMinLength: number
+    updatedAt: Date
+    _count: SecuritySettingCountAggregateOutputType | null
+    _avg: SecuritySettingAvgAggregateOutputType | null
+    _sum: SecuritySettingSumAggregateOutputType | null
+    _min: SecuritySettingMinAggregateOutputType | null
+    _max: SecuritySettingMaxAggregateOutputType | null
+  }
+
+  type GetSecuritySettingGroupByPayload<T extends SecuritySettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SecuritySettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SecuritySettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SecuritySettingGroupByOutputType[P]>
+            : GetScalarType<T[P], SecuritySettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SecuritySettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    twoFactorEnabled?: boolean
+    loginAttempts?: boolean
+    sessionTimeout?: boolean
+    passwordMinLength?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["securitySetting"]>
+
+  export type SecuritySettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    twoFactorEnabled?: boolean
+    loginAttempts?: boolean
+    sessionTimeout?: boolean
+    passwordMinLength?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["securitySetting"]>
+
+  export type SecuritySettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    twoFactorEnabled?: boolean
+    loginAttempts?: boolean
+    sessionTimeout?: boolean
+    passwordMinLength?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["securitySetting"]>
+
+  export type SecuritySettingSelectScalar = {
+    id?: boolean
+    twoFactorEnabled?: boolean
+    loginAttempts?: boolean
+    sessionTimeout?: boolean
+    passwordMinLength?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SecuritySettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "twoFactorEnabled" | "loginAttempts" | "sessionTimeout" | "passwordMinLength" | "updatedAt", ExtArgs["result"]["securitySetting"]>
+
+  export type $SecuritySettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SecuritySetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      twoFactorEnabled: boolean
+      loginAttempts: number
+      sessionTimeout: number
+      passwordMinLength: number
+      updatedAt: Date
+    }, ExtArgs["result"]["securitySetting"]>
+    composites: {}
+  }
+
+  type SecuritySettingGetPayload<S extends boolean | null | undefined | SecuritySettingDefaultArgs> = $Result.GetResult<Prisma.$SecuritySettingPayload, S>
+
+  type SecuritySettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SecuritySettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SecuritySettingCountAggregateInputType | true
+    }
+
+  export interface SecuritySettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SecuritySetting'], meta: { name: 'SecuritySetting' } }
+    /**
+     * Find zero or one SecuritySetting that matches the filter.
+     * @param {SecuritySettingFindUniqueArgs} args - Arguments to find a SecuritySetting
+     * @example
+     * // Get one SecuritySetting
+     * const securitySetting = await prisma.securitySetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SecuritySettingFindUniqueArgs>(args: SelectSubset<T, SecuritySettingFindUniqueArgs<ExtArgs>>): Prisma__SecuritySettingClient<$Result.GetResult<Prisma.$SecuritySettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SecuritySetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SecuritySettingFindUniqueOrThrowArgs} args - Arguments to find a SecuritySetting
+     * @example
+     * // Get one SecuritySetting
+     * const securitySetting = await prisma.securitySetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SecuritySettingFindUniqueOrThrowArgs>(args: SelectSubset<T, SecuritySettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SecuritySettingClient<$Result.GetResult<Prisma.$SecuritySettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SecuritySetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySettingFindFirstArgs} args - Arguments to find a SecuritySetting
+     * @example
+     * // Get one SecuritySetting
+     * const securitySetting = await prisma.securitySetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SecuritySettingFindFirstArgs>(args?: SelectSubset<T, SecuritySettingFindFirstArgs<ExtArgs>>): Prisma__SecuritySettingClient<$Result.GetResult<Prisma.$SecuritySettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SecuritySetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySettingFindFirstOrThrowArgs} args - Arguments to find a SecuritySetting
+     * @example
+     * // Get one SecuritySetting
+     * const securitySetting = await prisma.securitySetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SecuritySettingFindFirstOrThrowArgs>(args?: SelectSubset<T, SecuritySettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__SecuritySettingClient<$Result.GetResult<Prisma.$SecuritySettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SecuritySettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SecuritySettings
+     * const securitySettings = await prisma.securitySetting.findMany()
+     * 
+     * // Get first 10 SecuritySettings
+     * const securitySettings = await prisma.securitySetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const securitySettingWithIdOnly = await prisma.securitySetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SecuritySettingFindManyArgs>(args?: SelectSubset<T, SecuritySettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SecuritySettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SecuritySetting.
+     * @param {SecuritySettingCreateArgs} args - Arguments to create a SecuritySetting.
+     * @example
+     * // Create one SecuritySetting
+     * const SecuritySetting = await prisma.securitySetting.create({
+     *   data: {
+     *     // ... data to create a SecuritySetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends SecuritySettingCreateArgs>(args: SelectSubset<T, SecuritySettingCreateArgs<ExtArgs>>): Prisma__SecuritySettingClient<$Result.GetResult<Prisma.$SecuritySettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SecuritySettings.
+     * @param {SecuritySettingCreateManyArgs} args - Arguments to create many SecuritySettings.
+     * @example
+     * // Create many SecuritySettings
+     * const securitySetting = await prisma.securitySetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SecuritySettingCreateManyArgs>(args?: SelectSubset<T, SecuritySettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SecuritySettings and returns the data saved in the database.
+     * @param {SecuritySettingCreateManyAndReturnArgs} args - Arguments to create many SecuritySettings.
+     * @example
+     * // Create many SecuritySettings
+     * const securitySetting = await prisma.securitySetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SecuritySettings and only return the `id`
+     * const securitySettingWithIdOnly = await prisma.securitySetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SecuritySettingCreateManyAndReturnArgs>(args?: SelectSubset<T, SecuritySettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SecuritySettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SecuritySetting.
+     * @param {SecuritySettingDeleteArgs} args - Arguments to delete one SecuritySetting.
+     * @example
+     * // Delete one SecuritySetting
+     * const SecuritySetting = await prisma.securitySetting.delete({
+     *   where: {
+     *     // ... filter to delete one SecuritySetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SecuritySettingDeleteArgs>(args: SelectSubset<T, SecuritySettingDeleteArgs<ExtArgs>>): Prisma__SecuritySettingClient<$Result.GetResult<Prisma.$SecuritySettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SecuritySetting.
+     * @param {SecuritySettingUpdateArgs} args - Arguments to update one SecuritySetting.
+     * @example
+     * // Update one SecuritySetting
+     * const securitySetting = await prisma.securitySetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SecuritySettingUpdateArgs>(args: SelectSubset<T, SecuritySettingUpdateArgs<ExtArgs>>): Prisma__SecuritySettingClient<$Result.GetResult<Prisma.$SecuritySettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SecuritySettings.
+     * @param {SecuritySettingDeleteManyArgs} args - Arguments to filter SecuritySettings to delete.
+     * @example
+     * // Delete a few SecuritySettings
+     * const { count } = await prisma.securitySetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SecuritySettingDeleteManyArgs>(args?: SelectSubset<T, SecuritySettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SecuritySettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SecuritySettings
+     * const securitySetting = await prisma.securitySetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SecuritySettingUpdateManyArgs>(args: SelectSubset<T, SecuritySettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SecuritySettings and returns the data updated in the database.
+     * @param {SecuritySettingUpdateManyAndReturnArgs} args - Arguments to update many SecuritySettings.
+     * @example
+     * // Update many SecuritySettings
+     * const securitySetting = await prisma.securitySetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SecuritySettings and only return the `id`
+     * const securitySettingWithIdOnly = await prisma.securitySetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SecuritySettingUpdateManyAndReturnArgs>(args: SelectSubset<T, SecuritySettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SecuritySettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SecuritySetting.
+     * @param {SecuritySettingUpsertArgs} args - Arguments to update or create a SecuritySetting.
+     * @example
+     * // Update or create a SecuritySetting
+     * const securitySetting = await prisma.securitySetting.upsert({
+     *   create: {
+     *     // ... data to create a SecuritySetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SecuritySetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SecuritySettingUpsertArgs>(args: SelectSubset<T, SecuritySettingUpsertArgs<ExtArgs>>): Prisma__SecuritySettingClient<$Result.GetResult<Prisma.$SecuritySettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SecuritySettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySettingCountArgs} args - Arguments to filter SecuritySettings to count.
+     * @example
+     * // Count the number of SecuritySettings
+     * const count = await prisma.securitySetting.count({
+     *   where: {
+     *     // ... the filter for the SecuritySettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends SecuritySettingCountArgs>(
+      args?: Subset<T, SecuritySettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SecuritySettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SecuritySetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SecuritySettingAggregateArgs>(args: Subset<T, SecuritySettingAggregateArgs>): Prisma.PrismaPromise<GetSecuritySettingAggregateType<T>>
+
+    /**
+     * Group by SecuritySetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SecuritySettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SecuritySettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SecuritySettingGroupByArgs['orderBy'] }
+        : { orderBy?: SecuritySettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SecuritySettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSecuritySettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SecuritySetting model
+   */
+  readonly fields: SecuritySettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SecuritySetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SecuritySettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SecuritySetting model
+   */
+  interface SecuritySettingFieldRefs {
+    readonly id: FieldRef<"SecuritySetting", 'String'>
+    readonly twoFactorEnabled: FieldRef<"SecuritySetting", 'Boolean'>
+    readonly loginAttempts: FieldRef<"SecuritySetting", 'Int'>
+    readonly sessionTimeout: FieldRef<"SecuritySetting", 'Int'>
+    readonly passwordMinLength: FieldRef<"SecuritySetting", 'Int'>
+    readonly updatedAt: FieldRef<"SecuritySetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SecuritySetting findUnique
+   */
+  export type SecuritySettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecuritySetting
+     */
+    select?: SecuritySettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SecuritySetting
+     */
+    omit?: SecuritySettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SecuritySetting to fetch.
+     */
+    where: SecuritySettingWhereUniqueInput
+  }
+
+  /**
+   * SecuritySetting findUniqueOrThrow
+   */
+  export type SecuritySettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecuritySetting
+     */
+    select?: SecuritySettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SecuritySetting
+     */
+    omit?: SecuritySettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SecuritySetting to fetch.
+     */
+    where: SecuritySettingWhereUniqueInput
+  }
+
+  /**
+   * SecuritySetting findFirst
+   */
+  export type SecuritySettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecuritySetting
+     */
+    select?: SecuritySettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SecuritySetting
+     */
+    omit?: SecuritySettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SecuritySetting to fetch.
+     */
+    where?: SecuritySettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SecuritySettings to fetch.
+     */
+    orderBy?: SecuritySettingOrderByWithRelationInput | SecuritySettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SecuritySettings.
+     */
+    cursor?: SecuritySettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SecuritySettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SecuritySettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SecuritySettings.
+     */
+    distinct?: SecuritySettingScalarFieldEnum | SecuritySettingScalarFieldEnum[]
+  }
+
+  /**
+   * SecuritySetting findFirstOrThrow
+   */
+  export type SecuritySettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecuritySetting
+     */
+    select?: SecuritySettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SecuritySetting
+     */
+    omit?: SecuritySettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SecuritySetting to fetch.
+     */
+    where?: SecuritySettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SecuritySettings to fetch.
+     */
+    orderBy?: SecuritySettingOrderByWithRelationInput | SecuritySettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SecuritySettings.
+     */
+    cursor?: SecuritySettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SecuritySettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SecuritySettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SecuritySettings.
+     */
+    distinct?: SecuritySettingScalarFieldEnum | SecuritySettingScalarFieldEnum[]
+  }
+
+  /**
+   * SecuritySetting findMany
+   */
+  export type SecuritySettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecuritySetting
+     */
+    select?: SecuritySettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SecuritySetting
+     */
+    omit?: SecuritySettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SecuritySettings to fetch.
+     */
+    where?: SecuritySettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SecuritySettings to fetch.
+     */
+    orderBy?: SecuritySettingOrderByWithRelationInput | SecuritySettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SecuritySettings.
+     */
+    cursor?: SecuritySettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SecuritySettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SecuritySettings.
+     */
+    skip?: number
+    distinct?: SecuritySettingScalarFieldEnum | SecuritySettingScalarFieldEnum[]
+  }
+
+  /**
+   * SecuritySetting create
+   */
+  export type SecuritySettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecuritySetting
+     */
+    select?: SecuritySettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SecuritySetting
+     */
+    omit?: SecuritySettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SecuritySetting.
+     */
+    data: XOR<SecuritySettingCreateInput, SecuritySettingUncheckedCreateInput>
+  }
+
+  /**
+   * SecuritySetting createMany
+   */
+  export type SecuritySettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SecuritySettings.
+     */
+    data: SecuritySettingCreateManyInput | SecuritySettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SecuritySetting createManyAndReturn
+   */
+  export type SecuritySettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecuritySetting
+     */
+    select?: SecuritySettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SecuritySetting
+     */
+    omit?: SecuritySettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many SecuritySettings.
+     */
+    data: SecuritySettingCreateManyInput | SecuritySettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SecuritySetting update
+   */
+  export type SecuritySettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecuritySetting
+     */
+    select?: SecuritySettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SecuritySetting
+     */
+    omit?: SecuritySettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SecuritySetting.
+     */
+    data: XOR<SecuritySettingUpdateInput, SecuritySettingUncheckedUpdateInput>
+    /**
+     * Choose, which SecuritySetting to update.
+     */
+    where: SecuritySettingWhereUniqueInput
+  }
+
+  /**
+   * SecuritySetting updateMany
+   */
+  export type SecuritySettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SecuritySettings.
+     */
+    data: XOR<SecuritySettingUpdateManyMutationInput, SecuritySettingUncheckedUpdateManyInput>
+    /**
+     * Filter which SecuritySettings to update
+     */
+    where?: SecuritySettingWhereInput
+    /**
+     * Limit how many SecuritySettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SecuritySetting updateManyAndReturn
+   */
+  export type SecuritySettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecuritySetting
+     */
+    select?: SecuritySettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SecuritySetting
+     */
+    omit?: SecuritySettingOmit<ExtArgs> | null
+    /**
+     * The data used to update SecuritySettings.
+     */
+    data: XOR<SecuritySettingUpdateManyMutationInput, SecuritySettingUncheckedUpdateManyInput>
+    /**
+     * Filter which SecuritySettings to update
+     */
+    where?: SecuritySettingWhereInput
+    /**
+     * Limit how many SecuritySettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SecuritySetting upsert
+   */
+  export type SecuritySettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecuritySetting
+     */
+    select?: SecuritySettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SecuritySetting
+     */
+    omit?: SecuritySettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SecuritySetting to update in case it exists.
+     */
+    where: SecuritySettingWhereUniqueInput
+    /**
+     * In case the SecuritySetting found by the `where` argument doesn't exist, create a new SecuritySetting with this data.
+     */
+    create: XOR<SecuritySettingCreateInput, SecuritySettingUncheckedCreateInput>
+    /**
+     * In case the SecuritySetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SecuritySettingUpdateInput, SecuritySettingUncheckedUpdateInput>
+  }
+
+  /**
+   * SecuritySetting delete
+   */
+  export type SecuritySettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecuritySetting
+     */
+    select?: SecuritySettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SecuritySetting
+     */
+    omit?: SecuritySettingOmit<ExtArgs> | null
+    /**
+     * Filter which SecuritySetting to delete.
+     */
+    where: SecuritySettingWhereUniqueInput
+  }
+
+  /**
+   * SecuritySetting deleteMany
+   */
+  export type SecuritySettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SecuritySettings to delete
+     */
+    where?: SecuritySettingWhereInput
+    /**
+     * Limit how many SecuritySettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SecuritySetting without action
+   */
+  export type SecuritySettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SecuritySetting
+     */
+    select?: SecuritySettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SecuritySetting
+     */
+    omit?: SecuritySettingOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CookieSetting
+   */
+
+  export type AggregateCookieSetting = {
+    _count: CookieSettingCountAggregateOutputType | null
+    _min: CookieSettingMinAggregateOutputType | null
+    _max: CookieSettingMaxAggregateOutputType | null
+  }
+
+  export type CookieSettingMinAggregateOutputType = {
+    id: string | null
+    cookiesAgreement: boolean | null
+    showCookiesAgreement: boolean | null
+    cookiesAgreementText: string | null
+    updatedAt: Date | null
+  }
+
+  export type CookieSettingMaxAggregateOutputType = {
+    id: string | null
+    cookiesAgreement: boolean | null
+    showCookiesAgreement: boolean | null
+    cookiesAgreementText: string | null
+    updatedAt: Date | null
+  }
+
+  export type CookieSettingCountAggregateOutputType = {
+    id: number
+    cookiesAgreement: number
+    showCookiesAgreement: number
+    cookiesAgreementText: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CookieSettingMinAggregateInputType = {
+    id?: true
+    cookiesAgreement?: true
+    showCookiesAgreement?: true
+    cookiesAgreementText?: true
+    updatedAt?: true
+  }
+
+  export type CookieSettingMaxAggregateInputType = {
+    id?: true
+    cookiesAgreement?: true
+    showCookiesAgreement?: true
+    cookiesAgreementText?: true
+    updatedAt?: true
+  }
+
+  export type CookieSettingCountAggregateInputType = {
+    id?: true
+    cookiesAgreement?: true
+    showCookiesAgreement?: true
+    cookiesAgreementText?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CookieSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CookieSetting to aggregate.
+     */
+    where?: CookieSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CookieSettings to fetch.
+     */
+    orderBy?: CookieSettingOrderByWithRelationInput | CookieSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CookieSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CookieSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CookieSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CookieSettings
+    **/
+    _count?: true | CookieSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CookieSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CookieSettingMaxAggregateInputType
+  }
+
+  export type GetCookieSettingAggregateType<T extends CookieSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateCookieSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCookieSetting[P]>
+      : GetScalarType<T[P], AggregateCookieSetting[P]>
+  }
+
+
+
+
+  export type CookieSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CookieSettingWhereInput
+    orderBy?: CookieSettingOrderByWithAggregationInput | CookieSettingOrderByWithAggregationInput[]
+    by: CookieSettingScalarFieldEnum[] | CookieSettingScalarFieldEnum
+    having?: CookieSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CookieSettingCountAggregateInputType | true
+    _min?: CookieSettingMinAggregateInputType
+    _max?: CookieSettingMaxAggregateInputType
+  }
+
+  export type CookieSettingGroupByOutputType = {
+    id: string
+    cookiesAgreement: boolean
+    showCookiesAgreement: boolean
+    cookiesAgreementText: string
+    updatedAt: Date
+    _count: CookieSettingCountAggregateOutputType | null
+    _min: CookieSettingMinAggregateOutputType | null
+    _max: CookieSettingMaxAggregateOutputType | null
+  }
+
+  type GetCookieSettingGroupByPayload<T extends CookieSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CookieSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CookieSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CookieSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], CookieSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CookieSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    cookiesAgreement?: boolean
+    showCookiesAgreement?: boolean
+    cookiesAgreementText?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["cookieSetting"]>
+
+  export type CookieSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    cookiesAgreement?: boolean
+    showCookiesAgreement?: boolean
+    cookiesAgreementText?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["cookieSetting"]>
+
+  export type CookieSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    cookiesAgreement?: boolean
+    showCookiesAgreement?: boolean
+    cookiesAgreementText?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["cookieSetting"]>
+
+  export type CookieSettingSelectScalar = {
+    id?: boolean
+    cookiesAgreement?: boolean
+    showCookiesAgreement?: boolean
+    cookiesAgreementText?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CookieSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cookiesAgreement" | "showCookiesAgreement" | "cookiesAgreementText" | "updatedAt", ExtArgs["result"]["cookieSetting"]>
+
+  export type $CookieSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CookieSetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      cookiesAgreement: boolean
+      showCookiesAgreement: boolean
+      cookiesAgreementText: string
+      updatedAt: Date
+    }, ExtArgs["result"]["cookieSetting"]>
+    composites: {}
+  }
+
+  type CookieSettingGetPayload<S extends boolean | null | undefined | CookieSettingDefaultArgs> = $Result.GetResult<Prisma.$CookieSettingPayload, S>
+
+  type CookieSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CookieSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CookieSettingCountAggregateInputType | true
+    }
+
+  export interface CookieSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CookieSetting'], meta: { name: 'CookieSetting' } }
+    /**
+     * Find zero or one CookieSetting that matches the filter.
+     * @param {CookieSettingFindUniqueArgs} args - Arguments to find a CookieSetting
+     * @example
+     * // Get one CookieSetting
+     * const cookieSetting = await prisma.cookieSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CookieSettingFindUniqueArgs>(args: SelectSubset<T, CookieSettingFindUniqueArgs<ExtArgs>>): Prisma__CookieSettingClient<$Result.GetResult<Prisma.$CookieSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CookieSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CookieSettingFindUniqueOrThrowArgs} args - Arguments to find a CookieSetting
+     * @example
+     * // Get one CookieSetting
+     * const cookieSetting = await prisma.cookieSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CookieSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, CookieSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CookieSettingClient<$Result.GetResult<Prisma.$CookieSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CookieSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CookieSettingFindFirstArgs} args - Arguments to find a CookieSetting
+     * @example
+     * // Get one CookieSetting
+     * const cookieSetting = await prisma.cookieSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CookieSettingFindFirstArgs>(args?: SelectSubset<T, CookieSettingFindFirstArgs<ExtArgs>>): Prisma__CookieSettingClient<$Result.GetResult<Prisma.$CookieSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CookieSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CookieSettingFindFirstOrThrowArgs} args - Arguments to find a CookieSetting
+     * @example
+     * // Get one CookieSetting
+     * const cookieSetting = await prisma.cookieSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CookieSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, CookieSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__CookieSettingClient<$Result.GetResult<Prisma.$CookieSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CookieSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CookieSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CookieSettings
+     * const cookieSettings = await prisma.cookieSetting.findMany()
+     * 
+     * // Get first 10 CookieSettings
+     * const cookieSettings = await prisma.cookieSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cookieSettingWithIdOnly = await prisma.cookieSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CookieSettingFindManyArgs>(args?: SelectSubset<T, CookieSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CookieSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CookieSetting.
+     * @param {CookieSettingCreateArgs} args - Arguments to create a CookieSetting.
+     * @example
+     * // Create one CookieSetting
+     * const CookieSetting = await prisma.cookieSetting.create({
+     *   data: {
+     *     // ... data to create a CookieSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends CookieSettingCreateArgs>(args: SelectSubset<T, CookieSettingCreateArgs<ExtArgs>>): Prisma__CookieSettingClient<$Result.GetResult<Prisma.$CookieSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CookieSettings.
+     * @param {CookieSettingCreateManyArgs} args - Arguments to create many CookieSettings.
+     * @example
+     * // Create many CookieSettings
+     * const cookieSetting = await prisma.cookieSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CookieSettingCreateManyArgs>(args?: SelectSubset<T, CookieSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CookieSettings and returns the data saved in the database.
+     * @param {CookieSettingCreateManyAndReturnArgs} args - Arguments to create many CookieSettings.
+     * @example
+     * // Create many CookieSettings
+     * const cookieSetting = await prisma.cookieSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CookieSettings and only return the `id`
+     * const cookieSettingWithIdOnly = await prisma.cookieSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CookieSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, CookieSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CookieSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CookieSetting.
+     * @param {CookieSettingDeleteArgs} args - Arguments to delete one CookieSetting.
+     * @example
+     * // Delete one CookieSetting
+     * const CookieSetting = await prisma.cookieSetting.delete({
+     *   where: {
+     *     // ... filter to delete one CookieSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CookieSettingDeleteArgs>(args: SelectSubset<T, CookieSettingDeleteArgs<ExtArgs>>): Prisma__CookieSettingClient<$Result.GetResult<Prisma.$CookieSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CookieSetting.
+     * @param {CookieSettingUpdateArgs} args - Arguments to update one CookieSetting.
+     * @example
+     * // Update one CookieSetting
+     * const cookieSetting = await prisma.cookieSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CookieSettingUpdateArgs>(args: SelectSubset<T, CookieSettingUpdateArgs<ExtArgs>>): Prisma__CookieSettingClient<$Result.GetResult<Prisma.$CookieSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CookieSettings.
+     * @param {CookieSettingDeleteManyArgs} args - Arguments to filter CookieSettings to delete.
+     * @example
+     * // Delete a few CookieSettings
+     * const { count } = await prisma.cookieSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CookieSettingDeleteManyArgs>(args?: SelectSubset<T, CookieSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CookieSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CookieSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CookieSettings
+     * const cookieSetting = await prisma.cookieSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CookieSettingUpdateManyArgs>(args: SelectSubset<T, CookieSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CookieSettings and returns the data updated in the database.
+     * @param {CookieSettingUpdateManyAndReturnArgs} args - Arguments to update many CookieSettings.
+     * @example
+     * // Update many CookieSettings
+     * const cookieSetting = await prisma.cookieSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CookieSettings and only return the `id`
+     * const cookieSettingWithIdOnly = await prisma.cookieSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CookieSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, CookieSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CookieSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CookieSetting.
+     * @param {CookieSettingUpsertArgs} args - Arguments to update or create a CookieSetting.
+     * @example
+     * // Update or create a CookieSetting
+     * const cookieSetting = await prisma.cookieSetting.upsert({
+     *   create: {
+     *     // ... data to create a CookieSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CookieSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CookieSettingUpsertArgs>(args: SelectSubset<T, CookieSettingUpsertArgs<ExtArgs>>): Prisma__CookieSettingClient<$Result.GetResult<Prisma.$CookieSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CookieSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CookieSettingCountArgs} args - Arguments to filter CookieSettings to count.
+     * @example
+     * // Count the number of CookieSettings
+     * const count = await prisma.cookieSetting.count({
+     *   where: {
+     *     // ... the filter for the CookieSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends CookieSettingCountArgs>(
+      args?: Subset<T, CookieSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CookieSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CookieSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CookieSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CookieSettingAggregateArgs>(args: Subset<T, CookieSettingAggregateArgs>): Prisma.PrismaPromise<GetCookieSettingAggregateType<T>>
+
+    /**
+     * Group by CookieSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CookieSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CookieSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CookieSettingGroupByArgs['orderBy'] }
+        : { orderBy?: CookieSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CookieSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCookieSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CookieSetting model
+   */
+  readonly fields: CookieSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CookieSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CookieSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CookieSetting model
+   */
+  interface CookieSettingFieldRefs {
+    readonly id: FieldRef<"CookieSetting", 'String'>
+    readonly cookiesAgreement: FieldRef<"CookieSetting", 'Boolean'>
+    readonly showCookiesAgreement: FieldRef<"CookieSetting", 'Boolean'>
+    readonly cookiesAgreementText: FieldRef<"CookieSetting", 'String'>
+    readonly updatedAt: FieldRef<"CookieSetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CookieSetting findUnique
+   */
+  export type CookieSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CookieSetting
+     */
+    select?: CookieSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CookieSetting
+     */
+    omit?: CookieSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which CookieSetting to fetch.
+     */
+    where: CookieSettingWhereUniqueInput
+  }
+
+  /**
+   * CookieSetting findUniqueOrThrow
+   */
+  export type CookieSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CookieSetting
+     */
+    select?: CookieSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CookieSetting
+     */
+    omit?: CookieSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which CookieSetting to fetch.
+     */
+    where: CookieSettingWhereUniqueInput
+  }
+
+  /**
+   * CookieSetting findFirst
+   */
+  export type CookieSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CookieSetting
+     */
+    select?: CookieSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CookieSetting
+     */
+    omit?: CookieSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which CookieSetting to fetch.
+     */
+    where?: CookieSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CookieSettings to fetch.
+     */
+    orderBy?: CookieSettingOrderByWithRelationInput | CookieSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CookieSettings.
+     */
+    cursor?: CookieSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CookieSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CookieSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CookieSettings.
+     */
+    distinct?: CookieSettingScalarFieldEnum | CookieSettingScalarFieldEnum[]
+  }
+
+  /**
+   * CookieSetting findFirstOrThrow
+   */
+  export type CookieSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CookieSetting
+     */
+    select?: CookieSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CookieSetting
+     */
+    omit?: CookieSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which CookieSetting to fetch.
+     */
+    where?: CookieSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CookieSettings to fetch.
+     */
+    orderBy?: CookieSettingOrderByWithRelationInput | CookieSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CookieSettings.
+     */
+    cursor?: CookieSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CookieSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CookieSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CookieSettings.
+     */
+    distinct?: CookieSettingScalarFieldEnum | CookieSettingScalarFieldEnum[]
+  }
+
+  /**
+   * CookieSetting findMany
+   */
+  export type CookieSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CookieSetting
+     */
+    select?: CookieSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CookieSetting
+     */
+    omit?: CookieSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which CookieSettings to fetch.
+     */
+    where?: CookieSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CookieSettings to fetch.
+     */
+    orderBy?: CookieSettingOrderByWithRelationInput | CookieSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CookieSettings.
+     */
+    cursor?: CookieSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CookieSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CookieSettings.
+     */
+    skip?: number
+    distinct?: CookieSettingScalarFieldEnum | CookieSettingScalarFieldEnum[]
+  }
+
+  /**
+   * CookieSetting create
+   */
+  export type CookieSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CookieSetting
+     */
+    select?: CookieSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CookieSetting
+     */
+    omit?: CookieSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a CookieSetting.
+     */
+    data: XOR<CookieSettingCreateInput, CookieSettingUncheckedCreateInput>
+  }
+
+  /**
+   * CookieSetting createMany
+   */
+  export type CookieSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CookieSettings.
+     */
+    data: CookieSettingCreateManyInput | CookieSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CookieSetting createManyAndReturn
+   */
+  export type CookieSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CookieSetting
+     */
+    select?: CookieSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CookieSetting
+     */
+    omit?: CookieSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many CookieSettings.
+     */
+    data: CookieSettingCreateManyInput | CookieSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CookieSetting update
+   */
+  export type CookieSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CookieSetting
+     */
+    select?: CookieSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CookieSetting
+     */
+    omit?: CookieSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a CookieSetting.
+     */
+    data: XOR<CookieSettingUpdateInput, CookieSettingUncheckedUpdateInput>
+    /**
+     * Choose, which CookieSetting to update.
+     */
+    where: CookieSettingWhereUniqueInput
+  }
+
+  /**
+   * CookieSetting updateMany
+   */
+  export type CookieSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CookieSettings.
+     */
+    data: XOR<CookieSettingUpdateManyMutationInput, CookieSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which CookieSettings to update
+     */
+    where?: CookieSettingWhereInput
+    /**
+     * Limit how many CookieSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CookieSetting updateManyAndReturn
+   */
+  export type CookieSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CookieSetting
+     */
+    select?: CookieSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CookieSetting
+     */
+    omit?: CookieSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update CookieSettings.
+     */
+    data: XOR<CookieSettingUpdateManyMutationInput, CookieSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which CookieSettings to update
+     */
+    where?: CookieSettingWhereInput
+    /**
+     * Limit how many CookieSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CookieSetting upsert
+   */
+  export type CookieSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CookieSetting
+     */
+    select?: CookieSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CookieSetting
+     */
+    omit?: CookieSettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the CookieSetting to update in case it exists.
+     */
+    where: CookieSettingWhereUniqueInput
+    /**
+     * In case the CookieSetting found by the `where` argument doesn't exist, create a new CookieSetting with this data.
+     */
+    create: XOR<CookieSettingCreateInput, CookieSettingUncheckedCreateInput>
+    /**
+     * In case the CookieSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CookieSettingUpdateInput, CookieSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * CookieSetting delete
+   */
+  export type CookieSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CookieSetting
+     */
+    select?: CookieSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CookieSetting
+     */
+    omit?: CookieSettingOmit<ExtArgs> | null
+    /**
+     * Filter which CookieSetting to delete.
+     */
+    where: CookieSettingWhereUniqueInput
+  }
+
+  /**
+   * CookieSetting deleteMany
+   */
+  export type CookieSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CookieSettings to delete
+     */
+    where?: CookieSettingWhereInput
+    /**
+     * Limit how many CookieSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CookieSetting without action
+   */
+  export type CookieSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CookieSetting
+     */
+    select?: CookieSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CookieSetting
+     */
+    omit?: CookieSettingOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -19125,6 +24779,75 @@ export namespace Prisma {
   };
 
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+  export const ContactSettingScalarFieldEnum: {
+    id: 'id',
+    phone1: 'phone1',
+    phone2: 'phone2',
+    email1: 'email1',
+    email2: 'email2',
+    address: 'address',
+    contactMail: 'contactMail',
+    officeHours: 'officeHours',
+    googleMapEmbed: 'googleMapEmbed',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ContactSettingScalarFieldEnum = (typeof ContactSettingScalarFieldEnum)[keyof typeof ContactSettingScalarFieldEnum]
+
+
+  export const SocialSettingScalarFieldEnum: {
+    id: 'id',
+    facebook: 'facebook',
+    twitter: 'twitter',
+    instagram: 'instagram',
+    linkedin: 'linkedin',
+    pinterest: 'pinterest',
+    youtube: 'youtube',
+    whatsapp: 'whatsapp',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SocialSettingScalarFieldEnum = (typeof SocialSettingScalarFieldEnum)[keyof typeof SocialSettingScalarFieldEnum]
+
+
+  export const EmailSettingScalarFieldEnum: {
+    id: 'id',
+    smtpHost: 'smtpHost',
+    smtpPort: 'smtpPort',
+    smtpUser: 'smtpUser',
+    smtpPassword: 'smtpPassword',
+    fromName: 'fromName',
+    fromEmail: 'fromEmail',
+    encryption: 'encryption',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EmailSettingScalarFieldEnum = (typeof EmailSettingScalarFieldEnum)[keyof typeof EmailSettingScalarFieldEnum]
+
+
+  export const SecuritySettingScalarFieldEnum: {
+    id: 'id',
+    twoFactorEnabled: 'twoFactorEnabled',
+    loginAttempts: 'loginAttempts',
+    sessionTimeout: 'sessionTimeout',
+    passwordMinLength: 'passwordMinLength',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SecuritySettingScalarFieldEnum = (typeof SecuritySettingScalarFieldEnum)[keyof typeof SecuritySettingScalarFieldEnum]
+
+
+  export const CookieSettingScalarFieldEnum: {
+    id: 'id',
+    cookiesAgreement: 'cookiesAgreement',
+    showCookiesAgreement: 'showCookiesAgreement',
+    cookiesAgreementText: 'cookiesAgreementText',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CookieSettingScalarFieldEnum = (typeof CookieSettingScalarFieldEnum)[keyof typeof CookieSettingScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -20353,6 +26076,338 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"Category"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
+  }
+
+  export type ContactSettingWhereInput = {
+    AND?: ContactSettingWhereInput | ContactSettingWhereInput[]
+    OR?: ContactSettingWhereInput[]
+    NOT?: ContactSettingWhereInput | ContactSettingWhereInput[]
+    id?: StringFilter<"ContactSetting"> | string
+    phone1?: StringFilter<"ContactSetting"> | string
+    phone2?: StringFilter<"ContactSetting"> | string
+    email1?: StringFilter<"ContactSetting"> | string
+    email2?: StringFilter<"ContactSetting"> | string
+    address?: StringFilter<"ContactSetting"> | string
+    contactMail?: StringFilter<"ContactSetting"> | string
+    officeHours?: StringFilter<"ContactSetting"> | string
+    googleMapEmbed?: StringFilter<"ContactSetting"> | string
+    updatedAt?: DateTimeFilter<"ContactSetting"> | Date | string
+  }
+
+  export type ContactSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    phone1?: SortOrder
+    phone2?: SortOrder
+    email1?: SortOrder
+    email2?: SortOrder
+    address?: SortOrder
+    contactMail?: SortOrder
+    officeHours?: SortOrder
+    googleMapEmbed?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ContactSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ContactSettingWhereInput | ContactSettingWhereInput[]
+    OR?: ContactSettingWhereInput[]
+    NOT?: ContactSettingWhereInput | ContactSettingWhereInput[]
+    phone1?: StringFilter<"ContactSetting"> | string
+    phone2?: StringFilter<"ContactSetting"> | string
+    email1?: StringFilter<"ContactSetting"> | string
+    email2?: StringFilter<"ContactSetting"> | string
+    address?: StringFilter<"ContactSetting"> | string
+    contactMail?: StringFilter<"ContactSetting"> | string
+    officeHours?: StringFilter<"ContactSetting"> | string
+    googleMapEmbed?: StringFilter<"ContactSetting"> | string
+    updatedAt?: DateTimeFilter<"ContactSetting"> | Date | string
+  }, "id">
+
+  export type ContactSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    phone1?: SortOrder
+    phone2?: SortOrder
+    email1?: SortOrder
+    email2?: SortOrder
+    address?: SortOrder
+    contactMail?: SortOrder
+    officeHours?: SortOrder
+    googleMapEmbed?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ContactSettingCountOrderByAggregateInput
+    _max?: ContactSettingMaxOrderByAggregateInput
+    _min?: ContactSettingMinOrderByAggregateInput
+  }
+
+  export type ContactSettingScalarWhereWithAggregatesInput = {
+    AND?: ContactSettingScalarWhereWithAggregatesInput | ContactSettingScalarWhereWithAggregatesInput[]
+    OR?: ContactSettingScalarWhereWithAggregatesInput[]
+    NOT?: ContactSettingScalarWhereWithAggregatesInput | ContactSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ContactSetting"> | string
+    phone1?: StringWithAggregatesFilter<"ContactSetting"> | string
+    phone2?: StringWithAggregatesFilter<"ContactSetting"> | string
+    email1?: StringWithAggregatesFilter<"ContactSetting"> | string
+    email2?: StringWithAggregatesFilter<"ContactSetting"> | string
+    address?: StringWithAggregatesFilter<"ContactSetting"> | string
+    contactMail?: StringWithAggregatesFilter<"ContactSetting"> | string
+    officeHours?: StringWithAggregatesFilter<"ContactSetting"> | string
+    googleMapEmbed?: StringWithAggregatesFilter<"ContactSetting"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ContactSetting"> | Date | string
+  }
+
+  export type SocialSettingWhereInput = {
+    AND?: SocialSettingWhereInput | SocialSettingWhereInput[]
+    OR?: SocialSettingWhereInput[]
+    NOT?: SocialSettingWhereInput | SocialSettingWhereInput[]
+    id?: StringFilter<"SocialSetting"> | string
+    facebook?: StringFilter<"SocialSetting"> | string
+    twitter?: StringFilter<"SocialSetting"> | string
+    instagram?: StringFilter<"SocialSetting"> | string
+    linkedin?: StringFilter<"SocialSetting"> | string
+    pinterest?: StringFilter<"SocialSetting"> | string
+    youtube?: StringFilter<"SocialSetting"> | string
+    whatsapp?: StringFilter<"SocialSetting"> | string
+    updatedAt?: DateTimeFilter<"SocialSetting"> | Date | string
+  }
+
+  export type SocialSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    facebook?: SortOrder
+    twitter?: SortOrder
+    instagram?: SortOrder
+    linkedin?: SortOrder
+    pinterest?: SortOrder
+    youtube?: SortOrder
+    whatsapp?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SocialSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SocialSettingWhereInput | SocialSettingWhereInput[]
+    OR?: SocialSettingWhereInput[]
+    NOT?: SocialSettingWhereInput | SocialSettingWhereInput[]
+    facebook?: StringFilter<"SocialSetting"> | string
+    twitter?: StringFilter<"SocialSetting"> | string
+    instagram?: StringFilter<"SocialSetting"> | string
+    linkedin?: StringFilter<"SocialSetting"> | string
+    pinterest?: StringFilter<"SocialSetting"> | string
+    youtube?: StringFilter<"SocialSetting"> | string
+    whatsapp?: StringFilter<"SocialSetting"> | string
+    updatedAt?: DateTimeFilter<"SocialSetting"> | Date | string
+  }, "id">
+
+  export type SocialSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    facebook?: SortOrder
+    twitter?: SortOrder
+    instagram?: SortOrder
+    linkedin?: SortOrder
+    pinterest?: SortOrder
+    youtube?: SortOrder
+    whatsapp?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SocialSettingCountOrderByAggregateInput
+    _max?: SocialSettingMaxOrderByAggregateInput
+    _min?: SocialSettingMinOrderByAggregateInput
+  }
+
+  export type SocialSettingScalarWhereWithAggregatesInput = {
+    AND?: SocialSettingScalarWhereWithAggregatesInput | SocialSettingScalarWhereWithAggregatesInput[]
+    OR?: SocialSettingScalarWhereWithAggregatesInput[]
+    NOT?: SocialSettingScalarWhereWithAggregatesInput | SocialSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SocialSetting"> | string
+    facebook?: StringWithAggregatesFilter<"SocialSetting"> | string
+    twitter?: StringWithAggregatesFilter<"SocialSetting"> | string
+    instagram?: StringWithAggregatesFilter<"SocialSetting"> | string
+    linkedin?: StringWithAggregatesFilter<"SocialSetting"> | string
+    pinterest?: StringWithAggregatesFilter<"SocialSetting"> | string
+    youtube?: StringWithAggregatesFilter<"SocialSetting"> | string
+    whatsapp?: StringWithAggregatesFilter<"SocialSetting"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SocialSetting"> | Date | string
+  }
+
+  export type EmailSettingWhereInput = {
+    AND?: EmailSettingWhereInput | EmailSettingWhereInput[]
+    OR?: EmailSettingWhereInput[]
+    NOT?: EmailSettingWhereInput | EmailSettingWhereInput[]
+    id?: StringFilter<"EmailSetting"> | string
+    smtpHost?: StringFilter<"EmailSetting"> | string
+    smtpPort?: StringFilter<"EmailSetting"> | string
+    smtpUser?: StringFilter<"EmailSetting"> | string
+    smtpPassword?: StringFilter<"EmailSetting"> | string
+    fromName?: StringFilter<"EmailSetting"> | string
+    fromEmail?: StringFilter<"EmailSetting"> | string
+    encryption?: StringFilter<"EmailSetting"> | string
+    updatedAt?: DateTimeFilter<"EmailSetting"> | Date | string
+  }
+
+  export type EmailSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    smtpHost?: SortOrder
+    smtpPort?: SortOrder
+    smtpUser?: SortOrder
+    smtpPassword?: SortOrder
+    fromName?: SortOrder
+    fromEmail?: SortOrder
+    encryption?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmailSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: EmailSettingWhereInput | EmailSettingWhereInput[]
+    OR?: EmailSettingWhereInput[]
+    NOT?: EmailSettingWhereInput | EmailSettingWhereInput[]
+    smtpHost?: StringFilter<"EmailSetting"> | string
+    smtpPort?: StringFilter<"EmailSetting"> | string
+    smtpUser?: StringFilter<"EmailSetting"> | string
+    smtpPassword?: StringFilter<"EmailSetting"> | string
+    fromName?: StringFilter<"EmailSetting"> | string
+    fromEmail?: StringFilter<"EmailSetting"> | string
+    encryption?: StringFilter<"EmailSetting"> | string
+    updatedAt?: DateTimeFilter<"EmailSetting"> | Date | string
+  }, "id">
+
+  export type EmailSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    smtpHost?: SortOrder
+    smtpPort?: SortOrder
+    smtpUser?: SortOrder
+    smtpPassword?: SortOrder
+    fromName?: SortOrder
+    fromEmail?: SortOrder
+    encryption?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EmailSettingCountOrderByAggregateInput
+    _max?: EmailSettingMaxOrderByAggregateInput
+    _min?: EmailSettingMinOrderByAggregateInput
+  }
+
+  export type EmailSettingScalarWhereWithAggregatesInput = {
+    AND?: EmailSettingScalarWhereWithAggregatesInput | EmailSettingScalarWhereWithAggregatesInput[]
+    OR?: EmailSettingScalarWhereWithAggregatesInput[]
+    NOT?: EmailSettingScalarWhereWithAggregatesInput | EmailSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EmailSetting"> | string
+    smtpHost?: StringWithAggregatesFilter<"EmailSetting"> | string
+    smtpPort?: StringWithAggregatesFilter<"EmailSetting"> | string
+    smtpUser?: StringWithAggregatesFilter<"EmailSetting"> | string
+    smtpPassword?: StringWithAggregatesFilter<"EmailSetting"> | string
+    fromName?: StringWithAggregatesFilter<"EmailSetting"> | string
+    fromEmail?: StringWithAggregatesFilter<"EmailSetting"> | string
+    encryption?: StringWithAggregatesFilter<"EmailSetting"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"EmailSetting"> | Date | string
+  }
+
+  export type SecuritySettingWhereInput = {
+    AND?: SecuritySettingWhereInput | SecuritySettingWhereInput[]
+    OR?: SecuritySettingWhereInput[]
+    NOT?: SecuritySettingWhereInput | SecuritySettingWhereInput[]
+    id?: StringFilter<"SecuritySetting"> | string
+    twoFactorEnabled?: BoolFilter<"SecuritySetting"> | boolean
+    loginAttempts?: IntFilter<"SecuritySetting"> | number
+    sessionTimeout?: IntFilter<"SecuritySetting"> | number
+    passwordMinLength?: IntFilter<"SecuritySetting"> | number
+    updatedAt?: DateTimeFilter<"SecuritySetting"> | Date | string
+  }
+
+  export type SecuritySettingOrderByWithRelationInput = {
+    id?: SortOrder
+    twoFactorEnabled?: SortOrder
+    loginAttempts?: SortOrder
+    sessionTimeout?: SortOrder
+    passwordMinLength?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SecuritySettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SecuritySettingWhereInput | SecuritySettingWhereInput[]
+    OR?: SecuritySettingWhereInput[]
+    NOT?: SecuritySettingWhereInput | SecuritySettingWhereInput[]
+    twoFactorEnabled?: BoolFilter<"SecuritySetting"> | boolean
+    loginAttempts?: IntFilter<"SecuritySetting"> | number
+    sessionTimeout?: IntFilter<"SecuritySetting"> | number
+    passwordMinLength?: IntFilter<"SecuritySetting"> | number
+    updatedAt?: DateTimeFilter<"SecuritySetting"> | Date | string
+  }, "id">
+
+  export type SecuritySettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    twoFactorEnabled?: SortOrder
+    loginAttempts?: SortOrder
+    sessionTimeout?: SortOrder
+    passwordMinLength?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SecuritySettingCountOrderByAggregateInput
+    _avg?: SecuritySettingAvgOrderByAggregateInput
+    _max?: SecuritySettingMaxOrderByAggregateInput
+    _min?: SecuritySettingMinOrderByAggregateInput
+    _sum?: SecuritySettingSumOrderByAggregateInput
+  }
+
+  export type SecuritySettingScalarWhereWithAggregatesInput = {
+    AND?: SecuritySettingScalarWhereWithAggregatesInput | SecuritySettingScalarWhereWithAggregatesInput[]
+    OR?: SecuritySettingScalarWhereWithAggregatesInput[]
+    NOT?: SecuritySettingScalarWhereWithAggregatesInput | SecuritySettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SecuritySetting"> | string
+    twoFactorEnabled?: BoolWithAggregatesFilter<"SecuritySetting"> | boolean
+    loginAttempts?: IntWithAggregatesFilter<"SecuritySetting"> | number
+    sessionTimeout?: IntWithAggregatesFilter<"SecuritySetting"> | number
+    passwordMinLength?: IntWithAggregatesFilter<"SecuritySetting"> | number
+    updatedAt?: DateTimeWithAggregatesFilter<"SecuritySetting"> | Date | string
+  }
+
+  export type CookieSettingWhereInput = {
+    AND?: CookieSettingWhereInput | CookieSettingWhereInput[]
+    OR?: CookieSettingWhereInput[]
+    NOT?: CookieSettingWhereInput | CookieSettingWhereInput[]
+    id?: StringFilter<"CookieSetting"> | string
+    cookiesAgreement?: BoolFilter<"CookieSetting"> | boolean
+    showCookiesAgreement?: BoolFilter<"CookieSetting"> | boolean
+    cookiesAgreementText?: StringFilter<"CookieSetting"> | string
+    updatedAt?: DateTimeFilter<"CookieSetting"> | Date | string
+  }
+
+  export type CookieSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    cookiesAgreement?: SortOrder
+    showCookiesAgreement?: SortOrder
+    cookiesAgreementText?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CookieSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CookieSettingWhereInput | CookieSettingWhereInput[]
+    OR?: CookieSettingWhereInput[]
+    NOT?: CookieSettingWhereInput | CookieSettingWhereInput[]
+    cookiesAgreement?: BoolFilter<"CookieSetting"> | boolean
+    showCookiesAgreement?: BoolFilter<"CookieSetting"> | boolean
+    cookiesAgreementText?: StringFilter<"CookieSetting"> | string
+    updatedAt?: DateTimeFilter<"CookieSetting"> | Date | string
+  }, "id">
+
+  export type CookieSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    cookiesAgreement?: SortOrder
+    showCookiesAgreement?: SortOrder
+    cookiesAgreementText?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CookieSettingCountOrderByAggregateInput
+    _max?: CookieSettingMaxOrderByAggregateInput
+    _min?: CookieSettingMinOrderByAggregateInput
+  }
+
+  export type CookieSettingScalarWhereWithAggregatesInput = {
+    AND?: CookieSettingScalarWhereWithAggregatesInput | CookieSettingScalarWhereWithAggregatesInput[]
+    OR?: CookieSettingScalarWhereWithAggregatesInput[]
+    NOT?: CookieSettingScalarWhereWithAggregatesInput | CookieSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CookieSetting"> | string
+    cookiesAgreement?: BoolWithAggregatesFilter<"CookieSetting"> | boolean
+    showCookiesAgreement?: BoolWithAggregatesFilter<"CookieSetting"> | boolean
+    cookiesAgreementText?: StringWithAggregatesFilter<"CookieSetting"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CookieSetting"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -21590,6 +27645,384 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ContactSettingCreateInput = {
+    id?: string
+    phone1?: string
+    phone2?: string
+    email1?: string
+    email2?: string
+    address?: string
+    contactMail?: string
+    officeHours?: string
+    googleMapEmbed?: string
+    updatedAt?: Date | string
+  }
+
+  export type ContactSettingUncheckedCreateInput = {
+    id?: string
+    phone1?: string
+    phone2?: string
+    email1?: string
+    email2?: string
+    address?: string
+    contactMail?: string
+    officeHours?: string
+    googleMapEmbed?: string
+    updatedAt?: Date | string
+  }
+
+  export type ContactSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone1?: StringFieldUpdateOperationsInput | string
+    phone2?: StringFieldUpdateOperationsInput | string
+    email1?: StringFieldUpdateOperationsInput | string
+    email2?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactMail?: StringFieldUpdateOperationsInput | string
+    officeHours?: StringFieldUpdateOperationsInput | string
+    googleMapEmbed?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone1?: StringFieldUpdateOperationsInput | string
+    phone2?: StringFieldUpdateOperationsInput | string
+    email1?: StringFieldUpdateOperationsInput | string
+    email2?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactMail?: StringFieldUpdateOperationsInput | string
+    officeHours?: StringFieldUpdateOperationsInput | string
+    googleMapEmbed?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactSettingCreateManyInput = {
+    id?: string
+    phone1?: string
+    phone2?: string
+    email1?: string
+    email2?: string
+    address?: string
+    contactMail?: string
+    officeHours?: string
+    googleMapEmbed?: string
+    updatedAt?: Date | string
+  }
+
+  export type ContactSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone1?: StringFieldUpdateOperationsInput | string
+    phone2?: StringFieldUpdateOperationsInput | string
+    email1?: StringFieldUpdateOperationsInput | string
+    email2?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactMail?: StringFieldUpdateOperationsInput | string
+    officeHours?: StringFieldUpdateOperationsInput | string
+    googleMapEmbed?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone1?: StringFieldUpdateOperationsInput | string
+    phone2?: StringFieldUpdateOperationsInput | string
+    email1?: StringFieldUpdateOperationsInput | string
+    email2?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    contactMail?: StringFieldUpdateOperationsInput | string
+    officeHours?: StringFieldUpdateOperationsInput | string
+    googleMapEmbed?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SocialSettingCreateInput = {
+    id?: string
+    facebook?: string
+    twitter?: string
+    instagram?: string
+    linkedin?: string
+    pinterest?: string
+    youtube?: string
+    whatsapp?: string
+    updatedAt?: Date | string
+  }
+
+  export type SocialSettingUncheckedCreateInput = {
+    id?: string
+    facebook?: string
+    twitter?: string
+    instagram?: string
+    linkedin?: string
+    pinterest?: string
+    youtube?: string
+    whatsapp?: string
+    updatedAt?: Date | string
+  }
+
+  export type SocialSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    facebook?: StringFieldUpdateOperationsInput | string
+    twitter?: StringFieldUpdateOperationsInput | string
+    instagram?: StringFieldUpdateOperationsInput | string
+    linkedin?: StringFieldUpdateOperationsInput | string
+    pinterest?: StringFieldUpdateOperationsInput | string
+    youtube?: StringFieldUpdateOperationsInput | string
+    whatsapp?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SocialSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    facebook?: StringFieldUpdateOperationsInput | string
+    twitter?: StringFieldUpdateOperationsInput | string
+    instagram?: StringFieldUpdateOperationsInput | string
+    linkedin?: StringFieldUpdateOperationsInput | string
+    pinterest?: StringFieldUpdateOperationsInput | string
+    youtube?: StringFieldUpdateOperationsInput | string
+    whatsapp?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SocialSettingCreateManyInput = {
+    id?: string
+    facebook?: string
+    twitter?: string
+    instagram?: string
+    linkedin?: string
+    pinterest?: string
+    youtube?: string
+    whatsapp?: string
+    updatedAt?: Date | string
+  }
+
+  export type SocialSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    facebook?: StringFieldUpdateOperationsInput | string
+    twitter?: StringFieldUpdateOperationsInput | string
+    instagram?: StringFieldUpdateOperationsInput | string
+    linkedin?: StringFieldUpdateOperationsInput | string
+    pinterest?: StringFieldUpdateOperationsInput | string
+    youtube?: StringFieldUpdateOperationsInput | string
+    whatsapp?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SocialSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    facebook?: StringFieldUpdateOperationsInput | string
+    twitter?: StringFieldUpdateOperationsInput | string
+    instagram?: StringFieldUpdateOperationsInput | string
+    linkedin?: StringFieldUpdateOperationsInput | string
+    pinterest?: StringFieldUpdateOperationsInput | string
+    youtube?: StringFieldUpdateOperationsInput | string
+    whatsapp?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailSettingCreateInput = {
+    id?: string
+    smtpHost?: string
+    smtpPort?: string
+    smtpUser?: string
+    smtpPassword?: string
+    fromName?: string
+    fromEmail?: string
+    encryption?: string
+    updatedAt?: Date | string
+  }
+
+  export type EmailSettingUncheckedCreateInput = {
+    id?: string
+    smtpHost?: string
+    smtpPort?: string
+    smtpUser?: string
+    smtpPassword?: string
+    fromName?: string
+    fromEmail?: string
+    encryption?: string
+    updatedAt?: Date | string
+  }
+
+  export type EmailSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    smtpHost?: StringFieldUpdateOperationsInput | string
+    smtpPort?: StringFieldUpdateOperationsInput | string
+    smtpUser?: StringFieldUpdateOperationsInput | string
+    smtpPassword?: StringFieldUpdateOperationsInput | string
+    fromName?: StringFieldUpdateOperationsInput | string
+    fromEmail?: StringFieldUpdateOperationsInput | string
+    encryption?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    smtpHost?: StringFieldUpdateOperationsInput | string
+    smtpPort?: StringFieldUpdateOperationsInput | string
+    smtpUser?: StringFieldUpdateOperationsInput | string
+    smtpPassword?: StringFieldUpdateOperationsInput | string
+    fromName?: StringFieldUpdateOperationsInput | string
+    fromEmail?: StringFieldUpdateOperationsInput | string
+    encryption?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailSettingCreateManyInput = {
+    id?: string
+    smtpHost?: string
+    smtpPort?: string
+    smtpUser?: string
+    smtpPassword?: string
+    fromName?: string
+    fromEmail?: string
+    encryption?: string
+    updatedAt?: Date | string
+  }
+
+  export type EmailSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    smtpHost?: StringFieldUpdateOperationsInput | string
+    smtpPort?: StringFieldUpdateOperationsInput | string
+    smtpUser?: StringFieldUpdateOperationsInput | string
+    smtpPassword?: StringFieldUpdateOperationsInput | string
+    fromName?: StringFieldUpdateOperationsInput | string
+    fromEmail?: StringFieldUpdateOperationsInput | string
+    encryption?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    smtpHost?: StringFieldUpdateOperationsInput | string
+    smtpPort?: StringFieldUpdateOperationsInput | string
+    smtpUser?: StringFieldUpdateOperationsInput | string
+    smtpPassword?: StringFieldUpdateOperationsInput | string
+    fromName?: StringFieldUpdateOperationsInput | string
+    fromEmail?: StringFieldUpdateOperationsInput | string
+    encryption?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SecuritySettingCreateInput = {
+    id?: string
+    twoFactorEnabled?: boolean
+    loginAttempts?: number
+    sessionTimeout?: number
+    passwordMinLength?: number
+    updatedAt?: Date | string
+  }
+
+  export type SecuritySettingUncheckedCreateInput = {
+    id?: string
+    twoFactorEnabled?: boolean
+    loginAttempts?: number
+    sessionTimeout?: number
+    passwordMinLength?: number
+    updatedAt?: Date | string
+  }
+
+  export type SecuritySettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    loginAttempts?: IntFieldUpdateOperationsInput | number
+    sessionTimeout?: IntFieldUpdateOperationsInput | number
+    passwordMinLength?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SecuritySettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    loginAttempts?: IntFieldUpdateOperationsInput | number
+    sessionTimeout?: IntFieldUpdateOperationsInput | number
+    passwordMinLength?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SecuritySettingCreateManyInput = {
+    id?: string
+    twoFactorEnabled?: boolean
+    loginAttempts?: number
+    sessionTimeout?: number
+    passwordMinLength?: number
+    updatedAt?: Date | string
+  }
+
+  export type SecuritySettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    loginAttempts?: IntFieldUpdateOperationsInput | number
+    sessionTimeout?: IntFieldUpdateOperationsInput | number
+    passwordMinLength?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SecuritySettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    loginAttempts?: IntFieldUpdateOperationsInput | number
+    sessionTimeout?: IntFieldUpdateOperationsInput | number
+    passwordMinLength?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CookieSettingCreateInput = {
+    id?: string
+    cookiesAgreement?: boolean
+    showCookiesAgreement?: boolean
+    cookiesAgreementText?: string
+    updatedAt?: Date | string
+  }
+
+  export type CookieSettingUncheckedCreateInput = {
+    id?: string
+    cookiesAgreement?: boolean
+    showCookiesAgreement?: boolean
+    cookiesAgreementText?: string
+    updatedAt?: Date | string
+  }
+
+  export type CookieSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cookiesAgreement?: BoolFieldUpdateOperationsInput | boolean
+    showCookiesAgreement?: BoolFieldUpdateOperationsInput | boolean
+    cookiesAgreementText?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CookieSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cookiesAgreement?: BoolFieldUpdateOperationsInput | boolean
+    showCookiesAgreement?: BoolFieldUpdateOperationsInput | boolean
+    cookiesAgreementText?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CookieSettingCreateManyInput = {
+    id?: string
+    cookiesAgreement?: boolean
+    showCookiesAgreement?: boolean
+    cookiesAgreementText?: string
+    updatedAt?: Date | string
+  }
+
+  export type CookieSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cookiesAgreement?: BoolFieldUpdateOperationsInput | boolean
+    showCookiesAgreement?: BoolFieldUpdateOperationsInput | boolean
+    cookiesAgreementText?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CookieSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cookiesAgreement?: BoolFieldUpdateOperationsInput | boolean
+    showCookiesAgreement?: BoolFieldUpdateOperationsInput | boolean
+    cookiesAgreementText?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -22483,6 +28916,180 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type ContactSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    phone1?: SortOrder
+    phone2?: SortOrder
+    email1?: SortOrder
+    email2?: SortOrder
+    address?: SortOrder
+    contactMail?: SortOrder
+    officeHours?: SortOrder
+    googleMapEmbed?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ContactSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    phone1?: SortOrder
+    phone2?: SortOrder
+    email1?: SortOrder
+    email2?: SortOrder
+    address?: SortOrder
+    contactMail?: SortOrder
+    officeHours?: SortOrder
+    googleMapEmbed?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ContactSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    phone1?: SortOrder
+    phone2?: SortOrder
+    email1?: SortOrder
+    email2?: SortOrder
+    address?: SortOrder
+    contactMail?: SortOrder
+    officeHours?: SortOrder
+    googleMapEmbed?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SocialSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    facebook?: SortOrder
+    twitter?: SortOrder
+    instagram?: SortOrder
+    linkedin?: SortOrder
+    pinterest?: SortOrder
+    youtube?: SortOrder
+    whatsapp?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SocialSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    facebook?: SortOrder
+    twitter?: SortOrder
+    instagram?: SortOrder
+    linkedin?: SortOrder
+    pinterest?: SortOrder
+    youtube?: SortOrder
+    whatsapp?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SocialSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    facebook?: SortOrder
+    twitter?: SortOrder
+    instagram?: SortOrder
+    linkedin?: SortOrder
+    pinterest?: SortOrder
+    youtube?: SortOrder
+    whatsapp?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmailSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    smtpHost?: SortOrder
+    smtpPort?: SortOrder
+    smtpUser?: SortOrder
+    smtpPassword?: SortOrder
+    fromName?: SortOrder
+    fromEmail?: SortOrder
+    encryption?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmailSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    smtpHost?: SortOrder
+    smtpPort?: SortOrder
+    smtpUser?: SortOrder
+    smtpPassword?: SortOrder
+    fromName?: SortOrder
+    fromEmail?: SortOrder
+    encryption?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmailSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    smtpHost?: SortOrder
+    smtpPort?: SortOrder
+    smtpUser?: SortOrder
+    smtpPassword?: SortOrder
+    fromName?: SortOrder
+    fromEmail?: SortOrder
+    encryption?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SecuritySettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    twoFactorEnabled?: SortOrder
+    loginAttempts?: SortOrder
+    sessionTimeout?: SortOrder
+    passwordMinLength?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SecuritySettingAvgOrderByAggregateInput = {
+    loginAttempts?: SortOrder
+    sessionTimeout?: SortOrder
+    passwordMinLength?: SortOrder
+  }
+
+  export type SecuritySettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    twoFactorEnabled?: SortOrder
+    loginAttempts?: SortOrder
+    sessionTimeout?: SortOrder
+    passwordMinLength?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SecuritySettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    twoFactorEnabled?: SortOrder
+    loginAttempts?: SortOrder
+    sessionTimeout?: SortOrder
+    passwordMinLength?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SecuritySettingSumOrderByAggregateInput = {
+    loginAttempts?: SortOrder
+    sessionTimeout?: SortOrder
+    passwordMinLength?: SortOrder
+  }
+
+  export type CookieSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    cookiesAgreement?: SortOrder
+    showCookiesAgreement?: SortOrder
+    cookiesAgreementText?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CookieSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    cookiesAgreement?: SortOrder
+    showCookiesAgreement?: SortOrder
+    cookiesAgreementText?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CookieSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    cookiesAgreement?: SortOrder
+    showCookiesAgreement?: SortOrder
+    cookiesAgreementText?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {

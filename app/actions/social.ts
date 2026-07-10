@@ -27,10 +27,18 @@ export async function getSocialSettings(): Promise<SocialLinks> {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
 
-  const row = await prisma.setting.findUnique({ where: { key: "social" } });
+  const row = await prisma.socialSetting.findFirst();
   if (!row) return DEFAULT_SOCIAL;
 
-  return { ...DEFAULT_SOCIAL, ...(row.value as object) } as SocialLinks;
+  return {
+    facebook: row.facebook,
+    twitter: row.twitter,
+    linkedin: row.linkedin,
+    instagram: row.instagram,
+    pinterest: row.pinterest,
+    youtube: row.youtube,
+    whatsapp: row.whatsapp,
+  };
 }
 
 export async function saveSocialSettings(data: SocialLinks) {
@@ -38,11 +46,12 @@ export async function saveSocialSettings(data: SocialLinks) {
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
   try {
-    await prisma.setting.upsert({
-      where: { key: "social" },
-      create: { key: "social", value: data as object },
-      update: { value: data as object },
-    });
+    const existing = await prisma.socialSetting.findFirst();
+    if (existing) {
+      await prisma.socialSetting.update({ where: { id: existing.id }, data });
+    } else {
+      await prisma.socialSetting.create({ data });
+    }
     return { success: true };
   } catch (err) {
     console.error("saveSocialSettings error:", err);
