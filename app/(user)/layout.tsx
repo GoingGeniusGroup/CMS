@@ -3,6 +3,8 @@ import { LandingNavbar } from "@/components/LandingNavbar";
 import Footer from "@/components/footer";
 import { getSiteSettings } from "@/lib/site-settings";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
 
