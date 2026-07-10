@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "api.dicebear.com",
       },
+      {
+        protocol: "https",
+        hostname: "*.ucarecdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "*.ucarecd.net",
+      },
     ],
   },
   // Reduce serverless function size on Vercel

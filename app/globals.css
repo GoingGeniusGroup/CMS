@@ -40,3 +40,11 @@ body {
 .uploadcare-config {
   position: fixed !important;
 }
+
+/* ─── Theme Color Integration ────────────────────────────────────────────── */
+/* These utility classes use the CSS variable set by ThemeProvider */
+.theme-bg { background-color: var(--theme-color, #6366f1); }
+.theme-bg-hover:hover { background-color: var(--theme-color-hover, #4f46e5); }
+.theme-text { color: var(--theme-color, #6366f1); }
+.theme-border { border-color: var(--theme-color, #6366f1); }
+.theme-bg-light { background-color: var(--theme-color-light, #6366f115); }

@@ -17251,6 +17251,9 @@ export namespace Prisma {
     description: string | null
     logoUrl: string | null
     faviconUrl: string | null
+    metaKeywords: string | null
+    themeColor: string | null
+    baseColorEnabled: boolean | null
     updatedAt: Date | null
   }
 
@@ -17260,6 +17263,9 @@ export namespace Prisma {
     description: string | null
     logoUrl: string | null
     faviconUrl: string | null
+    metaKeywords: string | null
+    themeColor: string | null
+    baseColorEnabled: boolean | null
     updatedAt: Date | null
   }
 
@@ -17269,6 +17275,9 @@ export namespace Prisma {
     description: number
     logoUrl: number
     faviconUrl: number
+    metaKeywords: number
+    themeColor: number
+    baseColorEnabled: number
     updatedAt: number
     _all: number
   }
@@ -17280,6 +17289,9 @@ export namespace Prisma {
     description?: true
     logoUrl?: true
     faviconUrl?: true
+    metaKeywords?: true
+    themeColor?: true
+    baseColorEnabled?: true
     updatedAt?: true
   }
 
@@ -17289,6 +17301,9 @@ export namespace Prisma {
     description?: true
     logoUrl?: true
     faviconUrl?: true
+    metaKeywords?: true
+    themeColor?: true
+    baseColorEnabled?: true
     updatedAt?: true
   }
 
@@ -17298,6 +17313,9 @@ export namespace Prisma {
     description?: true
     logoUrl?: true
     faviconUrl?: true
+    metaKeywords?: true
+    themeColor?: true
+    baseColorEnabled?: true
     updatedAt?: true
     _all?: true
   }
@@ -17380,6 +17398,9 @@ export namespace Prisma {
     description: string
     logoUrl: string
     faviconUrl: string
+    metaKeywords: string
+    themeColor: string
+    baseColorEnabled: boolean
     updatedAt: Date
     _count: GeneralSettingCountAggregateOutputType | null
     _min: GeneralSettingMinAggregateOutputType | null
@@ -17406,6 +17427,9 @@ export namespace Prisma {
     description?: boolean
     logoUrl?: boolean
     faviconUrl?: boolean
+    metaKeywords?: boolean
+    themeColor?: boolean
+    baseColorEnabled?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["generalSetting"]>
 
@@ -17415,6 +17439,9 @@ export namespace Prisma {
     description?: boolean
     logoUrl?: boolean
     faviconUrl?: boolean
+    metaKeywords?: boolean
+    themeColor?: boolean
+    baseColorEnabled?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["generalSetting"]>
 
@@ -17424,6 +17451,9 @@ export namespace Prisma {
     description?: boolean
     logoUrl?: boolean
     faviconUrl?: boolean
+    metaKeywords?: boolean
+    themeColor?: boolean
+    baseColorEnabled?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["generalSetting"]>
 
@@ -17433,10 +17463,13 @@ export namespace Prisma {
     description?: boolean
     logoUrl?: boolean
     faviconUrl?: boolean
+    metaKeywords?: boolean
+    themeColor?: boolean
+    baseColorEnabled?: boolean
     updatedAt?: boolean
   }
 
-  export type GeneralSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "description" | "logoUrl" | "faviconUrl" | "updatedAt", ExtArgs["result"]["generalSetting"]>
+  export type GeneralSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "description" | "logoUrl" | "faviconUrl" | "metaKeywords" | "themeColor" | "baseColorEnabled" | "updatedAt", ExtArgs["result"]["generalSetting"]>
 
   export type $GeneralSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "GeneralSetting"
@@ -17447,6 +17480,9 @@ export namespace Prisma {
       description: string
       logoUrl: string
       faviconUrl: string
+      metaKeywords: string
+      themeColor: string
+      baseColorEnabled: boolean
       updatedAt: Date
     }, ExtArgs["result"]["generalSetting"]>
     composites: {}
@@ -17876,6 +17912,9 @@ export namespace Prisma {
     readonly description: FieldRef<"GeneralSetting", 'String'>
     readonly logoUrl: FieldRef<"GeneralSetting", 'String'>
     readonly faviconUrl: FieldRef<"GeneralSetting", 'String'>
+    readonly metaKeywords: FieldRef<"GeneralSetting", 'String'>
+    readonly themeColor: FieldRef<"GeneralSetting", 'String'>
+    readonly baseColorEnabled: FieldRef<"GeneralSetting", 'Boolean'>
     readonly updatedAt: FieldRef<"GeneralSetting", 'DateTime'>
   }
     
@@ -24758,6 +24797,9 @@ export namespace Prisma {
     description: 'description',
     logoUrl: 'logoUrl',
     faviconUrl: 'faviconUrl',
+    metaKeywords: 'metaKeywords',
+    themeColor: 'themeColor',
+    baseColorEnabled: 'baseColorEnabled',
     updatedAt: 'updatedAt'
   };
 
@@ -25946,6 +25988,9 @@ export namespace Prisma {
     description?: StringFilter<"GeneralSetting"> | string
     logoUrl?: StringFilter<"GeneralSetting"> | string
     faviconUrl?: StringFilter<"GeneralSetting"> | string
+    metaKeywords?: StringFilter<"GeneralSetting"> | string
+    themeColor?: StringFilter<"GeneralSetting"> | string
+    baseColorEnabled?: BoolFilter<"GeneralSetting"> | boolean
     updatedAt?: DateTimeFilter<"GeneralSetting"> | Date | string
   }
 
@@ -25955,6 +26000,9 @@ export namespace Prisma {
     description?: SortOrder
     logoUrl?: SortOrder
     faviconUrl?: SortOrder
+    metaKeywords?: SortOrder
+    themeColor?: SortOrder
+    baseColorEnabled?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -25967,6 +26015,9 @@ export namespace Prisma {
     description?: StringFilter<"GeneralSetting"> | string
     logoUrl?: StringFilter<"GeneralSetting"> | string
     faviconUrl?: StringFilter<"GeneralSetting"> | string
+    metaKeywords?: StringFilter<"GeneralSetting"> | string
+    themeColor?: StringFilter<"GeneralSetting"> | string
+    baseColorEnabled?: BoolFilter<"GeneralSetting"> | boolean
     updatedAt?: DateTimeFilter<"GeneralSetting"> | Date | string
   }, "id">
 
@@ -25976,6 +26027,9 @@ export namespace Prisma {
     description?: SortOrder
     logoUrl?: SortOrder
     faviconUrl?: SortOrder
+    metaKeywords?: SortOrder
+    themeColor?: SortOrder
+    baseColorEnabled?: SortOrder
     updatedAt?: SortOrder
     _count?: GeneralSettingCountOrderByAggregateInput
     _max?: GeneralSettingMaxOrderByAggregateInput
@@ -25991,6 +26045,9 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"GeneralSetting"> | string
     logoUrl?: StringWithAggregatesFilter<"GeneralSetting"> | string
     faviconUrl?: StringWithAggregatesFilter<"GeneralSetting"> | string
+    metaKeywords?: StringWithAggregatesFilter<"GeneralSetting"> | string
+    themeColor?: StringWithAggregatesFilter<"GeneralSetting"> | string
+    baseColorEnabled?: BoolWithAggregatesFilter<"GeneralSetting"> | boolean
     updatedAt?: DateTimeWithAggregatesFilter<"GeneralSetting"> | Date | string
   }
 
@@ -27490,6 +27547,9 @@ export namespace Prisma {
     description?: string
     logoUrl?: string
     faviconUrl?: string
+    metaKeywords?: string
+    themeColor?: string
+    baseColorEnabled?: boolean
     updatedAt?: Date | string
   }
 
@@ -27499,6 +27559,9 @@ export namespace Prisma {
     description?: string
     logoUrl?: string
     faviconUrl?: string
+    metaKeywords?: string
+    themeColor?: string
+    baseColorEnabled?: boolean
     updatedAt?: Date | string
   }
 
@@ -27508,6 +27571,9 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     logoUrl?: StringFieldUpdateOperationsInput | string
     faviconUrl?: StringFieldUpdateOperationsInput | string
+    metaKeywords?: StringFieldUpdateOperationsInput | string
+    themeColor?: StringFieldUpdateOperationsInput | string
+    baseColorEnabled?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -27517,6 +27583,9 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     logoUrl?: StringFieldUpdateOperationsInput | string
     faviconUrl?: StringFieldUpdateOperationsInput | string
+    metaKeywords?: StringFieldUpdateOperationsInput | string
+    themeColor?: StringFieldUpdateOperationsInput | string
+    baseColorEnabled?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -27526,6 +27595,9 @@ export namespace Prisma {
     description?: string
     logoUrl?: string
     faviconUrl?: string
+    metaKeywords?: string
+    themeColor?: string
+    baseColorEnabled?: boolean
     updatedAt?: Date | string
   }
 
@@ -27535,6 +27607,9 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     logoUrl?: StringFieldUpdateOperationsInput | string
     faviconUrl?: StringFieldUpdateOperationsInput | string
+    metaKeywords?: StringFieldUpdateOperationsInput | string
+    themeColor?: StringFieldUpdateOperationsInput | string
+    baseColorEnabled?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -27544,6 +27619,9 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     logoUrl?: StringFieldUpdateOperationsInput | string
     faviconUrl?: StringFieldUpdateOperationsInput | string
+    metaKeywords?: StringFieldUpdateOperationsInput | string
+    themeColor?: StringFieldUpdateOperationsInput | string
+    baseColorEnabled?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -28820,6 +28898,9 @@ export namespace Prisma {
     description?: SortOrder
     logoUrl?: SortOrder
     faviconUrl?: SortOrder
+    metaKeywords?: SortOrder
+    themeColor?: SortOrder
+    baseColorEnabled?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -28829,6 +28910,9 @@ export namespace Prisma {
     description?: SortOrder
     logoUrl?: SortOrder
     faviconUrl?: SortOrder
+    metaKeywords?: SortOrder
+    themeColor?: SortOrder
+    baseColorEnabled?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -28838,6 +28922,9 @@ export namespace Prisma {
     description?: SortOrder
     logoUrl?: SortOrder
     faviconUrl?: SortOrder
+    metaKeywords?: SortOrder
+    themeColor?: SortOrder
+    baseColorEnabled?: SortOrder
     updatedAt?: SortOrder
   }
 

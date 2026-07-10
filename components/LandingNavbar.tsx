@@ -6,6 +6,11 @@ import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { images } from "@/lib/images";
 
+type LandingNavbarProps = {
+  logoUrl?: string;
+  siteName?: string;
+};
+
 const navLinks = [
   { label: "Home",      href: "/home"           },
   { label: "Services",  href: "/our-services"   },
@@ -37,22 +42,24 @@ const servicesMega = {
   },
 };
 
-export function LandingNavbar() {
+export function LandingNavbar({ logoUrl, siteName = "Going Genius" }: LandingNavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+
+  const resolvedLogo = logoUrl || images.logo1;
 
   return (
     <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/95 backdrop-blur shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/home" className="flex items-center gap-2">
           <Image
-            src={images.logo1}
-            alt="Going Genius"
+            src={resolvedLogo}
+            alt={siteName}
             width={36}
             height={36}
             className="h-9 w-9 object-contain"
           />
-          <span className="text-sm font-bold text-zinc-900">Going Genius</span>
+          <span className="text-sm font-bold text-zinc-900">{siteName}</span>
         </Link>
 
         {/* Desktop Nav */}

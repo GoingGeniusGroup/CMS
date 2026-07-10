@@ -3,19 +3,34 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 
+export type GeneralSettingInput = {
+  siteName: string;
+  description: string;
+  logoUrl: string;
+  faviconUrl: string;
+  metaKeywords: string;
+  themeColor: string;
+  baseColorEnabled: boolean;
+};
+
 export async function getGeneralSettings() {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
 
   const setting = await prisma.generalSetting.findFirst();
-  return setting ?? { id: null, siteName: "", logoUrl: "", faviconUrl: "" };
+  return setting ?? {
+    id: null,
+    siteName: "",
+    description: "",
+    logoUrl: "",
+    faviconUrl: "",
+    metaKeywords: "",
+    themeColor: "#6366f1",
+    baseColorEnabled: true,
+  };
 }
 
-export async function saveGeneralSettings(data: {
-  siteName: string;
-  logoUrl: string;
-  faviconUrl: string;
-}) {
+export async function saveGeneralSettings(data: GeneralSettingInput) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 

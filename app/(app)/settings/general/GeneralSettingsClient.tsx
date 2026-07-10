@@ -10,8 +10,12 @@ import { saveGeneralSettings } from "@/app/actions/general-settings";
 type GeneralSettingData = {
   id: string | null;
   siteName: string;
+  description: string;
   logoUrl: string;
   faviconUrl: string;
+  metaKeywords: string;
+  themeColor: string;
+  baseColorEnabled: boolean;
 };
 
 function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
@@ -31,10 +35,10 @@ function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
 
 export default function GeneralSettingsClient({ initialData }: { initialData: GeneralSettingData }) {
   const [form, setForm] = useState(initialData);
-  const [themeColor, setThemeColor] = useState("#000000");
-  const [description, setDescription] = useState("");
-  const [metaKeywords, setMetaKeywords] = useState("");
-  const [baseColorEnabled, setBaseColorEnabled] = useState(true);
+  const [themeColor, setThemeColor] = useState(initialData.themeColor || "#6366f1");
+  const [description, setDescription] = useState(initialData.description || "");
+  const [metaKeywords, setMetaKeywords] = useState(initialData.metaKeywords || "");
+  const [baseColorEnabled, setBaseColorEnabled] = useState(initialData.baseColorEnabled);
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -47,8 +51,12 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
     startTransition(async () => {
       const res = await saveGeneralSettings({
         siteName: form.siteName,
+        description,
         logoUrl: form.logoUrl,
         faviconUrl: form.faviconUrl,
+        metaKeywords,
+        themeColor,
+        baseColorEnabled,
       });
       setMessage(
         res.success

@@ -202,12 +202,15 @@ model AppearanceSetting {
 }
 
 model GeneralSetting {
-  id          String   @id @default(cuid())
-  siteName    String   @default("")
-  description String   @default("")
-  logoUrl     String   @default("")
-  faviconUrl  String   @default("")
-  updatedAt   DateTime @updatedAt
+  id               String   @id @default(cuid())
+  siteName         String   @default("")
+  description      String   @default("")
+  logoUrl          String   @default("")
+  faviconUrl       String   @default("")
+  metaKeywords     String   @default("")
+  themeColor       String   @default("#6366f1")
+  baseColorEnabled Boolean  @default(true)
+  updatedAt        DateTime @updatedAt
 
   @@map("general_settings")
 }

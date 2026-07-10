@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone, MapPin } from "lucide-react";
 
-function Footer() {
+function Footer({ logoUrl, siteName }: { logoUrl?: string; siteName?: string }) {
   const columns = [
     {
       title: "Platform",
@@ -42,8 +42,8 @@ function Footer() {
           <div className="min-w-[220px] flex-1">
             <div className="flex items-center gap-3">
               <Image
-                src="/logo.png"
-                alt="Going Genius logo"
+                src={logoUrl || "/logo.png"}
+                alt={siteName || "Going Genius"}
                 width={40}
                 height={40}
                 className="h-10 w-10 rounded-lg object-contain"

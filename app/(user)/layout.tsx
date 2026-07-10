@@ -1,23 +1,37 @@
 import type { Metadata } from "next";
 import { LandingNavbar } from "@/components/LandingNavbar";
 import Footer from "@/components/footer";
+import { getSiteSettings } from "@/lib/site-settings";
 
-export const metadata: Metadata = {
-  title: "Going Genius — Group of Companies",
-  description:
-    "We build world-class digital products, services, and experiences.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
 
-export default function UserLayout({
+  return {
+    title: {
+      default: `${settings.siteName} — Group of Companies`,
+      template: `%s | ${settings.siteName}`,
+    },
+    description: settings.description,
+    keywords: settings.metaKeywords ? settings.metaKeywords.split(",").map((k) => k.trim()) : [],
+    openGraph: {
+      title: settings.siteName,
+      description: settings.description,
+    },
+  };
+}
+
+export default async function UserLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const settings = await getSiteSettings();
+
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <LandingNavbar />
+      <LandingNavbar logoUrl={settings.logoUrl} siteName={settings.siteName} />
       <main className="flex-1">{children}</main>
-      <Footer />
+      <Footer logoUrl={settings.logoUrl} siteName={settings.siteName} />
     </div>
   );
 }
