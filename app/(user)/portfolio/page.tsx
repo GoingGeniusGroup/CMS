@@ -187,9 +187,13 @@ function HeroSection() {
             {/* Trusted by */}
             <div className="mt-8 flex items-center gap-3">
               <div className="flex -space-x-2">
-                <div className="h-8 w-8 rounded-full border-2 border-[#2d2d3f] bg-indigo-200" />
-                <div className="h-8 w-8 rounded-full border-2 border-[#2d2d3f] bg-pink-200" />
-                <div className="h-8 w-8 rounded-full border-2 border-[#2d2d3f] bg-amber-200" />
+                <Image
+                  src={images.container3}
+                  alt="Client avatars"
+                  width={80}
+                  height={32}
+                  className="h-8 w-auto rounded-full object-contain"
+                />
               </div>
               <p className="text-sm text-zinc-300">
                 Trusted by{" "}

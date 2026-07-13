@@ -10,6 +10,7 @@ const serviceSchema = z.object({
   category: z.string().optional(),
   basePrice: z.number().optional(),
   isActive: z.boolean().optional(),
+  isFeatured: z.boolean().optional(),
   thumbnailUrl: z.string().url().optional().or(z.literal("")),
 });
 
@@ -25,6 +26,22 @@ export async function getServices() {
     orderBy: {
       serviceName: "asc",
     },
+  });
+}
+
+// Get active services for public/user-facing pages (no auth required)
+export async function getPublicServices() {
+  return await prisma.service.findMany({
+    where: { isActive: true },
+    select: {
+      id: true,
+      serviceName: true,
+      description: true,
+      category: true,
+      thumbnailUrl: true,
+      isFeatured: true,
+    },
+    orderBy: { createdAt: "desc" },
   });
 }
 
