@@ -14,11 +14,11 @@ type LandingNavbarProps = {
 const navLinks = [
   { label: "Home",      href: "/home"           },
   { label: "Services",  href: "/our-services"   },
-  { label: "Portfolio", href: "/home#portfolio" },
+  { label: "Projects", href: "/our-projects" },
   { label: "Products",  href: "/home#products"  },
   { label: "Company",   href: "/company"        },
   { label: "Blog",      href: "/home#blog"      },
-  { label: "Contact",   href: "/home#contact"   },
+  { label: "Contact",   href: "/contact"        },
 ];
 
 const servicesMega = {

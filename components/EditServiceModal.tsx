@@ -1,7 +1,9 @@
 "use client";
 
-import { UploadCloud, X, Loader2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { X, Loader2, Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import { FileUploaderRegular } from "@uploadcare/react-uploader/next";
+import "@uploadcare/react-uploader/core.css";
 import { updateService } from "@/app/actions/services";
 
 export interface ServiceRow {
@@ -9,6 +11,8 @@ export interface ServiceRow {
   serviceName: string;
   description: string | null;
   isActive: boolean;
+  isFeatured: boolean;
+  thumbnailUrl: string | null;
 }
 
 interface EditServiceModalProps {
@@ -24,10 +28,11 @@ export function EditServiceModal({
   onClose,
   onSuccess,
 }: EditServiceModalProps) {
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [isFeatured, setIsFeatured] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState({
     serviceName: "",
@@ -45,6 +50,8 @@ export function EditServiceModal({
         description: service.description ?? "",
         isActive: service.isActive,
       });
+      setThumbnailUrl(service.thumbnailUrl ?? null);
+      setIsFeatured(service.isFeatured ?? false);
       setFileName(null);
       setError(null);
     }
@@ -67,6 +74,8 @@ export function EditServiceModal({
       serviceName: form.serviceName,
       description: form.description || form.shortDetails || undefined,
       isActive: form.isActive,
+      isFeatured,
+      thumbnailUrl: thumbnailUrl || undefined,
     });
 
     setIsLoading(false);
@@ -176,33 +185,68 @@ export function EditServiceModal({
             </div>
           </div>
 
-          {/* Thumbnail */}
+          {/* Thumbnail — Uploadcare */}
           <div className="flex flex-col gap-2">
             <label className="text-sm font-bold text-zinc-800">
               Thumbnail
             </label>
+            {thumbnailUrl && !fileName && (
+              <div className="flex items-center gap-3 rounded-lg border border-zinc-200 p-3">
+                <img
+                  src={thumbnailUrl}
+                  alt="Current thumbnail"
+                  className="h-12 w-12 rounded-lg object-cover"
+                />
+                <span className="text-xs text-zinc-500 truncate flex-1">
+                  Current thumbnail
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setThumbnailUrl(null)}
+                  className="text-xs text-red-500 hover:text-red-700 font-medium"
+                >
+                  Remove
+                </button>
+              </div>
+            )}
+            <FileUploaderRegular
+              pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!}
+              maxLocalFileSizeBytes={2_000_000}
+              imgOnly
+              onFileUploadSuccess={(file) => {
+                setThumbnailUrl(file.cdnUrl ?? null);
+                setFileName(file.name ?? null);
+              }}
+              onFileRemoved={() => {
+                setThumbnailUrl(service.thumbnailUrl ?? null);
+                setFileName(null);
+              }}
+              className="w-full"
+            />
+            {fileName && thumbnailUrl && (
+              <p className="text-xs text-emerald-600">
+                ✓ New thumbnail: {fileName}
+              </p>
+            )}
+          </div>
+
+          {/* Featured Toggle */}
+          <div className="flex items-center justify-between rounded-xl border border-black/15 px-4 py-3">
+            <div className="flex items-center gap-2">
+              <Star className={`h-4 w-4 ${isFeatured ? "text-amber-500 fill-amber-500" : "text-zinc-400"}`} />
+              <span className="text-sm font-bold text-zinc-800">Featured Service</span>
+            </div>
             <button
               type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="flex flex-col items-center justify-center gap-2 rounded-xl bg-zinc-100 px-6 py-8 text-center transition-colors hover:bg-zinc-200"
+              role="switch"
+              aria-checked={isFeatured}
+              onClick={() => setIsFeatured(!isFeatured)}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${isFeatured ? "bg-indigo-600" : "bg-zinc-200"}`}
             >
-              <UploadCloud className="h-7 w-7 text-zinc-600" />
-              <span className="text-base font-bold leading-tight text-zinc-800">
-                Click to replace thumbnail
-                <br />
-                or drag and drop
-              </span>
-              <span className="text-xs text-zinc-400">
-                {fileName ?? "WEBP, JPEG, JPG (Max 2MB)"}
-              </span>
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${isFeatured ? "translate-x-6" : "translate-x-1"}`}
+              />
             </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".webp,.jpeg,.jpg,image/webp,image/jpeg"
-              className="hidden"
-              onChange={(e) => setFileName(e.target.files?.[0]?.name ?? null)}
-            />
           </div>
 
           {/* Actions */}

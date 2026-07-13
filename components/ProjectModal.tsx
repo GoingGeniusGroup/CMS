@@ -28,7 +28,6 @@ export function ProjectModal({
   onSuccess,
   project,
   customers = [],
-  teams = [],
   services = [],
 }: {
   open: boolean;
@@ -36,7 +35,6 @@ export function ProjectModal({
   onSuccess: () => void;
   project?: Project | null;
   customers?: SelectOption[];
-  teams?: SelectOption[];
   services?: SelectOption[];
 }) {
   const isEditing = !!project;
@@ -44,7 +42,6 @@ export function ProjectModal({
   const [title, setTitle] = useState(project?.title ?? "");
   const [description, setDescription] = useState(project?.description ?? "");
   const [customerId, setCustomerId] = useState(project?.customerId ?? "");
-  const [teamId, setTeamId] = useState(project?.teamId ?? "");
   const [serviceId, setServiceId] = useState(project?.serviceId ?? "");
   const [status, setStatus] = useState<"Published" | "Draft">(
     (project?.status as "Published" | "Draft") ?? "Draft"
@@ -71,13 +68,12 @@ export function ProjectModal({
       title,
       description: description || undefined,
       customerId: customerId || undefined,
-      teamId: teamId || undefined,
       serviceId: serviceId || undefined,
       status,
       startDate: startDate || undefined,
       endDate: endDate || undefined,
       budget: budget ? parseFloat(budget) : undefined,
-      thumbnail: thumbnail || undefined,
+      thumbnail: thumbnail || null,
     };
 
     const result = isEditing
@@ -161,20 +157,6 @@ export function ProjectModal({
               <option value="">Select customer</option>
               {customers.map((c) => (
                 <option key={c.id} value={c.id}>{c.label}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Team</label>
-            <select
-              value={teamId}
-              onChange={(e) => setTeamId(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
-            >
-              <option value="">Select team member</option>
-              {teams.map((t) => (
-                <option key={t.id} value={t.id}>{t.label}</option>
               ))}
             </select>
           </div>

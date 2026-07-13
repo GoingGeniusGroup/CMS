@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { unstable_noStore as noStore } from "next/cache";
 
 export type SiteSettings = {
   siteName: string;
@@ -25,6 +26,7 @@ const DEFAULTS: SiteSettings = {
  * Returns defaults if no settings are configured.
  */
 export async function getSiteSettings(): Promise<SiteSettings> {
+  noStore(); // Prevent caching — always fetch fresh from DB
   try {
     const row = await prisma.generalSetting.findFirst();
     if (!row) return DEFAULTS;
@@ -42,3 +44,4 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     return DEFAULTS;
   }
 }
+  
