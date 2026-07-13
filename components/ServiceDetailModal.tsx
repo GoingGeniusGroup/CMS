@@ -27,6 +27,7 @@ export function ServiceDetailModal({ open, service, onClose }: ServiceDetailModa
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
+        
         <button
           type="button"
           onClick={onClose}
