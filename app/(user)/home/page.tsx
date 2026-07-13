@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { images } from "@/lib/images";
 import { LandingServicesSection } from "@/components/LandingServicesSection";
+import { LandingFeaturedProjects } from "@/components/LandingFeaturedProjects";
 
 // ΓöÇΓöÇΓöÇ Data ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
@@ -15,21 +16,6 @@ const techStack = [
   { name: ".NET", src: images.dotnet, w: 60, h: 28 },
   { name: "Flutter", src: images.flutter, w: 80, h: 28 },
   { name: "Prisma", src: images.prisma, w: 100, h: 28 },
-];
-
-const projects = [
-  {
-    src: images.background,
-    title: "E-Commerce Websites",
-    desc: "Scalable online shopping platform with secure payments, inventory management, responsive design, and an intuitive customer experience.",
-    tags: ["Web Development", "E-Commerce"],
-  },
-  {
-    src: images.omniscaleAnalytics,
-    title: "Business Dashboard",
-    desc: "Modern dashboard with analytics and reporting.",
-    tags: ["Dashboard", "UI/UX"],
-  },
 ];
 
 const posts = [
@@ -181,46 +167,6 @@ function TechStack() {
 }
 
 // ─── Featured Works ───────────────────────────────────────────────────────────
-
-function FeaturedWorks() {
-  return (
-    <section id="portfolio" className="bg-white px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">Featured Works</p>
-            <h2 className="mt-2 text-2xl font-extrabold text-zinc-900">Recent Success Stories</h2>
-          </div>
-          <Link href="/portfolio" className="text-sm font-semibold text-indigo-600 hover:underline">
-            View All Projects
-          </Link>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2">
-          {projects.map((p, i) => (
-            <div key={i} className="rounded-2xl border border-zinc-200 p-6 shadow-sm">
-              <h3 className="text-base font-bold text-zinc-900">{p.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-500">{p.desc}</p>
-              <div className="mt-4 flex gap-2">
-                {p.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-xl bg-zinc-50">
-                <Image src={p.src} alt={p.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-contain" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function Products() {
   return (
@@ -379,7 +325,7 @@ export default function Page() {
       <TechStack />
       <LandingServicesSection />
       <Products />
-      <FeaturedWorks />
+      <LandingFeaturedProjects />
       <Insights />
       <Team />
       <FAQ />
