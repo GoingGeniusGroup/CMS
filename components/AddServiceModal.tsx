@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Loader2 } from "lucide-react";
+import { X, Loader2, Star } from "lucide-react";
 import { useState } from "react";
 import { FileUploaderRegular } from "@uploadcare/react-uploader/next";
 import "@uploadcare/react-uploader/core.css";
@@ -17,6 +17,7 @@ export function AddServiceModal({
 }) {
   const [fileName, setFileName] = useState<string | null>(null);
   const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
+  const [isFeatured, setIsFeatured] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -43,6 +44,7 @@ export function AddServiceModal({
       serviceName: form.serviceName,
       description: form.description || form.shortDetails || undefined,
       thumbnailUrl: thumbnailUrl || undefined,
+      isFeatured,
     });
 
     setIsLoading(false);
@@ -56,6 +58,7 @@ export function AddServiceModal({
     setForm({ serviceName: "", shortDetails: "", description: "" });
     setFileName(null);
     setThumbnailUrl(null);
+    setIsFeatured(false);
     onSuccess?.();
     onClose();
   };
@@ -158,6 +161,25 @@ export function AddServiceModal({
                 ✓ Uploaded: {fileName}
               </p>
             )}
+          </div>
+
+          {/* Featured Toggle */}
+          <div className="flex items-center justify-between rounded-xl border border-black/15 px-4 py-3">
+            <div className="flex items-center gap-2">
+              <Star className={`h-4 w-4 ${isFeatured ? "text-amber-500 fill-amber-500" : "text-zinc-400"}`} />
+              <span className="text-sm font-bold text-zinc-800">Featured Service</span>
+            </div>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={isFeatured}
+              onClick={() => setIsFeatured(!isFeatured)}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${isFeatured ? "bg-indigo-600" : "bg-zinc-200"}`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${isFeatured ? "translate-x-6" : "translate-x-1"}`}
+              />
+            </button>
           </div>
 
           {/* Actions */}

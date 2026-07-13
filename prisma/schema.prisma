@@ -66,6 +66,7 @@ model Service {
   category     String?
   description  String?
   isActive     Boolean    @default(true)
+  isFeatured   Boolean    @default(false)
   serviceName  String
   thumbnailUrl String?
   customers    Customer[] @relation("CustomerService")

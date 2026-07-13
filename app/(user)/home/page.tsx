@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { images } from "@/lib/images";
+import { LandingServicesSection } from "@/components/LandingServicesSection";
 
 // ΓöÇΓöÇΓöÇ Data ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
@@ -14,13 +15,6 @@ const techStack = [
   { name: ".NET", src: images.dotnet, w: 60, h: 28 },
   { name: "Flutter", src: images.flutter, w: 80, h: 28 },
   { name: "Prisma", src: images.prisma, w: 100, h: 28 },
-];
-
-const services = [
-  { title: "Web Development", desc: "Custom websites built for speed, scale, and conversion.", image: images.web },
-  { title: "Mobile Apps", desc: "iOS and Android apps designed around real user needs.", image: images.omniscaleAnalytics },
-  { title: "UI/UX Design", desc: "Interfaces that feel obvious in hindsight and delightful in use.", image: images.component49 },
-  { title: "Digital Marketing", desc: "Campaigns that turn attention into measurable growth.", image: images.background },
 ];
 
 const projects = [
@@ -186,63 +180,7 @@ function TechStack() {
   );
 }
 
-// ΓöÇΓöÇΓöÇ Services ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-function Services() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  return (
-    <section id="services" className="bg-[#f6f4f3] px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-12 text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-indigo-600">
-            Our Services
-          </p>
-          <h2 className="text-2xl font-extrabold text-zinc-900 sm:text-3xl">
-            What We Do Best
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-500">
-            End-to-end digital solutions to help your business grow and scale.
-          </p>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((s, i) => {
-            const isOpen = openIndex === i;
-            return (
-              <div
-                key={s.title}
-                onClick={() => setOpenIndex(isOpen ? null : i)}
-                className="group cursor-pointer rounded-2xl border border-zinc-200 bg-white p-7 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-indigo-200"
-              >
-                <div className="mx-auto mb-5 h-32 w-full overflow-hidden rounded-xl">
-                  <Image
-                    src={s.image}
-                    alt={s.title}
-                    width={280}
-                    height={128}
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <h3 className="text-base font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">{s.title}</h3>
-                <p className={`mt-3 text-sm leading-relaxed text-zinc-500 transition-all duration-300 ${isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0 overflow-hidden"}`}>
-                  {s.desc}
-                </p>
-                <div className="mt-4 flex items-center justify-center">
-                  <span className={`flex h-7 w-7 items-center justify-center rounded-full border border-zinc-200 text-zinc-400 transition-all group-hover:border-indigo-300 group-hover:text-indigo-500 ${isOpen ? "rotate-180" : ""}`}>
-                    <ChevronDown className="h-4 w-4" />
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ΓöÇΓöÇΓöÇ Featured Works ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+// ─── Featured Works ───────────────────────────────────────────────────────────
 
 function FeaturedWorks() {
   return (
@@ -439,7 +377,7 @@ export default function Page() {
       <Hero />
       <Partners />
       <TechStack />
-      <Services />
+      <LandingServicesSection />
       <Products />
       <FeaturedWorks />
       <Insights />

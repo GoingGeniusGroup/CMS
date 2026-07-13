@@ -21,6 +21,7 @@ type Service = {
   category: string | null;
   basePrice: number | null;
   isActive: boolean;
+  isFeatured: boolean;
   thumbnailUrl: string | null;
   createdAt: Date;
   updatedAt: Date;

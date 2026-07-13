@@ -6187,6 +6187,7 @@ export namespace Prisma {
     category: string | null
     description: string | null
     isActive: boolean | null
+    isFeatured: boolean | null
     serviceName: string | null
     thumbnailUrl: string | null
   }
@@ -6199,6 +6200,7 @@ export namespace Prisma {
     category: string | null
     description: string | null
     isActive: boolean | null
+    isFeatured: boolean | null
     serviceName: string | null
     thumbnailUrl: string | null
   }
@@ -6211,6 +6213,7 @@ export namespace Prisma {
     category: number
     description: number
     isActive: number
+    isFeatured: number
     serviceName: number
     thumbnailUrl: number
     _all: number
@@ -6233,6 +6236,7 @@ export namespace Prisma {
     category?: true
     description?: true
     isActive?: true
+    isFeatured?: true
     serviceName?: true
     thumbnailUrl?: true
   }
@@ -6245,6 +6249,7 @@ export namespace Prisma {
     category?: true
     description?: true
     isActive?: true
+    isFeatured?: true
     serviceName?: true
     thumbnailUrl?: true
   }
@@ -6257,6 +6262,7 @@ export namespace Prisma {
     category?: true
     description?: true
     isActive?: true
+    isFeatured?: true
     serviceName?: true
     thumbnailUrl?: true
     _all?: true
@@ -6356,6 +6362,7 @@ export namespace Prisma {
     category: string | null
     description: string | null
     isActive: boolean
+    isFeatured: boolean
     serviceName: string
     thumbnailUrl: string | null
     _count: ServiceCountAggregateOutputType | null
@@ -6387,6 +6394,7 @@ export namespace Prisma {
     category?: boolean
     description?: boolean
     isActive?: boolean
+    isFeatured?: boolean
     serviceName?: boolean
     thumbnailUrl?: boolean
     customers?: boolean | Service$customersArgs<ExtArgs>
@@ -6402,6 +6410,7 @@ export namespace Prisma {
     category?: boolean
     description?: boolean
     isActive?: boolean
+    isFeatured?: boolean
     serviceName?: boolean
     thumbnailUrl?: boolean
   }, ExtArgs["result"]["service"]>
@@ -6414,6 +6423,7 @@ export namespace Prisma {
     category?: boolean
     description?: boolean
     isActive?: boolean
+    isFeatured?: boolean
     serviceName?: boolean
     thumbnailUrl?: boolean
   }, ExtArgs["result"]["service"]>
@@ -6426,11 +6436,12 @@ export namespace Prisma {
     category?: boolean
     description?: boolean
     isActive?: boolean
+    isFeatured?: boolean
     serviceName?: boolean
     thumbnailUrl?: boolean
   }
 
-  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "basePrice" | "category" | "description" | "isActive" | "serviceName" | "thumbnailUrl", ExtArgs["result"]["service"]>
+  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "basePrice" | "category" | "description" | "isActive" | "isFeatured" | "serviceName" | "thumbnailUrl", ExtArgs["result"]["service"]>
   export type ServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customers?: boolean | Service$customersArgs<ExtArgs>
     projects?: boolean | Service$projectsArgs<ExtArgs>
@@ -6453,6 +6464,7 @@ export namespace Prisma {
       category: string | null
       description: string | null
       isActive: boolean
+      isFeatured: boolean
       serviceName: string
       thumbnailUrl: string | null
     }, ExtArgs["result"]["service"]>
@@ -6887,6 +6899,7 @@ export namespace Prisma {
     readonly category: FieldRef<"Service", 'String'>
     readonly description: FieldRef<"Service", 'String'>
     readonly isActive: FieldRef<"Service", 'Boolean'>
+    readonly isFeatured: FieldRef<"Service", 'Boolean'>
     readonly serviceName: FieldRef<"Service", 'String'>
     readonly thumbnailUrl: FieldRef<"Service", 'String'>
   }
@@ -24657,6 +24670,7 @@ export namespace Prisma {
     category: 'category',
     description: 'description',
     isActive: 'isActive',
+    isFeatured: 'isFeatured',
     serviceName: 'serviceName',
     thumbnailUrl: 'thumbnailUrl'
   };
@@ -25269,6 +25283,7 @@ export namespace Prisma {
     category?: StringNullableFilter<"Service"> | string | null
     description?: StringNullableFilter<"Service"> | string | null
     isActive?: BoolFilter<"Service"> | boolean
+    isFeatured?: BoolFilter<"Service"> | boolean
     serviceName?: StringFilter<"Service"> | string
     thumbnailUrl?: StringNullableFilter<"Service"> | string | null
     customers?: CustomerListRelationFilter
@@ -25283,6 +25298,7 @@ export namespace Prisma {
     category?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     isActive?: SortOrder
+    isFeatured?: SortOrder
     serviceName?: SortOrder
     thumbnailUrl?: SortOrderInput | SortOrder
     customers?: CustomerOrderByRelationAggregateInput
@@ -25300,6 +25316,7 @@ export namespace Prisma {
     category?: StringNullableFilter<"Service"> | string | null
     description?: StringNullableFilter<"Service"> | string | null
     isActive?: BoolFilter<"Service"> | boolean
+    isFeatured?: BoolFilter<"Service"> | boolean
     serviceName?: StringFilter<"Service"> | string
     thumbnailUrl?: StringNullableFilter<"Service"> | string | null
     customers?: CustomerListRelationFilter
@@ -25314,6 +25331,7 @@ export namespace Prisma {
     category?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     isActive?: SortOrder
+    isFeatured?: SortOrder
     serviceName?: SortOrder
     thumbnailUrl?: SortOrderInput | SortOrder
     _count?: ServiceCountOrderByAggregateInput
@@ -25334,6 +25352,7 @@ export namespace Prisma {
     category?: StringNullableWithAggregatesFilter<"Service"> | string | null
     description?: StringNullableWithAggregatesFilter<"Service"> | string | null
     isActive?: BoolWithAggregatesFilter<"Service"> | boolean
+    isFeatured?: BoolWithAggregatesFilter<"Service"> | boolean
     serviceName?: StringWithAggregatesFilter<"Service"> | string
     thumbnailUrl?: StringNullableWithAggregatesFilter<"Service"> | string | null
   }
@@ -26756,6 +26775,7 @@ export namespace Prisma {
     category?: string | null
     description?: string | null
     isActive?: boolean
+    isFeatured?: boolean
     serviceName: string
     thumbnailUrl?: string | null
     customers?: CustomerCreateNestedManyWithoutServiceInput
@@ -26770,6 +26790,7 @@ export namespace Prisma {
     category?: string | null
     description?: string | null
     isActive?: boolean
+    isFeatured?: boolean
     serviceName: string
     thumbnailUrl?: string | null
     customers?: CustomerUncheckedCreateNestedManyWithoutServiceInput
@@ -26784,6 +26805,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     customers?: CustomerUpdateManyWithoutServiceNestedInput
@@ -26798,6 +26820,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     customers?: CustomerUncheckedUpdateManyWithoutServiceNestedInput
@@ -26812,6 +26835,7 @@ export namespace Prisma {
     category?: string | null
     description?: string | null
     isActive?: boolean
+    isFeatured?: boolean
     serviceName: string
     thumbnailUrl?: string | null
   }
@@ -26824,6 +26848,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -26836,6 +26861,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -28388,6 +28414,7 @@ export namespace Prisma {
     category?: SortOrder
     description?: SortOrder
     isActive?: SortOrder
+    isFeatured?: SortOrder
     serviceName?: SortOrder
     thumbnailUrl?: SortOrder
   }
@@ -28404,6 +28431,7 @@ export namespace Prisma {
     category?: SortOrder
     description?: SortOrder
     isActive?: SortOrder
+    isFeatured?: SortOrder
     serviceName?: SortOrder
     thumbnailUrl?: SortOrder
   }
@@ -28416,6 +28444,7 @@ export namespace Prisma {
     category?: SortOrder
     description?: SortOrder
     isActive?: SortOrder
+    isFeatured?: SortOrder
     serviceName?: SortOrder
     thumbnailUrl?: SortOrder
   }
@@ -29935,6 +29964,7 @@ export namespace Prisma {
     category?: string | null
     description?: string | null
     isActive?: boolean
+    isFeatured?: boolean
     serviceName: string
     thumbnailUrl?: string | null
     projects?: ProjectCreateNestedManyWithoutServiceInput
@@ -29948,6 +29978,7 @@ export namespace Prisma {
     category?: string | null
     description?: string | null
     isActive?: boolean
+    isFeatured?: boolean
     serviceName: string
     thumbnailUrl?: string | null
     projects?: ProjectUncheckedCreateNestedManyWithoutServiceInput
@@ -30059,6 +30090,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectUpdateManyWithoutServiceNestedInput
@@ -30072,6 +30104,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectUncheckedUpdateManyWithoutServiceNestedInput
@@ -30517,6 +30550,7 @@ export namespace Prisma {
     category?: string | null
     description?: string | null
     isActive?: boolean
+    isFeatured?: boolean
     serviceName: string
     thumbnailUrl?: string | null
     customers?: CustomerCreateNestedManyWithoutServiceInput
@@ -30530,6 +30564,7 @@ export namespace Prisma {
     category?: string | null
     description?: string | null
     isActive?: boolean
+    isFeatured?: boolean
     serviceName: string
     thumbnailUrl?: string | null
     customers?: CustomerUncheckedCreateNestedManyWithoutServiceInput
@@ -30678,6 +30713,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     customers?: CustomerUpdateManyWithoutServiceNestedInput
@@ -30691,6 +30727,7 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
     thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
     customers?: CustomerUncheckedUpdateManyWithoutServiceNestedInput
