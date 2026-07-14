@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 import Link from "next/link";
@@ -21,6 +21,7 @@ import {
   Send,
   ArrowRight,
 } from "lucide-react";
+import { getPublicTeamMembers } from "@/app/actions/team";
 
 /* ─── Data ───────────────────────────────────────────────── */
 const stats = [
@@ -28,13 +29,6 @@ const stats = [
   { icon: Users, value: "120+", label: "Happy Clients" },
   { icon: Clock, value: "8+", label: "Years of Experience" },
   { icon: UserCheck, value: "35+", label: "Team Members" },
-];
-
-const team = [
-  { name: "Fatima Doe", role: "Founder & CEO" },
-  { name: "John Doe", role: "Senior Developer" },
-  { name: "John Doe", role: "Chief Marketer" },
-  { name: "John Doe", role: "Key Manager" },
 ];
 
 const cultureItems = [
@@ -87,7 +81,7 @@ function TwitterIcon({ className }: { className?: string }) {
 
 /* ─── Section heading ────────────────────────────────────── */
 function Eyebrow({ children }: { children: React.ReactNode }) {
-  return <p className="text-xs font-bold uppercase tracking-widest text-[#5457E5]">{children}</p>;
+  return <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">{children}</p>;
 }
 
 function SectionHeader({
@@ -106,7 +100,7 @@ function SectionHeader({
         <h2 className="mt-1 text-2xl font-bold text-gray-900 sm:text-3xl">{title}</h2>
       </div>
       {action && (
-        <a href="#" className="hidden shrink-0 items-center gap-1 text-sm font-semibold text-[#5457E5] hover:text-[#4143c9] sm:flex">
+        <a href="#" className="hidden shrink-0 items-center gap-1 text-sm font-semibold text-indigo-600 hover:text-indigo-700 sm:flex">
           {action} <ArrowRight className="h-3.5 w-3.5" />
         </a>
       )}
@@ -120,11 +114,11 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   return (
     <button
       onClick={() => setOpen((o) => !o)}
-      className="w-full rounded-xl border border-gray-200 bg-white p-4 text-left shadow-sm transition hover:border-[#5457E5]/30"
+      className="w-full rounded-xl border border-gray-200 bg-white p-4 text-left shadow-sm transition hover:border-indigo-600/30"
     >
       <div className="flex items-center justify-between gap-4">
         <span className="text-sm font-semibold text-gray-800">{q}</span>
-        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#5457E5]/10 text-[#5457E5]">
+        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
           {open ? <Minus className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
         </span>
       </div>
@@ -135,6 +129,14 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 
 /* ─── Page ───────────────────────────────────────────────── */
 export default function CompanyPage() {
+  const [teamMembers, setTeamMembers] = useState<
+    { id: string; fullName: string; role: string | null; department: string | null; image: string | null }[]
+  >([]);
+
+  useEffect(() => {
+    getPublicTeamMembers().then((data) => setTeamMembers(data));
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       {/* ── Hero ─────────────────────────────────────────── */}
@@ -143,17 +145,17 @@ export default function CompanyPage() {
           <div>
             <h1 className="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
               Innovating the Future with{" "}
-              <span className="text-[#5457E5]">Going Genius</span>
+              <span className="text-indigo-600">Going Genius</span>
             </h1>
             <p className="mt-5 max-w-md text-sm leading-relaxed text-gray-500">
               We are a team of passionate innovators, designers, and developers building digital
               solutions that help businesses grow, scale, and succeed in an ever-changing world.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/work" className="rounded-full bg-[#5457E5] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#4143c9]">
+              <Link href="/our-projects" className="rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700">
                 Explore Our Work →
               </Link>
-              <Link href="/about" className="rounded-full border border-gray-200 px-6 py-3 text-sm font-semibold text-gray-700 transition hover:border-[#5457E5]/50">
+              <Link href="/about" className="rounded-full border border-gray-200 px-6 py-3 text-sm font-semibold text-gray-700 transition hover:border-indigo-600/50">
                 Learn More About Us
               </Link>
             </div>
@@ -181,7 +183,7 @@ export default function CompanyPage() {
 
               <div className="mt-6 space-y-4">
                 <div className="flex gap-3">
-                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#5457E5]/10 text-[#5457E5]">
+                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
                     <Compass className="h-4 w-4" />
                   </span>
                   <div>
@@ -190,7 +192,7 @@ export default function CompanyPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#5457E5]/10 text-[#5457E5]">
+                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
                     <Sparkles className="h-4 w-4" />
                   </span>
                   <div>
@@ -199,16 +201,17 @@ export default function CompanyPage() {
                   </div>
                 </div>
               </div>
-
-              <button className="mt-7 rounded-full bg-[#5457E5] px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition hover:bg-[#4143c9]">
+              <Link href="/blogs">
+              <button className="mt-7 rounded-full bg-indigo-600 px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition hover:bg-indigo-700">
                 More About Our Story →
               </button>
+              </Link>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               {stats.map((s) => (
                 <div key={s.label} className="flex flex-col justify-center rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-                  <span className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-[#5457E5]/10 text-[#5457E5]">
+                  <span className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
                     <s.icon className="h-4.5 w-4.5" />
                   </span>
                   <p className="text-xl font-bold text-gray-900">{s.value}</p>
@@ -225,13 +228,21 @@ export default function CompanyPage() {
         <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <SectionHeader eyebrow="Our Team" title="Meet The Geniuses" action="View All Team" />
           <div className="grid grid-cols-2 gap-5 sm:grid-cols-4">
-            {team.map((member, i) => (
-              <div key={i} className="rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm">
-                <div className="relative mx-auto mb-4 h-20 w-20 overflow-hidden rounded-full bg-[#5457E5]/10">
-                  <Image src="/bgpic.png" alt={member.name} fill sizes="80px" className="object-cover" />
+            {teamMembers.map((member) => (
+              <div key={member.id} className="rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm">
+                <div className="relative mx-auto mb-4 h-20 w-20 overflow-hidden rounded-full bg-indigo-50">
+                  {member.image ? (
+                    <Image src={member.image} alt={member.fullName} fill sizes="80px" className="object-cover" />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center">
+                      <span className="text-2xl font-bold text-indigo-600">
+                        {member.fullName.charAt(0)}
+                      </span>
+                    </div>
+                  )}
                 </div>
-                <p className="text-sm font-semibold text-gray-900">{member.name}</p>
-                <p className="text-xs text-gray-500">{member.role}</p>
+                <p className="text-sm font-semibold text-gray-900">{member.fullName}</p>
+                <p className="text-xs text-gray-500">{member.role || member.department || "Team Member"}</p>
                 <div className="mt-3 flex justify-center items-center gap-2">
                   <LinkedinIcon className="h-5 w-5" />
                   <TwitterIcon className="h-4 w-4" />
@@ -239,6 +250,12 @@ export default function CompanyPage() {
                 </div>
               </div>
             ))}
+            {teamMembers.length === 0 && (
+              <div className="col-span-full text-center py-8">
+                <Users className="mx-auto h-10 w-10 text-gray-300" />
+                <p className="mt-2 text-sm text-gray-500">No team members yet.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -258,7 +275,7 @@ export default function CompanyPage() {
               <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5">
                 {cultureItems.map((item) => (
                   <div key={item.title} className="flex gap-2.5">
-                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#5457E5]/10 text-[#5457E5]">
+                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
                       <item.icon className="h-3.5 w-3.5" />
                     </span>
                     <div>
@@ -268,7 +285,7 @@ export default function CompanyPage() {
                   </div>
                 ))}
               </div>
-              <button className="mt-7 rounded-full bg-[#5457E5] px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition hover:bg-[#4143c9]">
+              <button className="mt-7 rounded-full bg-indigo-600 px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition hover:bg-indigo-700">
                 View All Openings →
               </button>
             </div>
@@ -279,18 +296,18 @@ export default function CompanyPage() {
                 {openPositions.map((pos) => (
                   <div key={pos.title} className="flex items-center justify-between gap-3 rounded-xl border border-gray-100 p-3">
                     <div className="flex items-center gap-3">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#5457E5]/10 text-[#5457E5]">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
                         <pos.icon className="h-4 w-4" />
                       </span>
                       <p className="text-xs font-semibold text-gray-800">{pos.title}</p>
                     </div>
-                    <button className="shrink-0 rounded-full border border-[#5457E5]/30 px-3 py-1.5 text-[11px] font-semibold text-[#5457E5] hover:bg-[#5457E5]/10">
+                    <button className="shrink-0 rounded-full border border-indigo-600/30 px-3 py-1.5 text-[11px] font-semibold text-indigo-600 hover:bg-indigo-100">
                       Apply Now →
                     </button>
                   </div>
                 ))}
               </div>
-              <a href="#" className="mt-4 block text-center text-xs font-semibold text-[#5457E5] hover:text-[#4143c9]">
+              <a href="#" className="mt-4 block text-center text-xs font-semibold text-indigo-600 hover:text-indigo-700">
                 View All Openings →
               </a>
             </div>
@@ -320,7 +337,7 @@ export default function CompanyPage() {
 
             <div>
               <div className="flex items-center gap-4">
-                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#5457E5] text-white shadow-sm">
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-sm">
                   <Send className="h-7 w-7" />
                 </span>
                 <h2 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
@@ -337,12 +354,12 @@ export default function CompanyPage() {
 
             <div className="flex flex-col items-start gap-4 md:items-end">
               <span className="flex items-center gap-2 text-sm font-medium text-gray-600">
-                <Mail className="h-4 w-4 text-[#5457E5]" /> goingenius2021@gmail.com
+                <Mail className="h-4 w-4 text-indigo-600" /> goingenius2021@gmail.com
               </span>
               <span className="flex items-center gap-2 text-sm font-medium text-gray-600">
-                <Phone className="h-4 w-4 text-[#5457E5]" /> 9845632107
+                <Phone className="h-4 w-4 text-indigo-600" /> 9845632107
               </span>
-              <Link href="/contact" className="mt-1 flex items-center gap-1.5 whitespace-nowrap rounded-full bg-[#5457E5] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#4143c9]">
+              <Link href="/contact" className="mt-1 flex items-center gap-1.5 whitespace-nowrap rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700">
                 Go to Contact Page <ArrowRight className="h-4 w-4" />
               </Link>
             </div>

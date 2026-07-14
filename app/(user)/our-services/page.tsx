@@ -137,7 +137,7 @@ function CTASection() {
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
             <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              <span className="text-amber-500">Ready to Start</span>
+              <span className="text-indigo-600">Ready to Start</span>
               <br />
               <span className="text-zinc-900">Your Project?</span>
             </h2>
@@ -148,7 +148,7 @@ function CTASection() {
             <div className="mt-7 flex flex-wrap gap-3">
               <a
                 href="/home#contact"
-                className="inline-flex items-center rounded-lg bg-amber-400 px-5 py-2.5 text-sm font-bold text-zinc-900 transition-colors hover:bg-amber-500"
+                className="inline-flex items-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-indigo-700"
               >
                 Get a Free Quote
               </a>
