@@ -51,7 +51,7 @@ function HeroSection({ totalServices }: { totalServices: number }) {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
-                href="#services-we-provide"
+                href="/servicedetail"
                 className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
               >
                 Explore Services
