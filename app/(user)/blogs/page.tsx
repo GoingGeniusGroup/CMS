@@ -34,8 +34,8 @@ const articles = [
 ];
 
 const featuredSmall = [
-  { title: "Title", tag: "Title", readTime: "7 min read", image: "/blog2.png" },
-  { title: "Title", tag: "Title", readTime: "7 min read", image: "/blog2.png" },
+  { title: "Title", tag: "Title", readTime: "7 min read", image: "/picture1.png" },
+  { title: "Title", tag: "Title", readTime: "7 min read", image: "/picture1.png" },
 ];
 
 export default function BlogPage() {
@@ -59,7 +59,7 @@ export default function BlogPage() {
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <a
-                  href="#articles"
+                  href="/blogs/article"
                   className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
                 >
                   Browse Articles <ArrowRight className="h-4 w-4" />
@@ -88,7 +88,7 @@ export default function BlogPage() {
                 <p className="text-sm text-zinc-500">Handpicked insights, trends, and ideas to keep you ahead.</p>
               </div>
             </div>
-            <Link href="#" className="hidden text-sm font-semibold text-indigo-600 hover:underline sm:inline-flex sm:items-center sm:gap-1">
+            <Link href="/blogs/article" className="hidden text-sm font-semibold text-indigo-600 hover:underline sm:inline-flex sm:items-center sm:gap-1">
               View All Articles <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
@@ -114,7 +114,7 @@ export default function BlogPage() {
                           <p className="text-[10px] text-indigo-200">{featured.author.role}</p>
                         </div>
                       </div>
-                      <Link href="#" className="text-xs font-semibold text-white hover:underline flex items-center gap-1">
+                      <Link href="/blogs/article" className="text-xs font-semibold text-white hover:underline flex items-center gap-1">
                         Read More <ArrowRight className="h-3 w-3" />
                       </Link>
                     </div>
@@ -125,13 +125,15 @@ export default function BlogPage() {
               {/* Two small featured cards */}
               <div className="grid gap-4 sm:grid-cols-2">
                 {featuredSmall.map((item, i) => (
-                  <div key={i} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-                    <div className="mb-3 flex items-center justify-between">
-                      <span className="rounded bg-indigo-100 px-2.5 py-0.5 text-[11px] font-bold text-indigo-600">{item.tag}</span>
-                      <span className="text-xs text-zinc-400">{item.readTime}</span>
+                  <div key={i} className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+                    <div className="p-5 pb-0">
+                      <div className="mb-3 flex items-center justify-between">
+                        <span className="rounded bg-indigo-100 px-2.5 py-0.5 text-[11px] font-bold text-indigo-600">{item.tag}</span>
+                        <span className="text-xs text-zinc-400">{item.readTime}</span>
+                      </div>
+                      <h3 className="mb-3 text-base font-bold text-zinc-900">{item.title}</h3>
                     </div>
-                    <h3 className="mb-3 text-base font-bold text-zinc-900">{item.title}</h3>
-                    <div className="relative h-24 overflow-hidden rounded-lg">
+                    <div className="relative flex-1 min-h-[140px]">
                       <Image src={item.image} alt={item.title} fill className="object-cover" />
                     </div>
                   </div>
@@ -142,7 +144,7 @@ export default function BlogPage() {
               <div>
                 <div className="mb-4 flex items-center justify-between">
                   <h2 className="text-xl font-extrabold text-zinc-900">Latest Articles</h2>
-                  <Link href="#" className="text-sm font-semibold text-indigo-600 hover:underline flex items-center gap-1">
+                  <Link href="/blogs/article" className="text-sm font-semibold text-indigo-600 hover:underline flex items-center gap-1">
                     View All Articles <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
@@ -198,7 +200,7 @@ export default function BlogPage() {
                     </div>
                   ))}
                 </div>
-                <Link href="#" className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:underline">
+                <Link href="/blogs/article" className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:underline">
                   View All Popular <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
@@ -213,7 +215,7 @@ export default function BlogPage() {
                     </span>
                   ))}
                 </div>
-                <Link href="#" className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:underline">
+                <Link href="/blogs/article" className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:underline">
                   View All Tags <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
@@ -253,7 +255,7 @@ export default function BlogPage() {
                     </div>
                   ))}
                 </div>
-                <Link href="#" className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:underline">
+                <Link href="/blogs/article" className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:underline">
                   View All Collections <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
