@@ -8,16 +8,10 @@ import { images } from "@/lib/images";
 import { LandingServicesSection } from "@/components/LandingServicesSection";
 import { LandingFeaturedProjects } from "@/components/LandingFeaturedProjects";
 import { LandingTeamSection } from "@/components/LandingTeamSection";
+import { LandingPartnersSection } from "@/components/LandingPartnersSection";
+import { LandingTechSection } from "@/components/LandingTechSection";
 
 // ΓöÇΓöÇΓöÇ Data ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-const techStack = [
-  { name: "PHP", src: images.php, w: 60, h: 30 },
-  { name: "Supabase", src: images.supabase, w: 110, h: 26 },
-  { name: ".NET", src: images.dotnet, w: 60, h: 28 },
-  { name: "Flutter", src: images.flutter, w: 80, h: 28 },
-  { name: "Prisma", src: images.prisma, w: 100, h: 28 },
-];
 
 const posts = [
   {
@@ -109,53 +103,6 @@ function Hero() {
               priority
             />
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ΓöÇΓöÇΓöÇ Partners ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-function Partners() {
-  return (
-    <section className="bg-zinc-950 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <p className="mb-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400">
-          Our Partners
-        </p>
-        <div className="flex items-center justify-center">
-          <Image
-            src={images.frame2}
-            alt="Our partners"
-            width={900}
-            height={60}
-            className="h-10 w-auto object-contain sm:h-12"
-          />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ΓöÇΓöÇΓöÇ Tech Stack ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-function TechStack() {
-  return (
-    <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl text-center">
-        <p className="mb-8 text-sm font-bold text-zinc-900">Technologies We Use</p>
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
-          {techStack.map((t) => (
-            <Image
-              key={t.name}
-              src={t.src}
-              alt={t.name}
-              width={t.w}
-              height={t.h}
-              className="h-7 w-auto object-contain"
-            />
-          ))}
         </div>
       </div>
     </section>
@@ -290,8 +237,8 @@ export default function Page() {
   return (
     <>
       <Hero />
-      <Partners />
-      <TechStack />
+      <LandingPartnersSection />
+      <LandingTechSection />
       <LandingServicesSection />
       <Products />
       <LandingFeaturedProjects />

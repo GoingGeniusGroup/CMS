@@ -7,7 +7,7 @@ export default async function PartnersPage() {
   if (!session?.user) throw new Error("Unauthorized");
 
   const setting = await prisma.setting.findUnique({
-    where: { key: "website-header" },
+    where: { key: "partners-logos" },
   });
 
   const data = (setting?.value as { partners?: string[] }) ?? {};
