@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -8,6 +8,7 @@ import { images } from "@/lib/images";
 import { LandingServicesSection } from "@/components/LandingServicesSection";
 import { LandingFeaturedProjects } from "@/components/LandingFeaturedProjects";
 import { LandingTeamSection } from "@/components/LandingTeamSection";
+import { getPublicTechnologies } from "@/app/actions/public-settings";
 
 // ΓöÇΓöÇΓöÇ Data ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
@@ -141,21 +142,40 @@ function Partners() {
 // ΓöÇΓöÇΓöÇ Tech Stack ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
 function TechStack() {
+  const [logos, setLogos] = useState<string[]>([]);
+
+  useEffect(() => {
+    getPublicTechnologies().then(setLogos);
+  }, []);
+
+  // Fallback to hardcoded if no DB entries
+  const fallback = logos.length > 0 ? null : techStack;
+
   return (
     <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl text-center">
         <p className="mb-8 text-sm font-bold text-zinc-900">Technologies We Use</p>
         <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
-          {techStack.map((t) => (
-            <Image
-              key={t.name}
-              src={t.src}
-              alt={t.name}
-              width={t.w}
-              height={t.h}
-              className="h-7 w-auto object-contain"
-            />
-          ))}
+          {fallback
+            ? fallback.map((t) => (
+                <Image
+                  key={t.name}
+                  src={t.src}
+                  alt={t.name}
+                  width={t.w}
+                  height={t.h}
+                  className="h-7 w-auto object-contain"
+                />
+              ))
+            : logos.map((url, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={i}
+                  src={url}
+                  alt={`Technology ${i + 1}`}
+                  className="h-8 w-auto object-contain"
+                />
+              ))}
         </div>
       </div>
     </section>
