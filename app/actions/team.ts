@@ -87,6 +87,21 @@ export async function updateTeamMember(id: string, data: TeamMemberInput) {
   }
 }
 
+// Get active team members for public/user-facing pages (no auth required)
+export async function getPublicTeamMembers() {
+  return await prisma.team.findMany({
+    where: { status: "Active" },
+    select: {
+      id: true,
+      fullName: true,
+      role: true,
+      department: true,
+      image: true,
+    },
+    orderBy: { joinedAt: "asc" },
+  });
+}
+
 export async function deleteTeamMember(id: string) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };

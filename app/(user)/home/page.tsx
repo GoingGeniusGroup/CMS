@@ -7,6 +7,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { images } from "@/lib/images";
 import { LandingServicesSection } from "@/components/LandingServicesSection";
 import { LandingFeaturedProjects } from "@/components/LandingFeaturedProjects";
+import { LandingTeamSection } from "@/components/LandingTeamSection";
 
 // ΓöÇΓöÇΓöÇ Data ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
@@ -33,11 +34,6 @@ const posts = [
     title: "Choosing the Right UI/UX",
     desc: "Creating better user experiences.",
   },
-];
-
-const team = [
-  { name: "John Doe", role: "Developer", src: images.alex },
-  { name: "John Doe", role: "Design Director", src: images.girl },
 ];
 
 const faqs = [
@@ -249,34 +245,7 @@ function Insights() {
   );
 }
 
-// ΓöÇΓöÇΓöÇ Team ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-function Team() {
-  return (
-    <section id="company" className="bg-white px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <p className="text-center text-xs font-bold uppercase tracking-widest text-indigo-600">Our Team</p>
-        <h2 className="mt-2 text-center text-2xl font-extrabold text-zinc-900">Meet the Geniuses</h2>
-
-        <div className="mx-auto mt-10 grid max-w-2xl gap-6 sm:grid-cols-2">
-          {team.map((member, i) => (
-            <div key={i} className="overflow-hidden rounded-2xl border border-zinc-200 shadow-sm">
-              <div className="relative aspect-[4/3] bg-zinc-50">
-                <Image src={member.src} alt={member.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-contain" />
-              </div>
-              <div className="p-4">
-                <p className="text-sm font-bold text-zinc-900">{member.name}</p>
-                <p className="text-xs text-zinc-500">{member.role}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ΓöÇΓöÇΓöÇ FAQ ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+// ─── FAQ ───────────────────────────────────────────────────────────────────
 
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
@@ -327,7 +296,7 @@ export default function Page() {
       <Products />
       <LandingFeaturedProjects />
       <Insights />
-      <Team />
+      <LandingTeamSection />
       <FAQ />
     </>
   );
