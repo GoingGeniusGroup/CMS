@@ -16,6 +16,11 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: settings.description,
     keywords: settings.metaKeywords ? settings.metaKeywords.split(",").map((k) => k.trim()) : [],
+    icons: {
+      icon: settings.faviconUrl || "/favicon.ico",
+      shortcut: settings.faviconUrl || "/favicon.ico",
+      apple: settings.faviconUrl || "/favicon.ico",
+    },
     openGraph: {
       title: settings.siteName,
       description: settings.description,

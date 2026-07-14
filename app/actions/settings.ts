@@ -30,3 +30,17 @@ export async function saveSetting(key: string, value: unknown) {
     return { success: false, error: "Failed to save settings" };
   }
 }
+
+// ─── Public partner logos (no auth) ──────────────────────────────────────────
+
+/**
+ * Returns the array of partner logo URLs saved by the admin.
+ * No authentication required — safe to call from public pages.
+ */
+export async function getPublicPartners(): Promise<string[]> {
+  const setting = await prisma.setting.findUnique({
+    where: { key: "partners-logos" },
+  });
+  const data = (setting?.value as { partners?: string[] }) ?? {};
+  return Array.isArray(data.partners) ? data.partners : [];
+}

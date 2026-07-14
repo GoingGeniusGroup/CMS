@@ -115,28 +115,8 @@ function Hero() {
   );
 }
 
-// ΓöÇΓöÇΓöÇ Partners ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-function Partners() {
-  return (
-    <section className="bg-zinc-950 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <p className="mb-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400">
-          Our Partners
-        </p>
-        <div className="flex items-center justify-center">
-          <Image
-            src={images.frame2}
-            alt="Our partners"
-            width={900}
-            height={60}
-            className="h-10 w-auto object-contain sm:h-12"
-          />
-        </div>
-      </div>
-    </section>
-  );
-}
+// ─── Partners section is now a server component (PartnersSection.tsx) ────────
+// It fetches logos from the DB and falls back to the static sprite if empty.
 
 // ΓöÇΓöÇΓöÇ Tech Stack ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
@@ -286,11 +266,43 @@ function FAQ() {
 
 // ΓöÇΓöÇΓöÇ Page ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
-export default function Page() {
+export default function Page({ partners }: { partners: string[] }) {
   return (
     <>
       <Hero />
-      <Partners />
+
+      {/* Partners — logos from CMS or static fallback */}
+      <section className="bg-zinc-950 px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <p className="mb-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400">
+            Our Partners
+          </p>
+          {partners.length > 0 ? (
+            <div className="flex flex-wrap items-center justify-center gap-8">
+              {partners.map((url, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={i}
+                  src={url}
+                  alt={`Partner ${i + 1}`}
+                  className="h-10 w-auto max-w-[140px] object-contain opacity-80 brightness-0 invert sm:h-12"
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center">
+              <Image
+                src={images.frame2}
+                alt="Our partners"
+                width={900}
+                height={60}
+                className="h-10 w-auto object-contain sm:h-12"
+              />
+            </div>
+          )}
+        </div>
+      </section>
+
       <TechStack />
       <LandingServicesSection />
       <Products />
