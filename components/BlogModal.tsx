@@ -86,7 +86,7 @@ export function BlogModal({
     const data: BlogInput = {
       title,
       slug,
-      content: content as Record<string, unknown> | null,
+      content: content ? JSON.parse(JSON.stringify(content)) : undefined,
       excerpt: excerpt || undefined,
       category: category || undefined,
       tags: tags.filter(Boolean),
