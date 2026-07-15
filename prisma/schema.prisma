@@ -52,6 +52,10 @@ model Team {
   joinedAt   DateTime  @default(now())
   phone      String?
   status     String    @default("Active")
+  bio        String?
+  location   String?
+  experience String?
+  skills     String[]  @default([])
   blogs      Blog[]
   projects   Project[]
 
@@ -114,11 +118,14 @@ model Blog {
   title       String
   slug        String    @unique
   content     Json?
+  excerpt     String?
   status      String    @default("Draft")
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   authorId    String?
   category    String?
+  tags        String[]  @default([])
+  readTime    String?
   publishedAt DateTime?
   thumbnail   String?
   author      Team?     @relation(fields: [authorId], references: [id])

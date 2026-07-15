@@ -23,7 +23,10 @@ type Blog = {
   title: string;
   slug: string;
   content: unknown;
+  excerpt: string | null;
   category: string | null;
+  tags: string[];
+  readTime: string | null;
   authorId: string | null;
   author: Author | null;
   status: string;

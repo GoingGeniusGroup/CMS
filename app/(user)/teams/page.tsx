@@ -1,34 +1,27 @@
-/*  */"use client";
+"use client";
 
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Search, Users } from "lucide-react";
+import { getPublicTeamMembers } from "@/app/actions/team";
 import TeamMemberModal from "@/components/TeamMemberModal";
 
 type TeamMember = {
   id: string;
-  name: string;
-  role: string;
-  image: string;
+  fullName: string;
+  role: string | null;
+  department: string | null;
+  image: string | null;
+  bio: string | null;
+  location: string | null;
+  experience: string | null;
+  skills: string[];
+  email: string;
+  phone: string | null;
 };
 
-/* ─── Static Data ────────────────────────────────────────── */
-const leadershipTeam = [
-  { id: "1", name: "John Doe", role: "CEO", image: "/member-card-1.png" },
-  { id: "2", name: "John Doe", role: "CEO", image: "/member-card-2.png" },
-  { id: "3", name: "John Doe", role: "CEO", image: "/member-card-1.png" },
-  { id: "4", name: "John Doe", role: "CEO", image: "/member-card-2.png" },
-];
-
-const developmentTeam = [
-  { id: "5", name: "John Doe", role: "Frontend Developer", image: "/member-card-1.png" },
-  { id: "6", name: "John Doe", role: "Frontend Developer", image: "/member-card-2.png" },
-  { id: "7", name: "John Doe", role: "Frontend Developer", image: "/member-card-1.png" },
-  { id: "8", name: "John Doe", role: "Frontend Developer", image: "/member-card-2.png" },
-];
-
-const filterTabs = ["All", "Leadership", "Development", "Design", "Marketing"];
+const filterTabs = ["All", "Leadership", "Development", "Design"];
 
 /* ─── Team Section with Carousel ─────────────────────────── */
 function TeamSection({
@@ -44,12 +37,13 @@ function TeamSection({
 
   const scroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
-    const scrollAmount = 280;
     scrollRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
+      left: direction === "left" ? -280 : 280,
       behavior: "smooth",
     });
   };
+
+  if (members.length === 0) return null;
 
   return (
     <div className="mb-12">
@@ -82,14 +76,22 @@ function TeamSection({
           <div
             key={member.id}
             onClick={() => onMemberClick(member)}
-            className="min-w-[200px] max-w-[200px] flex-shrink-0 rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition"
+            className="min-w-[200px] max-w-[200px] flex-shrink-0 rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition group"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={member.image}
-              alt={member.name}
-              className="w-full h-auto object-contain"
-            />
+            <div className="relative h-48 w-full bg-gradient-to-br from-indigo-50 to-purple-50">
+              {member.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={member.image} alt={member.fullName} className="w-full h-full object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <span className="text-4xl font-extrabold text-indigo-200">{member.fullName.charAt(0)}</span>
+                </div>
+              )}
+            </div>
+            <div className="p-4 text-center">
+              <p className="text-sm font-bold text-gray-900">{member.fullName}</p>
+              <p className="text-xs text-gray-500">{member.role || "Team Member"}</p>
+            </div>
           </div>
         ))}
       </div>
@@ -99,10 +101,15 @@ function TeamSection({
 
 /* ─── Page ───────────────────────────────────────────────── */
 export default function TeamsPage() {
+  const [allMembers, setAllMembers] = useState<TeamMember[]>([]);
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    getPublicTeamMembers().then((data) => setAllMembers(data as TeamMember[]));
+  }, []);
 
   const handleMemberClick = (member: TeamMember) => {
     setSelectedMember(member);
@@ -114,6 +121,26 @@ export default function TeamsPage() {
     setSelectedMember(null);
   };
 
+  // Filter by search
+  const searched = searchQuery.trim()
+    ? allMembers.filter(
+        (m) =>
+          m.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (m.role && m.role.toLowerCase().includes(searchQuery.toLowerCase()))
+      )
+    : allMembers;
+
+  // Filter by department
+  const filtered =
+    activeFilter === "All"
+      ? searched
+      : searched.filter((m) => m.department?.toLowerCase() === activeFilter.toLowerCase());
+
+  // Group by department for "All" view
+  const leadership = filtered.filter((m) => m.department === "Leadership");
+  const development = filtered.filter((m) => m.department === "Development");
+  const design = filtered.filter((m) => m.department === "Design");
+
   return (
     <div className="min-h-screen bg-white">
       {/* ── Hero ─────────────────────────────────────────── */}
@@ -123,24 +150,12 @@ export default function TeamsPage() {
             <span className="inline-block rounded-full bg-indigo-50 px-4 py-1 text-[11px] font-bold uppercase tracking-widest text-indigo-600 mb-3">
               Our Team
             </span>
-            <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
-                Meet Our Amazing Team
-              </h1>
-              <div className="hidden sm:block">
-                <Image
-                  src="/teams.png"
-                  alt="Team illustration"
-                  width={120}
-                  height={80}
-                  className="object-contain"
-                />
-              </div>
-            </div>
+            <h1 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
+              Meet Our Amazing Team
+            </h1>
             <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-gray-500">
               A diverse group of passionate professionals working together to create
-              extraordinary digital solutions. We combine technical excellence with creative
-              vision.
+              extraordinary digital solutions.
             </p>
           </div>
         </div>
@@ -179,8 +194,22 @@ export default function TeamsPage() {
 
       {/* ── Team Sections ────────────────────────────────── */}
       <section className="mx-auto w-full max-w-6xl px-4 pb-10 sm:px-6 lg:px-8">
-        <TeamSection title="Leadership Team" members={leadershipTeam} onMemberClick={handleMemberClick} />
-        <TeamSection title="Development Team" members={developmentTeam} onMemberClick={handleMemberClick} />
+        {activeFilter === "All" ? (
+          <>
+            <TeamSection title="Leadership Team" members={leadership} onMemberClick={handleMemberClick} />
+            <TeamSection title="Development Team" members={development} onMemberClick={handleMemberClick} />
+            <TeamSection title="Design Team" members={design} onMemberClick={handleMemberClick} />
+          </>
+        ) : (
+          <TeamSection title={`${activeFilter} Team`} members={filtered} onMemberClick={handleMemberClick} />
+        )}
+
+        {filtered.length === 0 && (
+          <div className="text-center py-12">
+            <Users className="mx-auto h-10 w-10 text-gray-300" />
+            <p className="mt-3 text-sm text-gray-500">No team members found.</p>
+          </div>
+        )}
       </section>
 
       {/* ── Join CTA ─────────────────────────────────────── */}
@@ -191,26 +220,17 @@ export default function TeamsPage() {
               <Users className="h-5 w-5 text-indigo-600" />
             </span>
             <div>
-              <h3 className="text-base font-bold text-gray-900">
-                Want to join our genius team?
-              </h3>
+              <h3 className="text-base font-bold text-gray-900">Want to join our genius team?</h3>
               <p className="text-xs text-gray-500 max-w-sm">
-                We&apos;re always on the lookout for talented people who are passionate about what
-                they do. Explore our open positions and find your next challenge.
+                We&apos;re always looking for talented people who are passionate about what they do.
               </p>
             </div>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link
-              href="/contact"
-              className="rounded-full bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700"
-            >
+            <Link href="/contact" className="rounded-full bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700">
               View Open Positions
             </Link>
-            <Link
-              href="/contact"
-              className="rounded-full border border-gray-300 px-5 py-2 text-xs font-semibold text-gray-700 transition hover:border-indigo-600/40"
-            >
+            <Link href="/contact" className="rounded-full border border-gray-300 px-5 py-2 text-xs font-semibold text-gray-700 transition hover:border-indigo-600/40">
               Send Your CV
             </Link>
           </div>

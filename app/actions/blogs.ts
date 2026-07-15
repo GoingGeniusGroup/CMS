@@ -19,7 +19,10 @@ export type BlogInput = {
   title: string;
   slug: string;
   content?: unknown;
+  excerpt?: string;
   category?: string;
+  tags?: string[];
+  readTime?: string;
   authorId?: string;
   thumbnail?: string;
   status: "Published" | "Draft";
@@ -70,7 +73,10 @@ export async function createBlog(data: BlogInput) {
         title: data.title,
         slug: data.slug,
         content: data.content ? (data.content as object) : undefined,
+        excerpt: data.excerpt || null,
         category: data.category || null,
+        tags: data.tags ?? [],
+        readTime: data.readTime || null,
         authorId: data.authorId || null,
         thumbnail: data.thumbnail || null,
         status: data.status,
@@ -109,7 +115,10 @@ export async function updateBlog(id: string, data: BlogInput) {
         title: data.title,
         slug: data.slug,
         content: data.content ? (data.content as object) : undefined,
+        excerpt: data.excerpt || null,
         category: data.category || null,
+        tags: data.tags ?? [],
+        readTime: data.readTime || null,
         authorId: data.authorId || null,
         thumbnail: data.thumbnail || null,
         status: data.status,
@@ -152,7 +161,10 @@ export async function getPublicBlogs() {
       id: true,
       title: true,
       slug: true,
+      excerpt: true,
       category: true,
+      tags: true,
+      readTime: true,
       thumbnail: true,
       publishedAt: true,
       createdAt: true,
@@ -170,7 +182,10 @@ export async function getPublicBlogBySlug(slug: string) {
       title: true,
       slug: true,
       content: true,
+      excerpt: true,
       category: true,
+      tags: true,
+      readTime: true,
       thumbnail: true,
       publishedAt: true,
       createdAt: true,
