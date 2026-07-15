@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Bookmark, Briefcase, ChevronDown, MapPin, Clock } from "lucide-react";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -154,13 +155,13 @@ function JobCard({ job }: { job: (typeof JOBS)[number] }) {
       </div>
 
       {/* Apply */}
-      <button
-        type="button"
+      <Link
+        href="/career/apply"
         className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-800 transition-all hover:gap-3 hover:text-indigo-600"
       >
         Apply Now
         <ArrowRight className="h-4 w-4" />
-      </button>
+      </Link>
     </div>
   );
 }

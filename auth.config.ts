@@ -38,7 +38,19 @@ export const authConfig: NextAuthConfig = {
       if (pathname.startsWith("/register")) return false;
 
       // Public pages — always accessible
-      if (pathname === "/" || pathname.startsWith("/home") || pathname.startsWith("/company")) return true;
+      if (
+        pathname === "/" ||
+        pathname.startsWith("/home") ||
+        pathname.startsWith("/company") ||
+        pathname.startsWith("/teams") ||
+        pathname.startsWith("/career") ||
+        pathname.startsWith("/blogs") ||
+        pathname.startsWith("/contact") ||
+        pathname.startsWith("/our-services") ||
+        pathname.startsWith("/our-projects") ||
+        pathname.startsWith("/servicedetail") ||
+        pathname.startsWith("/api/auth")
+      ) return true;
 
       const isAuthPage = pathname.startsWith("/login");
       const isOnboardingPage = pathname.startsWith("/onboarding");
