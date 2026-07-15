@@ -76,7 +76,7 @@ export default function TeamMemberModal({ member, isOpen, onClose }: TeamMemberM
             <div className="w-48 h-48 rounded-2xl overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50 mb-6">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/Alex.png"
+                src="/jhon.png"
                 alt={member.name}
                 className="w-full h-full object-cover"
               />
