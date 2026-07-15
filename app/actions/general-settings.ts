@@ -25,7 +25,7 @@ export async function getGeneralSettings() {
     logoUrl: "",
     faviconUrl: "",
     metaKeywords: "",
-    themeColor: "#6366f1",
+    themeColor: "#fe9a00",
     baseColorEnabled: true,
   };
 }

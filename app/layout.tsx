@@ -51,13 +51,13 @@ export default async function RootLayout({
         <link rel="icon" href={settings.faviconUrl || "/favicon.ico"} />
         <link rel="shortcut icon" href={settings.faviconUrl || "/favicon.ico"} />
         <link rel="apple-touch-icon" href={settings.faviconUrl || "/favicon.ico"} />
+      </head>
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <AuthProvider>{children}</AuthProvider>
         <ThemeProvider
           themeColor={settings.themeColor}
           baseColorEnabled={settings.baseColorEnabled}
         />
-      </head>
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

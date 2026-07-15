@@ -17,7 +17,7 @@ const DEFAULTS: SiteSettings = {
   logoUrl: "/logo1.png",
   faviconUrl: "/favicon.ico",
   metaKeywords: "",
-  themeColor: "#6366f1",
+  themeColor: "#fe9a00",
   baseColorEnabled: true,
 };
 
