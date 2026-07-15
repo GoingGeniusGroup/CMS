@@ -4,7 +4,9 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ImageUploader } from "@/components/ImageUploader";
+import { TiptapEditor } from "@/components/TiptapEditor";
 import { createBlog, updateBlog, type BlogInput } from "@/app/actions/blogs";
+import type { JSONContent } from "@tiptap/react";
 
 type Author = {
   id: string;
@@ -15,7 +17,7 @@ type Blog = {
   id: string;
   title: string;
   slug: string;
-  content: string | null;
+  content: unknown;
   category: string | null;
   authorId: string | null;
   author: Author | null;
@@ -40,7 +42,9 @@ export function BlogModal({
 
   const [title, setTitle] = useState(blog?.title ?? "");
   const [slug, setSlug] = useState(blog?.slug ?? "");
-  const [content, setContent] = useState(blog?.content ?? "");
+  const [content, setContent] = useState<JSONContent | null>(
+    (blog?.content as JSONContent) ?? null
+  );
   const [category, setCategory] = useState(blog?.category ?? "");
   const [authorId, setAuthorId] = useState(blog?.authorId ?? "");
   const [thumbnail, setThumbnail] = useState(blog?.thumbnail ?? "");
@@ -76,7 +80,7 @@ export function BlogModal({
     const data: BlogInput = {
       title,
       slug,
-      content: content || undefined,
+      content: content as Record<string, unknown> | null,
       category: category || undefined,
       authorId: authorId || undefined,
       thumbnail: thumbnail || undefined,
@@ -104,7 +108,7 @@ export function BlogModal({
       onClick={onClose}
     >
       <div
-        className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-xl sm:p-8"
+        className="relative max-h-[95vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-white p-6 shadow-xl sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -157,32 +161,49 @@ export function BlogModal({
             />
           </div>
 
-          {/* Content */}
+          {/* Content — Tiptap Editor */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="mb-2 block text-sm font-medium text-gray-700">
               Content
             </label>
-            <textarea
-              rows={3}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Blog content..."
-              className="mt-1 w-full resize-none rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
+            <TiptapEditor
+              content={content as JSONContent | null}
+              onChange={(json) => setContent(json)}
+              placeholder="Start writing your blog post..."
             />
           </div>
 
-          {/* Category */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Category
-            </label>
-            <input
-              type="text"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              placeholder="e.g. Technology, Design"
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
-            />
+          {/* Category + Author row */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Category
+              </label>
+              <input
+                type="text"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                placeholder="e.g. Technology, Design"
+                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Author
+              </label>
+              <select
+                value={authorId}
+                onChange={(e) => setAuthorId(e.target.value)}
+                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
+              >
+                <option value="">Select author</option>
+                {authors.map((a) => (
+                  <option key={a.id} value={a.id}>
+                    {a.fullName}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           {/* Thumbnail */}
@@ -191,25 +212,6 @@ export function BlogModal({
             value={thumbnail}
             onChange={(url) => setThumbnail(url || "")}
           />
-
-          {/* Author */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Author
-            </label>
-            <select
-              value={authorId}
-              onChange={(e) => setAuthorId(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
-            >
-              <option value="">Select author</option>
-              {authors.map((a) => (
-                <option key={a.id} value={a.id}>
-                  {a.fullName}
-                </option>
-              ))}
-            </select>
-          </div>
 
           {/* Status */}
           <div>
@@ -233,7 +235,7 @@ export function BlogModal({
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting
-                ? isEditing ? "Saving…" : "Creating…"
+                ? isEditing ? "Saving..." : "Creating..."
                 : isEditing ? "Save Changes" : "Add Blog"}
             </Button>
           </div>

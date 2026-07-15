@@ -15,8 +15,6 @@ type HeaderData = {
   bannerLink?: string;
   helpNumber?: string;
   menuItems?: MenuItem[];
-  partners?: string[];
-  technologies?: string[];
 };
 
 export function WebsiteHeaderClient({ initialData }: { initialData: HeaderData }) {
@@ -32,12 +30,6 @@ export function WebsiteHeaderClient({ initialData }: { initialData: HeaderData }
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  // Partners & Technologies
-  const [partners, setPartners] = useState<string[]>(initialData.partners ?? []);
-  const [technologies, setTechnologies] = useState<string[]>(initialData.technologies ?? []);
-  const [newPartnerLogo, setNewPartnerLogo] = useState<string | null>(null);
-  const [newTechLogo, setNewTechLogo] = useState<string | null>(null);
-
   const addMenuItem = () =>
     setMenuItems((prev) => [...prev, { label: "", path: "" }]);
 
@@ -48,26 +40,6 @@ export function WebsiteHeaderClient({ initialData }: { initialData: HeaderData }
     setMenuItems((prev) =>
       prev.map((item, idx) => (idx === i ? { ...item, [field]: val } : item))
     );
-
-  function handleAddPartner() {
-    if (!newPartnerLogo) return;
-    setPartners((prev) => [...prev, newPartnerLogo]);
-    setNewPartnerLogo(null);
-  }
-
-  function handleRemovePartner(i: number) {
-    setPartners((prev) => prev.filter((_, idx) => idx !== i));
-  }
-
-  function handleAddTech() {
-    if (!newTechLogo) return;
-    setTechnologies((prev) => [...prev, newTechLogo]);
-    setNewTechLogo(null);
-  }
-
-  function handleRemoveTech(i: number) {
-    setTechnologies((prev) => prev.filter((_, idx) => idx !== i));
-  }
 
   async function handleSave() {
     setIsSaving(true);
@@ -80,8 +52,6 @@ export function WebsiteHeaderClient({ initialData }: { initialData: HeaderData }
       bannerLink: bannerLink || "",
       helpNumber: helpNumber || "",
       menuItems: menuItems.filter((m) => m.label.trim() || m.path.trim()),
-      partners,
-      technologies,
     };
 
     const result = await saveSetting("website-header", data);
@@ -103,10 +73,6 @@ export function WebsiteHeaderClient({ initialData }: { initialData: HeaderData }
     setBannerLink(initialData.bannerLink ?? "");
     setHelpNumber(initialData.helpNumber ?? "");
     setMenuItems(initialData.menuItems ?? [{ label: "Home", path: "/" }]);
-    setPartners(initialData.partners ?? []);
-    setTechnologies(initialData.technologies ?? []);
-    setNewPartnerLogo(null);
-    setNewTechLogo(null);
     setMessage(null);
   }
 
@@ -251,128 +217,6 @@ export function WebsiteHeaderClient({ initialData }: { initialData: HeaderData }
             {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
             {isSaving ? "Saving..." : "Save Changes"}
           </button>
-        </div>
-      </div>
-    </Card>
-
-    {/* ─── Our Partners Section ─── */}
-    <Card className="p-6 sm:p-8">
-      <div className="mb-6">
-        <h2 className="text-lg font-bold text-zinc-900">Our Partners</h2>
-        <p className="mt-0.5 text-sm text-zinc-500">Add partner company logos to display on the website.</p>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2">
-        {/* Upload */}
-        <div>
-          <ImageUploader
-            label="Upload Partner Logo"
-            required
-            value={newPartnerLogo}
-            onChange={(url) => setNewPartnerLogo(url)}
-          />
-          <div className="mt-4 flex gap-3">
-            <button
-              type="button"
-              onClick={() => setNewPartnerLogo(null)}
-              className="rounded-lg border border-zinc-300 bg-white px-5 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={handleAddPartner}
-              disabled={!newPartnerLogo}
-              className="rounded-lg bg-amber-500 px-5 py-2 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50"
-            >
-              Add Partner
-            </button>
-          </div>
-        </div>
-
-        {/* List */}
-        <div>
-          <p className="mb-3 text-sm font-bold text-zinc-800">Added Partners</p>
-          {partners.length === 0 ? (
-            <p className="text-sm text-zinc-400">No partners added yet.</p>
-          ) : (
-            <div className="grid grid-cols-3 gap-3">
-              {partners.map((url, i) => (
-                <div key={i} className="group relative rounded-lg border border-zinc-200 bg-white p-3">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={url} alt={`Partner ${i + 1}`} className="h-10 w-full object-contain" />
-                  <button
-                    type="button"
-                    onClick={() => handleRemovePartner(i)}
-                    className="absolute -right-2 -top-2 hidden h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white group-hover:flex"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </Card>
-
-    {/* ─── Technologies Used Section ─── */}
-    <Card className="p-6 sm:p-8">
-      <div className="mb-6">
-        <h2 className="text-lg font-bold text-zinc-900">Technologies Used</h2>
-        <p className="mt-0.5 text-sm text-zinc-500">Add technology logos to showcase on the website.</p>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2">
-        {/* Upload */}
-        <div>
-          <ImageUploader
-            label="Upload Technology Logo"
-            required
-            value={newTechLogo}
-            onChange={(url) => setNewTechLogo(url)}
-          />
-          <div className="mt-4 flex gap-3">
-            <button
-              type="button"
-              onClick={() => setNewTechLogo(null)}
-              className="rounded-lg border border-zinc-300 bg-white px-5 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={handleAddTech}
-              disabled={!newTechLogo}
-              className="rounded-lg bg-amber-500 px-5 py-2 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50"
-            >
-              Add Technology
-            </button>
-          </div>
-        </div>
-
-        {/* List */}
-        <div>
-          <p className="mb-3 text-sm font-bold text-zinc-800">Added Technologies</p>
-          {technologies.length === 0 ? (
-            <p className="text-sm text-zinc-400">No technologies added yet.</p>
-          ) : (
-            <div className="grid grid-cols-3 gap-3">
-              {technologies.map((url, i) => (
-                <div key={i} className="group relative rounded-lg border border-zinc-200 bg-white p-3">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={url} alt={`Tech ${i + 1}`} className="h-10 w-full object-contain" />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveTech(i)}
-                    className="absolute -right-2 -top-2 hidden h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white group-hover:flex"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </Card>

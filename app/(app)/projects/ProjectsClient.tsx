@@ -18,7 +18,11 @@ type SelectOption = { id: string; label: string };
 type Project = {
   id: string;
   title: string;
+  slug: string | null;
   description: string | null;
+  overview: string | null;
+  category: string | null;
+  liveUrl: string | null;
   customerId: string | null;
   teamId: string | null;
   serviceId: string | null;
@@ -30,6 +34,13 @@ type Project = {
   endDate: Date | null;
   budget: number | null;
   thumbnail: string | null;
+  gallery: string[];
+  highlights: string[];
+  challenges: string[];
+  solutions: string[];
+  technologies: string[];
+  features: unknown;
+  results: unknown;
   createdAt: Date;
   updatedAt: Date;
 };

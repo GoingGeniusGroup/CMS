@@ -6,7 +6,11 @@ import { z } from "zod";
 
 const projectSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
+  slug: z.string().optional().or(z.literal("")),
   description: z.string().optional().or(z.literal("")),
+  overview: z.string().optional().or(z.literal("")),
+  category: z.string().optional().or(z.literal("")),
+  liveUrl: z.string().optional().or(z.literal("")),
   customerId: z.string().optional().or(z.literal("")),
   teamId: z.string().optional().or(z.literal("")),
   serviceId: z.string().optional().or(z.literal("")),
@@ -15,6 +19,13 @@ const projectSchema = z.object({
   endDate: z.string().optional().or(z.literal("")),
   budget: z.number().optional(),
   thumbnail: z.string().optional().or(z.literal("")).nullable(),
+  gallery: z.array(z.string()).optional(),
+  highlights: z.array(z.string()).optional(),
+  challenges: z.array(z.string()).optional(),
+  solutions: z.array(z.string()).optional(),
+  technologies: z.array(z.string()).optional(),
+  features: z.any().optional(),
+  results: z.any().optional(),
 });
 
 export type ProjectInput = z.infer<typeof projectSchema>;
@@ -53,7 +64,9 @@ export async function getPublicProjects() {
     select: {
       id: true,
       title: true,
+      slug: true,
       description: true,
+      category: true,
       thumbnail: true,
       budget: true,
       startDate: true,
@@ -74,16 +87,27 @@ export async function createProject(data: ProjectInput) {
   }
 
   try {
-    const { startDate, endDate, thumbnail, ...rest } = result.data;
+    const { startDate, endDate, thumbnail, features, results: projectResults, ...rest } = result.data;
     await prisma.project.create({
       data: {
         ...rest,
+        slug: rest.slug || null,
         customerId: rest.customerId || null,
         teamId: rest.teamId || null,
         serviceId: rest.serviceId || null,
+        overview: rest.overview || null,
+        category: rest.category || null,
+        liveUrl: rest.liveUrl || null,
         thumbnail: thumbnail || null,
         startDate: startDate ? new Date(startDate) : null,
         endDate: endDate ? new Date(endDate) : null,
+        gallery: rest.gallery ?? [],
+        highlights: rest.highlights ?? [],
+        challenges: rest.challenges ?? [],
+        solutions: rest.solutions ?? [],
+        technologies: rest.technologies ?? [],
+        features: features ?? undefined,
+        results: projectResults ?? undefined,
       },
     });
     return { success: true };
@@ -103,17 +127,28 @@ export async function updateProject(id: string, data: ProjectInput) {
   }
 
   try {
-    const { startDate, endDate, thumbnail, ...rest } = result.data;
+    const { startDate, endDate, thumbnail, features, results: projectResults, ...rest } = result.data;
     await prisma.project.update({
       where: { id },
       data: {
         ...rest,
+        slug: rest.slug || null,
         customerId: rest.customerId || null,
         teamId: rest.teamId || null,
         serviceId: rest.serviceId || null,
+        overview: rest.overview || null,
+        category: rest.category || null,
+        liveUrl: rest.liveUrl || null,
         thumbnail: thumbnail || null,
         startDate: startDate ? new Date(startDate) : null,
         endDate: endDate ? new Date(endDate) : null,
+        gallery: rest.gallery ?? [],
+        highlights: rest.highlights ?? [],
+        challenges: rest.challenges ?? [],
+        solutions: rest.solutions ?? [],
+        technologies: rest.technologies ?? [],
+        features: features ?? undefined,
+        results: projectResults ?? undefined,
       },
     });
     return { success: true };

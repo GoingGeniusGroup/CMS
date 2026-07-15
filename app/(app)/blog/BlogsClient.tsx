@@ -22,7 +22,7 @@ type Blog = {
   id: string;
   title: string;
   slug: string;
-  content: string | null;
+  content: unknown;
   category: string | null;
   authorId: string | null;
   author: Author | null;

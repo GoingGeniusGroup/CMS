@@ -78,8 +78,12 @@ model Service {
 model Project {
   id          String      @id @default(cuid())
   title       String
+  slug        String?     @unique
   description String?
+  overview    String?
   status      String      @default("Draft")
+  category    String?
+  liveUrl     String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   budget      Float?
@@ -89,6 +93,13 @@ model Project {
   startDate   DateTime?
   teamId      String?
   thumbnail   String?
+  gallery     String[]    @default([])
+  features    Json?
+  highlights  String[]    @default([])
+  challenges  String[]    @default([])
+  solutions   String[]    @default([])
+  technologies String[]   @default([])
+  results     Json?
   analytics   Analytics[]
   invoices    Invoice[]
   customer    Customer?   @relation(fields: [customerId], references: [id])
@@ -102,7 +113,7 @@ model Blog {
   id          String    @id @default(cuid())
   title       String
   slug        String    @unique
-  content     String?
+  content     Json?
   status      String    @default("Draft")
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt

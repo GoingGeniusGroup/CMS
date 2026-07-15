@@ -10,6 +10,7 @@ import { StatCard } from "@/components/StatCard";
 import { RowActions } from "@/components/RowActions";
 import { Pagination } from "@/components/Pagination";
 import { AddCustomerModal } from "@/components/AddcostumerModal";
+import { EditCustomerModal, type CustomerRow } from "@/components/EditCustomerModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { getCustomers, deleteCustomer } from "@/app/actions/customers";
 
@@ -57,6 +58,7 @@ export function CustomersClient({
 
   // Modal state
   const [addOpen, setAddOpen] = useState(false);
+  const [editCustomer, setEditCustomer] = useState<CustomerRow | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   function refresh(page = currentPage) {
@@ -235,6 +237,17 @@ export function CustomersClient({
                     </td>
                     <td className="p-4">
                       <RowActions
+                        onEdit={() => setEditCustomer({
+                          id: customer.id,
+                          fullName: customer.fullName,
+                          email: customer.email,
+                          phoneNumber: customer.phoneNumber,
+                          address: customer.address,
+                          servicesId: customer.serviceId,
+                          companyName: customer.companyName,
+                          status: customer.status,
+                          image: customer.image,
+                        })}
                         onDelete={() => handleDelete(customer.id)}
                       />
                     </td>
@@ -268,7 +281,21 @@ export function CustomersClient({
                     </span>
                   </div>
                 </div>
-                <RowActions variant="buttons" onDelete={() => handleDelete(customer.id)} />
+                <RowActions
+                  variant="buttons"
+                  onEdit={() => setEditCustomer({
+                    id: customer.id,
+                    fullName: customer.fullName,
+                    email: customer.email,
+                    phoneNumber: customer.phoneNumber,
+                    address: customer.address,
+                    servicesId: customer.serviceId,
+                    companyName: customer.companyName,
+                    status: customer.status,
+                    image: customer.image,
+                  })}
+                  onDelete={() => handleDelete(customer.id)}
+                />
               </div>
             ))}
           </div>
@@ -315,6 +342,17 @@ export function CustomersClient({
               {/* Actions */}
               <RowActions
                 variant="buttons"
+                onEdit={() => setEditCustomer({
+                  id: customer.id,
+                  fullName: customer.fullName,
+                  email: customer.email,
+                  phoneNumber: customer.phoneNumber,
+                  address: customer.address,
+                  servicesId: customer.serviceId,
+                  companyName: customer.companyName,
+                  status: customer.status,
+                  image: customer.image,
+                })}
                 onDelete={() => handleDelete(customer.id)}
               />
             </div>
@@ -338,6 +376,15 @@ export function CustomersClient({
         onClose={() => setAddOpen(false)}
         onSuccess={() => { setAddOpen(false); refresh(); }}
         services={services.map((s) => ({ id: s.id, serviceName: s.label }))}
+      />
+
+      {/* Edit Customer Modal */}
+      <EditCustomerModal
+        isOpen={!!editCustomer}
+        customer={editCustomer}
+        services={services.map((s) => ({ id: s.id, serviceName: s.label }))}
+        onClose={() => setEditCustomer(null)}
+        onSuccess={() => { setEditCustomer(null); refresh(); }}
       />
 
       {/* Delete Confirmation */}
