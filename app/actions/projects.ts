@@ -6,15 +6,15 @@ import { z } from "zod";
 
 const projectSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
-  description: z.string().optional(),
-  customerId: z.string().optional(),
-  teamId: z.string().optional(),
-  serviceId: z.string().optional(),
+  description: z.string().optional().or(z.literal("")),
+  customerId: z.string().optional().or(z.literal("")),
+  teamId: z.string().optional().or(z.literal("")),
+  serviceId: z.string().optional().or(z.literal("")),
   status: z.enum(["Published", "Draft"]),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
+  startDate: z.string().optional().or(z.literal("")),
+  endDate: z.string().optional().or(z.literal("")),
   budget: z.number().optional(),
-  thumbnail: z.string().optional(),
+  thumbnail: z.string().optional().or(z.literal("")).nullable(),
 });
 
 export type ProjectInput = z.infer<typeof projectSchema>;
@@ -46,6 +46,24 @@ export async function getProjects(page = 1, pageSize = 10) {
   };
 }
 
+// Get published projects for public/user-facing pages (no auth required)
+export async function getPublicProjects() {
+  return await prisma.project.findMany({
+    where: { status: "Published" },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      thumbnail: true,
+      budget: true,
+      startDate: true,
+      endDate: true,
+      createdAt: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
 export async function createProject(data: ProjectInput) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
@@ -56,13 +74,14 @@ export async function createProject(data: ProjectInput) {
   }
 
   try {
-    const { startDate, endDate, ...rest } = result.data;
+    const { startDate, endDate, thumbnail, ...rest } = result.data;
     await prisma.project.create({
       data: {
         ...rest,
         customerId: rest.customerId || null,
         teamId: rest.teamId || null,
         serviceId: rest.serviceId || null,
+        thumbnail: thumbnail || null,
         startDate: startDate ? new Date(startDate) : null,
         endDate: endDate ? new Date(endDate) : null,
       },
@@ -84,7 +103,7 @@ export async function updateProject(id: string, data: ProjectInput) {
   }
 
   try {
-    const { startDate, endDate, ...rest } = result.data;
+    const { startDate, endDate, thumbnail, ...rest } = result.data;
     await prisma.project.update({
       where: { id },
       data: {
@@ -92,6 +111,7 @@ export async function updateProject(id: string, data: ProjectInput) {
         customerId: rest.customerId || null,
         teamId: rest.teamId || null,
         serviceId: rest.serviceId || null,
+        thumbnail: thumbnail || null,
         startDate: startDate ? new Date(startDate) : null,
         endDate: endDate ? new Date(endDate) : null,
       },

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Phone, Loader2 } from "lucide-react";
-import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { saveContactSettings } from "@/app/actions/contact-settings";
 
@@ -17,6 +16,51 @@ type ContactData = {
   googleMapEmbed?: string;
 } | null;
 
+// ─── Validation helpers ──────────────────────────────────────────────────────
+
+const phoneRegex = /^[0-9+\-\s()]*$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validateFields(fields: {
+  phone1: string;
+  phone2: string;
+  email1: string;
+  email2: string;
+  contactMail: string;
+}): Record<string, string> {
+  const errors: Record<string, string> = {};
+
+  if (!fields.phone1.trim()) {
+    errors.phone1 = "Phone number 1 is required";
+  } else if (!phoneRegex.test(fields.phone1)) {
+    errors.phone1 = "Only digits, +, -, spaces, and parentheses allowed";
+  }
+
+  if (fields.phone2 && !phoneRegex.test(fields.phone2)) {
+    errors.phone2 = "Only digits, +, -, spaces, and parentheses allowed";
+  }
+
+  if (!fields.email1.trim()) {
+    errors.email1 = "Email address 1 is required";
+  } else if (!emailRegex.test(fields.email1)) {
+    errors.email1 = "Please enter a valid email address";
+  }
+
+  if (fields.email2 && !emailRegex.test(fields.email2)) {
+    errors.email2 = "Please enter a valid email address";
+  }
+
+  if (!fields.contactMail.trim()) {
+    errors.contactMail = "Contact mail is required";
+  } else if (!emailRegex.test(fields.contactMail)) {
+    errors.contactMail = "Please enter a valid email address";
+  }
+
+  return errors;
+}
+
+// ─── Component ───────────────────────────────────────────────────────────────
+
 export function ContactSettingsClient({ initialData }: { initialData: ContactData }) {
   const [phone1, setPhone1] = useState(initialData?.phone1 ?? "");
   const [phone2, setPhone2] = useState(initialData?.phone2 ?? "");
@@ -29,8 +73,19 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
 
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   async function handleSave() {
+    // Client-side validation first
+    const errors = validateFields({ phone1, phone2, email1, email2, contactMail });
+    setFieldErrors(errors);
+
+    if (Object.keys(errors).length > 0) {
+      setMessage({ type: "error", text: "Please fix the errors below" });
+      setTimeout(() => setMessage(null), 4000);
+      return;
+    }
+
     setIsSaving(true);
     setMessage(null);
 
@@ -49,13 +104,23 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
 
     if (result.success) {
       setMessage({ type: "success", text: "Contact settings saved!" });
+      setFieldErrors({});
     } else {
+      // Show server-side field errors if returned
+      if ("fieldErrors" in result && result.fieldErrors) {
+        setFieldErrors(result.fieldErrors as Record<string, string>);
+      }
       setMessage({ type: "error", text: result.error || "Failed to save" });
     }
-    setTimeout(() => setMessage(null), 3000);
+    setTimeout(() => setMessage(null), 4000);
   }
 
-  const inputCls = "h-11 w-full rounded-lg border border-zinc-200 px-4 text-sm text-black shadow-sm outline-none focus:ring-2 focus:ring-sky-200";
+  const inputCls = (field: string) =>
+    `h-11 w-full rounded-lg border px-4 text-sm text-black shadow-sm outline-none focus:ring-2 ${
+      fieldErrors[field]
+        ? "border-red-300 focus:ring-red-200"
+        : "border-zinc-200 focus:ring-sky-200"
+    }`;
 
   return (
     <Card>
@@ -105,10 +170,16 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
           <input
             type="tel"
             value={phone1}
-            onChange={(e) => setPhone1(e.target.value)}
+            onChange={(e) => {
+              setPhone1(e.target.value);
+              if (fieldErrors.phone1) setFieldErrors((prev) => ({ ...prev, phone1: "" }));
+            }}
             placeholder="+977 9800000000"
-            className={inputCls}
+            className={inputCls("phone1")}
           />
+          {fieldErrors.phone1 && (
+            <p className="mt-1 text-xs text-red-500">{fieldErrors.phone1}</p>
+          )}
         </div>
         <div>
           <label className="mb-2 block text-sm font-semibold text-black">
@@ -117,10 +188,16 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
           <input
             type="tel"
             value={phone2}
-            onChange={(e) => setPhone2(e.target.value)}
+            onChange={(e) => {
+              setPhone2(e.target.value);
+              if (fieldErrors.phone2) setFieldErrors((prev) => ({ ...prev, phone2: "" }));
+            }}
             placeholder="+977 9800000001"
-            className={inputCls}
+            className={inputCls("phone2")}
           />
+          {fieldErrors.phone2 && (
+            <p className="mt-1 text-xs text-red-500">{fieldErrors.phone2}</p>
+          )}
         </div>
       </div>
 
@@ -133,10 +210,16 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
           <input
             type="email"
             value={email1}
-            onChange={(e) => setEmail1(e.target.value)}
+            onChange={(e) => {
+              setEmail1(e.target.value);
+              if (fieldErrors.email1) setFieldErrors((prev) => ({ ...prev, email1: "" }));
+            }}
             placeholder="info@company.com"
-            className={inputCls}
+            className={inputCls("email1")}
           />
+          {fieldErrors.email1 && (
+            <p className="mt-1 text-xs text-red-500">{fieldErrors.email1}</p>
+          )}
         </div>
         <div>
           <label className="mb-2 block text-sm font-semibold text-black">
@@ -145,10 +228,16 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
           <input
             type="email"
             value={email2}
-            onChange={(e) => setEmail2(e.target.value)}
+            onChange={(e) => {
+              setEmail2(e.target.value);
+              if (fieldErrors.email2) setFieldErrors((prev) => ({ ...prev, email2: "" }));
+            }}
             placeholder="support@company.com"
-            className={inputCls}
+            className={inputCls("email2")}
           />
+          {fieldErrors.email2 && (
+            <p className="mt-1 text-xs text-red-500">{fieldErrors.email2}</p>
+          )}
         </div>
       </div>
 
@@ -162,7 +251,7 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           placeholder="Kathmandu, Nepal"
-          className={inputCls}
+          className={inputCls("address")}
         />
       </div>
 
@@ -174,10 +263,19 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
         <input
           type="email"
           value={contactMail}
-          onChange={(e) => setContactMail(e.target.value)}
+          onChange={(e) => {
+            setContactMail(e.target.value);
+            if (fieldErrors.contactMail) setFieldErrors((prev) => ({ ...prev, contactMail: "" }));
+          }}
           placeholder="contact@company.com"
-          className={inputCls}
+          className={inputCls("contactMail")}
         />
+        {fieldErrors.contactMail && (
+          <p className="mt-1 text-xs text-red-500">{fieldErrors.contactMail}</p>
+        )}
+        <p className="mt-1 text-xs text-zinc-400">
+          This email receives messages from the contact form.
+        </p>
       </div>
 
       {/* Office Hours */}
@@ -190,7 +288,7 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
           value={officeHours}
           onChange={(e) => setOfficeHours(e.target.value)}
           placeholder="Monday to Friday 9:00am - 6:00pm"
-          className={inputCls}
+          className={inputCls("officeHours")}
         />
       </div>
 

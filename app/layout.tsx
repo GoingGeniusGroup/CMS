@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { getSiteSettings } from "@/lib/site-settings";
 import "./globals.css";
 
+export const dynamic = "force-dynamic";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,9 +27,6 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: settings.description,
     keywords: settings.metaKeywords ? settings.metaKeywords.split(",").map((k) => k.trim()) : [],
-    icons: {
-      icon: settings.faviconUrl || "/favicon.ico",
-    },
     openGraph: {
       title: settings.siteName,
       description: settings.description,
@@ -49,6 +48,9 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        <link rel="icon" href={settings.faviconUrl || "/favicon.ico"} />
+        <link rel="shortcut icon" href={settings.faviconUrl || "/favicon.ico"} />
+        <link rel="apple-touch-icon" href={settings.faviconUrl || "/favicon.ico"} />
         <ThemeProvider
           themeColor={settings.themeColor}
           baseColorEnabled={settings.baseColorEnabled}

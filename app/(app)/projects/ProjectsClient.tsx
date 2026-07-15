@@ -358,7 +358,6 @@ export function ProjectsClient({
         onSuccess={() => { setModalOpen(false); refresh(); }}
         project={editingProject}
         customers={customers}
-        teams={teams}
         services={services}
       />
 

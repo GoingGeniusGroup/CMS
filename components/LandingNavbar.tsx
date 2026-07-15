@@ -14,10 +14,10 @@ type LandingNavbarProps = {
 const navLinks = [
   { label: "Home",      href: "/home"           },
   { label: "Services",  href: "/our-services"   },
-  { label: "Portfolio", href: "/portfolio" },
+  { label: "Projects", href: "/our-projects" },
   { label: "Products",  href: "/home#products"  },
-  { label: "Company",   href: "/home#company"   },
-  { label: "Blog",      href: "/home#blog"      },
+  { label: "Company",   href: "/company"        },
+  { label: "Blog",      href: "/blogs"          },
   { label: "Contact",   href: "/contact"        },
 ];
 
@@ -55,9 +55,10 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius" }: LandingNav
           <Image
             src={resolvedLogo}
             alt={siteName}
-            width={36}
-            height={36}
-            className="h-9 w-9 object-contain"
+            width={120}
+            height={40}
+            className="h-10 w-auto max-w-[120px] object-contain"
+            unoptimized
           />
           <span className="text-sm font-bold text-zinc-900">{siteName}</span>
         </Link>

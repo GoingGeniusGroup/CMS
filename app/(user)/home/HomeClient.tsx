@@ -8,10 +8,16 @@ import { images } from "@/lib/images";
 import { LandingServicesSection } from "@/components/LandingServicesSection";
 import { LandingFeaturedProjects } from "@/components/LandingFeaturedProjects";
 import { LandingTeamSection } from "@/components/LandingTeamSection";
-import { LandingPartnersSection } from "@/components/LandingPartnersSection";
-import { LandingTechSection } from "@/components/LandingTechSection";
 
 // ΓöÇΓöÇΓöÇ Data ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+const techStack = [
+  { name: "PHP", src: images.php, w: 60, h: 30 },
+  { name: "Supabase", src: images.supabase, w: 110, h: 26 },
+  { name: ".NET", src: images.dotnet, w: 60, h: 28 },
+  { name: "Flutter", src: images.flutter, w: 80, h: 28 },
+  { name: "Prisma", src: images.prisma, w: 100, h: 28 },
+];
 
 const posts = [
   {
@@ -103,6 +109,33 @@ function Hero() {
               priority
             />
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Partners section is now a server component (PartnersSection.tsx) ────────
+// It fetches logos from the DB and falls back to the static sprite if empty.
+
+// ΓöÇΓöÇΓöÇ Tech Stack ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+function TechStack() {
+  return (
+    <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl text-center">
+        <p className="mb-8 text-sm font-bold text-zinc-900">Technologies We Use</p>
+        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
+          {techStack.map((t) => (
+            <Image
+              key={t.name}
+              src={t.src}
+              alt={t.name}
+              width={t.w}
+              height={t.h}
+              className="h-7 w-auto object-contain"
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -233,12 +266,44 @@ function FAQ() {
 
 // ΓöÇΓöÇΓöÇ Page ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
-export default function Page() {
+export default function Page({ partners }: { partners: string[] }) {
   return (
     <>
       <Hero />
-      <LandingPartnersSection />
-      <LandingTechSection />
+
+      {/* Partners — logos from CMS or static fallback */}
+      <section className="bg-zinc-950 px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <p className="mb-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400">
+            Our Partners
+          </p>
+          {partners.length > 0 ? (
+            <div className="flex flex-wrap items-center justify-center gap-8">
+              {partners.map((url, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={i}
+                  src={url}
+                  alt={`Partner ${i + 1}`}
+                  className="h-10 w-auto max-w-[140px] object-contain opacity-80 brightness-0 invert sm:h-12"
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center">
+              <Image
+                src={images.frame2}
+                alt="Our partners"
+                width={900}
+                height={60}
+                className="h-10 w-auto object-contain sm:h-12"
+              />
+            </div>
+          )}
+        </div>
+      </section>
+
+      <TechStack />
       <LandingServicesSection />
       <Products />
       <LandingFeaturedProjects />

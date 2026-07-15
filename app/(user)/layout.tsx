@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { LandingNavbar } from "@/components/LandingNavbar";
 import Footer from "@/components/footer";
 import { getSiteSettings } from "@/lib/site-settings";
+import { getPublicContactSettings } from "@/app/actions/contact-settings";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +16,11 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: settings.description,
     keywords: settings.metaKeywords ? settings.metaKeywords.split(",").map((k) => k.trim()) : [],
+    icons: {
+      icon: settings.faviconUrl || "/favicon.ico",
+      shortcut: settings.faviconUrl || "/favicon.ico",
+      apple: settings.faviconUrl || "/favicon.ico",
+    },
     openGraph: {
       title: settings.siteName,
       description: settings.description,
@@ -27,13 +33,22 @@ export default async function UserLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const settings = await getSiteSettings();
+  const [settings, contactSettings] = await Promise.all([
+    getSiteSettings(),
+    getPublicContactSettings(),
+  ]);
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <LandingNavbar logoUrl={settings.logoUrl} siteName={settings.siteName} />
       <main className="flex-1">{children}</main>
-      <Footer logoUrl={settings.logoUrl} siteName={settings.siteName} />
+      <Footer
+        logoUrl={settings.logoUrl}
+        siteName={settings.siteName}
+        contactEmail={contactSettings?.email1 || undefined}
+        contactPhone={contactSettings?.phone1 || undefined}
+        contactAddress={contactSettings?.address || undefined}
+      />
     </div>
   );
 }
