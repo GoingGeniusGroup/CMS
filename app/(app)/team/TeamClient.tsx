@@ -28,6 +28,10 @@ type TeamMember = {
   role: string | null;
   department: string | null;
   status: string;
+  bio: string | null;
+  location: string | null;
+  experience: string | null;
+  skills: string[];
   joinedAt: Date;
   updatedAt: Date;
 };
@@ -114,6 +118,10 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
       role: formData.designation || undefined,
       department: formData.department || undefined,
       status: formData.status as "Active" | "On Leave",
+      bio: formData.description || undefined,
+      location: formData.location || undefined,
+      experience: formData.experience || undefined,
+      skills: formData.skills?.filter(Boolean) || undefined,
     };
 
     // Close modal immediately for snappy feel
@@ -154,7 +162,10 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
         status: (editingMember.status as "Active" | "On Leave") || "Active",
         gender: "male" as const,
         image: editingMember.image,
-        description: "",
+        description: editingMember.bio || "",
+        location: editingMember.location || "",
+        experience: editingMember.experience || "",
+        skills: editingMember.skills || [],
         facebook: "",
         twitter: "",
         instagram: "",

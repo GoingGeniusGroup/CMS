@@ -10,6 +10,12 @@ type TeamMember = {
   role: string | null;
   department: string | null;
   image: string | null;
+  bio: string | null;
+  location: string | null;
+  experience: string | null;
+  skills: string[];
+  email: string;
+  phone: string | null;
 };
 
 export function LandingTeamSection() {
