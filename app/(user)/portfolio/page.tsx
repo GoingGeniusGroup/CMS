@@ -342,7 +342,7 @@ function ProjectCard({
 
         {/* View Project link */}
         <Link
-          href="#"
+          href={`/portfolio/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
           className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 hover:gap-2.5 transition-all"
         >
           View Project
