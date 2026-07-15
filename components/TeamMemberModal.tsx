@@ -57,14 +57,6 @@ export default function TeamMemberModal({ member, isOpen, onClose }: TeamMemberM
           <div className="w-full md:w-72 shrink-0 border-b md:border-b-0 md:border-r border-gray-100 p-6 flex flex-col items-center">
             {/* Profile Image */}
             <div className="w-48 h-48 rounded-2xl overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50 mb-6">
-<<<<<<< HEAD
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/jhon.png"
-                alt={member.name}
-                className="w-full h-full object-cover"
-              />
-=======
               {member.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -79,7 +71,6 @@ export default function TeamMemberModal({ member, isOpen, onClose }: TeamMemberM
                   </span>
                 </div>
               )}
->>>>>>> 7fce636e8b3acdd8367723b6e6e74f0b81629b4b
             </div>
 
             {/* Info Items */}
