@@ -19,6 +19,7 @@ const navLinks = [
   { label: "Company",   href: "/company"        },
   { label: "Blog",      href: "/blogs"          },
   { label: "Contact",   href: "/contact"        },
+  { label: "About Us",  href: "/about-us"       },
 ];
 
 const servicesMega = {
