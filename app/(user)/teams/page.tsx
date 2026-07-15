@@ -121,7 +121,7 @@ export default function TeamsPage() {
     setSelectedMember(null);
   };
 
-  // Filter by search
+  // Filter By search
   const searched = searchQuery.trim()
     ? allMembers.filter(
         (m) =>
