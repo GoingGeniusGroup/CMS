@@ -226,7 +226,15 @@ export default function CompanyPage() {
       {/* ── Team ─────────────────────────────────────────── */}
       <section className="border-t border-gray-100">
         <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <SectionHeader eyebrow="Our Team" title="Meet The Geniuses" action="View All Team" />
+          <div className="mb-8 flex items-end justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">Our Team</p>
+              <h2 className="mt-1 text-2xl font-bold text-gray-900 sm:text-3xl">Meet The Geniuses</h2>
+            </div>
+            <Link href="/teams" className="hidden shrink-0 items-center gap-1 text-sm font-semibold text-indigo-600 hover:text-indigo-700 sm:flex">
+              View All Team <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
           <div className="grid grid-cols-2 gap-5 sm:grid-cols-4">
             {teamMembers.map((member) => (
               <div key={member.id} className="rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm">
