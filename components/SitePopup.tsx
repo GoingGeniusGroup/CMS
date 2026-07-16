@@ -8,19 +8,31 @@ type SitePopupProps = {
   content: string;
 };
 
+// Simple stable hash of the content so a changed popup gets a fresh dismissal key.
+function hashContent(str: string) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0; // 32-bit int
+  }
+  return String(hash);
+}
+
 export function SitePopup({ showPopup, content }: SitePopupProps) {
   const [visible, setVisible] = useState(false);
 
+  const dismissKey = `popup-dismissed:${hashContent(content)}`;
+
   useEffect(() => {
     if (!showPopup || !content) return;
-    const dismissed = sessionStorage.getItem("popup-dismissed");
+    const dismissed = localStorage.getItem(dismissKey);
     if (!dismissed) {
       setVisible(true);
     }
-  }, [showPopup, content]);
+  }, [showPopup, content, dismissKey]);
 
   function handleClose() {
-    sessionStorage.setItem("popup-dismissed", "true");
+    localStorage.setItem(dismissKey, "true");
     setVisible(false);
   }
 

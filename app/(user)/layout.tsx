@@ -6,6 +6,11 @@ import { CookieBanner } from "@/components/CookieBanner";
 import { SitePopup } from "@/components/SitePopup";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getPublicContactSettings } from "@/app/actions/contact-settings";
+import { getPublicWebsiteHeader } from "@/app/actions/website-header";
+import { getPublicFooterSettings } from "@/app/actions/footer-settings";
+import { getPublicSeoSettings } from "@/app/actions/seo";
+import { getPublicCookieSettings } from "@/app/actions/cookie-settings";
+import { getPublicPopupSettings } from "@/app/actions/popup";
 
 export const dynamic = "force-dynamic";
 
@@ -44,9 +49,20 @@ export default async function UserLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [settings, contactSettings] = await Promise.all([
+  const [
+    settings,
+    contactSettings,
+    headerSettings,
+    footerSettings,
+    cookieSettings,
+    popupSettings,
+  ] = await Promise.all([
     getSiteSettings(),
     getPublicContactSettings(),
+    getPublicWebsiteHeader(),
+    getPublicFooterSettings(),
+    getPublicCookieSettings(),
+    getPublicPopupSettings(),
   ]);
 
   const hasBanner = !!headerSettings.bannerImageUrl;

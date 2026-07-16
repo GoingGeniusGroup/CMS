@@ -8,25 +8,37 @@ type CookieBannerProps = {
   cookiesAgreementText: string;
 };
 
+// Simple stable hash so a changed cookie text gets a fresh consent key.
+function hashContent(str: string) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0; // 32-bit int
+  }
+  return String(hash);
+}
+
 export function CookieBanner({ showCookiesAgreement, cookiesAgreementText }: CookieBannerProps) {
   const [visible, setVisible] = useState(false);
 
+  const consentKey = `cookies-accepted:${hashContent(cookiesAgreementText || "")}`;
+
   useEffect(() => {
-    // Only show if settings say to show AND user hasn't already accepted
+    // Only show if settings say to show AND user hasn't already responded to THIS text
     if (!showCookiesAgreement) return;
-    const accepted = localStorage.getItem("cookies-accepted");
-    if (!accepted) {
+    const responded = localStorage.getItem(consentKey);
+    if (!responded) {
       setVisible(true);
     }
-  }, [showCookiesAgreement]);
+  }, [showCookiesAgreement, consentKey]);
 
   function handleAccept() {
-    localStorage.setItem("cookies-accepted", "true");
+    localStorage.setItem(consentKey, "true");
     setVisible(false);
   }
 
   function handleDecline() {
-    localStorage.setItem("cookies-accepted", "false");
+    localStorage.setItem(consentKey, "false");
     setVisible(false);
   }
 
