@@ -2,31 +2,39 @@ import type { Metadata } from "next";
 import { LandingNavbar } from "@/components/LandingNavbar";
 import { TopBanner } from "@/components/TopBanner";
 import Footer from "@/components/footer";
+import { CookieBanner } from "@/components/CookieBanner";
+import { SitePopup } from "@/components/SitePopup";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getPublicContactSettings } from "@/app/actions/contact-settings";
-import { getPublicWebsiteHeader } from "@/app/actions/website-header";
-import { getPublicFooterSettings } from "@/app/actions/footer-settings";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSiteSettings();
+  const [settings, seoSettings] = await Promise.all([
+    getSiteSettings(),
+    getPublicSeoSettings(),
+  ]);
+
+  const title = seoSettings.metaTitle || settings.siteName;
+  const description = seoSettings.metaDescription || settings.description;
+  const keywords = seoSettings.metaKeywords || settings.metaKeywords || "";
 
   return {
     title: {
-      default: settings.siteName,
+      default: title,
       template: `%s | ${settings.siteName}`,
     },
-    description: settings.description,
-    keywords: settings.metaKeywords ? settings.metaKeywords.split(",").map((k) => k.trim()) : [],
+    description,
+    keywords: keywords ? keywords.split(",").map((k) => k.trim()) : [],
     icons: {
       icon: settings.faviconUrl || "/favicon.ico",
       shortcut: settings.faviconUrl || "/favicon.ico",
       apple: settings.faviconUrl || "/favicon.ico",
     },
     openGraph: {
-      title: settings.siteName,
-      description: settings.description,
+      title,
+      description,
+      ...(seoSettings.metaImage ? { images: [{ url: seoSettings.metaImage }] } : {}),
     },
   };
 }
@@ -36,11 +44,9 @@ export default async function UserLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [settings, contactSettings, headerSettings, footerSettings] = await Promise.all([
+  const [settings, contactSettings] = await Promise.all([
     getSiteSettings(),
     getPublicContactSettings(),
-    getPublicWebsiteHeader(),
-    getPublicFooterSettings(),
   ]);
 
   const hasBanner = !!headerSettings.bannerImageUrl;
@@ -79,6 +85,16 @@ export default async function UserLayout({
         socials={footerSettings.socials}
         paymentLogoUrl={footerSettings.paymentLogoUrl || undefined}
         footerLogoUrl={footerSettings.footerLogoUrl || undefined}
+      />
+      {cookieSettings.cookiesAgreement && (
+        <CookieBanner
+          showCookiesAgreement={cookieSettings.showCookiesAgreement}
+          cookiesAgreementText={cookieSettings.cookiesAgreementText}
+        />
+      )}
+      <SitePopup
+        showPopup={popupSettings.showPopup}
+        content={popupSettings.content}
       />
     </div>
   );

@@ -34,3 +34,9 @@ export async function saveCookieSettings(data: CookieSettingInput) {
     return { success: false, error: "Failed to save cookie settings" };
   }
 }
+
+// Public access - no auth required (for user-facing cookie banner)
+export async function getPublicCookieSettings() {
+  const data = await prisma.cookieSetting.findFirst();
+  return data ?? { cookiesAgreement: true, showCookiesAgreement: true, cookiesAgreementText: "" };
+}
