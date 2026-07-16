@@ -4,23 +4,39 @@ import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 
 export type AppearanceData = {
-  baseColor: string;
   hoverColor: string;
+  hoverEnabled: boolean;
   timezone: string;
 };
+
+const DEFAULTS: AppearanceData = {
+  hoverColor: "#e08800",
+  hoverEnabled: true,
+  timezone: "(GMT+05:45) Asia/Kathmandu",
+};
+
+// Public: fetch appearance settings — no auth needed for client pages.
+export async function getPublicAppearanceSettings(): Promise<AppearanceData> {
+  const setting = await prisma.appearanceSetting.findFirst();
+  if (!setting) return DEFAULTS;
+  return {
+    hoverColor: setting.hoverColor || DEFAULTS.hoverColor,
+    hoverEnabled: setting.hoverEnabled,
+    timezone: setting.timezone || DEFAULTS.timezone,
+  };
+}
 
 export async function getAppearanceSettings(): Promise<AppearanceData> {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
 
   const setting = await prisma.appearanceSetting.findFirst();
-  return (
-    setting ?? {
-      baseColor: "#825DD2",
-      hoverColor: "#D78539",
-      timezone: "(GMT+06:45) Asia/Kathmandu",
-    }
-  );
+  if (!setting) return DEFAULTS;
+  return {
+    hoverColor: setting.hoverColor || DEFAULTS.hoverColor,
+    hoverEnabled: setting.hoverEnabled,
+    timezone: setting.timezone || DEFAULTS.timezone,
+  };
 }
 
 export async function saveAppearanceSettings(data: AppearanceData) {

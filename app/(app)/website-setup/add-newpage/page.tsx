@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { FileText, Search, Loader2 } from "lucide-react";
+import { FileText, Search, Loader2, Menu } from "lucide-react";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { PageHeader } from "@/components/PageHeader";
 import { ImageUploader } from "@/components/ImageUploader";
+import { TiptapEditor } from "@/components/TiptapEditor";
 import { createPage } from "@/app/actions/pages";
+import { getWebsiteHeader, saveWebsiteHeader } from "@/app/actions/website-header";
 import { useRouter } from "next/navigation";
+import type { JSONContent } from "@tiptap/react";
 
 function Field({
   label,
@@ -40,7 +43,7 @@ export default function AddNewPage() {
 
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState<JSONContent | null>(null);
   const [thumbnail, setThumbnail] = useState<string | null>(null);
   const [status, setStatus] = useState<"Published" | "Draft">("Draft");
 
@@ -48,6 +51,9 @@ export default function AddNewPage() {
   const [metaDesc, setMetaDesc] = useState("");
   const [keywords, setKeywords] = useState("");
   const [metaImage, setMetaImage] = useState<string | null>(null);
+
+  const [addToNav, setAddToNav] = useState(false);
+  const [navLabel, setNavLabel] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -63,18 +69,21 @@ export default function AddNewPage() {
         .replace(/-+/g, "-")
         .trim()
     );
+    if (!navLabel) setNavLabel(val);
   }
 
   function handleReset() {
     setTitle("");
     setSlug("");
-    setContent("");
+    setContent(null);
     setThumbnail(null);
     setStatus("Draft");
     setMetaTitle("");
     setMetaDesc("");
     setKeywords("");
     setMetaImage(null);
+    setAddToNav(false);
+    setNavLabel("");
     setError(null);
     setSuccess(false);
   }
@@ -87,7 +96,7 @@ export default function AddNewPage() {
     const result = await createPage({
       title,
       slug,
-      content: content || undefined,
+      content: content ? JSON.parse(JSON.stringify(content)) : undefined,
       thumbnail: thumbnail || undefined,
       metaTitle: metaTitle || undefined,
       metaDesc: metaDesc || undefined,
@@ -96,16 +105,35 @@ export default function AddNewPage() {
       status,
     });
 
-    setIsSubmitting(false);
-
     if (!result.success) {
+      setIsSubmitting(false);
       setError(result.error || "Something went wrong");
       return;
     }
 
+    // Optionally add to navigation menu
+    if (addToNav) {
+      try {
+        const header = await getWebsiteHeader();
+        const path = `/${slug}`;
+        const exists = header.menuItems.some((m) => m.path === path);
+        if (!exists) {
+          await saveWebsiteHeader({
+            ...header,
+            menuItems: [
+              ...header.menuItems,
+              { label: navLabel || title, path },
+            ],
+          });
+        }
+      } catch (e) {
+        console.error("Failed to add page to navigation:", e);
+      }
+    }
+
+    setIsSubmitting(false);
     setSuccess(true);
     handleReset();
-    // Optionally navigate to pages list
     router.push("/pages");
   }
 
@@ -113,7 +141,7 @@ export default function AddNewPage() {
     <div className="space-y-6">
       <PageHeader
         title="Add New Page"
-        description="Create a new page for your website. It will appear in the Pages list."
+        description="Create a new page for your website. Content is fully customizable with the rich text editor."
       />
 
       {error && (
@@ -141,7 +169,7 @@ export default function AddNewPage() {
               type="text"
               value={title}
               onChange={(e) => handleTitleChange(e.target.value)}
-              placeholder="e.g. About Us"
+              placeholder="e.g. Terms & Conditions"
               className={inputCls}
             />
           </Field>
@@ -151,7 +179,7 @@ export default function AddNewPage() {
               type="text"
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
-              placeholder="e.g. about-us"
+              placeholder="e.g. terms-and-conditions"
               className={inputCls}
             />
           </Field>
@@ -162,13 +190,14 @@ export default function AddNewPage() {
             onChange={(url) => setThumbnail(url)}
           />
 
-          <Field label="Content" hint="Write the content of the page">
-            <textarea
-              rows={8}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Start writing..."
-              className="w-full resize-none rounded-lg border border-zinc-200 bg-white px-3 py-2.5 text-sm text-zinc-600 outline-none placeholder:text-zinc-400 focus:border-indigo-400 transition-colors"
+          <Field
+            label="Content"
+            hint="Use headings (H2) to create numbered sections. They automatically appear in the 'On this page' sidebar."
+          >
+            <TiptapEditor
+              content={content}
+              onChange={(json) => setContent(json)}
+              placeholder="Start writing your page content..."
             />
           </Field>
 
@@ -182,6 +211,50 @@ export default function AddNewPage() {
               <option value="Published">Published</option>
             </select>
           </Field>
+        </div>
+      </Card>
+
+      {/* Navigation Menu Card */}
+      <Card>
+        <div className="mb-5 flex items-center gap-2 text-base font-bold text-zinc-900">
+          <Menu className="h-4 w-4 text-zinc-500" strokeWidth={2} />
+          Navigation Menu
+        </div>
+
+        <div className="space-y-4">
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={addToNav}
+              onChange={(e) => setAddToNav(e.target.checked)}
+              className="h-4 w-4 rounded border-zinc-300 accent-indigo-600"
+            />
+            <span className="text-sm font-medium text-zinc-700">
+              Add this page to the website navigation menu
+            </span>
+          </label>
+
+          {addToNav && (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Menu Label" hint="Text shown in the navbar">
+                <input
+                  type="text"
+                  value={navLabel}
+                  onChange={(e) => setNavLabel(e.target.value)}
+                  placeholder="e.g. Terms & Conditions"
+                  className={inputCls}
+                />
+              </Field>
+              <Field label="Route" hint="Auto-generated from slug">
+                <input
+                  type="text"
+                  value={slug ? `/${slug}` : ""}
+                  disabled
+                  className={`${inputCls} bg-zinc-50 text-zinc-400`}
+                />
+              </Field>
+            </div>
+          )}
         </div>
       </Card>
 
@@ -230,7 +303,7 @@ export default function AddNewPage() {
               type="text"
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
-              placeholder="e.g. design, development, agency"
+              placeholder="e.g. terms, conditions, legal"
               className={inputCls}
             />
           </Field>

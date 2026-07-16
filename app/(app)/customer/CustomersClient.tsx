@@ -12,6 +12,7 @@ import { Pagination } from "@/components/Pagination";
 import { AddCustomerModal } from "@/components/AddcostumerModal";
 import { EditCustomerModal, type CustomerRow } from "@/components/EditCustomerModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { ViewDetailModal } from "@/components/ViewDetailModal";
 import { getCustomers, deleteCustomer } from "@/app/actions/customers";
 
 type SelectOption = { id: string; label: string };
@@ -60,6 +61,7 @@ export function CustomersClient({
   const [addOpen, setAddOpen] = useState(false);
   const [editCustomer, setEditCustomer] = useState<CustomerRow | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [viewItem, setViewItem] = useState<Customer | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
@@ -139,7 +141,7 @@ export function CustomersClient({
         <h2 className="text-lg font-bold text-black">Customers</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
-          <div className="hidden sm:flex items-center rounded-lg border border-gray-200 bg-white p-1">
+          <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
             <button
               type="button"
               onClick={() => setViewMode("list")}
@@ -237,6 +239,7 @@ export function CustomersClient({
                     </td>
                     <td className="p-4">
                       <RowActions
+                        onView={() => setViewItem(customer)}
                         onEdit={() => setEditCustomer({
                           id: customer.id,
                           fullName: customer.fullName,
@@ -283,6 +286,7 @@ export function CustomersClient({
                 </div>
                 <RowActions
                   variant="buttons"
+                  onView={() => setViewItem(customer)}
                   onEdit={() => setEditCustomer({
                     id: customer.id,
                     fullName: customer.fullName,
@@ -342,6 +346,7 @@ export function CustomersClient({
               {/* Actions */}
               <RowActions
                 variant="buttons"
+                onView={() => setViewItem(customer)}
                 onEdit={() => setEditCustomer({
                   id: customer.id,
                   fullName: customer.fullName,
@@ -394,6 +399,23 @@ export function CustomersClient({
         description="Are you sure you want to delete this customer? This action cannot be undone."
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
+      />
+
+      {/* View Detail Modal */}
+      <ViewDetailModal
+        open={!!viewItem}
+        onClose={() => setViewItem(null)}
+        title={viewItem?.fullName || ""}
+        imageUrl={viewItem?.image || undefined}
+        fields={[
+          { label: "Name", value: viewItem?.fullName },
+          { label: "Email", value: viewItem?.email },
+          { label: "Phone", value: viewItem?.phoneNumber },
+          { label: "Company", value: viewItem?.companyName },
+          { label: "Service", value: viewItem?.service?.serviceName },
+          { label: "Status", value: viewItem?.status },
+          { label: "Address", value: viewItem?.address },
+        ]}
       />
     </div>
   );

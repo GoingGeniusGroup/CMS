@@ -7,7 +7,7 @@ import { z } from "zod";
 const pageSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
   slug: z.string().min(2, "Slug is required"),
-  content: z.string().optional(),
+  content: z.unknown().optional(),
   thumbnail: z.string().optional(),
   metaTitle: z.string().optional(),
   metaDesc: z.string().optional(),
@@ -44,6 +44,29 @@ export async function getPages(page = 1, pageSize = 10) {
   };
 }
 
+// ─── Public (no auth) — for client-side rendering ────────────────────────────
+
+export async function getPublicPageBySlug(slug: string) {
+  const page = await prisma.page.findFirst({
+    where: { slug, status: "Published" },
+  });
+  return page;
+}
+
+function buildData(data: PageInput) {
+  return {
+    title: data.title,
+    slug: data.slug,
+    content: (data.content ?? undefined) as object | undefined,
+    thumbnail: data.thumbnail,
+    metaTitle: data.metaTitle,
+    metaDesc: data.metaDesc,
+    keywords: data.keywords,
+    metaImage: data.metaImage,
+    status: data.status,
+  };
+}
+
 export async function createPage(data: PageInput) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
@@ -54,7 +77,7 @@ export async function createPage(data: PageInput) {
   }
 
   try {
-    await prisma.page.create({ data: result.data });
+    await prisma.page.create({ data: buildData(result.data) });
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -75,7 +98,7 @@ export async function updatePage(id: string, data: PageInput) {
   }
 
   try {
-    await prisma.page.update({ where: { id }, data: result.data });
+    await prisma.page.update({ where: { id }, data: buildData(result.data) });
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {

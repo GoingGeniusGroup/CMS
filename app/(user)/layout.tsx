@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { LandingNavbar } from "@/components/LandingNavbar";
+import { TopBanner } from "@/components/TopBanner";
 import Footer from "@/components/footer";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getPublicContactSettings } from "@/app/actions/contact-settings";
+import { getPublicWebsiteHeader } from "@/app/actions/website-header";
+import { getPublicFooterSettings } from "@/app/actions/footer-settings";
 
 export const dynamic = "force-dynamic";
 
@@ -33,14 +36,35 @@ export default async function UserLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [settings, contactSettings] = await Promise.all([
+  const [settings, contactSettings, headerSettings, footerSettings] = await Promise.all([
     getSiteSettings(),
     getPublicContactSettings(),
+    getPublicWebsiteHeader(),
+    getPublicFooterSettings(),
   ]);
+
+  const hasBanner = !!headerSettings.bannerImageUrl;
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <LandingNavbar logoUrl={settings.logoUrl} siteName={settings.siteName} />
+      {/* Sticky wrapper — banner + navbar stick together */}
+      <div className={headerSettings.stickyHeader ? "sticky top-0 z-50" : ""}>
+        {/* Top Banner Ad */}
+        {hasBanner && (
+          <TopBanner
+            imageUrl={headerSettings.bannerImageUrl}
+            link={headerSettings.bannerLink || null}
+          />
+        )}
+
+        {/* Navbar — always directly below banner */}
+        <LandingNavbar
+          logoUrl={settings.logoUrl}
+          siteName={settings.siteName}
+          menuItems={headerSettings.menuItems}
+        />
+      </div>
+
       <main className="flex-1">{children}</main>
       <Footer
         logoUrl={settings.logoUrl}
@@ -48,6 +72,13 @@ export default async function UserLayout({
         contactEmail={contactSettings?.email1 || undefined}
         contactPhone={contactSettings?.phone1 || undefined}
         contactAddress={contactSettings?.address || undefined}
+        aboutDesc={footerSettings.aboutDesc || undefined}
+        brandText={footerSettings.brandText || undefined}
+        copyrightText={footerSettings.copyrightText || undefined}
+        linkColumns={footerSettings.linkColumns}
+        socials={footerSettings.socials}
+        paymentLogoUrl={footerSettings.paymentLogoUrl || undefined}
+        footerLogoUrl={footerSettings.footerLogoUrl || undefined}
       />
     </div>
   );

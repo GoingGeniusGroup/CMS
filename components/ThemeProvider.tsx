@@ -1,19 +1,30 @@
 /**
  * ThemeProvider — injects CSS custom properties and overrides for the CMS theme color.
- * Uses high-specificity selectors to override Tailwind v4 utilities.
+ *
+ * - `themeColor`: the single base color applied to ALL indigo/purple utilities (non-hover).
+ * - `hoverColor`: applied on :hover states only, when `hoverEnabled` is true.
+ * - `hoverEnabled`: when false, hover keeps the base theme color (no color change).
+ * - `baseColorEnabled`: master switch to enable/disable theming entirely.
  */
 
 type ThemeProviderProps = {
   themeColor: string;
+  hoverColor?: string;
+  hoverEnabled?: boolean;
   baseColorEnabled: boolean;
 };
 
-export function ThemeProvider({ themeColor, baseColorEnabled }: ThemeProviderProps) {
+export function ThemeProvider({
+  themeColor,
+  hoverColor,
+  hoverEnabled = true,
+  baseColorEnabled,
+}: ThemeProviderProps) {
   if (!baseColorEnabled || !themeColor) return null;
 
-  const hover = adjustBrightness(themeColor, -12);
+  // Hover uses the hover color only when enabled; otherwise it stays the theme color.
+  const hover = hoverEnabled && hoverColor ? hoverColor : themeColor;
 
-  // Use html body selectors for maximum specificity that beats Tailwind v4
   const css = `
     :root {
       --theme-color: ${themeColor};
@@ -22,78 +33,86 @@ export function ThemeProvider({ themeColor, baseColorEnabled }: ThemeProviderPro
       --theme-color-medium: ${themeColor}25;
     }
 
-    /* ─── Background overrides ─── */
+    /* ─── Background: ALL solid indigo/purple shades → theme color (uniform, no mix) ─── */
+    html body [class*="bg-indigo-4"],
+    html body [class*="bg-indigo-5"],
     html body [class*="bg-indigo-6"],
-    html body [class*="bg-purple-6"] {
-      background-color: ${themeColor} !important;
-    }
     html body [class*="bg-indigo-7"],
-    html body [class*="bg-purple-7"] {
-      background-color: ${hover} !important;
-    }
-    html body [class*="bg-indigo-5"] {
+    html body [class*="bg-indigo-8"],
+    html body [class*="bg-indigo-9"],
+    html body [class*="bg-purple-4"],
+    html body [class*="bg-purple-5"],
+    html body [class*="bg-purple-6"],
+    html body [class*="bg-purple-7"],
+    html body [class*="bg-purple-8"],
+    html body [class*="bg-purple-9"] {
       background-color: ${themeColor} !important;
     }
-    html body [class*="bg-indigo-50"],
-    html body [class*="bg-purple-50"] {
-      background-color: ${themeColor}15 !important;
-    }
 
-    /* ─── Text overrides ─── */
-    html body [class*="text-indigo-6"],
-    html body [class*="text-purple-6"],
-    html body [class*="text-purple-7"] {
-      color: ${themeColor} !important;
-    }
+    /* ─── Light tint backgrounds (50/100) → do NOT override, keep original light tints ─── */
+
+    /* ─── Text: all indigo/purple shades → theme color ─── */
+    html body [class*="text-indigo-4"],
     html body [class*="text-indigo-5"],
-    html body [class*="text-purple-5"] {
-      color: ${themeColor} !important;
-    }
-    html body [class*="text-indigo-7"] {
-      color: ${hover} !important;
-    }
-    html body [class*="text-indigo-4"] {
+    html body [class*="text-indigo-6"],
+    html body [class*="text-indigo-7"],
+    html body [class*="text-indigo-8"],
+    html body [class*="text-indigo-9"],
+    html body [class*="text-purple-4"],
+    html body [class*="text-purple-5"],
+    html body [class*="text-purple-6"],
+    html body [class*="text-purple-7"],
+    html body [class*="text-purple-8"],
+    html body [class*="text-purple-9"] {
       color: ${themeColor} !important;
     }
 
-    /* ─── Border overrides ─── */
+    /* ─── Borders ─── */
     html body [class*="border-indigo-"],
     html body [class*="border-purple-"] {
       border-color: ${themeColor}40 !important;
     }
 
-    /* ─── Gradient overrides ─── */
-    html body [class*="from-indigo-"] {
+    /* ─── Gradients ─── */
+    html body [class*="from-indigo-"],
+    html body [class*="from-purple-"] {
       --tw-gradient-from: ${themeColor} !important;
     }
-    html body [class*="to-purple-"],
-    html body [class*="to-indigo-"] {
-      --tw-gradient-to: ${hover} !important;
+    html body [class*="to-indigo-"],
+    html body [class*="to-purple-"] {
+      --tw-gradient-to: ${themeColor} !important;
     }
-    html body [class*="via-indigo-"] {
+    html body [class*="via-indigo-"],
+    html body [class*="via-purple-"] {
       --tw-gradient-via: ${themeColor} !important;
     }
 
-    /* ─── Ring overrides ─── */
+    /* ─── Rings ─── */
     html body [class*="ring-indigo-"],
     html body [class*="ring-purple-"] {
       --tw-ring-color: ${themeColor}40 !important;
     }
 
-    /* ─── Focus state overrides ─── */
+    /* ─── Focus states ─── */
     html body [class*="focus:border-indigo"]:focus,
     html body [class*="focus:ring-indigo"]:focus {
       border-color: ${themeColor} !important;
       --tw-ring-color: ${themeColor}30 !important;
     }
 
-    /* ─── Hover state overrides ─── */
+    /* ─── Hover states: use hover color (or theme color when hover disabled) ─── */
     html body [class*="hover:bg-indigo"]:hover,
     html body [class*="hover:bg-purple"]:hover {
       background-color: ${hover} !important;
     }
     html body [class*="hover:text-indigo"]:hover,
     html body [class*="hover:text-purple"]:hover {
+      color: ${hover} !important;
+    }
+    /* Apply hover color to themed text links on hover (even without explicit hover:text class) */
+    html body [class*="text-indigo-6"]:hover,
+    html body [class*="text-indigo-5"]:hover,
+    html body [class*="text-purple-6"]:hover {
       color: ${hover} !important;
     }
 
@@ -106,12 +125,4 @@ export function ThemeProvider({ themeColor, baseColorEnabled }: ThemeProviderPro
   `;
 
   return <style dangerouslySetInnerHTML={{ __html: css }} />;
-}
-
-function adjustBrightness(hex: string, percent: number): string {
-  const num = parseInt(hex.replace("#", ""), 16);
-  const r = Math.min(255, Math.max(0, ((num >> 16) & 0xff) + Math.round(2.55 * percent)));
-  const g = Math.min(255, Math.max(0, ((num >> 8) & 0xff) + Math.round(2.55 * percent)));
-  const b = Math.min(255, Math.max(0, (num & 0xff) + Math.round(2.55 * percent)));
-  return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`;
 }

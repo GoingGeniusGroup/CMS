@@ -34,6 +34,28 @@ export async function saveSetting(key: string, value: unknown) {
 // ─── Public partner logos (no auth) ──────────────────────────────────────────
 
 /**
+ * Returns the website header settings (sticky, banner, etc.)
+ * No authentication required — safe to call from public pages.
+ */
+export async function getPublicHeaderSettings() {
+  const setting = await prisma.setting.findUnique({
+    where: { key: "website-header" },
+  });
+  const data = (setting?.value as {
+    stickyHeader?: boolean;
+    bannerImageUrl?: string;
+    bannerLink?: string;
+    helpNumber?: string;
+  }) ?? {};
+  return {
+    stickyHeader: data.stickyHeader ?? true,
+    bannerImageUrl: data.bannerImageUrl || null,
+    bannerLink: data.bannerLink || null,
+    helpNumber: data.helpNumber || null,
+  };
+}
+
+/**
  * Returns the array of partner logo URLs saved by the admin.
  * No authentication required — safe to call from public pages.
  */

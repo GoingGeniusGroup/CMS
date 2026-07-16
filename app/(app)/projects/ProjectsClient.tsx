@@ -11,6 +11,7 @@ import { RowActions } from "@/components/RowActions";
 import { Pagination } from "@/components/Pagination";
 import { ProjectModal } from "@/components/ProjectModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { ViewDetailModal } from "@/components/ViewDetailModal";
 import { getProjects, deleteProject } from "@/app/actions/projects";
 
 type SelectOption = { id: string; label: string };
@@ -78,6 +79,7 @@ export function ProjectsClient({
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [viewItem, setViewItem] = useState<Project | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
@@ -158,7 +160,7 @@ export function ProjectsClient({
         <h2 className="text-lg font-bold text-black">Projects</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
-          <div className="hidden sm:flex items-center rounded-lg border border-gray-200 bg-white p-1">
+          <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
             <button
               type="button"
               onClick={() => setViewMode("list")}
@@ -247,6 +249,7 @@ export function ProjectsClient({
                     </td>
                     <td className="p-4">
                       <RowActions
+                        onView={() => setViewItem(project)}
                         onEdit={() => handleEdit(project)}
                         onDelete={() => handleDelete(project.id)}
                       />
@@ -279,7 +282,7 @@ export function ProjectsClient({
                     </span>
                   </div>
                 </div>
-                <RowActions variant="buttons" onEdit={() => handleEdit(project)} onDelete={() => handleDelete(project.id)} />
+                <RowActions variant="buttons" onView={() => setViewItem(project)} onEdit={() => handleEdit(project)} onDelete={() => handleDelete(project.id)} />
               </div>
             ))}
           </div>
@@ -343,6 +346,7 @@ export function ProjectsClient({
               {/* Actions */}
               <RowActions
                 variant="buttons"
+                onView={() => setViewItem(project)}
                 onEdit={() => handleEdit(project)}
                 onDelete={() => handleDelete(project.id)}
               />
@@ -379,6 +383,25 @@ export function ProjectsClient({
         description="Are you sure you want to delete this project? This action cannot be undone."
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
+      />
+
+      {/* View Detail Modal */}
+      <ViewDetailModal
+        open={!!viewItem}
+        onClose={() => setViewItem(null)}
+        title={viewItem?.title || ""}
+        imageUrl={viewItem?.thumbnail || undefined}
+        fields={[
+          { label: "Title", value: viewItem?.title },
+          { label: "Category", value: viewItem?.category },
+          { label: "Status", value: viewItem?.status },
+          { label: "Customer", value: viewItem?.customer?.fullName },
+          { label: "Service", value: viewItem?.service?.serviceName },
+          { label: "Budget", value: viewItem?.budget },
+          { label: "Start Date", value: viewItem?.startDate ? new Date(viewItem.startDate).toLocaleDateString() : null },
+          { label: "End Date", value: viewItem?.endDate ? new Date(viewItem.endDate).toLocaleDateString() : null },
+          { label: "Description", value: viewItem?.description },
+        ]}
       />
     </div>
   );

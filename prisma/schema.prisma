@@ -178,7 +178,7 @@ model Page {
   id          String   @id @default(cuid())
   title       String
   slug        String   @unique
-  content     String?
+  content     Json?
   thumbnail   String?
   metaTitle   String?
   metaDesc    String?
@@ -211,11 +211,12 @@ model SeoSetting {
 }
 
 model AppearanceSetting {
-  id         String   @id @default(cuid())
-  baseColor  String   @default("#825DD2")
-  hoverColor String   @default("#D78539")
-  timezone   String   @default("(GMT+06:45) Asia/Kathmandu")
-  updatedAt  DateTime @updatedAt
+  id           String   @id @default(cuid())
+  baseColor    String   @default("#fe9a00")
+  hoverColor   String   @default("#e08800")
+  hoverEnabled Boolean  @default(true)
+  timezone     String   @default("(GMT+05:45) Asia/Kathmandu")
+  updatedAt    DateTime @updatedAt
 
   @@map("appearance_settings")
 }
@@ -312,4 +313,32 @@ model CookieSetting {
   updatedAt            DateTime @updatedAt
 
   @@map("cookie_settings")
+}
+
+model WebsiteHeader {
+  id             String   @id @default(cuid())
+  stickyHeader   Boolean  @default(true)
+  bannerImageUrl String   @default("")
+  bannerLink     String   @default("")
+  helpNumber     String   @default("")
+  menuItems      Json     @default("[]")
+  updatedAt      DateTime @updatedAt
+
+  @@map("website_headers")
+}
+
+model FooterSetting {
+  id             String   @id @default(cuid())
+  footerLogoUrl  String   @default("")
+  brandText      String   @default("Going Genius Group of Companies")
+  aboutDesc      String   @default("")
+  copyrightText  String   @default("")
+  playStoreLink  String   @default("")
+  appStoreLink   String   @default("")
+  paymentLogoUrl String   @default("")
+  socials        Json     @default("[]")
+  linkColumns    Json     @default("[]")
+  updatedAt      DateTime @updatedAt
+
+  @@map("footer_settings")
 }

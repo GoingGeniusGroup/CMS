@@ -10,6 +10,7 @@ import { RowActions } from "@/components/RowActions";
 import { Pagination } from "@/components/Pagination";
 import { BlogModal } from "@/components/BlogModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { ViewDetailModal } from "@/components/ViewDetailModal";
 import { Filter, Plus, Search, Newspaper, Folder, List, LayoutGrid } from "lucide-react";
 import { getBlogs, deleteBlog } from "@/app/actions/blogs";
 
@@ -27,6 +28,7 @@ type Blog = {
   category: string | null;
   tags: string[];
   readTime: string | null;
+  thumbnail: string | null;
   authorId: string | null;
   author: Author | null;
   status: string;
@@ -64,6 +66,7 @@ export function BlogsClient({
   const [modalOpen, setModalOpen] = useState(false);
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [viewItem, setViewItem] = useState<Blog | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
@@ -147,7 +150,7 @@ export function BlogsClient({
         <h2 className="text-lg font-bold text-black">Blogs</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
-          <div className="hidden sm:flex items-center rounded-lg border border-gray-200 bg-white p-1">
+          <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
             <button
               type="button"
               onClick={() => setViewMode("list")}
@@ -234,7 +237,7 @@ export function BlogsClient({
                       </span>
                     </td>
                     <td className="p-4">
-                      <RowActions onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
+                      <RowActions onView={() => setViewItem(blog)} onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
                     </td>
                   </tr>
                 ))}
@@ -260,7 +263,7 @@ export function BlogsClient({
                     </span>
                   </div>
                 </div>
-                <RowActions variant="buttons" onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
+                <RowActions variant="buttons" onView={() => setViewItem(blog)} onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
               </div>
             ))}
           </div>
@@ -297,7 +300,7 @@ export function BlogsClient({
               </div>
 
               {/* Actions */}
-              <RowActions variant="buttons" onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
+              <RowActions variant="buttons" onView={() => setViewItem(blog)} onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
             </div>
           ))}
         </div>
@@ -330,6 +333,24 @@ export function BlogsClient({
         description="Are you sure you want to delete this blog? This action cannot be undone."
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
+      />
+
+      {/* View Detail Modal */}
+      <ViewDetailModal
+        open={!!viewItem}
+        onClose={() => setViewItem(null)}
+        title={viewItem?.title || ""}
+        imageUrl={viewItem?.thumbnail || undefined}
+        fields={[
+          { label: "Title", value: viewItem?.title },
+          { label: "Slug", value: viewItem?.slug },
+          { label: "Category", value: viewItem?.category },
+          { label: "Author", value: viewItem?.author?.fullName },
+          { label: "Status", value: viewItem?.status },
+          { label: "Excerpt", value: viewItem?.excerpt },
+          { label: "Tags", value: viewItem?.tags?.join(", ") },
+          { label: "Read Time", value: viewItem?.readTime },
+        ]}
       />
     </div>
   );

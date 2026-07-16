@@ -11,6 +11,7 @@ import { RowActions } from "@/components/RowActions";
 import { Pagination } from "@/components/Pagination";
 import { AddMemberModal, type MemberFormData } from "@/components/AddMemberModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { ViewDetailModal } from "@/components/ViewDetailModal";
 import {
   getTeamMembers,
   createTeamMember,
@@ -59,6 +60,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
   const [modalKey, setModalKey] = useState(0);
+  const [viewItem, setViewItem] = useState<TeamMember | null>(null);
 
   // Delete confirm
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -208,7 +210,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
         <h2 className="text-lg font-bold text-black">Team Members</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
-          <div className="hidden sm:flex items-center rounded-lg border border-gray-200 bg-white p-1">
+          <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
             <button
               type="button"
               onClick={() => setViewMode("list")}
@@ -300,7 +302,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <RowActions onEdit={() => handleEdit(m)} onDelete={() => handleDeleteRequest(m.id)} />
+                      <RowActions onView={() => setViewItem(m)} onEdit={() => handleEdit(m)} onDelete={() => handleDeleteRequest(m.id)} />
                     </td>
                   </tr>
                 ))}
@@ -343,7 +345,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
                     <span className="truncate">{m.email}</span>
                   </div>
                 </div>
-                <RowActions variant="buttons" onEdit={() => handleEdit(m)} onDelete={() => handleDeleteRequest(m.id)} />
+                <RowActions variant="buttons" onView={() => setViewItem(m)} onEdit={() => handleEdit(m)} onDelete={() => handleDeleteRequest(m.id)} />
               </div>
             ))}
           </div>
@@ -381,7 +383,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
                 </div>
               </div>
               <div className="mt-auto pt-2 border-t border-gray-100">
-                <RowActions variant="buttons" onEdit={() => handleEdit(m)} onDelete={() => handleDeleteRequest(m.id)} />
+                <RowActions variant="buttons" onView={() => setViewItem(m)} onEdit={() => handleEdit(m)} onDelete={() => handleDeleteRequest(m.id)} />
               </div>
             </Card>
           ))}
@@ -414,6 +416,26 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
         description="Are you sure you want to delete this team member? This action cannot be undone."
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
+      />
+
+      {/* View Detail Modal */}
+      <ViewDetailModal
+        open={!!viewItem}
+        onClose={() => setViewItem(null)}
+        title={viewItem?.fullName || ""}
+        imageUrl={viewItem?.image || undefined}
+        fields={[
+          { label: "Name", value: viewItem?.fullName },
+          { label: "Role", value: viewItem?.role },
+          { label: "Department", value: viewItem?.department },
+          { label: "Email", value: viewItem?.email },
+          { label: "Phone", value: viewItem?.phone },
+          { label: "Status", value: viewItem?.status },
+          { label: "Bio", value: viewItem?.bio },
+          { label: "Location", value: viewItem?.location },
+          { label: "Experience", value: viewItem?.experience },
+          { label: "Skills", value: viewItem?.skills?.join(", ") },
+        ]}
       />
     </div>
   );

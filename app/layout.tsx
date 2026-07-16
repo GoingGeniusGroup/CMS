@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { getSiteSettings } from "@/lib/site-settings";
+import { getPublicAppearanceSettings } from "@/app/actions/appearance";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -40,7 +41,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const settings = await getSiteSettings();
+  const [settings, appearance] = await Promise.all([
+    getSiteSettings(),
+    getPublicAppearanceSettings(),
+  ]);
+
+  // Theme/base color always comes from General Settings (single source of truth).
+  // Hover color + toggle come from Appearance Settings.
+  const themeColor = settings.themeColor;
 
   return (
     <html
@@ -55,7 +63,9 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <AuthProvider>{children}</AuthProvider>
         <ThemeProvider
-          themeColor={settings.themeColor}
+          themeColor={themeColor}
+          hoverColor={appearance.hoverColor}
+          hoverEnabled={appearance.hoverEnabled}
           baseColorEnabled={settings.baseColorEnabled}
         />
       </body>

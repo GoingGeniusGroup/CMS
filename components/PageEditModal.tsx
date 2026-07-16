@@ -4,13 +4,15 @@ import { useState } from "react";
 import { X, Loader2 } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ImageUploader } from "@/components/ImageUploader";
+import { TiptapEditor } from "@/components/TiptapEditor";
 import { updatePage, type PageInput } from "@/app/actions/pages";
+import type { JSONContent } from "@tiptap/react";
 
 type Page = {
   id: string;
   title: string;
   slug: string;
-  content: string | null;
+  content: unknown;
   thumbnail: string | null;
   metaTitle?: string | null;
   metaDesc?: string | null;
@@ -32,7 +34,9 @@ export function PageEditModal({
 }) {
   const [title, setTitle] = useState(page?.title ?? "");
   const [slug, setSlug] = useState(page?.slug ?? "");
-  const [content, setContent] = useState(page?.content ?? "");
+  const [content, setContent] = useState<JSONContent | null>(
+    (page?.content as JSONContent) ?? null
+  );
   const [thumbnail, setThumbnail] = useState<string | null>(page?.thumbnail ?? null);
   const [status, setStatus] = useState<"Published" | "Draft">(
     (page?.status as "Published" | "Draft") ?? "Draft"
@@ -55,7 +59,7 @@ export function PageEditModal({
     const data: PageInput = {
       title,
       slug,
-      content: content || undefined,
+      content: content ? JSON.parse(JSON.stringify(content)) : undefined,
       thumbnail: thumbnail || undefined,
       metaTitle: metaTitle || undefined,
       metaDesc: metaDesc || undefined,
@@ -123,12 +127,14 @@ export function PageEditModal({
               placeholder="page-slug" className={inputCls} />
           </div>
 
-          {/* Content */}
+          {/* Content — Tiptap Editor */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Content</label>
-            <textarea rows={4} value={content} onChange={(e) => setContent(e.target.value)}
-              placeholder="Page content..."
-              className="mt-1 w-full resize-none rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40" />
+            <label className="mb-2 block text-sm font-medium text-gray-700">Content</label>
+            <TiptapEditor
+              content={content}
+              onChange={(json) => setContent(json)}
+              placeholder="Start writing your page content..."
+            />
           </div>
 
           {/* Thumbnail */}
