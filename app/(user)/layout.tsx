@@ -1,29 +1,42 @@
 import type { Metadata } from "next";
 import { LandingNavbar } from "@/components/LandingNavbar";
 import Footer from "@/components/footer";
+import { CookieBanner } from "@/components/CookieBanner";
+import { SitePopup } from "@/components/SitePopup";
 import { getSiteSettings } from "@/lib/site-settings";
 import { getPublicContactSettings } from "@/app/actions/contact-settings";
+import { getPublicCookieSettings } from "@/app/actions/cookie-settings";
+import { getPublicPopupSettings } from "@/app/actions/popup";
+import { getPublicSeoSettings } from "@/app/actions/seo";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSiteSettings();
+  const [settings, seoSettings] = await Promise.all([
+    getSiteSettings(),
+    getPublicSeoSettings(),
+  ]);
+
+  const title = seoSettings.metaTitle || settings.siteName;
+  const description = seoSettings.metaDescription || settings.description;
+  const keywords = seoSettings.metaKeywords || settings.metaKeywords || "";
 
   return {
     title: {
-      default: settings.siteName,
+      default: title,
       template: `%s | ${settings.siteName}`,
     },
-    description: settings.description,
-    keywords: settings.metaKeywords ? settings.metaKeywords.split(",").map((k) => k.trim()) : [],
+    description,
+    keywords: keywords ? keywords.split(",").map((k) => k.trim()) : [],
     icons: {
       icon: settings.faviconUrl || "/favicon.ico",
       shortcut: settings.faviconUrl || "/favicon.ico",
       apple: settings.faviconUrl || "/favicon.ico",
     },
     openGraph: {
-      title: settings.siteName,
-      description: settings.description,
+      title,
+      description,
+      ...(seoSettings.metaImage ? { images: [{ url: seoSettings.metaImage }] } : {}),
     },
   };
 }
@@ -33,9 +46,11 @@ export default async function UserLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [settings, contactSettings] = await Promise.all([
+  const [settings, contactSettings, cookieSettings, popupSettings] = await Promise.all([
     getSiteSettings(),
     getPublicContactSettings(),
+    getPublicCookieSettings(),
+    getPublicPopupSettings(),
   ]);
 
   return (
@@ -48,6 +63,16 @@ export default async function UserLayout({
         contactEmail={contactSettings?.email1 || undefined}
         contactPhone={contactSettings?.phone1 || undefined}
         contactAddress={contactSettings?.address || undefined}
+      />
+      {cookieSettings.cookiesAgreement && (
+        <CookieBanner
+          showCookiesAgreement={cookieSettings.showCookiesAgreement}
+          cookiesAgreementText={cookieSettings.cookiesAgreementText}
+        />
+      )}
+      <SitePopup
+        showPopup={popupSettings.showPopup}
+        content={popupSettings.content}
       />
     </div>
   );
