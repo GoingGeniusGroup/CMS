@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getPublicTeamMembers } from "@/app/actions/team";
 
 type TeamMember = {
@@ -20,38 +21,69 @@ type TeamMember = {
 
 export function LandingTeamSection() {
   const [members, setMembers] = useState<TeamMember[]>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     getPublicTeamMembers().then((data) => setMembers(data));
   }, []);
 
-  if (members.length === 0) return null;
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollBy({
+      left: direction === "left" ? -300 : 300,
+      behavior: "smooth",
+    });
+  };
 
-  const displayMembers = members.slice(0, 4);
+  if (members.length === 0) return null;
 
   return (
     <section id="company" className="bg-white px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <p className="text-center text-xs font-bold uppercase tracking-widest text-indigo-600">
-          Our Team
-        </p>
-        <h2 className="mt-2 text-center text-2xl font-extrabold text-zinc-900">
-          Meet the Geniuses
-        </h2>
+        <div className="flex items-center justify-between mb-10">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">
+              Our Team
+            </p>
+            <h2 className="mt-2 text-2xl font-extrabold text-zinc-900">
+              Meet the Geniuses
+            </h2>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => scroll("left")}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-500 transition hover:border-indigo-600 hover:text-indigo-600"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-500 transition hover:border-indigo-600 hover:text-indigo-600"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
 
-        <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {displayMembers.map((member) => (
+        <div
+          ref={scrollRef}
+          className="flex gap-5 overflow-x-auto pb-4"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {members.map((member) => (
             <div
               key={member.id}
-              className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+              className="min-w-[200px] max-w-[200px] flex-shrink-0 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
             >
-              <div className="relative aspect-[4/3] bg-zinc-50">
+              <div className="relative h-48 w-full bg-zinc-50">
                 {member.image ? (
                   <Image
                     src={member.image}
                     alt={member.fullName}
                     fill
-                    sizes="(max-width: 768px) 100vw, 25vw"
+                    sizes="200px"
                     className="object-cover"
                   />
                 ) : (

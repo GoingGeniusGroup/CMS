@@ -15,7 +15,7 @@ export function LandingTechSection() {
   return (
     <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl text-center">
-        <p className="mb-8 text-sm font-bold text-zinc-900">Technologies We Use</p>
+        <p className="mb-8 text-3xl font-bold text-zinc-900">Technologies We Use</p>
         <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 sm:gap-x-14">
           {technologies.map((url, i) => (
             // eslint-disable-next-line @next/next/no-img-element

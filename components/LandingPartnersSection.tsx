@@ -15,7 +15,7 @@ export function LandingPartnersSection() {
   return (
     <section className="bg-zinc-950 px-4 py-10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <p className="mb-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400">
+        <p className="mb-6 text-center text-2xl font-bold uppercase tracking-widest text-zinc-400">
           Our Partners
         </p>
         <div className="overflow-hidden">
