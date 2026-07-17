@@ -161,15 +161,11 @@ export default async function ProjectDetailPage({
               </div>
             </div>
 
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-200">
-              {project.thumbnail ? (
+            {project.thumbnail && (
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-200">
                 <Image src={project.thumbnail} alt={project.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" priority />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-200">
-                  <span className="text-6xl font-extrabold text-indigo-300">{project.title.charAt(0)}</span>
-                </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -373,16 +369,12 @@ export default async function ProjectDetailPage({
             <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {relatedProjects.map((rp) => (
                 <div key={rp.id} className="group">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-100">
-                    {rp.thumbnail ? (
+                  {rp.thumbnail && (
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-100">
                       <Image src={rp.thumbnail} alt={rp.title} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-cover transition-transform group-hover:scale-105" />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-100">
-                        <span className="text-3xl font-extrabold text-indigo-200">{rp.title.charAt(0)}</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-4">
+                    </div>
+                  )}
+                  <div className={rp.thumbnail ? "mt-4" : ""}>
                     {rp.category && (
                       <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-600">{rp.category}</p>
                     )}

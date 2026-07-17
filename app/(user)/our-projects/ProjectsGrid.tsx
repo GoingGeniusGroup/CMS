@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Layers } from "lucide-react";
@@ -26,8 +25,8 @@ function ProjectCard({ project }: { project: ProjectData }) {
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
       {/* Image */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-zinc-100">
-        {project.thumbnail ? (
+      {project.thumbnail && (
+        <div className="relative aspect-square overflow-hidden bg-zinc-100">
           <Image
             src={project.thumbnail}
             alt={project.title}
@@ -35,14 +34,8 @@ function ProjectCard({ project }: { project: ProjectData }) {
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className="object-cover transition-transform group-hover:scale-105"
           />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-100">
-            <span className="text-4xl font-extrabold text-indigo-200">
-              {project.title.charAt(0)}
-            </span>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Content */}
       <div className="flex flex-1 flex-col p-5">
