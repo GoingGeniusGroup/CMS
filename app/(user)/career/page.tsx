@@ -20,24 +20,29 @@ const JOBS = [
 
 function HeroSection() {
   return (
-    <div className="mx-4 mt-6 sm:mx-6 lg:mx-16" style={{ height: 320, borderRadius: 16, overflow: "hidden", position: "relative" }}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/career3.png"
-        alt="Careers at Going Genius"
-        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
-      />
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 20%, rgba(0,0,0,0.55) 100%)" }} />
-      <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 20px", zIndex: 1 }}>
-        <span style={{ marginBottom: 10, border: "1px solid rgba(255,255,255,0.5)", borderRadius: 999, background: "rgba(255,255,255,0.15)", padding: "3px 14px", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "#fff" }}>
-          CAREERS AT GOING GENIUS
-        </span>
-        <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 800, lineHeight: 1.2, color: "#fff", margin: 0, textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
-          Build Your Career With<br />Going Genius
-        </h1>
-        <p style={{ marginTop: 12, maxWidth: 560, fontSize: 15, lineHeight: 1.65, color: "rgba(240,240,240,0.95)", textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
-          Join a team of visionaries, engineers, and designers dedicated to building the future of corporate intelligence and efficient modern systems.
-        </p>
+    <div className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div
+        className="relative overflow-hidden rounded-2xl"
+        style={{ height: "clamp(300px, 42vw, 420px)" }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/career3.png"
+          alt="Careers at Going Genius"
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", display: "block" }}
+        />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 20px", zIndex: 1 }}>
+          <span style={{ marginBottom: 10, border: "1px solid rgba(255,255,255,0.5)", borderRadius: 999, background: "rgba(255,255,255,0.15)", padding: "3px 14px", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "#fff" }}>
+            CAREERS AT GOING GENIUS
+          </span>
+          <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 800, lineHeight: 1.2, color: "#fff", margin: 0, textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
+            Build Your Career With<br />Going Genius
+          </h1>
+          <p style={{ marginTop: 12, maxWidth: 560, fontSize: 15, lineHeight: 1.65, color: "rgba(240,240,240,0.95)", textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
+            Join a team of visionaries, engineers, and designers dedicated to building the future of corporate intelligence and efficient modern systems.
+          </p>
+        </div>
       </div>
     </div>
   );
