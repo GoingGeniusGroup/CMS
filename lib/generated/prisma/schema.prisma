@@ -229,6 +229,7 @@ model GeneralSetting {
   faviconUrl       String   @default("")
   metaKeywords     String   @default("")
   themeColor       String   @default("#6366f1")
+  themeTextColor   String   @default("#ffffff")
   baseColorEnabled Boolean  @default(true)
   updatedAt        DateTime @updatedAt
 

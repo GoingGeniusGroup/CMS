@@ -2,68 +2,38 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  Cloud,
-  Code2,
   CheckCircle,
   BookOpen,
+  Code2,
   Globe,
   Layers,
   Megaphone,
   Pencil,
   Search,
-  Smartphone,
   Send,
+  Cloud,
+  Smartphone,
+  type LucideIcon,
 } from "lucide-react";
+import { getPublicServices } from "@/app/actions/services";
 
-// ─── Data ────────────────────────────────────────────────────────────────────
+// ─── Icon map for service categories ─────────────────────────────────────────
 
-const HERO_STATS = [
-  { icon: Layers, value: "12+", label: "TOTAL SERVICES" },
-  { icon: CheckCircle, value: "150+", label: "PROJECTS COMPLETED" },
-  { icon: Layers, value: "80+", label: "HAPPY CLIENTS" },
-  { icon: BookOpen, value: "6+", label: "YEARS EXPERIENCE" },
-];
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  Development: Code2,
+  Design: Pencil,
+  Marketing: Megaphone,
+  Infrastructure: Cloud,
+  Mobile: Smartphone,
+  default: Globe,
+};
 
-const DIGITAL_SERVICES = [
-  { icon: Globe, title: "Web Development", desc: "Modern, responsive and scalable websites." },
-  { icon: Smartphone, title: "Mobile Development", desc: "High performance mobile apps for iOS & Android." },
-  { icon: Pencil, title: "UI/UX Design", desc: "Beautiful & intuitive user experiences." },
-  { icon: Megaphone, title: "Digital Marketing", desc: "Data-driven marketing strategies that work." },
-  { icon: Cloud, title: "Cloud Solutions", desc: "Secure & scalable cloud services." },
-];
+function getIcon(category?: string | null): LucideIcon {
+  if (!category) return CATEGORY_ICONS.default;
+  return CATEGORY_ICONS[category] || CATEGORY_ICONS.default;
+}
 
-const SERVICES_WE_PROVIDE = [
-  {
-    icon: Code2,
-    title: "Web Development",
-    desc: "Modern, responsive, and scalable websites built with the latest technologies to ensure peak performance and SEO visibility.",
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile App Development",
-    desc: "High-performance native and cross-platform mobile apps for iOS and Android that provide seamless user experiences.",
-  },
-  {
-    icon: Pencil,
-    title: "UI/UX Design",
-    desc: "User-centric designs that are visually stunning and intuitive, ensuring high engagement and conversion rates for your brand.",
-  },
-  {
-    icon: Layers,
-    title: "Software Development",
-    desc: "Custom enterprise software solutions built to solve unique business challenges and streamline complex workflows.",
-  },
-  {
-    icon: Megaphone,
-    title: "Digital Marketing",
-    desc: "Data-driven growth strategies including SEO, PPC, and Content Marketing to amplify your brand's digital presence.",
-  },
-  {
-    icon: Cloud,
-    title: "Cloud Solutions",
-    desc: "Secure, scalable, and resilient cloud architecture and migration services using AWS, Azure, and Google Cloud.",
-  },
-];
+// ─── Static process steps ────────────────────────────────────────────────────
 
 const PROCESS_STEPS = [
   { num: "01", icon: Search, label: "Discovery" },
@@ -76,12 +46,18 @@ const PROCESS_STEPS = [
 
 // ─── Section: Hero ───────────────────────────────────────────────────────────
 
-function HeroSection() {
+function HeroSection({ serviceCount }: { serviceCount: number }) {
+  const stats = [
+    { icon: Layers, value: `${serviceCount}+`, label: "TOTAL SERVICES" },
+    { icon: CheckCircle, value: "150+", label: "PROJECTS COMPLETED" },
+    { icon: Layers, value: "80+", label: "HAPPY CLIENTS" },
+    { icon: BookOpen, value: "6+", label: "YEARS EXPERIENCE" },
+  ];
+
   return (
     <section className="bg-white px-4 py-16 sm:px-6 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid items-center gap-10 lg:grid-cols-2">
-          {/* Left */}
           <div>
             <h1 className="text-4xl font-extrabold leading-tight text-zinc-900 sm:text-5xl lg:text-6xl">
               Digital Solutions
@@ -101,7 +77,7 @@ function HeroSection() {
                 <ArrowRight className="h-4 w-4" />
               </a>
               <Link
-                href="/home#contact"
+                href="/contact"
                 className="inline-flex items-center rounded-lg border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-zinc-400"
               >
                 Contact Us
@@ -109,7 +85,6 @@ function HeroSection() {
             </div>
           </div>
 
-          {/* Right — Rectangle.png (globe on monitor) */}
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
             <Image
               src="/TechOffice.png"
@@ -124,7 +99,7 @@ function HeroSection() {
 
         {/* Stats strip */}
         <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {HERO_STATS.map(({ icon: Icon, value, label }) => (
+          {stats.map(({ icon: Icon, value, label }) => (
             <div
               key={label}
               className="flex flex-col items-center gap-2 rounded-2xl border border-zinc-100 bg-white p-6 shadow-sm"
@@ -142,20 +117,31 @@ function HeroSection() {
   );
 }
 
-// ─── Section: Our Digital Services (5-col strip) ─────────────────────────────
+// ─── Section: Featured Services Strip ────────────────────────────────────────
 
-function DigitalServicesStrip() {
+type ServiceData = {
+  id: string;
+  serviceName: string;
+  description: string | null;
+  category: string | null;
+  thumbnailUrl: string | null;
+  isFeatured: boolean;
+};
+
+function FeaturedServicesStrip({ services }: { services: ServiceData[] }) {
+  const featured = services.filter((s) => s.isFeatured);
+
+  if (featured.length === 0) return null;
+
   return (
     <section className="bg-[#f8f9ff] px-4 py-20 sm:px-6 lg:px-16">
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
         <div className="mb-12 text-center">
           <p className="text-xs font-bold uppercase tracking-widest text-indigo-500">
             WHAT WE DO
           </p>
           <h2 className="mt-2 text-3xl font-extrabold text-zinc-900">
-            Our{" "}
-            <span className="text-indigo-600">Digital Services</span>
+            Our <span className="text-indigo-600">Digital Services</span>
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-500">
             We build digital products and services that help you grow, scale and
@@ -163,62 +149,87 @@ function DigitalServicesStrip() {
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {DIGITAL_SERVICES.map(({ icon: Icon, title, desc }) => (
-            <div
-              key={title}
-              className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
-                <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((svc) => {
+            const Icon = getIcon(svc.category);
+            return (
+              <div
+                key={svc.id}
+                className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+              >
+                {svc.thumbnailUrl ? (
+                  <div className="relative h-32 w-full overflow-hidden rounded-xl">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={svc.thumbnailUrl} alt={svc.serviceName} className="h-full w-full object-cover" />
+                  </div>
+                ) : (
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
+                    <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
+                  </div>
+                )}
+                <h3 className="text-sm font-bold text-zinc-900">{svc.serviceName}</h3>
+                <p className="text-xs leading-relaxed text-zinc-500 line-clamp-3">
+                  {svc.description || "Professional service tailored to your needs."}
+                </p>
               </div>
-              <h3 className="text-sm font-bold text-zinc-900">{title}</h3>
-              <p className="text-xs leading-relaxed text-zinc-500">{desc}</p>
-              <div className="mt-auto">
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-// ─── Section: Services We Provide (3-col grid) ───────────────────────────────
+// ─── Section: All Services Grid ──────────────────────────────────────────────
 
-function ServicesWeProvide() {
+function AllServicesGrid({ services }: { services: ServiceData[] }) {
   return (
-    <section
-      id="services-we-provide"
-      className="bg-white px-4 py-20 sm:px-6 lg:px-16"
-    >
+    <section id="services-we-provide" className="bg-white px-4 py-20 sm:px-6 lg:px-16">
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
         <div className="mb-12 text-center">
           <p className="text-xs font-bold uppercase tracking-widest text-indigo-500">
             SERVICES WE PROVIDE
           </p>
         </div>
 
-        {/* 3-col grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES_WE_PROVIDE.map(({ icon: Icon, title, desc }) => (
-            <div
-              key={title}
-              className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
-            >
-              {/* Icon box */}
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
-                <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
+          {services.map((svc) => {
+            const Icon = getIcon(svc.category);
+            return (
+              <div
+                key={svc.id}
+                className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+              >
+                {svc.thumbnailUrl ? (
+                  <div className="relative h-40 w-full overflow-hidden rounded-xl">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={svc.thumbnailUrl}
+                      alt={svc.serviceName}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
+                    <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
+                  </div>
+                )}
+                <h3 className="text-base font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">
+                  {svc.serviceName}
+                </h3>
+                <p className="text-sm leading-relaxed text-zinc-500">
+                  {svc.description || "Professional service tailored to your business needs."}
+                </p>
               </div>
-              <h3 className="text-base font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">
-                {title}
-              </h3>
-              <p className="text-sm leading-relaxed text-zinc-500">{desc}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
+
+        {services.length === 0 && (
+          <p className="text-center text-sm text-zinc-400 py-10">
+            No services available yet. Check back soon!
+          </p>
+        )}
       </div>
     </section>
   );
@@ -234,11 +245,9 @@ function DevelopmentProcess() {
           <h2 className="text-2xl font-extrabold text-zinc-900 sm:text-3xl">
             Development Process
           </h2>
-          {/* Decorative underline */}
           <div className="mx-auto mt-3 h-0.5 w-24 rounded-full bg-zinc-300" />
         </div>
 
-        {/* Steps */}
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {PROCESS_STEPS.map(({ num, icon: Icon, label }) => (
             <div key={label} className="flex flex-col items-center gap-3">
@@ -247,8 +256,6 @@ function DevelopmentProcess() {
               </div>
               <p className="text-[10px] font-bold text-zinc-400">{num}</p>
               <p className="text-xs font-semibold text-zinc-700">{label}</p>
-              {/* Connector bar — hidden on last */}
-              <div className="hidden lg:block absolute" />
             </div>
           ))}
         </div>
@@ -257,14 +264,13 @@ function DevelopmentProcess() {
   );
 }
 
-// ─── Section: CTA ─────────────────────────────────────────────────────────────
+// ─── Section: CTA ────────────────────────────────────────────────────────────
 
 function CTASection() {
   return (
     <section className="bg-white px-4 py-20 sm:px-6 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid items-center gap-10 lg:grid-cols-2">
-          {/* Left */}
           <div>
             <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
               <span className="text-amber-500">Ready to Start</span>
@@ -276,14 +282,14 @@ function CTASection() {
               team today.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a
-                href="/home#contact"
-                className="inline-flex items-center rounded-lg bg-amber-400 px-5 py-2.5 text-sm font-bold text-zinc-900 transition-colors hover:bg-amber-500"
+              <Link
+                href="/contact"
+                className="inline-flex items-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-indigo-700"
               >
                 Get a Free Quote
-              </a>
+              </Link>
               <Link
-                href="/home#contact"
+                href="/contact"
                 className="inline-flex items-center rounded-lg border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-zinc-400"
               >
                 Contact Us
@@ -291,11 +297,10 @@ function CTASection() {
             </div>
           </div>
 
-          {/* Right — TechOffice.png (web development hand/hologram) */}
           <div className="relative aspect-[16/10] overflow-hidden rounded-2xl">
             <Image
               src="/Rectangle.png"
-              alt="Web development hologram"
+              alt="Web development"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
@@ -309,12 +314,14 @@ function CTASection() {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function ServicesPublicPage() {
+export default async function ServicesPublicPage() {
+  const services = await getPublicServices();
+
   return (
     <>
-      <HeroSection />
-      <DigitalServicesStrip />
-      <ServicesWeProvide />
+      <HeroSection serviceCount={services.length} />
+      <FeaturedServicesStrip services={services} />
+      <AllServicesGrid services={services} />
       <DevelopmentProcess />
       <CTASection />
     </>

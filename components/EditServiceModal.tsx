@@ -10,7 +10,6 @@ export interface ServiceRow {
   id: string;
   serviceName: string;
   description: string | null;
-  image: string | null;
   isActive: boolean;
   isFeatured: boolean;
   thumbnailUrl: string | null;
@@ -39,7 +38,6 @@ export function EditServiceModal({
     serviceName: "",
     shortDetails: "",
     description: "",
-    image: "",
     isActive: true,
   });
 
@@ -50,7 +48,6 @@ export function EditServiceModal({
         serviceName: service.serviceName,
         shortDetails: service.description ?? "",
         description: service.description ?? "",
-        image: service.image ?? "",
         isActive: service.isActive,
       });
       setThumbnailUrl(service.thumbnailUrl ?? null);
@@ -66,17 +63,6 @@ export function EditServiceModal({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setFileName(file.name);
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setForm((prev) => ({ ...prev, image: reader.result as string }));
-    };
-    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

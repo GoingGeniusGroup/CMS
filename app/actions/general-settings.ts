@@ -19,16 +19,29 @@ export async function getGeneralSettings() {
   if (!session?.user) throw new Error("Unauthorized");
 
   const setting = await prisma.generalSetting.findFirst();
-  return setting ?? {
-    id: null,
-    siteName: "",
-    description: "",
-    logoUrl: "",
-    faviconUrl: "",
-    metaKeywords: "",
-    themeColor: "#fe9a00",
-    themeTextColor: "#ffffff",
-    baseColorEnabled: true,
+  if (!setting) {
+    return {
+      id: null as string | null,
+      siteName: "",
+      description: "",
+      logoUrl: "",
+      faviconUrl: "",
+      metaKeywords: "",
+      themeColor: "#fe9a00",
+      themeTextColor: "#ffffff",
+      baseColorEnabled: true,
+    };
+  }
+  return {
+    id: setting.id as string | null,
+    siteName: setting.siteName,
+    description: setting.description,
+    logoUrl: setting.logoUrl,
+    faviconUrl: setting.faviconUrl,
+    metaKeywords: setting.metaKeywords,
+    themeColor: setting.themeColor,
+    themeTextColor: setting.themeTextColor,
+    baseColorEnabled: setting.baseColorEnabled,
   };
 }
 

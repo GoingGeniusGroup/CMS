@@ -250,7 +250,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
                     </span>
                   </div>
                 </div>
-                <RowActions variant="buttons" onView={() => setViewItem(service)} onEdit={() => setEditTarget(service as ServiceRow)} onDelete={() => handleDelete(service.id)} />
+                <RowActions variant="buttons" onView={() => setViewItem(service)} onEdit={() => setEditTarget(service as unknown as ServiceRow)} onDelete={() => handleDelete(service.id)} />
               </div>
             ))}
           </div>
@@ -300,7 +300,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
               <RowActions
                 variant="buttons"
                 onView={() => setViewItem(service)}
-                onEdit={() => setEditTarget(service as ServiceRow)}
+                onEdit={() => setEditTarget(service as unknown as ServiceRow)}
                 onDelete={() => handleDelete(service.id)}
               />
             </div>
