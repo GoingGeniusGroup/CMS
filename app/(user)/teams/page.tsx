@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Search, Users } from "lucide-react";
-import { getPublicTeamMembers } from "@/app/actions/team";
+import { getPublicTeamMembers, getDepartments } from "@/app/actions/team";
 import TeamMemberModal from "@/components/TeamMemberModal";
 
 type TeamMember = {
@@ -21,7 +21,7 @@ type TeamMember = {
   phone: string | null;
 };
 
-const filterTabs = ["All", "Leadership", "Development", "Design"];
+
 
 /* ─── Team Section with Carousel ─────────────────────────── */
 function TeamSection({
@@ -102,6 +102,7 @@ function TeamSection({
 /* ─── Page ───────────────────────────────────────────────── */
 export default function TeamsPage() {
   const [allMembers, setAllMembers] = useState<TeamMember[]>([]);
+  const [departments, setDepartments] = useState<string[]>([]);
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
@@ -109,7 +110,10 @@ export default function TeamsPage() {
 
   useEffect(() => {
     getPublicTeamMembers().then((data) => setAllMembers(data as TeamMember[]));
+    getDepartments().then((rows) => setDepartments(rows.map((d) => d.name)));
   }, []);
+
+  const filterTabs = ["All", ...departments];
 
   const handleMemberClick = (member: TeamMember) => {
     setSelectedMember(member);
@@ -136,10 +140,13 @@ export default function TeamsPage() {
       ? searched
       : searched.filter((m) => m.department?.toLowerCase() === activeFilter.toLowerCase());
 
-  // Group by department for "All" view
-  const leadership = filtered.filter((m) => m.department === "Leadership");
-  const development = filtered.filter((m) => m.department === "Development");
-  const design = filtered.filter((m) => m.department === "Design");
+  // Group by department for "All" view (dynamic — supports any admin-added department)
+  const grouped = departments.map((dept) => ({
+    department: dept,
+    members: filtered.filter((m) => m.department === dept),
+  }));
+  // Members whose department doesn't match any known department (e.g. left blank)
+  const ungrouped = filtered.filter((m) => !departments.includes(m.department || ""));
 
   return (
     <div className="min-h-screen bg-white">
@@ -196,9 +203,17 @@ export default function TeamsPage() {
       <section className="mx-auto w-full max-w-6xl px-4 pb-10 sm:px-6 lg:px-8">
         {activeFilter === "All" ? (
           <>
-            <TeamSection title="Leadership Team" members={leadership} onMemberClick={handleMemberClick} />
-            <TeamSection title="Development Team" members={development} onMemberClick={handleMemberClick} />
-            <TeamSection title="Design Team" members={design} onMemberClick={handleMemberClick} />
+            {grouped.map((g) => (
+              <TeamSection
+                key={g.department}
+                title={`${g.department} Team`}
+                members={g.members}
+                onMemberClick={handleMemberClick}
+              />
+            ))}
+            {ungrouped.length > 0 && (
+              <TeamSection title="Team" members={ungrouped} onMemberClick={handleMemberClick} />
+            )}
           </>
         ) : (
           <TeamSection title={`${activeFilter} Team`} members={filtered} onMemberClick={handleMemberClick} />

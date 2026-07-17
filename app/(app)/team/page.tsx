@@ -6,7 +6,7 @@ export default async function TeamPage() {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
 
-  const [members, total, active, onLeave] = await Promise.all([
+  const [members, total, active, inactive] = await Promise.all([
     prisma.team.findMany({
       orderBy: { joinedAt: "desc" },
       skip: 0,
@@ -14,14 +14,14 @@ export default async function TeamPage() {
     }),
     prisma.team.count(),
     prisma.team.count({ where: { status: "Active" } }),
-    prisma.team.count({ where: { status: "On Leave" } }),
+    prisma.team.count({ where: { status: "Inactive" } }),
   ]);
 
   const data = {
     members,
     total,
     active,
-    onLeave,
+    inactive,
     page: 1,
     pageSize: 10,
     pageCount: Math.ceil(total / 10),

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getDepartments } from "@/app/actions/team";
 
 export function AddDesignationModal({
   open,
@@ -17,6 +18,13 @@ export function AddDesignationModal({
   const [description, setDescription] = useState("");
   const [titleError, setTitleError] = useState("");
   const [deptError, setDeptError] = useState("");
+  const [departments, setDepartments] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (open) {
+      getDepartments().then((rows) => setDepartments(rows.map((d) => d.name)));
+    }
+  }, [open]);
 
   const handleSubmit = () => {
     let valid = true;
@@ -97,11 +105,9 @@ export function AddDesignationModal({
               }`}
             >
               <option value="">Select Department</option>
-              <option>Design</option>
-              <option>Development</option>
-              <option>Content</option>
-              <option>Management</option>
-              <option>Marketing</option>
+              {departments.map((d) => (
+                <option key={d}>{d}</option>
+              ))}
             </select>
             {deptError && (
               <p className="mt-0.5 text-xs text-red-500">{deptError}</p>

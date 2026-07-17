@@ -41,7 +41,7 @@ type TeamData = {
   members: TeamMember[];
   total: number;
   active: number;
-  onLeave: number;
+  inactive: number;
   page: number;
   pageSize: number;
   pageCount: number;
@@ -101,7 +101,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
       members: prev.members.filter((m) => m.id !== deleteId),
       total: prev.total - 1,
       active: prev.members.find((m) => m.id === deleteId)?.status === "Active" ? prev.active - 1 : prev.active,
-      onLeave: prev.members.find((m) => m.id === deleteId)?.status === "On Leave" ? prev.onLeave - 1 : prev.onLeave,
+      inactive: prev.members.find((m) => m.id === deleteId)?.status === "Inactive" ? prev.inactive - 1 : prev.inactive,
     }));
     setDeleteId(null);
     const result = await deleteTeamMember(deleteId);
@@ -119,7 +119,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
       image: formData.image || undefined,
       role: formData.designation || undefined,
       department: formData.department || undefined,
-      status: formData.status as "Active" | "On Leave",
+      status: formData.status as "Active" | "Inactive",
       bio: formData.description || undefined,
       location: formData.location || undefined,
       experience: formData.experience || undefined,
@@ -161,7 +161,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
         department: editingMember.department || "",
         phone: editingMember.phone || "",
         email: editingMember.email,
-        status: (editingMember.status as "Active" | "On Leave") || "Active",
+        status: (editingMember.status as "Active" | "Inactive") || "Active",
         gender: "male" as const,
         image: editingMember.image,
         description: editingMember.bio || "",
@@ -201,7 +201,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-4">
         <StatCard icon={Users} label="Total Members" value={data.total} />
         <StatCard icon={Users} label="Active Members" value={data.active} />
-        <StatCard icon={User} label="On Leave" value={data.onLeave} />
+        <StatCard icon={User} label="Inactive" value={data.inactive} />
         <StatCard icon={User} label="Departments" value={new Set(data.members.map((m) => m.department).filter(Boolean)).size} />
       </div>
 
