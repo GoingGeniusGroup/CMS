@@ -11,7 +11,7 @@ const teamMemberSchema = z.object({
   image: z.string().optional(),
   role: z.string().optional(),
   department: z.string().optional(),
-  status: z.enum(["Active", "On Leave"]).default("Active"),
+  status: z.enum(["Active", "Inactive"]).default("Active"),
   bio: z.string().optional(),
   location: z.string().optional(),
   experience: z.string().optional(),
@@ -24,7 +24,7 @@ export async function getTeamMembers(page = 1, pageSize = 10) {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
 
-  const [members, total, active, onLeave] = await Promise.all([
+  const [members, total, active, inactive] = await Promise.all([
     prisma.team.findMany({
       orderBy: { joinedAt: "desc" },
       skip: (page - 1) * pageSize,
@@ -32,18 +32,61 @@ export async function getTeamMembers(page = 1, pageSize = 10) {
     }),
     prisma.team.count(),
     prisma.team.count({ where: { status: "Active" } }),
-    prisma.team.count({ where: { status: "On Leave" } }),
+    prisma.team.count({ where: { status: "Inactive" } }),
   ]);
 
   return {
     members,
     total,
     active,
-    onLeave,
+    inactive,
     page,
     pageSize,
     pageCount: Math.ceil(total / pageSize),
   };
+}
+
+// ─── Departments ──────────────────────────────────────────────────────────
+
+export async function getDepartments() {
+  return await prisma.department.findMany({
+    orderBy: [{ order: "asc" }, { name: "asc" }],
+  });
+}
+
+export async function createDepartment(name: string) {
+  const session = await auth();
+  if (!session?.user) return { success: false, error: "Unauthorized" };
+
+  const trimmed = name.trim();
+  if (!trimmed) return { success: false, error: "Department name is required" };
+
+  try {
+    const count = await prisma.department.count();
+    const department = await prisma.department.create({
+      data: { name: trimmed, order: count },
+    });
+    return { success: true, department };
+  } catch (error: unknown) {
+    if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
+      return { success: false, error: "This department already exists" };
+    }
+    console.error("Create department error:", error);
+    return { success: false, error: "Failed to create department" };
+  }
+}
+
+export async function deleteDepartment(id: string) {
+  const session = await auth();
+  if (!session?.user) return { success: false, error: "Unauthorized" };
+
+  try {
+    await prisma.department.delete({ where: { id } });
+    return { success: true };
+  } catch (error) {
+    console.error("Delete department error:", error);
+    return { success: false, error: "Failed to delete department" };
+  }
 }
 
 export async function createTeamMember(data: TeamMemberInput) {

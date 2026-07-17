@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AddDesignationModal } from "@/components/AddDesignationModal";
+import { AddDepartmentModal } from "@/components/AddDepartmentModal";
 import { ImageUploader } from "@/components/ImageUploader";
+import { getDepartments, createDepartment } from "@/app/actions/team";
 
 export interface MemberFormData {
   name: string;
@@ -10,7 +12,7 @@ export interface MemberFormData {
   department: string;
   phone: string;
   email: string;
-  status: "Active" | "On Leave";
+  status: "Active" | "Inactive";
   gender: "male" | "female";
   image: string | null;
   description: string;
@@ -121,10 +123,28 @@ export function AddMemberModal({
 
   // State is initialised once per mount (controlled via `key` from parent).
   const [showAddDesignation, setShowAddDesignation] = useState(false);
+  const [showAddDepartment, setShowAddDepartment] = useState(false);
   const [form, setForm] = useState<MemberFormData>(() => buildInitialForm(editMember));
   const [errors, setErrors] = useState<FormErrors>({});
   // Custom designations added via the "+ Add Designation" button this session
   const [customDesignations, setCustomDesignations] = useState<string[]>([]);
+  // Departments — loaded from DB, persisted via createDepartment
+  const [departments, setDepartments] = useState<string[]>([]);
+
+  useEffect(() => {
+    getDepartments().then((rows) => setDepartments(rows.map((d) => d.name)));
+  }, []);
+
+  const handleAddDepartment = async (name: string) => {
+    const result = await createDepartment(name);
+    if (result.success) {
+      setDepartments((prev) => (prev.includes(name) ? prev : [...prev, name]));
+      setForm((prev) => ({ ...prev, department: name }));
+      if (errors.department) setErrors((prev) => ({ ...prev, department: undefined }));
+    } else {
+      alert(result.error || "Failed to add department");
+    }
+  };
 
   const handleAddDesignation = (title: string) => {
     setCustomDesignations((prev) =>
@@ -213,11 +233,9 @@ export function AddMemberModal({
                     }`}
                   >
                     <option value="">Select Designation</option>
+                    <option>Full Stack Developer</option>
+                    <option>QA Tester</option>
                     <option>UI/UX Designer</option>
-                    <option>Web Developer</option>
-                    <option>Content Writer</option>
-                    <option>Project Manager</option>
-                    <option>Marketing Manager</option>
                     {customDesignations.map((d) => (
                       <option key={d}>{d}</option>
                     ))}
@@ -253,17 +271,24 @@ export function AddMemberModal({
                   }`}
                 >
                   <option value="">Select Department</option>
-                  <option>Design</option>
-                  <option>Development</option>
-                  <option>Content</option>
-                  <option>Management</option>
-                  <option>Marketing</option>
+                  {departments.map((d) => (
+                    <option key={d}>{d}</option>
+                  ))}
                 </select>
                 {errors.department && (
                   <p className="mt-0.5 text-xs text-red-500">
                     {errors.department}
                   </p>
                 )}
+                <div className="mt-1.5 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddDepartment(true)}
+                    className="rounded-lg border border-indigo-200 px-2.5 py-1 text-xs font-semibold text-indigo-600"
+                  >
+                    + Add Department
+                  </button>
+                </div>
               </div>
 
               {/* Status + Gender */}
@@ -281,7 +306,7 @@ export function AddMemberModal({
                     }`}
                   >
                     <option value="Active">Active</option>
-                    <option value="On Leave">On Leave</option>
+                    <option value="Inactive">Inactive</option>
                   </select>
                   {errors.status && (
                     <p className="mt-0.5 text-xs text-red-500">
@@ -457,6 +482,12 @@ export function AddMemberModal({
         open={showAddDesignation}
         onClose={() => setShowAddDesignation(false)}
         onAdd={handleAddDesignation}
+      />
+
+      <AddDepartmentModal
+        open={showAddDepartment}
+        onClose={() => setShowAddDepartment(false)}
+        onAdd={handleAddDepartment}
       />
     </>
   );
