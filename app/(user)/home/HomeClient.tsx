@@ -95,6 +95,7 @@ function Hero() {
                 width={300}
                 height={60}
                 className="h-12 w-auto"
+                style={{ width: "auto" }}
               />
             </div>
           </div>
@@ -134,6 +135,7 @@ function TechStack() {
               width={t.w}
               height={t.h}
               className="h-7 w-auto object-contain"
+              style={{ width: "auto" }}
             />
           ))}
         </div>
@@ -297,6 +299,7 @@ export default function Page({ partners }: { partners: string[] }) {
                 width={900}
                 height={60}
                 className="h-10 w-auto object-contain sm:h-12"
+                style={{ width: "auto" }}
               />
             </div>
           )}

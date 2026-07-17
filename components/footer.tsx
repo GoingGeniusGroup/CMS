@@ -69,7 +69,9 @@ function Footer({
                 alt={siteName || "Going Genius"}
                 width={40}
                 height={40}
-                className="h-10 w-10 rounded-lg object-contain"
+                className="h-10 w-auto rounded-lg object-contain"
+                style={{ width: "auto" }}
+                unoptimized
               />
               <div>
                 <p className="text-2xl font-bold text-white">

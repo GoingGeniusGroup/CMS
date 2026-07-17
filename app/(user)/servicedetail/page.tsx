@@ -93,7 +93,7 @@ function Hero() {
         </div>
 
         <div className="relative h-64 w-full overflow-hidden rounded-lg border border-gray-200 sm:h-80">
-          <Image src="/webdev.png" alt="Web development team" fill className="object-cover" />
+          <Image src="/webdev.png" alt="Web development team" fill sizes="100vw" className="object-cover" />
         </div>
       </div>
     </section>

@@ -340,7 +340,7 @@ export default function CompanyPage() {
         <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="grid items-center gap-10 rounded-3xl bg-white p-8 shadow-md sm:p-10 md:grid-cols-[280px_1fr_auto] md:gap-12">
             <div className="relative h-52 w-full overflow-hidden rounded-2xl md:h-48">
-              <Image src="/rect.png" alt="Contact us" fill className="object-cover" />
+              <Image src="/rect.png" alt="Contact us" fill sizes="100vw" className="object-cover" />
             </div>
 
             <div>

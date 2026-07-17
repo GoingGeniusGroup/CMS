@@ -89,6 +89,7 @@ function Hero() {
                 width={300}
                 height={60}
                 className="h-12 w-auto"
+                style={{ width: "auto" }}
               />
             </div>
           </div>

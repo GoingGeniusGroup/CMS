@@ -37,7 +37,7 @@ export default async function BlogListingPage() {
               </div>
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-              <Image src="/blog1.png" alt="Blog" fill className="object-cover" />
+              <Image src="/blog1.png" alt="Blog" fill sizes="100vw" className="object-cover" />
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@ export default async function BlogListingPage() {
               <div className="grid lg:grid-cols-2">
                 {featured.thumbnail && (
                   <div className="relative aspect-[16/10] lg:aspect-auto">
-                    <Image src={featured.thumbnail} alt={featured.title} fill className="object-cover" />
+                    <Image src={featured.thumbnail} alt={featured.title} fill sizes="100vw" className="object-cover" />
                   </div>
                 )}
                 <div className="flex flex-col justify-center p-6 sm:p-8">
@@ -105,7 +105,7 @@ export default async function BlogListingPage() {
                 <div key={blog.id} className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
                   {blog.thumbnail && (
                     <div className="relative aspect-[16/10]">
-                      <Image src={blog.thumbnail} alt={blog.title} fill className="object-cover" />
+                      <Image src={blog.thumbnail} alt={blog.title} fill sizes="100vw" className="object-cover" />
                       {blog.category && (
                         <span className="absolute left-3 top-3 rounded bg-indigo-600 px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">
                           {blog.category}

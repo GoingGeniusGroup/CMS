@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Allow dicebear avatar images
   images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "inline",
     remotePatterns: [
       {
         protocol: "https",

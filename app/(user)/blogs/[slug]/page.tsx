@@ -39,7 +39,7 @@ export default async function BlogArticlePage({
         {/* Full-width hero image */}
         {blog.thumbnail && (
           <div className="relative aspect-[16/7] overflow-hidden rounded-2xl border border-zinc-200">
-            <Image src={blog.thumbnail} alt={blog.title} fill className="object-cover" priority />
+            <Image src={blog.thumbnail} alt={blog.title} fill sizes="100vw" className="object-cover" priority />
           </div>
         )}
 
@@ -117,7 +117,7 @@ export default async function BlogArticlePage({
                     <Link key={a.id} href={`/blogs/${a.slug}`} className="flex items-start gap-3 group">
                       {a.thumbnail && (
                         <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
-                          <Image src={a.thumbnail} alt={a.title} fill className="object-cover" />
+                          <Image src={a.thumbnail} alt={a.title} fill sizes="100vw" className="object-cover" />
                         </div>
                       )}
                       <div>
@@ -174,7 +174,7 @@ export default async function BlogArticlePage({
                 <div key={card.id} className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
                   {card.thumbnail && (
                     <div className="relative aspect-[16/10]">
-                      <Image src={card.thumbnail} alt={card.title} fill className="object-cover" />
+                      <Image src={card.thumbnail} alt={card.title} fill sizes="100vw" className="object-cover" />
                       {card.category && (
                         <span className="absolute left-3 top-3 rounded bg-indigo-600 px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">{card.category}</span>
                       )}

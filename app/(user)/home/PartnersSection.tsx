@@ -38,6 +38,7 @@ export async function PartnersSection() {
               width={900}
               height={60}
               className="h-10 w-auto object-contain sm:h-12"
+              style={{ width: "auto" }}
             />
           </div>
         )}

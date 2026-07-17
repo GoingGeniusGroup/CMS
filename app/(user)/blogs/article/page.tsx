@@ -40,7 +40,7 @@ export default function BlogArticlePage() {
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Full-width hero image */}
         <div className="relative aspect-[16/7] overflow-hidden rounded-2xl border border-zinc-200">
-          <Image src="/picture1.png" alt="AI Innovation" fill className="object-cover" />
+          <Image src="/picture1.png" alt="AI Innovation" fill sizes="100vw" className="object-cover" />
         </div>
 
         {/* Meta row — full width */}
@@ -115,7 +115,7 @@ export default function BlogArticlePage() {
             </p>
 
             <div className="mt-5 relative aspect-[16/9] overflow-hidden rounded-xl border border-zinc-200">
-              <Image src="/picture1.png" alt="Real world AI applications" fill className="object-cover" />
+              <Image src="/picture1.png" alt="Real world AI applications" fill sizes="100vw" className="object-cover" />
             </div>
 
             {/* Industry pills */}
@@ -175,7 +175,7 @@ export default function BlogArticlePage() {
                 {popularArticles.map((a, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
-                      <Image src={a.image} alt={a.title} fill className="object-cover" />
+                      <Image src={a.image} alt={a.title} fill sizes="100vw" className="object-cover" />
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-zinc-800 leading-snug">{a.title}</p>
@@ -259,7 +259,7 @@ export default function BlogArticlePage() {
             {blogCards.map((card, i) => (
               <div key={i} className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
                 <div className="relative aspect-[16/10]">
-                  <Image src={card.image} alt={card.title} fill className="object-cover" />
+                  <Image src={card.image} alt={card.title} fill sizes="100vw" className="object-cover" />
                   <span className="absolute left-3 top-3 rounded bg-indigo-600 px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">{card.tag}</span>
                 </div>
                 <div className="p-5">
