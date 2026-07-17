@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { images } from "@/lib/images";
 
@@ -40,7 +41,18 @@ const fallbackLinks: MenuItem[] = [
   { label: "Contact", path: "/contact" },
 ];
 
+/** Check if a nav item (or any of its children) matches the current path */
+function isActive(item: MenuItem, pathname: string): boolean {
+  if (pathname === item.path) return true;
+  if (item.children?.some((c) => pathname === c.path)) return true;
+  // Prefix match for nested pages (e.g. /blogs/slug matches /blogs)
+  if (pathname.startsWith(item.path + "/")) return true;
+  if (item.children?.some((c) => pathname.startsWith(c.path + "/"))) return true;
+  return false;
+}
+
 export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = [] }: LandingNavbarProps) {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [mobileOpenIndex, setMobileOpenIndex] = useState<number | null>(null);
@@ -65,8 +77,9 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
 
         {/* Desktop Nav */}
         <nav className="hidden items-center gap-6 md:flex">
-          {navItems.map((item, index) =>
-            item.children && item.children.length > 0 ? (
+          {navItems.map((item, index) => {
+            const active = isActive(item, pathname);
+            return item.children && item.children.length > 0 ? (
               <div
                 key={`${item.label}-${index}`}
                 className="relative"
@@ -75,10 +88,17 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
               >
                 <a
                   href={item.path}
-                  className="flex items-center gap-1 text-sm font-medium text-zinc-600 transition-colors hover:text-indigo-600"
+                  className={`relative flex items-center gap-1 pb-1 text-sm font-medium transition-colors ${
+                    active
+                      ? "text-[var(--theme-color,#6366f1)]"
+                      : "text-zinc-600 hover:text-[var(--theme-color,#6366f1)]"
+                  }`}
                 >
                   {item.label}
                   <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${openIndex === index ? "rotate-180" : ""}`} />
+                  {active && (
+                    <span className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-[var(--theme-color,#6366f1)]" />
+                  )}
                 </a>
 
                 {/* Dropdown */}
@@ -89,7 +109,11 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
                         <li key={`${sub.label}-${sub.path}`}>
                           <a
                             href={sub.path}
-                            className="block rounded-lg px-3 py-2 text-[13px] font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-indigo-600"
+                            className={`block rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${
+                              pathname === sub.path
+                                ? "bg-[var(--theme-color,#6366f1)]/10 text-[var(--theme-color,#6366f1)]"
+                                : "text-zinc-600 hover:bg-zinc-100 hover:text-[var(--theme-color,#6366f1)]"
+                            }`}
                           >
                             {sub.label}
                           </a>
@@ -103,12 +127,19 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
               <a
                 key={`${item.label}-${index}`}
                 href={item.path}
-                className="flex items-center gap-1 text-sm font-medium text-zinc-600 transition-colors hover:text-indigo-600"
+                className={`relative pb-1 flex items-center gap-1 text-sm font-medium transition-colors ${
+                  active
+                    ? "text-[var(--theme-color,#6366f1)]"
+                    : "text-zinc-600 hover:text-[var(--theme-color,#6366f1)]"
+                }`}
               >
                 {item.label}
+                {active && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-[var(--theme-color,#6366f1)]" />
+                )}
               </a>
-            )
-          )}
+            );
+          })}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -141,15 +172,20 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
         <div className="md:hidden border-t border-zinc-100 bg-white/95">
           <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
             <div className="space-y-1">
-              {navItems.map((item, index) =>
-                item.children && item.children.length > 0 ? (
+              {navItems.map((item, index) => {
+                const active = isActive(item, pathname);
+                return item.children && item.children.length > 0 ? (
                   <div key={`${item.label}-${index}`}>
                     <button
                       type="button"
                       onClick={() =>
                         setMobileOpenIndex((cur) => (cur === index ? null : index))
                       }
-                      className="flex w-full items-center justify-between rounded-md px-3 py-2 text-base font-medium text-zinc-700 hover:bg-zinc-50 hover:text-indigo-600"
+                      className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-base font-medium transition-colors ${
+                        active
+                          ? "text-[var(--theme-color,#6366f1)] bg-[var(--theme-color,#6366f1)]/5"
+                          : "text-zinc-700 hover:bg-zinc-50 hover:text-[var(--theme-color,#6366f1)]"
+                      }`}
                     >
                       {item.label}
                       <ChevronDown
@@ -162,7 +198,11 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
                           <a
                             key={`${sub.label}-${sub.path}`}
                             href={sub.path}
-                            className="block rounded-md px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-indigo-600"
+                            className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                              pathname === sub.path
+                                ? "text-[var(--theme-color,#6366f1)]"
+                                : "text-zinc-600 hover:bg-zinc-50 hover:text-[var(--theme-color,#6366f1)]"
+                            }`}
                             onClick={() => setMobileOpen(false)}
                           >
                             {sub.label}
@@ -175,13 +215,17 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
                   <a
                     key={`${item.label}-${index}`}
                     href={item.path}
-                    className="block rounded-md px-3 py-2 text-base font-medium text-zinc-700 hover:bg-zinc-50 hover:text-indigo-600"
+                    className={`block rounded-md px-3 py-2 text-base font-medium transition-colors ${
+                      active
+                        ? "text-[var(--theme-color,#6366f1)] bg-[var(--theme-color,#6366f1)]/5"
+                        : "text-zinc-700 hover:bg-zinc-50 hover:text-[var(--theme-color,#6366f1)]"
+                    }`}
                     onClick={() => setMobileOpen(false)}
                   >
                     {item.label}
                   </a>
-                )
-              )}
+                );
+              })}
               <Link
                 href="/login"
                 className="block rounded-md px-3 py-2 text-base font-medium text-zinc-700 hover:bg-zinc-50"

@@ -8,6 +8,7 @@ export type SiteSettings = {
   faviconUrl: string;
   metaKeywords: string;
   themeColor: string;
+  themeTextColor: string;
   baseColorEnabled: boolean;
 };
 
@@ -18,6 +19,7 @@ const DEFAULTS: SiteSettings = {
   faviconUrl: "/favicon.ico",
   metaKeywords: "",
   themeColor: "#fe9a00",
+  themeTextColor: "#ffffff",
   baseColorEnabled: true,
 };
 
@@ -38,6 +40,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       faviconUrl: row.faviconUrl || DEFAULTS.faviconUrl,
       metaKeywords: row.metaKeywords || DEFAULTS.metaKeywords,
       themeColor: row.themeColor || DEFAULTS.themeColor,
+      themeTextColor: row.themeTextColor || DEFAULTS.themeTextColor,
       baseColorEnabled: row.baseColorEnabled,
     };
   } catch {

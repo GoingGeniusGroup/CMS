@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AuthProvider } from "@/components/AuthProvider";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import { getSiteSettings } from "@/lib/site-settings";
-import { getPublicAppearanceSettings } from "@/app/actions/appearance";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -21,13 +19,15 @@ const geistMono = Geist_Mono({
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
 
+  // Simple default title — the (user) layout provides its own template for client pages.
   return {
-    title: {
-      default: settings.siteName,
-      template: `%s | ${settings.siteName}`,
-    },
+    title: settings.siteName,
     description: settings.description,
-    keywords: settings.metaKeywords ? settings.metaKeywords.split(",").map((k) => k.trim()) : [],
+    icons: {
+      icon: settings.faviconUrl || "/favicon.ico",
+      shortcut: settings.faviconUrl || "/favicon.ico",
+      apple: settings.faviconUrl || "/favicon.ico",
+    },
     openGraph: {
       title: settings.siteName,
       description: settings.description,
@@ -41,14 +41,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [settings, appearance] = await Promise.all([
-    getSiteSettings(),
-    getPublicAppearanceSettings(),
-  ]);
-
-  // Theme/base color always comes from General Settings (single source of truth).
-  // Hover color + toggle come from Appearance Settings.
-  const themeColor = settings.themeColor;
+  const settings = await getSiteSettings();
 
   return (
     <html
@@ -62,12 +55,6 @@ export default async function RootLayout({
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <AuthProvider>{children}</AuthProvider>
-        <ThemeProvider
-          themeColor={themeColor}
-          hoverColor={appearance.hoverColor}
-          hoverEnabled={appearance.hoverEnabled}
-          baseColorEnabled={settings.baseColorEnabled}
-        />
       </body>
     </html>
   );

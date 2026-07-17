@@ -26,6 +26,7 @@ async function main() {
     faviconUrl: "/favicon.ico",
     metaKeywords: "going genius, web development, app development, digital agency, nepal",
     themeColor: "#fe9a00",
+    themeTextColor: "#000000",
     baseColorEnabled: true,
   });
   console.log("  ✓ General settings");

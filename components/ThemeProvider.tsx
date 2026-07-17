@@ -1,21 +1,39 @@
 /**
  * ThemeProvider — injects CSS custom properties and overrides for the CMS theme color.
  *
- * - `themeColor`: the single base color applied to ALL indigo/purple utilities (non-hover).
+ * - `themeColor`: the single base color applied to SOLID indigo/purple utilities (shades 400–900).
+ *   Light tints (50/100/200/300) are intentionally left untouched so tinted badges/cards
+ *   keep their pale backgrounds and remain readable.
+ * - `themeTextColor`: the foreground text color used on top of themed (solid) backgrounds
+ *   (buttons, badges, banners) — applied to text AND icons so they stay legible.
  * - `hoverColor`: applied on :hover states only, when `hoverEnabled` is true.
  * - `hoverEnabled`: when false, hover keeps the base theme color (no color change).
  * - `baseColorEnabled`: master switch to enable/disable theming entirely.
+ *
+ * NOTE: This is only mounted on the public (client-facing) site, NOT the admin panel.
  */
 
 type ThemeProviderProps = {
   themeColor: string;
+  themeTextColor?: string;
   hoverColor?: string;
   hoverEnabled?: boolean;
   baseColorEnabled: boolean;
 };
 
+const FAMILIES = ["indigo", "purple"];
+// Only SOLID shades are themed — light tints (50/100/200/300) are preserved.
+const SOLID_SHADES = ["400", "500", "600", "700", "800", "900"];
+
+function sel(prefix: string, suffix = "") {
+  return FAMILIES.flatMap((f) =>
+    SOLID_SHADES.map((s) => `html body [class*="${prefix}-${f}-${s}"]${suffix}`)
+  ).join(",\n    ");
+}
+
 export function ThemeProvider({
   themeColor,
+  themeTextColor = "#ffffff",
   hoverColor,
   hoverEnabled = true,
   baseColorEnabled,
@@ -24,6 +42,7 @@ export function ThemeProvider({
 
   // Hover uses the hover color only when enabled; otherwise it stays the theme color.
   const hover = hoverEnabled && hoverColor ? hoverColor : themeColor;
+  const textOnTheme = themeTextColor || "#ffffff";
 
   const css = `
     :root {
@@ -31,39 +50,22 @@ export function ThemeProvider({
       --theme-color-hover: ${hover};
       --theme-color-light: ${themeColor}12;
       --theme-color-medium: ${themeColor}25;
+      --theme-text-color: ${textOnTheme};
     }
 
-    /* ─── Background: ALL solid indigo/purple shades → theme color (uniform, no mix) ─── */
-    html body [class*="bg-indigo-4"],
-    html body [class*="bg-indigo-5"],
-    html body [class*="bg-indigo-6"],
-    html body [class*="bg-indigo-7"],
-    html body [class*="bg-indigo-8"],
-    html body [class*="bg-indigo-9"],
-    html body [class*="bg-purple-4"],
-    html body [class*="bg-purple-5"],
-    html body [class*="bg-purple-6"],
-    html body [class*="bg-purple-7"],
-    html body [class*="bg-purple-8"],
-    html body [class*="bg-purple-9"] {
+    /* ─── Solid themed backgrounds (shades 400–900 only) → theme color.
+       Their text + icons use the on-theme text color for legibility. ─── */
+    ${sel("bg")} {
       background-color: ${themeColor} !important;
+      color: ${textOnTheme} !important;
+    }
+    ${sel("bg", " [class*=\"text-white\"]")},
+    ${sel("bg", " svg")} {
+      color: ${textOnTheme} !important;
     }
 
-    /* ─── Light tint backgrounds (50/100) → do NOT override, keep original light tints ─── */
-
-    /* ─── Text: all indigo/purple shades → theme color ─── */
-    html body [class*="text-indigo-4"],
-    html body [class*="text-indigo-5"],
-    html body [class*="text-indigo-6"],
-    html body [class*="text-indigo-7"],
-    html body [class*="text-indigo-8"],
-    html body [class*="text-indigo-9"],
-    html body [class*="text-purple-4"],
-    html body [class*="text-purple-5"],
-    html body [class*="text-purple-6"],
-    html body [class*="text-purple-7"],
-    html body [class*="text-purple-8"],
-    html body [class*="text-purple-9"] {
+    /* ─── Themed text (solid shades) → theme color ─── */
+    ${sel("text")} {
       color: ${themeColor} !important;
     }
 
@@ -109,17 +111,13 @@ export function ThemeProvider({
     html body [class*="hover:text-purple"]:hover {
       color: ${hover} !important;
     }
-    /* Apply hover color to themed text links on hover (even without explicit hover:text class) */
-    html body [class*="text-indigo-6"]:hover,
-    html body [class*="text-indigo-5"]:hover,
-    html body [class*="text-purple-6"]:hover {
-      color: ${hover} !important;
-    }
 
     /* ─── Theme utility classes ─── */
-    .theme-bg { background-color: ${themeColor}; }
+    .theme-bg { background-color: ${themeColor}; color: ${textOnTheme}; }
+    .theme-bg svg { color: ${textOnTheme}; }
     .theme-bg-hover:hover { background-color: ${hover}; }
     .theme-text { color: ${themeColor}; }
+    .theme-text-on { color: ${textOnTheme}; }
     .theme-border { border-color: ${themeColor}; }
     .theme-bg-light { background-color: ${themeColor}12; }
   `;

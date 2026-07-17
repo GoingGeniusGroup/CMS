@@ -11,6 +11,8 @@ import { getPublicFooterSettings } from "@/app/actions/footer-settings";
 import { getPublicSeoSettings } from "@/app/actions/seo";
 import { getPublicCookieSettings } from "@/app/actions/cookie-settings";
 import { getPublicPopupSettings } from "@/app/actions/popup";
+import { getPublicAppearanceSettings } from "@/app/actions/appearance";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const dynamic = "force-dynamic";
 
@@ -26,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: {
-      default: title,
+      default: settings.siteName,
       template: `%s | ${settings.siteName}`,
     },
     description,
@@ -56,6 +58,7 @@ export default async function UserLayout({
     footerSettings,
     cookieSettings,
     popupSettings,
+    appearance,
   ] = await Promise.all([
     getSiteSettings(),
     getPublicContactSettings(),
@@ -63,12 +66,21 @@ export default async function UserLayout({
     getPublicFooterSettings(),
     getPublicCookieSettings(),
     getPublicPopupSettings(),
+    getPublicAppearanceSettings(),
   ]);
 
   const hasBanner = !!headerSettings.bannerImageUrl;
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
+      {/* Theme is applied to the client-facing site ONLY (not the admin panel) */}
+      <ThemeProvider
+        themeColor={settings.themeColor}
+        themeTextColor={settings.themeTextColor}
+        hoverColor={appearance.hoverColor}
+        hoverEnabled={appearance.hoverEnabled}
+        baseColorEnabled={settings.baseColorEnabled}
+      />
       {/* Sticky wrapper — banner + navbar stick together */}
       <div className={headerSettings.stickyHeader ? "sticky top-0 z-50" : ""}>
         {/* Top Banner Ad */}

@@ -96,7 +96,7 @@ export function DynamicPageView({
                     <a
                       key={s.id}
                       href={`#${s.id}`}
-                      className="block rounded-lg px-3 py-2 text-sm text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-[var(--theme-color,#fe9a00)]"
+                      className="block rounded-lg px-3 py-2 text-sm text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-[var(--theme-color-hover,#fe9a00)]"
                     >
                       <span className="font-medium text-zinc-400">{i + 1}.</span>{" "}
                       {s.title}
