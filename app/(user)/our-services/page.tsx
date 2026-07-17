@@ -176,13 +176,7 @@ function DigitalServicesStrip() {
               <h3 className="text-sm font-bold text-zinc-900">{title}</h3>
               <p className="text-xs leading-relaxed text-zinc-500">{desc}</p>
               <div className="mt-auto">
-                <button
-                  type="button"
-                  className="flex h-7 w-7 items-center justify-center rounded-full border border-zinc-200 text-zinc-400 transition-colors hover:border-indigo-400 hover:text-indigo-600"
-                  aria-label={`Learn more about ${title}`}
-                >
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </button>
+                
               </div>
             </div>
           ))}
@@ -223,13 +217,6 @@ function ServicesWeProvide() {
                 {title}
               </h3>
               <p className="text-sm leading-relaxed text-zinc-500">{desc}</p>
-              <button
-                type="button"
-                className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 hover:gap-2.5 transition-all"
-              >
-                Learn More
-                <ArrowRight className="h-4 w-4" />
-              </button>
             </div>
           ))}
         </div>

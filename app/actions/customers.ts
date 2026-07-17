@@ -10,7 +10,7 @@ import { z } from "zod";
 const customerSchema = z.object({
   fullName: z.string().min(2, "Name must be at least 2 characters"),
   email: z.email("Enter a valid email address"),
-  phoneNumber: z.string().min(6, "Enter a valid phone number").optional().or(z.literal("")),
+  phoneNumber: z.string().regex(/^\d{10}$/, "Phone number must be exactly 10 digits").optional().or(z.literal("")),
   address: z.string().optional().or(z.literal("")),
   servicesId: z.string().optional().or(z.literal("")),
   companyName: z.string().optional().or(z.literal("")),
@@ -108,7 +108,7 @@ export async function getCustomerById(id: string) {
   try {
     const customer = await prisma.customer.findUnique({
       where: { id },
-      
+
       include: {
         invoices: { orderBy: { createdAt: "desc" } },
         projects: true,

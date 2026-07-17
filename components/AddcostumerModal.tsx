@@ -14,10 +14,10 @@ interface AddCustomerModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: () => void;
-   services: Service[];
+  services: Service[];
 }
 
-export function AddCustomerModal({ isOpen, onClose, onSuccess,services }: AddCustomerModalProps) {
+export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCustomerModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -36,6 +36,14 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess,services }: AddCus
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+
+    // For phone number, only allow digits and limit to 10
+    if (name === "phoneNumber") {
+      const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
+      setFormData((prev) => ({ ...prev, [name]: digitsOnly }));
+      return;
+    }
+
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -123,11 +131,15 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess,services }: AddCus
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                  Phone No.
+                  Phone No. <span className="text-gray-400">(10 digits)</span>
                 </label>
                 <input name="phoneNumber" value={formData.phoneNumber} onChange={handleChange}
-                  type="tel" placeholder="Enter phone number"
+                  type="tel" placeholder="Enter 10-digit phone number" maxLength={10}
+                  pattern="\d{10}"
                   className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-gray-400 outline-none transition-colors text-sm" />
+                {formData.phoneNumber && formData.phoneNumber.length !== 10 && (
+                  <p className="text-xs text-amber-600 mt-1">Phone number must be exactly 10 digits</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
