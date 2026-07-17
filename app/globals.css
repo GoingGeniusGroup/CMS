@@ -40,3 +40,124 @@ body {
 .uploadcare-config {
   position: fixed !important;
 }
+
+/* ─── Theme Color Integration ────────────────────────────────────────────── */
+/* These utility classes use the CSS variable set by ThemeProvider */
+.theme-bg { background-color: var(--theme-color, #6366f1); }
+.theme-bg-hover:hover { background-color: var(--theme-color-hover, #4f46e5); }
+.theme-text { color: var(--theme-color, #6366f1); }
+.theme-border { border-color: var(--theme-color, #6366f1); }
+.theme-bg-light { background-color: var(--theme-color-light, #6366f115); }
+
+/* ─── Tiptap Editor Styles ─── */
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+.tiptap {
+  outline: none;
+}
+
+.tiptap h1 { font-size: 2em; font-weight: 700; margin: 0.67em 0; }
+.tiptap h2 { font-size: 1.5em; font-weight: 700; margin: 0.5em 0; }
+.tiptap h3 { font-size: 1.25em; font-weight: 600; margin: 0.5em 0; }
+.tiptap h4 { font-size: 1.1em; font-weight: 600; margin: 0.4em 0; }
+.tiptap h5 { font-size: 1em; font-weight: 600; margin: 0.4em 0; }
+.tiptap h6 { font-size: 0.9em; font-weight: 600; margin: 0.4em 0; }
+
+.tiptap p { margin: 0.5em 0; }
+
+.tiptap ul { list-style: disc; padding-left: 1.5em; margin: 0.5em 0; }
+.tiptap ol { list-style: decimal; padding-left: 1.5em; margin: 0.5em 0; }
+.tiptap li { margin: 0.25em 0; }
+
+.tiptap ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+}
+.tiptap ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.tiptap ul[data-type="taskList"] li label {
+  margin-top: 0.15em;
+}
+
+.tiptap blockquote {
+  border-left: 3px solid #e5e7eb;
+  padding-left: 1em;
+  margin: 0.75em 0;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.tiptap pre {
+  background: #1e1e2e;
+  color: #cdd6f4;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 0.75em 0;
+  overflow-x: auto;
+  font-family: ui-monospace, monospace;
+  font-size: 0.875em;
+}
+.tiptap pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+
+.tiptap code {
+  background: #f3f4f6;
+  border-radius: 0.25rem;
+  padding: 0.15em 0.4em;
+  font-size: 0.875em;
+  font-family: ui-monospace, monospace;
+}
+
+.tiptap a {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.tiptap img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 0.75em 0;
+}
+
+.tiptap hr {
+  border: none;
+  border-top: 2px solid #e5e7eb;
+  margin: 1.5em 0;
+}
+
+.tiptap table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.75em 0;
+}
+.tiptap table td,
+.tiptap table th {
+  border: 1px solid #e5e7eb;
+  padding: 0.5em 0.75em;
+  min-width: 80px;
+  vertical-align: top;
+}
+.tiptap table th {
+  background: #f9fafb;
+  font-weight: 600;
+}
+
+.tiptap mark {
+  border-radius: 0.15em;
+  padding: 0.1em 0.2em;
+}

@@ -11,6 +11,7 @@ import { Pagination } from "@/components/Pagination";
 import { PageHeader } from "@/components/PageHeader";
 import { InvoiceModal } from "@/components/InvoiceModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { ViewDetailModal } from "@/components/ViewDetailModal";
 import { getInvoices, deleteInvoice } from "@/app/actions/invoices";
 
 type SelectOption = { id: string; label: string };
@@ -79,6 +80,7 @@ export function InvoicesClient({
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState<Invoice | null>(null);
+  const [viewItem, setViewItem] = useState<Invoice | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
@@ -165,7 +167,7 @@ export function InvoicesClient({
         <h2 className="text-lg font-bold text-black">Invoice List</h2>
         <div className="flex items-center gap-3">
           {/* View toggle */}
-          <div className="hidden sm:flex items-center rounded-lg border border-gray-200 bg-white p-1">
+          <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
             <button
               type="button"
               onClick={() => setViewMode("list")}
@@ -238,7 +240,7 @@ export function InvoicesClient({
                         <td className="px-6 py-4 text-zinc-600">{formatDate(inv.dueDate)}</td>
                         <td className="px-6 py-4"><StatusBadge status={inv.status} /></td>
                         <td className="px-6 py-4">
-                          <RowActions onEdit={() => handleEdit(inv)} onDelete={() => handleDelete(inv.id)} />
+                          <RowActions onView={() => setViewItem(inv)} onEdit={() => handleEdit(inv)} onDelete={() => handleDelete(inv.id)} />
                         </td>
                       </tr>
                     ))}
@@ -266,7 +268,7 @@ export function InvoicesClient({
                         <span className="text-gray-900">{formatDate(inv.dueDate)}</span>
                       </div>
                     </div>
-                    <RowActions variant="buttons" onEdit={() => handleEdit(inv)} onDelete={() => handleDelete(inv.id)} />
+                    <RowActions variant="buttons" onView={() => setViewItem(inv)} onEdit={() => handleEdit(inv)} onDelete={() => handleDelete(inv.id)} />
                   </div>
                 ))}
               </div>
@@ -314,7 +316,7 @@ export function InvoicesClient({
                       <span className="text-gray-700">{formatDate(inv.dueDate)}</span>
                     </div>
                   </div>
-                  <RowActions variant="buttons" onEdit={() => handleEdit(inv)} onDelete={() => handleDelete(inv.id)} />
+                  <RowActions variant="buttons" onView={() => setViewItem(inv)} onEdit={() => handleEdit(inv)} onDelete={() => handleDelete(inv.id)} />
                 </div>
               ))}
             </div>
@@ -350,6 +352,24 @@ export function InvoicesClient({
         description="Are you sure you want to delete this invoice? This action cannot be undone."
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
+      />
+
+      {/* View Detail Modal */}
+      <ViewDetailModal
+        open={!!viewItem}
+        onClose={() => setViewItem(null)}
+        title={viewItem?.invoiceNumber || ""}
+        fields={[
+          { label: "Invoice #", value: viewItem?.invoiceNumber },
+          { label: "Customer", value: viewItem?.customer?.fullName },
+          { label: "Project", value: viewItem?.project?.title },
+          { label: "Amount", value: viewItem?.amount },
+          { label: "Tax", value: viewItem?.tax },
+          { label: "Total", value: viewItem?.total },
+          { label: "Status", value: viewItem?.status },
+          { label: "Issued", value: viewItem?.issuedDate ? new Date(viewItem.issuedDate).toLocaleDateString() : null },
+          { label: "Due", value: viewItem?.dueDate ? new Date(viewItem.dueDate).toLocaleDateString() : null },
+        ]}
       />
     </div>
   );

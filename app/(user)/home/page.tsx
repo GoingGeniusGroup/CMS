@@ -5,38 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { images } from "@/lib/images";
+import { LandingServicesSection } from "@/components/LandingServicesSection";
+import { LandingFeaturedProjects } from "@/components/LandingFeaturedProjects";
+import { LandingTeamSection } from "@/components/LandingTeamSection";
+import { LandingPartnersSection } from "@/components/LandingPartnersSection";
+import { LandingTechSection } from "@/components/LandingTechSection";
 
 // ΓöÇΓöÇΓöÇ Data ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-const techStack = [
-  { name: "PHP", src: images.php, w: 60, h: 30 },
-  { name: "Supabase", src: images.supabase, w: 110, h: 26 },
-  { name: ".NET", src: images.dotnet, w: 60, h: 28 },
-  { name: "Flutter", src: images.flutter, w: 80, h: 28 },
-  { name: "Prisma", src: images.prisma, w: 100, h: 28 },
-];
-
-const services = [
-  { title: "Web Development", desc: "Custom websites built for speed, scale, and conversion.", image: images.web },
-  { title: "Mobile Apps", desc: "iOS and Android apps designed around real user needs.", image: images.omniscaleAnalytics },
-  { title: "UI/UX Design", desc: "Interfaces that feel obvious in hindsight and delightful in use.", image: images.component49 },
-  { title: "Digital Marketing", desc: "Campaigns that turn attention into measurable growth.", image: images.background },
-];
-
-const projects = [
-  {
-    src: images.background,
-    title: "E-Commerce Websites",
-    desc: "Scalable online shopping platform with secure payments, inventory management, responsive design, and an intuitive customer experience.",
-    tags: ["Web Development", "E-Commerce"],
-  },
-  {
-    src: images.omniscaleAnalytics,
-    title: "Business Dashboard",
-    desc: "Modern dashboard with analytics and reporting.",
-    tags: ["Dashboard", "UI/UX"],
-  },
-];
 
 const posts = [
   {
@@ -53,11 +28,6 @@ const posts = [
     title: "Choosing the Right UI/UX",
     desc: "Creating better user experiences.",
   },
-];
-
-const team = [
-  { name: "John Doe", role: "Developer", src: images.alex },
-  { name: "John Doe", role: "Design Director", src: images.girl },
 ];
 
 const faqs = [
@@ -101,7 +71,7 @@ function Hero() {
                 href="#contact"
                 className="rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
               >
-                Get Started
+                Get Started.
               </a>
               <a
                 href="#services"
@@ -119,6 +89,7 @@ function Hero() {
                 width={300}
                 height={60}
                 className="h-12 w-auto"
+                style={{ width: "auto" }}
               />
             </div>
           </div>
@@ -139,150 +110,7 @@ function Hero() {
   );
 }
 
-// ΓöÇΓöÇΓöÇ Partners ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-function Partners() {
-  return (
-    <section className="bg-zinc-950 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <p className="mb-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400">
-          Our Partners
-        </p>
-        <div className="flex items-center justify-center">
-          <Image
-            src={images.frame2}
-            alt="Our partners"
-            width={900}
-            height={60}
-            className="h-10 w-auto object-contain sm:h-12"
-          />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ΓöÇΓöÇΓöÇ Tech Stack ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-function TechStack() {
-  return (
-    <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl text-center">
-        <p className="mb-8 text-sm font-bold text-zinc-900">Technologies We Use</p>
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
-          {techStack.map((t) => (
-            <Image
-              key={t.name}
-              src={t.src}
-              alt={t.name}
-              width={t.w}
-              height={t.h}
-              className="h-7 w-auto object-contain"
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ΓöÇΓöÇΓöÇ Services ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-function Services() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  return (
-    <section id="services" className="bg-[#f6f4f3] px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-12 text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-indigo-600">
-            Our Services
-          </p>
-          <h2 className="text-2xl font-extrabold text-zinc-900 sm:text-3xl">
-            What We Do Best
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-500">
-            End-to-end digital solutions to help your business grow and scale.
-          </p>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((s, i) => {
-            const isOpen = openIndex === i;
-            return (
-              <div
-                key={s.title}
-                onClick={() => setOpenIndex(isOpen ? null : i)}
-                className="group cursor-pointer rounded-2xl border border-zinc-200 bg-white p-7 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-indigo-200"
-              >
-                <div className="mx-auto mb-5 h-32 w-full overflow-hidden rounded-xl">
-                  <Image
-                    src={s.image}
-                    alt={s.title}
-                    width={280}
-                    height={128}
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <h3 className="text-base font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">{s.title}</h3>
-                <p className={`mt-3 text-sm leading-relaxed text-zinc-500 transition-all duration-300 ${isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0 overflow-hidden"}`}>
-                  {s.desc}
-                </p>
-                <div className="mt-4 flex items-center justify-center">
-                  <span className={`flex h-7 w-7 items-center justify-center rounded-full border border-zinc-200 text-zinc-400 transition-all group-hover:border-indigo-300 group-hover:text-indigo-500 ${isOpen ? "rotate-180" : ""}`}>
-                    <ChevronDown className="h-4 w-4" />
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ΓöÇΓöÇΓöÇ Featured Works ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-function FeaturedWorks() {
-  return (
-    <section id="portfolio" className="bg-white px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">Featured Works</p>
-            <h2 className="mt-2 text-2xl font-extrabold text-zinc-900">Recent Success Stories</h2>
-          </div>
-          <Link href="/portfolio" className="text-sm font-semibold text-indigo-600 hover:underline">
-            View All Projects
-          </Link>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2">
-          {projects.map((p, i) => (
-            <div key={i} className="rounded-2xl border border-zinc-200 p-6 shadow-sm">
-              <h3 className="text-base font-bold text-zinc-900">{p.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-500">{p.desc}</p>
-              <div className="mt-4 flex gap-2">
-                {p.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-xl bg-zinc-50">
-                <Image src={p.src} alt={p.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-contain" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+// ─── Featured Works ───────────────────────────────────────────────────────────
 
 function Products() {
   return (
@@ -365,34 +193,7 @@ function Insights() {
   );
 }
 
-// ΓöÇΓöÇΓöÇ Team ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-function Team() {
-  return (
-    <section id="company" className="bg-white px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <p className="text-center text-xs font-bold uppercase tracking-widest text-indigo-600">Our Team</p>
-        <h2 className="mt-2 text-center text-2xl font-extrabold text-zinc-900">Meet the Geniuses</h2>
-
-        <div className="mx-auto mt-10 grid max-w-2xl gap-6 sm:grid-cols-2">
-          {team.map((member, i) => (
-            <div key={i} className="overflow-hidden rounded-2xl border border-zinc-200 shadow-sm">
-              <div className="relative aspect-[4/3] bg-zinc-50">
-                <Image src={member.src} alt={member.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-contain" />
-              </div>
-              <div className="p-4">
-                <p className="text-sm font-bold text-zinc-900">{member.name}</p>
-                <p className="text-xs text-zinc-500">{member.role}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ΓöÇΓöÇΓöÇ FAQ ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+// ─── FAQ ───────────────────────────────────────────────────────────────────
 
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
@@ -437,13 +238,13 @@ export default function Page() {
   return (
     <>
       <Hero />
-      <Partners />
-      <TechStack />
-      <Services />
+      <LandingPartnersSection />
+      <LandingTechSection />
+      <LandingServicesSection />
       <Products />
-      <FeaturedWorks />
+      <LandingFeaturedProjects />
       <Insights />
-      <Team />
+      <LandingTeamSection />
       <FAQ />
     </>
   );

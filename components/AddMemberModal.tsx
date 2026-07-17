@@ -14,6 +14,9 @@ export interface MemberFormData {
   gender: "male" | "female";
   image: string | null;
   description: string;
+  location: string;
+  experience: string;
+  skills: string[];
   facebook: string;
   twitter: string;
   instagram: string;
@@ -65,6 +68,9 @@ function buildInitialForm(editMember?: MemberRecord | null): MemberFormData {
       gender: editMember.gender,
       image: editMember.image,
       description: editMember.description ?? "",
+      location: editMember.location ?? "",
+      experience: editMember.experience ?? "",
+      skills: editMember.skills ?? [],
       facebook: editMember.facebook ?? "",
       twitter: editMember.twitter ?? "",
       instagram: editMember.instagram ?? "",
@@ -82,6 +88,9 @@ function buildInitialForm(editMember?: MemberRecord | null): MemberFormData {
     gender: "male",
     image: null,
     description: "",
+    location: "",
+    experience: "",
+    skills: [],
     facebook: "",
     twitter: "",
     instagram: "",
@@ -296,19 +305,75 @@ export function AddMemberModal({
 
               {/* Description */}
               <div>
-                <label className="mb-1 block text-xs font-medium">Description</label>
+                <label className="mb-1 block text-xs font-medium">Bio / Description</label>
                 <textarea
                   rows={3}
                   name="description"
-                  maxLength={160}
+                  maxLength={500}
                   value={form.description}
                   onChange={handleField}
                   placeholder="Enter description about team member......."
                   className="w-full resize-none rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
                 />
                 <div className="mt-0.5 text-right text-xs text-zinc-400">
-                  {form.description.length}/160
+                  {form.description.length}/500
                 </div>
+              </div>
+
+              {/* Location + Experience */}
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="mb-1 block text-xs font-medium">Location</label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={form.location}
+                    onChange={handleField}
+                    placeholder="e.g. Kathmandu, Nepal"
+                    className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
+                  />
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs font-medium">Experience</label>
+                  <input
+                    type="text"
+                    name="experience"
+                    value={form.experience}
+                    onChange={handleField}
+                    placeholder="e.g. 5+ Years"
+                    className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
+                  />
+                </div>
+              </div>
+
+              {/* Skills */}
+              <div>
+                <label className="mb-1 block text-xs font-medium">Skills</label>
+                {form.skills.length > 0 && (
+                  <div className="mb-2 flex flex-wrap gap-1.5">
+                    {form.skills.map((skill, i) => (
+                      <span key={i} className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-600">
+                        {skill}
+                        <button type="button" onClick={() => setForm(prev => ({ ...prev, skills: prev.skills.filter((_, idx) => idx !== i) }))} className="text-indigo-400 hover:text-indigo-700">×</button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <input
+                  type="text"
+                  placeholder="Type a skill and press Enter"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      const val = (e.target as HTMLInputElement).value.trim();
+                      if (val && !form.skills.includes(val)) {
+                        setForm(prev => ({ ...prev, skills: [...prev.skills, val] }));
+                        (e.target as HTMLInputElement).value = "";
+                      }
+                    }
+                  }}
+                  className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
+                />
               </div>
             </div>
           </div>

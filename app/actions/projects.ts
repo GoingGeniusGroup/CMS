@@ -6,15 +6,26 @@ import { z } from "zod";
 
 const projectSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
-  description: z.string().optional(),
-  customerId: z.string().optional(),
-  teamId: z.string().optional(),
-  serviceId: z.string().optional(),
+  slug: z.string().optional().or(z.literal("")),
+  description: z.string().optional().or(z.literal("")),
+  overview: z.string().optional().or(z.literal("")),
+  category: z.string().optional().or(z.literal("")),
+  liveUrl: z.string().optional().or(z.literal("")),
+  customerId: z.string().optional().or(z.literal("")),
+  teamId: z.string().optional().or(z.literal("")),
+  serviceId: z.string().optional().or(z.literal("")),
   status: z.enum(["Published", "Draft"]),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
+  startDate: z.string().optional().or(z.literal("")),
+  endDate: z.string().optional().or(z.literal("")),
   budget: z.number().optional(),
-  thumbnail: z.string().optional(),
+  thumbnail: z.string().optional().or(z.literal("")).nullable(),
+  gallery: z.array(z.string()).optional(),
+  highlights: z.array(z.string()).optional(),
+  challenges: z.array(z.string()).optional(),
+  solutions: z.array(z.string()).optional(),
+  technologies: z.array(z.string()).optional(),
+  features: z.any().optional(),
+  results: z.any().optional(),
 });
 
 export type ProjectInput = z.infer<typeof projectSchema>;
@@ -46,6 +57,26 @@ export async function getProjects(page = 1, pageSize = 10) {
   };
 }
 
+// Get published projects for public/user-facing pages (no auth required)
+export async function getPublicProjects() {
+  return await prisma.project.findMany({
+    where: { status: "Published" },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      description: true,
+      category: true,
+      thumbnail: true,
+      budget: true,
+      startDate: true,
+      endDate: true,
+      createdAt: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
 export async function createProject(data: ProjectInput) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
@@ -56,15 +87,27 @@ export async function createProject(data: ProjectInput) {
   }
 
   try {
-    const { startDate, endDate, ...rest } = result.data;
+    const { startDate, endDate, thumbnail, features, results: projectResults, ...rest } = result.data;
     await prisma.project.create({
       data: {
         ...rest,
+        slug: rest.slug || null,
         customerId: rest.customerId || null,
         teamId: rest.teamId || null,
         serviceId: rest.serviceId || null,
+        overview: rest.overview || null,
+        category: rest.category || null,
+        liveUrl: rest.liveUrl || null,
+        thumbnail: thumbnail || null,
         startDate: startDate ? new Date(startDate) : null,
         endDate: endDate ? new Date(endDate) : null,
+        gallery: rest.gallery ?? [],
+        highlights: rest.highlights ?? [],
+        challenges: rest.challenges ?? [],
+        solutions: rest.solutions ?? [],
+        technologies: rest.technologies ?? [],
+        features: features ?? undefined,
+        results: projectResults ?? undefined,
       },
     });
     return { success: true };
@@ -84,16 +127,28 @@ export async function updateProject(id: string, data: ProjectInput) {
   }
 
   try {
-    const { startDate, endDate, ...rest } = result.data;
+    const { startDate, endDate, thumbnail, features, results: projectResults, ...rest } = result.data;
     await prisma.project.update({
       where: { id },
       data: {
         ...rest,
+        slug: rest.slug || null,
         customerId: rest.customerId || null,
         teamId: rest.teamId || null,
         serviceId: rest.serviceId || null,
+        overview: rest.overview || null,
+        category: rest.category || null,
+        liveUrl: rest.liveUrl || null,
+        thumbnail: thumbnail || null,
         startDate: startDate ? new Date(startDate) : null,
         endDate: endDate ? new Date(endDate) : null,
+        gallery: rest.gallery ?? [],
+        highlights: rest.highlights ?? [],
+        challenges: rest.challenges ?? [],
+        solutions: rest.solutions ?? [],
+        technologies: rest.technologies ?? [],
+        features: features ?? undefined,
+        results: projectResults ?? undefined,
       },
     });
     return { success: true };

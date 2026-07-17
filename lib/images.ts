@@ -24,6 +24,10 @@ export const images = {
   container2: "/Container-2.png",
   component49: "/Component49.png",
 
+  // Portfolio / Projects Hero
+  projectHero: "/ProjectHero.png",
+  container3: "/Container-3.png",
+
   // Team
   alex: "/Alex.png",
   girl: "/girl.png",

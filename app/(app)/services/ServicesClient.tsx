@@ -12,6 +12,7 @@ import { Pagination } from "@/components/Pagination";
 import { AddServiceModal } from "@/components/AddServiceModal";
 import { EditServiceModal, type ServiceRow } from "@/components/EditServiceModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { ViewDetailModal } from "@/components/ViewDetailModal";
 import { getServicesPaginated, deleteService } from "@/app/actions/services";
 
 type Service = {
@@ -21,6 +22,7 @@ type Service = {
   category: string | null;
   basePrice: number | null;
   isActive: boolean;
+  isFeatured: boolean;
   thumbnailUrl: string | null;
   createdAt: Date;
   updatedAt: Date;
@@ -49,6 +51,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
   const [addOpen, setAddOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<ServiceRow | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [viewItem, setViewItem] = useState<Service | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
@@ -119,7 +122,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
         <h2 className="text-lg font-bold text-black">Services</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
-          <div className="hidden sm:flex items-center rounded-lg border border-gray-200 bg-white p-1">
+          <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
             <button
               type="button"
               onClick={() => setViewMode("list")}
@@ -212,6 +215,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
                     </td>
                     <td className="p-4">
                       <RowActions
+                        onView={() => setViewItem(service)}
                         onEdit={() => setEditTarget(service as ServiceRow)}
                         onDelete={() => handleDelete(service.id)}
                       />
@@ -246,7 +250,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
                     </span>
                   </div>
                 </div>
-                <RowActions variant="buttons" onEdit={() => setEditTarget(service as ServiceRow)} onDelete={() => handleDelete(service.id)} />
+                <RowActions variant="buttons" onView={() => setViewItem(service)} onEdit={() => setEditTarget(service as ServiceRow)} onDelete={() => handleDelete(service.id)} />
               </div>
             ))}
           </div>
@@ -295,6 +299,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
               {/* Actions */}
               <RowActions
                 variant="buttons"
+                onView={() => setViewItem(service)}
                 onEdit={() => setEditTarget(service as ServiceRow)}
                 onDelete={() => handleDelete(service.id)}
               />
@@ -335,6 +340,22 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
         description="Are you sure you want to delete this service? This action cannot be undone."
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
+      />
+
+      {/* View Detail Modal */}
+      <ViewDetailModal
+        open={!!viewItem}
+        onClose={() => setViewItem(null)}
+        title={viewItem?.serviceName || ""}
+        imageUrl={viewItem?.thumbnailUrl || undefined}
+        fields={[
+          { label: "Name", value: viewItem?.serviceName },
+          { label: "Category", value: viewItem?.category },
+          { label: "Base Price", value: viewItem?.basePrice },
+          { label: "Status", value: viewItem?.isActive ? "Active" : "Inactive" },
+          { label: "Featured", value: viewItem?.isFeatured ? "Yes" : "No" },
+          { label: "Description", value: viewItem?.description },
+        ]}
       />
     </div>
   );

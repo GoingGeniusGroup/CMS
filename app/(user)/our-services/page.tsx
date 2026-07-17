@@ -18,18 +18,18 @@ import {
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const HERO_STATS = [
-  { icon: Layers,       value: "12+",  label: "TOTAL SERVICES"      },
-  { icon: CheckCircle,  value: "150+", label: "PROJECTS COMPLETED"  },
-  { icon: Layers,       value: "80+",  label: "HAPPY CLIENTS"       },
-  { icon: BookOpen,     value: "6+",   label: "YEARS EXPERIENCE"    },
+  { icon: Layers, value: "12+", label: "TOTAL SERVICES" },
+  { icon: CheckCircle, value: "150+", label: "PROJECTS COMPLETED" },
+  { icon: Layers, value: "80+", label: "HAPPY CLIENTS" },
+  { icon: BookOpen, value: "6+", label: "YEARS EXPERIENCE" },
 ];
 
 const DIGITAL_SERVICES = [
-  { icon: Globe,      title: "Web Development",    desc: "Modern, responsive and scalable websites."                     },
-  { icon: Smartphone, title: "Mobile Development", desc: "High performance mobile apps for iOS & Android."              },
-  { icon: Pencil,     title: "UI/UX Design",       desc: "Beautiful & intuitive user experiences."                      },
-  { icon: Megaphone,  title: "Digital Marketing",  desc: "Data-driven marketing strategies that work."                  },
-  { icon: Cloud,      title: "Cloud Solutions",    desc: "Secure & scalable cloud services."                            },
+  { icon: Globe, title: "Web Development", desc: "Modern, responsive and scalable websites." },
+  { icon: Smartphone, title: "Mobile Development", desc: "High performance mobile apps for iOS & Android." },
+  { icon: Pencil, title: "UI/UX Design", desc: "Beautiful & intuitive user experiences." },
+  { icon: Megaphone, title: "Digital Marketing", desc: "Data-driven marketing strategies that work." },
+  { icon: Cloud, title: "Cloud Solutions", desc: "Secure & scalable cloud services." },
 ];
 
 const SERVICES_WE_PROVIDE = [
@@ -66,12 +66,12 @@ const SERVICES_WE_PROVIDE = [
 ];
 
 const PROCESS_STEPS = [
-  { num: "01", icon: Search,       label: "Discovery"    },
-  { num: "02", icon: BookOpen,     label: "Planning"     },
-  { num: "03", icon: Pencil,       label: "Design"       },
-  { num: "04", icon: Code2,        label: "Development"  },
-  { num: "05", icon: CheckCircle,  label: "Testing"      },
-  { num: "06", icon: Send,         label: "Delivery"     },
+  { num: "01", icon: Search, label: "Discovery" },
+  { num: "02", icon: BookOpen, label: "Planning" },
+  { num: "03", icon: Pencil, label: "Design" },
+  { num: "04", icon: Code2, label: "Development" },
+  { num: "05", icon: CheckCircle, label: "Testing" },
+  { num: "06", icon: Send, label: "Delivery" },
 ];
 
 // ─── Section: Hero ───────────────────────────────────────────────────────────
@@ -176,7 +176,6 @@ function DigitalServicesStrip() {
               <h3 className="text-sm font-bold text-zinc-900">{title}</h3>
               <p className="text-xs leading-relaxed text-zinc-500">{desc}</p>
               <div className="mt-auto">
-                
               </div>
             </div>
           ))}

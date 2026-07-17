@@ -12,6 +12,10 @@ const teamMemberSchema = z.object({
   role: z.string().optional(),
   department: z.string().optional(),
   status: z.enum(["Active", "On Leave"]).default("Active"),
+  bio: z.string().optional(),
+  location: z.string().optional(),
+  experience: z.string().optional(),
+  skills: z.array(z.string()).optional(),
 });
 
 export type TeamMemberInput = z.infer<typeof teamMemberSchema>;
@@ -85,6 +89,27 @@ export async function updateTeamMember(id: string, data: TeamMemberInput) {
     console.error("Update team member error:", error);
     return { success: false, error: "Failed to update team member" };
   }
+}
+
+// Get active team members for public/user-facing pages (no auth required)
+export async function getPublicTeamMembers() {
+  return await prisma.team.findMany({
+    where: { status: "Active" },
+    select: {
+      id: true,
+      fullName: true,
+      role: true,
+      department: true,
+      image: true,
+      bio: true,
+      location: true,
+      experience: true,
+      skills: true,
+      email: true,
+      phone: true,
+    },
+    orderBy: { joinedAt: "asc" },
+  });
 }
 
 export async function deleteTeamMember(id: string) {

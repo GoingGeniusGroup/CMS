@@ -37,3 +37,16 @@ export async function saveSeoSettings(data: SeoData) {
   }
   return { success: true };
 }
+
+// Public access - no auth required (for user-facing meta tags)
+export async function getPublicSeoSettings(): Promise<SeoData> {
+  const setting = await prisma.seoSetting.findFirst();
+  return (
+    setting ?? {
+      metaTitle: "",
+      metaDescription: "",
+      metaKeywords: "",
+      metaImage: "",
+    }
+  );
+}

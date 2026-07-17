@@ -9,6 +9,7 @@ import { StatCard } from "@/components/StatCard";
 import { Pagination } from "@/components/Pagination";
 import { RowActions } from "@/components/RowActions";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { ViewDetailModal } from "@/components/ViewDetailModal";
 import { PageEditModal } from "@/components/PageEditModal";
 import { getPages, deletePage } from "@/app/actions/pages";
 
@@ -16,8 +17,12 @@ type Page = {
   id: string;
   title: string;
   slug: string;
-  content: string | null;
+  content: unknown;
   thumbnail: string | null;
+  metaTitle: string | null;
+  metaDesc: string | null;
+  keywords?: string | null;
+  metaImage?: string | null;
   status: string;
   createdAt: Date;
   updatedAt: Date;
@@ -51,6 +56,7 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [editingPage, setEditingPage] = useState<Page | null>(null);
+  const [viewItem, setViewItem] = useState<Page | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
@@ -110,7 +116,7 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
         <h2 className="text-lg font-bold text-black">Pages List</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
-          <div className="hidden sm:flex items-center rounded-lg border border-gray-200 bg-white p-1">
+          <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
             <button
               type="button"
               onClick={() => setViewMode("list")}
@@ -205,7 +211,7 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
                       </span>
                     </td>
                     <td className="p-4">
-                      <RowActions onEdit={() => setEditingPage(p)} onDelete={() => setDeleteId(p.id)} />
+                      <RowActions onView={() => setViewItem(p)} onEdit={() => setEditingPage(p)} onDelete={() => setDeleteId(p.id)} />
                     </td>
                   </tr>
                 ))}
@@ -234,7 +240,7 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
                     </div>
                   </div>
                 </div>
-                <RowActions variant="buttons" onEdit={() => setEditingPage(p)} onDelete={() => setDeleteId(p.id)} />
+                <RowActions variant="buttons" onView={() => setViewItem(p)} onEdit={() => setEditingPage(p)} onDelete={() => setDeleteId(p.id)} />
               </div>
             ))}
           </div>
@@ -270,7 +276,7 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
                 <span>Created: <span className="text-gray-700">{formatDate(p.createdAt)}</span></span>
               </div>
 
-              <RowActions variant="buttons" onEdit={() => setEditingPage(p)} onDelete={() => setDeleteId(p.id)} />
+              <RowActions variant="buttons" onView={() => setViewItem(p)} onEdit={() => setEditingPage(p)} onDelete={() => setDeleteId(p.id)} />
             </div>
           ))}
         </div>
@@ -302,6 +308,21 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
         onClose={() => setEditingPage(null)}
         onSuccess={() => { setEditingPage(null); refresh(); }}
         page={editingPage}
+      />
+
+      {/* View Detail Modal */}
+      <ViewDetailModal
+        open={!!viewItem}
+        onClose={() => setViewItem(null)}
+        title={viewItem?.title || ""}
+        imageUrl={viewItem?.thumbnail || undefined}
+        fields={[
+          { label: "Title", value: viewItem?.title },
+          { label: "Slug", value: viewItem?.slug },
+          { label: "Meta Title", value: viewItem?.metaTitle },
+          { label: "Meta Description", value: viewItem?.metaDesc },
+          { label: "Status", value: viewItem?.status },
+        ]}
       />
     </div>
   );

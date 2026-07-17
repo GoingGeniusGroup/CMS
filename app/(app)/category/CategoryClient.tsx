@@ -11,6 +11,7 @@ import { Pagination } from "@/components/Pagination";
 import { RowActions } from "@/components/RowActions";
 import { AddCategoryModal } from "@/components/AddCategoryModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
+import { ViewDetailModal } from "@/components/ViewDetailModal";
 import { getCategories, deleteCategory } from "@/app/actions/categories";
 
 type Category = {
@@ -59,6 +60,7 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
   const [modalOpen, setModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [viewItem, setViewItem] = useState<Category | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
@@ -131,7 +133,7 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-bold text-black">Categories List</h2>
         <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center rounded-lg border border-gray-200 bg-white p-1">
+          <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
             <button
               type="button"
               onClick={() => setViewMode("list")}
@@ -216,7 +218,7 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
                     </td>
                     <td className="p-4 text-zinc-500">{formatDate(c.updatedAt)}</td>
                     <td className="p-4">
-                      <RowActions onEdit={() => handleEdit(c)} onDelete={() => setDeleteId(c.id)} />
+                      <RowActions onView={() => setViewItem(c)} onEdit={() => handleEdit(c)} onDelete={() => setDeleteId(c.id)} />
                     </td>
                   </tr>
                 ))}
@@ -240,7 +242,7 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
                     </span>
                   </div>
                 </div>
-                <RowActions variant="buttons" onEdit={() => handleEdit(c)} onDelete={() => setDeleteId(c.id)} />
+                <RowActions variant="buttons" onView={() => setViewItem(c)} onEdit={() => handleEdit(c)} onDelete={() => setDeleteId(c.id)} />
               </div>
             ))}
           </div>
@@ -276,7 +278,7 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
                 <span>Parent: <span className="text-gray-700">{c.parent || "—"}</span></span>
                 <span>Slug: <span className="text-gray-700">/{c.slug}</span></span>
               </div>
-              <RowActions variant="buttons" onEdit={() => handleEdit(c)} onDelete={() => setDeleteId(c.id)} />
+              <RowActions variant="buttons" onView={() => setViewItem(c)} onEdit={() => handleEdit(c)} onDelete={() => setDeleteId(c.id)} />
             </div>
           ))}
         </div>
@@ -308,6 +310,20 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
         description="Are you sure you want to delete this category? This action cannot be undone."
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
+      />
+
+      {/* View Detail Modal */}
+      <ViewDetailModal
+        open={!!viewItem}
+        onClose={() => setViewItem(null)}
+        title={viewItem?.name || ""}
+        imageUrl={viewItem?.banner || viewItem?.icon || undefined}
+        fields={[
+          { label: "Name", value: viewItem?.name },
+          { label: "Slug", value: viewItem?.slug },
+          { label: "Parent", value: viewItem?.parent },
+          { label: "Order", value: viewItem?.order },
+        ]}
       />
     </div>
   );

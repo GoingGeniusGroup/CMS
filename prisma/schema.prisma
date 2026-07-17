@@ -52,6 +52,10 @@ model Team {
   joinedAt   DateTime  @default(now())
   phone      String?
   status     String    @default("Active")
+  bio        String?
+  location   String?
+  experience String?
+  skills     String[]  @default([])
   blogs      Blog[]
   projects   Project[]
 
@@ -66,6 +70,7 @@ model Service {
   category     String?
   description  String?
   isActive     Boolean    @default(true)
+  isFeatured   Boolean    @default(false)
   serviceName  String
   thumbnailUrl String?
   customers    Customer[] @relation("CustomerService")
@@ -77,8 +82,12 @@ model Service {
 model Project {
   id          String      @id @default(cuid())
   title       String
+  slug        String?     @unique
   description String?
+  overview    String?
   status      String      @default("Draft")
+  category    String?
+  liveUrl     String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   budget      Float?
@@ -88,6 +97,13 @@ model Project {
   startDate   DateTime?
   teamId      String?
   thumbnail   String?
+  gallery     String[]    @default([])
+  features    Json?
+  highlights  String[]    @default([])
+  challenges  String[]    @default([])
+  solutions   String[]    @default([])
+  technologies String[]   @default([])
+  results     Json?
   analytics   Analytics[]
   invoices    Invoice[]
   customer    Customer?   @relation(fields: [customerId], references: [id])
@@ -101,12 +117,15 @@ model Blog {
   id          String    @id @default(cuid())
   title       String
   slug        String    @unique
-  content     String?
+  content     Json?
+  excerpt     String?
   status      String    @default("Draft")
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   authorId    String?
   category    String?
+  tags        String[]  @default([])
+  readTime    String?
   publishedAt DateTime?
   thumbnail   String?
   author      Team?     @relation(fields: [authorId], references: [id])
@@ -159,7 +178,7 @@ model Page {
   id          String   @id @default(cuid())
   title       String
   slug        String   @unique
-  content     String?
+  content     Json?
   thumbnail   String?
   metaTitle   String?
   metaDesc    String?
@@ -192,22 +211,26 @@ model SeoSetting {
 }
 
 model AppearanceSetting {
-  id         String   @id @default(cuid())
-  baseColor  String   @default("#825DD2")
-  hoverColor String   @default("#D78539")
-  timezone   String   @default("(GMT+06:45) Asia/Kathmandu")
-  updatedAt  DateTime @updatedAt
+  id           String   @id @default(cuid())
+  baseColor    String   @default("#fe9a00")
+  hoverColor   String   @default("#e08800")
+  hoverEnabled Boolean  @default(true)
+  timezone     String   @default("(GMT+05:45) Asia/Kathmandu")
+  updatedAt    DateTime @updatedAt
 
   @@map("appearance_settings")
 }
 
 model GeneralSetting {
-  id          String   @id @default(cuid())
-  siteName    String   @default("")
-  description String   @default("")
-  logoUrl     String   @default("")
-  faviconUrl  String   @default("")
-  updatedAt   DateTime @updatedAt
+  id               String   @id @default(cuid())
+  siteName         String   @default("")
+  description      String   @default("")
+  logoUrl          String   @default("")
+  faviconUrl       String   @default("")
+  metaKeywords     String   @default("")
+  themeColor       String   @default("#6366f1")
+  baseColorEnabled Boolean  @default(true)
+  updatedAt        DateTime @updatedAt
 
   @@map("general_settings")
 }
@@ -226,4 +249,96 @@ model Category {
   updatedAt DateTime @updatedAt
 
   @@map("categories")
+}
+
+model ContactSetting {
+  id             String   @id @default(cuid())
+  phone1         String   @default("")
+  phone2         String   @default("")
+  email1         String   @default("")
+  email2         String   @default("")
+  address        String   @default("")
+  contactMail    String   @default("")
+  officeHours    String   @default("")
+  googleMapEmbed String   @default("")
+  updatedAt      DateTime @updatedAt
+
+  @@map("contact_settings")
+}
+
+model SocialSetting {
+  id        String   @id @default(cuid())
+  facebook  String   @default("")
+  twitter   String   @default("")
+  instagram String   @default("")
+  linkedin  String   @default("")
+  pinterest String   @default("")
+  youtube   String   @default("")
+  whatsapp  String   @default("")
+  updatedAt DateTime @updatedAt
+
+  @@map("social_settings")
+}
+
+model EmailSetting {
+  id           String   @id @default(cuid())
+  smtpHost     String   @default("")
+  smtpPort     String   @default("")
+  smtpUser     String   @default("")
+  smtpPassword String   @default("")
+  fromName     String   @default("")
+  fromEmail    String   @default("")
+  encryption   String   @default("tls")
+  updatedAt    DateTime @updatedAt
+
+  @@map("email_settings")
+}
+
+model SecuritySetting {
+  id                 String   @id @default(cuid())
+  twoFactorEnabled   Boolean  @default(false)
+  loginAttempts      Int      @default(5)
+  sessionTimeout     Int      @default(30)
+  passwordMinLength  Int      @default(8)
+  updatedAt          DateTime @updatedAt
+
+  @@map("security_settings")
+}
+
+model CookieSetting {
+  id                   String   @id @default(cuid())
+  cookiesAgreement     Boolean  @default(true)
+  showCookiesAgreement Boolean  @default(true)
+  cookiesAgreementText String   @default("")
+  updatedAt            DateTime @updatedAt
+
+  @@map("cookie_settings")
+}
+
+model WebsiteHeader {
+  id             String   @id @default(cuid())
+  stickyHeader   Boolean  @default(true)
+  bannerImageUrl String   @default("")
+  bannerLink     String   @default("")
+  helpNumber     String   @default("")
+  menuItems      Json     @default("[]")
+  updatedAt      DateTime @updatedAt
+
+  @@map("website_headers")
+}
+
+model FooterSetting {
+  id             String   @id @default(cuid())
+  footerLogoUrl  String   @default("")
+  brandText      String   @default("Going Genius Group of Companies")
+  aboutDesc      String   @default("")
+  copyrightText  String   @default("")
+  playStoreLink  String   @default("")
+  appStoreLink   String   @default("")
+  paymentLogoUrl String   @default("")
+  socials        Json     @default("[]")
+  linkColumns    Json     @default("[]")
+  updatedAt      DateTime @updatedAt
+
+  @@map("footer_settings")
 }

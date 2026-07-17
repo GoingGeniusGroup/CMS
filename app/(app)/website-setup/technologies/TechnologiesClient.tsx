@@ -20,8 +20,20 @@ export function TechnologiesClient({ initialTechnologies }: { initialTechnologie
     setNewLogo(null);
   }
 
-  function handleRemove(i: number) {
-    setTechnologies((prev) => prev.filter((_, idx) => idx !== i));
+  async function handleRemove(i: number) {
+    const updated = technologies.filter((_, idx) => idx !== i);
+    setTechnologies(updated);
+
+    // Auto-save so it's also removed from user side immediately
+    setIsSaving(true);
+    const result = await saveSetting("technologies-logos", { technologies: updated });
+    setIsSaving(false);
+    if (result.success) {
+      setMessage({ type: "success", text: "Technology removed and saved!" });
+    } else {
+      setMessage({ type: "error", text: "Removed locally but failed to save to database." });
+    }
+    setTimeout(() => setMessage(null), 3000);
   }
 
   async function handleSave() {

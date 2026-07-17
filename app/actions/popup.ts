@@ -40,3 +40,12 @@ export async function savePopupSettings(data: { showPopup: boolean; content: str
     return { success: false, error: "Failed to save settings" };
   }
 }
+
+// Public access - no auth required (for user-facing popup)
+export async function getPublicPopupSettings() {
+  const setting = await prisma.popupSetting.findFirst();
+  if (!setting) {
+    return { showPopup: true, content: "" };
+  }
+  return { showPopup: setting.showPopup, content: setting.content };
+}

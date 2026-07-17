@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Loader2 } from "lucide-react";
+import { X, Loader2, Star } from "lucide-react";
 import { useState } from "react";
 import { FileUploaderRegular } from "@uploadcare/react-uploader/next";
 import "@uploadcare/react-uploader/core.css";
@@ -17,6 +17,7 @@ export function AddServiceModal({
 }) {
   const [fileName, setFileName] = useState<string | null>(null);
   const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
+  const [isFeatured, setIsFeatured] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,7 +25,6 @@ export function AddServiceModal({
     serviceName: "",
     shortDetails: "",
     description: "",
-    image: "",
   });
 
   if (!open) return null;
@@ -35,17 +35,6 @@ export function AddServiceModal({
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setFileName(file.name);
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setForm((prev) => ({ ...prev, image: reader.result as string }));
-    };
-    reader.readAsDataURL(file);
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
@@ -54,6 +43,8 @@ export function AddServiceModal({
     const result = await createService({
       serviceName: form.serviceName,
       description: form.description || form.shortDetails || undefined,
+      thumbnailUrl: thumbnailUrl || undefined,
+      isFeatured,
     });
 
     setIsLoading(false);
@@ -64,9 +55,10 @@ export function AddServiceModal({
     }
 
     // Reset form
-    setForm({ serviceName: "", shortDetails: "", description: "", image: "" });
+    setForm({ serviceName: "", shortDetails: "", description: "" });
     setFileName(null);
     setThumbnailUrl(null);
+    setIsFeatured(false);
     onSuccess?.();
     onClose();
   };
@@ -148,30 +140,46 @@ export function AddServiceModal({
           {/* Thumbnail — Uploadcare */}
           <div className="flex flex-col gap-2">
             <label className="text-sm font-bold text-zinc-800">
-              Thumbnail <span className="text-red-500">*</span>
+              Thumbnail
             </label>
+            <FileUploaderRegular
+              pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!}
+              maxLocalFileSizeBytes={2_000_000}
+              imgOnly
+              onFileUploadSuccess={(file) => {
+                setThumbnailUrl(file.cdnUrl ?? null);
+                setFileName(file.name ?? null);
+              }}
+              onFileRemoved={() => {
+                setThumbnailUrl(null);
+                setFileName(null);
+              }}
+              className="w-full"
+            />
+            {fileName && thumbnailUrl && (
+              <p className="text-xs text-emerald-600">
+                ✓ Uploaded: {fileName}
+              </p>
+            )}
+          </div>
+
+          {/* Featured Toggle */}
+          <div className="flex items-center justify-between rounded-xl border border-black/15 px-4 py-3">
+            <div className="flex items-center gap-2">
+              <Star className={`h-4 w-4 ${isFeatured ? "text-amber-500 fill-amber-500" : "text-zinc-400"}`} />
+              <span className="text-sm font-bold text-zinc-800">Featured Service</span>
+            </div>
             <button
               type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="flex flex-col items-center justify-center gap-2 rounded-xl bg-zinc-100 px-6 py-10 text-center transition-colors hover:bg-zinc-200"
+              role="switch"
+              aria-checked={isFeatured}
+              onClick={() => setIsFeatured(!isFeatured)}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${isFeatured ? "bg-indigo-600" : "bg-zinc-200"}`}
             >
-              <UploadCloud className="h-7 w-7 text-zinc-600" />
-              <span className="text-lg font-bold leading-tight text-zinc-800">
-                Click to upload
-                <br />
-                or drag and drop
-              </span>
-              <span className="text-xs text-zinc-400">
-                {fileName ?? "WEBP, JPEG, JPG (Max 2MB)"}
-              </span>
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${isFeatured ? "translate-x-6" : "translate-x-1"}`}
+              />
             </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".webp,.jpeg,.jpg,image/webp,image/jpeg"
-              className="hidden"
-              onChange={(e) => setFileName(e.target.files?.[0]?.name ?? null)}
-            />
           </div>
 
           {/* Actions */}
