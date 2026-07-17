@@ -140,7 +140,7 @@ export function AddServiceModal({
           {/* Thumbnail — Uploadcare */}
           <div className="flex flex-col gap-2">
             <label className="text-sm font-bold text-zinc-800">
-              Thumbnail <span className="text-red-500">*</span>
+              Thumbnail
             </label>
             <FileUploaderRegular
               pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!}
@@ -156,7 +156,7 @@ export function AddServiceModal({
               }}
               className="w-full"
             />
-            {thumbnailUrl && (
+            {fileName && thumbnailUrl && (
               <p className="text-xs text-emerald-600">
                 ✓ Uploaded: {fileName}
               </p>

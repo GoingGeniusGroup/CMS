@@ -2,18 +2,68 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
+  Cloud,
+  Code2,
   CheckCircle,
   BookOpen,
-  Code2,
+  Globe,
   Layers,
+  Megaphone,
   Pencil,
   Search,
+  Smartphone,
   Send,
 } from "lucide-react";
-import { getPublicServices } from "@/app/actions/services";
-import { DigitalServicesStrip, ServicesWeProvide } from "./ServicesSection";
 
-// ─── Static Data ─────────────────────────────────────────────────────────────
+// ─── Data ────────────────────────────────────────────────────────────────────
+
+const HERO_STATS = [
+  { icon: Layers, value: "12+", label: "TOTAL SERVICES" },
+  { icon: CheckCircle, value: "150+", label: "PROJECTS COMPLETED" },
+  { icon: Layers, value: "80+", label: "HAPPY CLIENTS" },
+  { icon: BookOpen, value: "6+", label: "YEARS EXPERIENCE" },
+];
+
+const DIGITAL_SERVICES = [
+  { icon: Globe, title: "Web Development", desc: "Modern, responsive and scalable websites." },
+  { icon: Smartphone, title: "Mobile Development", desc: "High performance mobile apps for iOS & Android." },
+  { icon: Pencil, title: "UI/UX Design", desc: "Beautiful & intuitive user experiences." },
+  { icon: Megaphone, title: "Digital Marketing", desc: "Data-driven marketing strategies that work." },
+  { icon: Cloud, title: "Cloud Solutions", desc: "Secure & scalable cloud services." },
+];
+
+const SERVICES_WE_PROVIDE = [
+  {
+    icon: Code2,
+    title: "Web Development",
+    desc: "Modern, responsive, and scalable websites built with the latest technologies to ensure peak performance and SEO visibility.",
+  },
+  {
+    icon: Smartphone,
+    title: "Mobile App Development",
+    desc: "High-performance native and cross-platform mobile apps for iOS and Android that provide seamless user experiences.",
+  },
+  {
+    icon: Pencil,
+    title: "UI/UX Design",
+    desc: "User-centric designs that are visually stunning and intuitive, ensuring high engagement and conversion rates for your brand.",
+  },
+  {
+    icon: Layers,
+    title: "Software Development",
+    desc: "Custom enterprise software solutions built to solve unique business challenges and streamline complex workflows.",
+  },
+  {
+    icon: Megaphone,
+    title: "Digital Marketing",
+    desc: "Data-driven growth strategies including SEO, PPC, and Content Marketing to amplify your brand's digital presence.",
+  },
+  {
+    icon: Cloud,
+    title: "Cloud Solutions",
+    desc: "Secure, scalable, and resilient cloud architecture and migration services using AWS, Azure, and Google Cloud.",
+  },
+];
 
 const PROCESS_STEPS = [
   { num: "01", icon: Search, label: "Discovery" },
@@ -26,14 +76,7 @@ const PROCESS_STEPS = [
 
 // ─── Section: Hero ───────────────────────────────────────────────────────────
 
-function HeroSection({ totalServices }: { totalServices: number }) {
-  const HERO_STATS = [
-    { icon: Layers, value: `${totalServices}+`, label: "TOTAL SERVICES" },
-    { icon: CheckCircle, value: "150+", label: "PROJECTS COMPLETED" },
-    { icon: Layers, value: "80+", label: "HAPPY CLIENTS" },
-    { icon: BookOpen, value: "6+", label: "YEARS EXPERIENCE" },
-  ];
-
+function HeroSection() {
   return (
     <section className="bg-white px-4 py-16 sm:px-6 lg:px-16">
       <div className="mx-auto max-w-7xl">
@@ -51,7 +94,7 @@ function HeroSection({ totalServices }: { totalServices: number }) {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
-                href="/servicedetail"
+                href="#services-we-provide"
                 className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
               >
                 Explore Services
@@ -66,7 +109,7 @@ function HeroSection({ totalServices }: { totalServices: number }) {
             </div>
           </div>
 
-          {/* Right */}
+          {/* Right — Rectangle.png (globe on monitor) */}
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
             <Image
               src="/TechOffice.png"
@@ -99,6 +142,88 @@ function HeroSection({ totalServices }: { totalServices: number }) {
   );
 }
 
+// ─── Section: Our Digital Services (5-col strip) ─────────────────────────────
+
+function DigitalServicesStrip() {
+  return (
+    <section className="bg-[#f8f9ff] px-4 py-20 sm:px-6 lg:px-16">
+      <div className="mx-auto max-w-7xl">
+        {/* Header */}
+        <div className="mb-12 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-indigo-500">
+            WHAT WE DO
+          </p>
+          <h2 className="mt-2 text-3xl font-extrabold text-zinc-900">
+            Our{" "}
+            <span className="text-indigo-600">Digital Services</span>
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-500">
+            We build digital products and services that help you grow, scale and
+            succeed in the digital world.
+          </p>
+        </div>
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {DIGITAL_SERVICES.map(({ icon: Icon, title, desc }) => (
+            <div
+              key={title}
+              className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
+                <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
+              </div>
+              <h3 className="text-sm font-bold text-zinc-900">{title}</h3>
+              <p className="text-xs leading-relaxed text-zinc-500">{desc}</p>
+              <div className="mt-auto">
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Section: Services We Provide (3-col grid) ───────────────────────────────
+
+function ServicesWeProvide() {
+  return (
+    <section
+      id="services-we-provide"
+      className="bg-white px-4 py-20 sm:px-6 lg:px-16"
+    >
+      <div className="mx-auto max-w-7xl">
+        {/* Header */}
+        <div className="mb-12 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-indigo-500">
+            SERVICES WE PROVIDE
+          </p>
+        </div>
+
+        {/* 3-col grid */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {SERVICES_WE_PROVIDE.map(({ icon: Icon, title, desc }) => (
+            <div
+              key={title}
+              className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+            >
+              {/* Icon box */}
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
+                <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
+              </div>
+              <h3 className="text-base font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">
+                {title}
+              </h3>
+              <p className="text-sm leading-relaxed text-zinc-500">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Section: Development Process ────────────────────────────────────────────
 
 function DevelopmentProcess() {
@@ -109,9 +234,11 @@ function DevelopmentProcess() {
           <h2 className="text-2xl font-extrabold text-zinc-900 sm:text-3xl">
             Development Process
           </h2>
+          {/* Decorative underline */}
           <div className="mx-auto mt-3 h-0.5 w-24 rounded-full bg-zinc-300" />
         </div>
 
+        {/* Steps */}
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {PROCESS_STEPS.map(({ num, icon: Icon, label }) => (
             <div key={label} className="flex flex-col items-center gap-3">
@@ -120,6 +247,8 @@ function DevelopmentProcess() {
               </div>
               <p className="text-[10px] font-bold text-zinc-400">{num}</p>
               <p className="text-xs font-semibold text-zinc-700">{label}</p>
+              {/* Connector bar — hidden on last */}
+              <div className="hidden lg:block absolute" />
             </div>
           ))}
         </div>
@@ -135,9 +264,10 @@ function CTASection() {
     <section className="bg-white px-4 py-20 sm:px-6 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid items-center gap-10 lg:grid-cols-2">
+          {/* Left */}
           <div>
             <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-              <span className="text-indigo-600">Ready to Start</span>
+              <span className="text-amber-500">Ready to Start</span>
               <br />
               <span className="text-zinc-900">Your Project?</span>
             </h2>
@@ -148,7 +278,7 @@ function CTASection() {
             <div className="mt-7 flex flex-wrap gap-3">
               <a
                 href="/home#contact"
-                className="inline-flex items-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-indigo-700"
+                className="inline-flex items-center rounded-lg bg-amber-400 px-5 py-2.5 text-sm font-bold text-zinc-900 transition-colors hover:bg-amber-500"
               >
                 Get a Free Quote
               </a>
@@ -161,6 +291,7 @@ function CTASection() {
             </div>
           </div>
 
+          {/* Right — TechOffice.png (web development hand/hologram) */}
           <div className="relative aspect-[16/10] overflow-hidden rounded-2xl">
             <Image
               src="/Rectangle.png"
@@ -178,14 +309,12 @@ function CTASection() {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default async function ServicesPublicPage() {
-  const services = await getPublicServices();
-
+export default function ServicesPublicPage() {
   return (
     <>
-      <HeroSection totalServices={services.length} />
-      <DigitalServicesStrip services={services} />
-      <ServicesWeProvide services={services} />
+      <HeroSection />
+      <DigitalServicesStrip />
+      <ServicesWeProvide />
       <DevelopmentProcess />
       <CTASection />
     </>

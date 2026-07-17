@@ -2,6 +2,8 @@ import { ServicesClient } from "./ServicesClient";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 
+const PAGE_SIZE = 10;
+
 export default async function ServicesPage() {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
@@ -10,22 +12,22 @@ export default async function ServicesPage() {
     prisma.service.findMany({
       orderBy: { createdAt: "desc" },
       skip: 0,
-      take: 10,
+      take: PAGE_SIZE,
     }),
     prisma.service.count(),
     prisma.service.count({ where: { isActive: true } }),
     prisma.service.count({ where: { isActive: false } }),
   ]);
 
-  const data = {
+  const initialData = {
     services,
     total,
     active,
     inactive,
     page: 1,
-    pageSize: 10,
-    pageCount: Math.ceil(total / 10),
+    pageSize: PAGE_SIZE,
+    pageCount: Math.ceil(total / PAGE_SIZE),
   };
 
-  return <ServicesClient initialData={data} />;
+  return <ServicesClient initialData={initialData} />;
 }

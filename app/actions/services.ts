@@ -11,7 +11,8 @@ const serviceSchema = z.object({
   basePrice: z.number().optional(),
   isActive: z.boolean().optional(),
   isFeatured: z.boolean().optional(),
-  thumbnailUrl: z.string().url().optional().or(z.literal("")),
+  thumbnailUrl: z.string().url().optional().or(z.literal(
+    "")),
 });
 
 export type ServiceInput = z.infer<typeof serviceSchema>;

@@ -80,35 +80,35 @@ model Service {
 }
 
 model Project {
-  id          String      @id @default(cuid())
-  title       String
-  slug        String?     @unique
-  description String?
-  overview    String?
-  status      String      @default("Draft")
-  category    String?
-  liveUrl     String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  budget      Float?
-  customerId  String?
-  endDate     DateTime?
-  serviceId   String?
-  startDate   DateTime?
-  teamId      String?
-  thumbnail   String?
-  gallery     String[]    @default([])
-  features    Json?
-  highlights  String[]    @default([])
-  challenges  String[]    @default([])
-  solutions   String[]    @default([])
-  technologies String[]   @default([])
-  results     Json?
-  analytics   Analytics[]
-  invoices    Invoice[]
-  customer    Customer?   @relation(fields: [customerId], references: [id])
-  service     Service?    @relation(fields: [serviceId], references: [id])
-  team        Team?       @relation(fields: [teamId], references: [id])
+  id           String      @id @default(cuid())
+  title        String
+  slug         String?     @unique
+  description  String?
+  overview     String?
+  status       String      @default("Draft")
+  category     String?
+  liveUrl      String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  budget       Float?
+  customerId   String?
+  endDate      DateTime?
+  serviceId    String?
+  startDate    DateTime?
+  teamId       String?
+  thumbnail    String?
+  gallery      String[]    @default([])
+  features     Json?
+  highlights   String[]    @default([])
+  challenges   String[]    @default([])
+  solutions    String[]    @default([])
+  technologies String[]    @default([])
+  results      Json?
+  analytics    Analytics[]
+  invoices     Invoice[]
+  customer     Customer?   @relation(fields: [customerId], references: [id])
+  service      Service?    @relation(fields: [serviceId], references: [id])
+  team         Team?       @relation(fields: [teamId], references: [id])
 
   @@map("projects")
 }
@@ -175,18 +175,18 @@ model PopupSetting {
 }
 
 model Page {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  content     Json?
-  thumbnail   String?
-  metaTitle   String?
-  metaDesc    String?
-  keywords    String?
-  metaImage   String?
-  status      String   @default("Draft")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   Json?
+  thumbnail String?
+  metaTitle String?
+  metaDesc  String?
+  keywords  String?
+  metaImage String?
+  status    String   @default("Draft")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("pages")
 }
@@ -229,7 +229,6 @@ model GeneralSetting {
   faviconUrl       String   @default("")
   metaKeywords     String   @default("")
   themeColor       String   @default("#6366f1")
-  themeTextColor   String   @default("#ffffff")
   baseColorEnabled Boolean  @default(true)
   updatedAt        DateTime @updatedAt
 
@@ -306,12 +305,12 @@ model EmailSetting {
 }
 
 model SecuritySetting {
-  id                 String   @id @default(cuid())
-  twoFactorEnabled   Boolean  @default(false)
-  loginAttempts      Int      @default(5)
-  sessionTimeout     Int      @default(30)
-  passwordMinLength  Int      @default(8)
-  updatedAt          DateTime @updatedAt
+  id                String   @id @default(cuid())
+  twoFactorEnabled  Boolean  @default(false)
+  loginAttempts     Int      @default(5)
+  sessionTimeout    Int      @default(30)
+  passwordMinLength Int      @default(8)
+  updatedAt         DateTime @updatedAt
 
   @@map("security_settings")
 }
