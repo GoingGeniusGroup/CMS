@@ -19,6 +19,11 @@ type TeamMember = {
   skills: string[];
   email: string;
   phone: string | null;
+  facebook?: string | null;
+  twitter?: string | null;
+  instagram?: string | null;
+  linkedin?: string | null;
+  website?: string | null;
 };
 
 

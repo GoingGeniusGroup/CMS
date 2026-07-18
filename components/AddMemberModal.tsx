@@ -23,7 +23,7 @@ export interface MemberFormData {
   twitter: string;
   instagram: string;
   linkedin: string;
-  domain: string;
+  website: string;
 }
 
 export interface MemberRecord extends MemberFormData {
@@ -77,7 +77,7 @@ function buildInitialForm(editMember?: MemberRecord | null): MemberFormData {
       twitter: editMember.twitter ?? "",
       instagram: editMember.instagram ?? "",
       linkedin: editMember.linkedin ?? "",
-      domain: editMember.domain ?? "",
+      website: editMember.website ?? "",
     };
   }
   return {
@@ -97,7 +97,7 @@ function buildInitialForm(editMember?: MemberRecord | null): MemberFormData {
     twitter: "",
     instagram: "",
     linkedin: "",
-    domain: "",
+    website: "",
   };
 }
 
@@ -411,7 +411,7 @@ export function AddMemberModal({
                 { label: "Twitter URL", name: "twitter" },
                 { label: "Instagram URL", name: "instagram" },
                 { label: "LinkedIn URL", name: "linkedin" },
-                { label: "Domain", name: "domain" },
+                { label: "Website URL", name: "website" },
                 { label: "Phone", name: "phone", required: true },
               ] as { label: string; name: keyof MemberFormData; required?: boolean }[]
             ).map(({ label, name, required }) => (

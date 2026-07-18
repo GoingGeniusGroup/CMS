@@ -16,6 +16,11 @@ const teamMembers = [
     bio: "Bibek is the visionary founder and CEO of Going Genius Group. With over 8 years of experience in the tech industry, he leads the company's strategic direction and ensures every project delivers exceptional value to clients.",
     skills: ["Leadership", "Business Strategy", "Product Management", "Team Building", "Client Relations"],
     image: "/Alex.png",
+    facebook: "https://facebook.com/bibeklama",
+    twitter: "https://twitter.com/bibeklama",
+    instagram: "https://instagram.com/bibeklama",
+    linkedin: "https://linkedin.com/in/bibeklama",
+    website: "https://goinggenius.com",
   },
   // Development Team
   {
@@ -30,6 +35,11 @@ const teamMembers = [
     bio: "Arjun is a passionate full stack developer who builds scalable web applications using modern technologies. He specializes in React, Next.js, Node.js, and cloud architecture.",
     skills: ["React.js", "Next.js", "Node.js", "TypeScript", "PostgreSQL", "AWS"],
     image: "/Alex.png",
+    facebook: "https://facebook.com/arjungautam",
+    twitter: "https://twitter.com/arjungautam",
+    instagram: "https://instagram.com/arjungautam",
+    linkedin: "https://linkedin.com/in/arjungautam",
+    website: "https://arjungautam.dev",
   },
   {
     fullName: "Prakash Sapkota",

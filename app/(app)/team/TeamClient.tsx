@@ -35,6 +35,11 @@ type TeamMember = {
   skills: string[];
   joinedAt: Date;
   updatedAt: Date;
+  facebook?: string | null;
+  twitter?: string | null;
+  instagram?: string | null;
+  linkedin?: string | null;
+  website?: string | null;
 };
 
 type TeamData = {
@@ -124,6 +129,11 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
       location: formData.location || undefined,
       experience: formData.experience || undefined,
       skills: formData.skills?.filter(Boolean) || undefined,
+      facebook: formData.facebook || undefined,
+      twitter: formData.twitter || undefined,
+      instagram: formData.instagram || undefined,
+      linkedin: formData.linkedin || undefined,
+      website: formData.website || undefined,
     };
 
     // Close modal immediately for snappy feel
@@ -168,11 +178,11 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
         location: editingMember.location || "",
         experience: editingMember.experience || "",
         skills: editingMember.skills || [],
-        facebook: "",
-        twitter: "",
-        instagram: "",
-        linkedin: "",
-        domain: "",
+        facebook: editingMember.facebook || "",
+        twitter: editingMember.twitter || "",
+        instagram: editingMember.instagram || "",
+        linkedin: editingMember.linkedin || "",
+        website: editingMember.website || "",
         createdAt: editingMember.joinedAt.toString(),
         updatedAt: editingMember.updatedAt.toString(),
       }

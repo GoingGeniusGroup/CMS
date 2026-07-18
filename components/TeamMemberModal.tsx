@@ -10,6 +10,13 @@ import {
   Code2,
   Users,
 } from "lucide-react";
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedinIn,
+  FaGlobe,
+} from "react-icons/fa";
 
 type TeamMember = {
   id: string;
@@ -23,6 +30,11 @@ type TeamMember = {
   skills: string[];
   email: string;
   phone: string | null;
+  facebook?: string | null;
+  twitter?: string | null;
+  instagram?: string | null;
+  linkedin?: string | null;
+  website?: string | null;
 };
 
 type TeamMemberModalProps = {
@@ -88,6 +100,67 @@ export default function TeamMemberModal({ member, isOpen, onClose }: TeamMemberM
               <span className="mt-2 inline-block rounded-full bg-indigo-100 px-3 py-1 text-[11px] font-semibold text-indigo-700">
                 {member.department}
               </span>
+            )}
+
+            {/* Social / Web Links */}
+            {(member.facebook || member.twitter || member.instagram || member.linkedin || member.website) && (
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+                {member.facebook && (
+                  <a
+                    href={member.facebook.startsWith('http') ? member.facebook : `https://${member.facebook}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:text-blue-600 hover:shadow-md hover:z-10"
+                    title="Facebook"
+                  >
+                    <FaFacebookF size={14} />
+                  </a>
+                )}
+                {member.twitter && (
+                  <a
+                    href={member.twitter.startsWith('http') ? member.twitter : `https://${member.twitter}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-300 hover:text-sky-500 hover:shadow-md hover:z-10"
+                    title="Twitter / X"
+                  >
+                    <FaTwitter size={14} />
+                  </a>
+                )}
+                {member.instagram && (
+                  <a
+                    href={member.instagram.startsWith('http') ? member.instagram : `https://${member.instagram}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-pink-300 hover:text-pink-500 hover:shadow-md hover:z-10"
+                    title="Instagram"
+                  >
+                    <FaInstagram size={14} />
+                  </a>
+                )}
+                {member.linkedin && (
+                  <a
+                    href={member.linkedin.startsWith('http') ? member.linkedin : `https://${member.linkedin}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-md hover:z-10"
+                    title="LinkedIn"
+                  >
+                    <FaLinkedinIn size={14} />
+                  </a>
+                )}
+                {member.website && (
+                  <a
+                    href={member.website.startsWith('http') ? member.website : `https://${member.website}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-violet-300 hover:text-violet-600 hover:shadow-md hover:z-10"
+                    title="Website"
+                  >
+                    <FaGlobe size={14} />
+                  </a>
+                )}
+              </div>
             )}
 
             {/* Divider */}
@@ -226,6 +299,16 @@ export default function TeamMemberModal({ member, isOpen, onClose }: TeamMemberM
                 {member.phone && (
                   <a href={`tel:${member.phone}`} className="flex items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition">
                     <Phone className="h-4 w-4 text-indigo-500" /> {member.phone}
+                  </a>
+                )}
+                {member.website && (
+                  <a
+                    href={member.website.startsWith('http') ? member.website : `https://${member.website}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition"
+                  >
+                    <FaGlobe className="h-4 w-4 text-indigo-500" /> {member.website.replace(/^https?:\/\/(www\.)?/, "")}
                   </a>
                 )}
                 {member.location && (

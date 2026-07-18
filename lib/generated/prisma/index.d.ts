@@ -5293,6 +5293,11 @@ export namespace Prisma {
     bio: string | null
     location: string | null
     experience: string | null
+    facebook: string | null
+    twitter: string | null
+    instagram: string | null
+    linkedin: string | null
+    website: string | null
   }
 
   export type TeamMaxAggregateOutputType = {
@@ -5309,6 +5314,11 @@ export namespace Prisma {
     bio: string | null
     location: string | null
     experience: string | null
+    facebook: string | null
+    twitter: string | null
+    instagram: string | null
+    linkedin: string | null
+    website: string | null
   }
 
   export type TeamCountAggregateOutputType = {
@@ -5326,6 +5336,11 @@ export namespace Prisma {
     location: number
     experience: number
     skills: number
+    facebook: number
+    twitter: number
+    instagram: number
+    linkedin: number
+    website: number
     _all: number
   }
 
@@ -5344,6 +5359,11 @@ export namespace Prisma {
     bio?: true
     location?: true
     experience?: true
+    facebook?: true
+    twitter?: true
+    instagram?: true
+    linkedin?: true
+    website?: true
   }
 
   export type TeamMaxAggregateInputType = {
@@ -5360,6 +5380,11 @@ export namespace Prisma {
     bio?: true
     location?: true
     experience?: true
+    facebook?: true
+    twitter?: true
+    instagram?: true
+    linkedin?: true
+    website?: true
   }
 
   export type TeamCountAggregateInputType = {
@@ -5377,6 +5402,11 @@ export namespace Prisma {
     location?: true
     experience?: true
     skills?: true
+    facebook?: true
+    twitter?: true
+    instagram?: true
+    linkedin?: true
+    website?: true
     _all?: true
   }
 
@@ -5467,6 +5497,11 @@ export namespace Prisma {
     location: string | null
     experience: string | null
     skills: string[]
+    facebook: string | null
+    twitter: string | null
+    instagram: string | null
+    linkedin: string | null
+    website: string | null
     _count: TeamCountAggregateOutputType | null
     _min: TeamMinAggregateOutputType | null
     _max: TeamMaxAggregateOutputType | null
@@ -5501,6 +5536,11 @@ export namespace Prisma {
     location?: boolean
     experience?: boolean
     skills?: boolean
+    facebook?: boolean
+    twitter?: boolean
+    instagram?: boolean
+    linkedin?: boolean
+    website?: boolean
     blogs?: boolean | Team$blogsArgs<ExtArgs>
     projects?: boolean | Team$projectsArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
@@ -5521,6 +5561,11 @@ export namespace Prisma {
     location?: boolean
     experience?: boolean
     skills?: boolean
+    facebook?: boolean
+    twitter?: boolean
+    instagram?: boolean
+    linkedin?: boolean
+    website?: boolean
   }, ExtArgs["result"]["team"]>
 
   export type TeamSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5538,6 +5583,11 @@ export namespace Prisma {
     location?: boolean
     experience?: boolean
     skills?: boolean
+    facebook?: boolean
+    twitter?: boolean
+    instagram?: boolean
+    linkedin?: boolean
+    website?: boolean
   }, ExtArgs["result"]["team"]>
 
   export type TeamSelectScalar = {
@@ -5555,9 +5605,14 @@ export namespace Prisma {
     location?: boolean
     experience?: boolean
     skills?: boolean
+    facebook?: boolean
+    twitter?: boolean
+    instagram?: boolean
+    linkedin?: boolean
+    website?: boolean
   }
 
-  export type TeamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "role" | "updatedAt" | "department" | "email" | "fullName" | "image" | "joinedAt" | "phone" | "status" | "bio" | "location" | "experience" | "skills", ExtArgs["result"]["team"]>
+  export type TeamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "role" | "updatedAt" | "department" | "email" | "fullName" | "image" | "joinedAt" | "phone" | "status" | "bio" | "location" | "experience" | "skills" | "facebook" | "twitter" | "instagram" | "linkedin" | "website", ExtArgs["result"]["team"]>
   export type TeamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     blogs?: boolean | Team$blogsArgs<ExtArgs>
     projects?: boolean | Team$projectsArgs<ExtArgs>
@@ -5587,6 +5642,11 @@ export namespace Prisma {
       location: string | null
       experience: string | null
       skills: string[]
+      facebook: string | null
+      twitter: string | null
+      instagram: string | null
+      linkedin: string | null
+      website: string | null
     }, ExtArgs["result"]["team"]>
     composites: {}
   }
@@ -6026,6 +6086,11 @@ export namespace Prisma {
     readonly location: FieldRef<"Team", 'String'>
     readonly experience: FieldRef<"Team", 'String'>
     readonly skills: FieldRef<"Team", 'String[]'>
+    readonly facebook: FieldRef<"Team", 'String'>
+    readonly twitter: FieldRef<"Team", 'String'>
+    readonly instagram: FieldRef<"Team", 'String'>
+    readonly linkedin: FieldRef<"Team", 'String'>
+    readonly website: FieldRef<"Team", 'String'>
   }
     
 
@@ -28260,7 +28325,12 @@ export namespace Prisma {
     bio: 'bio',
     location: 'location',
     experience: 'experience',
-    skills: 'skills'
+    skills: 'skills',
+    facebook: 'facebook',
+    twitter: 'twitter',
+    instagram: 'instagram',
+    linkedin: 'linkedin',
+    website: 'website'
   };
 
   export type TeamScalarFieldEnum = (typeof TeamScalarFieldEnum)[keyof typeof TeamScalarFieldEnum]
@@ -28876,6 +28946,11 @@ export namespace Prisma {
     location?: StringNullableFilter<"Team"> | string | null
     experience?: StringNullableFilter<"Team"> | string | null
     skills?: StringNullableListFilter<"Team">
+    facebook?: StringNullableFilter<"Team"> | string | null
+    twitter?: StringNullableFilter<"Team"> | string | null
+    instagram?: StringNullableFilter<"Team"> | string | null
+    linkedin?: StringNullableFilter<"Team"> | string | null
+    website?: StringNullableFilter<"Team"> | string | null
     blogs?: BlogListRelationFilter
     projects?: ProjectListRelationFilter
   }
@@ -28895,6 +28970,11 @@ export namespace Prisma {
     location?: SortOrderInput | SortOrder
     experience?: SortOrderInput | SortOrder
     skills?: SortOrder
+    facebook?: SortOrderInput | SortOrder
+    twitter?: SortOrderInput | SortOrder
+    instagram?: SortOrderInput | SortOrder
+    linkedin?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
     blogs?: BlogOrderByRelationAggregateInput
     projects?: ProjectOrderByRelationAggregateInput
   }
@@ -28917,6 +28997,11 @@ export namespace Prisma {
     location?: StringNullableFilter<"Team"> | string | null
     experience?: StringNullableFilter<"Team"> | string | null
     skills?: StringNullableListFilter<"Team">
+    facebook?: StringNullableFilter<"Team"> | string | null
+    twitter?: StringNullableFilter<"Team"> | string | null
+    instagram?: StringNullableFilter<"Team"> | string | null
+    linkedin?: StringNullableFilter<"Team"> | string | null
+    website?: StringNullableFilter<"Team"> | string | null
     blogs?: BlogListRelationFilter
     projects?: ProjectListRelationFilter
   }, "id" | "email">
@@ -28936,6 +29021,11 @@ export namespace Prisma {
     location?: SortOrderInput | SortOrder
     experience?: SortOrderInput | SortOrder
     skills?: SortOrder
+    facebook?: SortOrderInput | SortOrder
+    twitter?: SortOrderInput | SortOrder
+    instagram?: SortOrderInput | SortOrder
+    linkedin?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
     _count?: TeamCountOrderByAggregateInput
     _max?: TeamMaxOrderByAggregateInput
     _min?: TeamMinOrderByAggregateInput
@@ -28959,6 +29049,11 @@ export namespace Prisma {
     location?: StringNullableWithAggregatesFilter<"Team"> | string | null
     experience?: StringNullableWithAggregatesFilter<"Team"> | string | null
     skills?: StringNullableListFilter<"Team">
+    facebook?: StringNullableWithAggregatesFilter<"Team"> | string | null
+    twitter?: StringNullableWithAggregatesFilter<"Team"> | string | null
+    instagram?: StringNullableWithAggregatesFilter<"Team"> | string | null
+    linkedin?: StringNullableWithAggregatesFilter<"Team"> | string | null
+    website?: StringNullableWithAggregatesFilter<"Team"> | string | null
   }
 
   export type ServiceWhereInput = {
@@ -30650,6 +30745,11 @@ export namespace Prisma {
     location?: string | null
     experience?: string | null
     skills?: TeamCreateskillsInput | string[]
+    facebook?: string | null
+    twitter?: string | null
+    instagram?: string | null
+    linkedin?: string | null
+    website?: string | null
     blogs?: BlogCreateNestedManyWithoutAuthorInput
     projects?: ProjectCreateNestedManyWithoutTeamInput
   }
@@ -30669,6 +30769,11 @@ export namespace Prisma {
     location?: string | null
     experience?: string | null
     skills?: TeamCreateskillsInput | string[]
+    facebook?: string | null
+    twitter?: string | null
+    instagram?: string | null
+    linkedin?: string | null
+    website?: string | null
     blogs?: BlogUncheckedCreateNestedManyWithoutAuthorInput
     projects?: ProjectUncheckedCreateNestedManyWithoutTeamInput
   }
@@ -30688,6 +30793,11 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     experience?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: TeamUpdateskillsInput | string[]
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     blogs?: BlogUpdateManyWithoutAuthorNestedInput
     projects?: ProjectUpdateManyWithoutTeamNestedInput
   }
@@ -30707,6 +30817,11 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     experience?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: TeamUpdateskillsInput | string[]
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     blogs?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutTeamNestedInput
   }
@@ -30726,6 +30841,11 @@ export namespace Prisma {
     location?: string | null
     experience?: string | null
     skills?: TeamCreateskillsInput | string[]
+    facebook?: string | null
+    twitter?: string | null
+    instagram?: string | null
+    linkedin?: string | null
+    website?: string | null
   }
 
   export type TeamUpdateManyMutationInput = {
@@ -30743,6 +30863,11 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     experience?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: TeamUpdateskillsInput | string[]
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TeamUncheckedUpdateManyInput = {
@@ -30760,6 +30885,11 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     experience?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: TeamUpdateskillsInput | string[]
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceCreateInput = {
@@ -32700,6 +32830,11 @@ export namespace Prisma {
     location?: SortOrder
     experience?: SortOrder
     skills?: SortOrder
+    facebook?: SortOrder
+    twitter?: SortOrder
+    instagram?: SortOrder
+    linkedin?: SortOrder
+    website?: SortOrder
   }
 
   export type TeamMaxOrderByAggregateInput = {
@@ -32716,6 +32851,11 @@ export namespace Prisma {
     bio?: SortOrder
     location?: SortOrder
     experience?: SortOrder
+    facebook?: SortOrder
+    twitter?: SortOrder
+    instagram?: SortOrder
+    linkedin?: SortOrder
+    website?: SortOrder
   }
 
   export type TeamMinOrderByAggregateInput = {
@@ -32732,6 +32872,11 @@ export namespace Prisma {
     bio?: SortOrder
     location?: SortOrder
     experience?: SortOrder
+    facebook?: SortOrder
+    twitter?: SortOrder
+    instagram?: SortOrder
+    linkedin?: SortOrder
+    website?: SortOrder
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -35286,6 +35431,11 @@ export namespace Prisma {
     location?: string | null
     experience?: string | null
     skills?: TeamCreateskillsInput | string[]
+    facebook?: string | null
+    twitter?: string | null
+    instagram?: string | null
+    linkedin?: string | null
+    website?: string | null
     blogs?: BlogCreateNestedManyWithoutAuthorInput
   }
 
@@ -35304,6 +35454,11 @@ export namespace Prisma {
     location?: string | null
     experience?: string | null
     skills?: TeamCreateskillsInput | string[]
+    facebook?: string | null
+    twitter?: string | null
+    instagram?: string | null
+    linkedin?: string | null
+    website?: string | null
     blogs?: BlogUncheckedCreateNestedManyWithoutAuthorInput
   }
 
@@ -35463,6 +35618,11 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     experience?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: TeamUpdateskillsInput | string[]
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     blogs?: BlogUpdateManyWithoutAuthorNestedInput
   }
 
@@ -35481,6 +35641,11 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     experience?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: TeamUpdateskillsInput | string[]
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     blogs?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
@@ -35499,6 +35664,11 @@ export namespace Prisma {
     location?: string | null
     experience?: string | null
     skills?: TeamCreateskillsInput | string[]
+    facebook?: string | null
+    twitter?: string | null
+    instagram?: string | null
+    linkedin?: string | null
+    website?: string | null
     projects?: ProjectCreateNestedManyWithoutTeamInput
   }
 
@@ -35517,6 +35687,11 @@ export namespace Prisma {
     location?: string | null
     experience?: string | null
     skills?: TeamCreateskillsInput | string[]
+    facebook?: string | null
+    twitter?: string | null
+    instagram?: string | null
+    linkedin?: string | null
+    website?: string | null
     projects?: ProjectUncheckedCreateNestedManyWithoutTeamInput
   }
 
@@ -35551,6 +35726,11 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     experience?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: TeamUpdateskillsInput | string[]
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectUpdateManyWithoutTeamNestedInput
   }
 
@@ -35569,6 +35749,11 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     experience?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: TeamUpdateskillsInput | string[]
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectUncheckedUpdateManyWithoutTeamNestedInput
   }
 
