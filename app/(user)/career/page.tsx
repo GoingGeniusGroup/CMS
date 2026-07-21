@@ -21,15 +21,13 @@ const JOBS = [
 function HeroSection() {
   return (
     <div className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div
-        className="relative overflow-hidden rounded-2xl"
-        style={{ height: "clamp(300px, 42vw, 420px)" }}
-      >
+      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/career3.png"
           alt="Careers at Going Genius"
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", display: "block" }}
+          className="w-full h-full object-cover"
+          style={{ objectPosition: "center 30%", display: "block" }}
         />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 20px", zIndex: 1 }}>
