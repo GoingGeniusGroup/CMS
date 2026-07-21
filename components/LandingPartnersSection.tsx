@@ -19,19 +19,33 @@ export function LandingPartnersSection() {
           Our Partners
         </p>
         <div className="overflow-hidden">
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-            {partners.map((url, i) => (
+          <div className="flex gap-16 sm:gap-24 partners-scroll">
+            {[...partners, ...partners].map((url, i) => (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 key={i}
                 src={url}
                 alt={`Partner ${i + 1}`}
-                className="h-8 w-auto max-w-[120px] object-contain opacity-80 transition-opacity hover:opacity-100 sm:h-10 sm:max-w-[140px]"
+                className="h-8 w-auto max-w-[120px] object-contain flex-shrink-0 opacity-80 transition-opacity hover:opacity-100 sm:h-10 sm:max-w-[140px]"
               />
             ))}
           </div>
         </div>
       </div>
+
+      <style>{`
+        .partners-scroll {
+          animation: partners-scroll-left 10s linear infinite;
+          will-change: transform;
+        }
+        .partners-scroll:hover {
+          animation-play-state: paused;
+        }
+        @keyframes partners-scroll-left {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
     </section>
   );
 }

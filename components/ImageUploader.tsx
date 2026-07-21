@@ -92,7 +92,7 @@ export function ImageUploader({
         </div>
       )}
 
-      <div className={value ? "fixed left-[-9999px] top-0 opacity-0" : "block"}>
+      <div className={value ? "absolute opacity-0" : "block"}>
         <FileUploaderRegular
           apiRef={uploaderRef}
           pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!}
@@ -104,8 +104,11 @@ export function ImageUploader({
               onChange(file.cdnUrl);
             }
           }}
-          onFileRemoved={() => {
-            onChange(null);
+          onFileUploadFailed={(file) => {
+            console.error("Uploadcare file upload failed:", file);
+          }}
+          onCommonUploadFailed={(event) => {
+            console.error("Uploadcare common upload failed:", event);
           }}
           className="w-full"
         />
