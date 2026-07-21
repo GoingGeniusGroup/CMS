@@ -53,8 +53,8 @@ export function LandingServicesSection() {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {services.slice(0, 8).map((service, i) => {
-              const isOpen = openIndex === i;
+            {services.slice(0, 4).map((service) => {
+              const isFlipped = flippedIds.has(service.id);
               return (
                 <div
                   key={service.id}
