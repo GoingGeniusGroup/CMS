@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Printer, Trash2 } from "lucide-react";
 
 /**
  * Consistent View / Edit / Delete actions.
@@ -13,11 +13,13 @@ export function RowActions({
   onView,
   onEdit,
   onDelete,
+  onPrint,
 }: {
   variant?: "icons" | "buttons";
   onView?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
+  onPrint?: () => void;
 }) {
   if (variant === "buttons") {
     return (
@@ -40,6 +42,16 @@ export function RowActions({
           >
             <Pencil className="h-4 w-4" />
             Edit
+          </button>
+        )}
+        {onPrint && (
+          <button
+            type="button"
+            onClick={onPrint}
+            className="flex flex-1 items-center justify-center gap-2 rounded-lg p-2 text-sm text-gray-600 transition-colors hover:bg-gray-100"
+          >
+            <Printer className="h-4 w-4" />
+            Print
           </button>
         )}
         {onDelete && (
@@ -76,6 +88,16 @@ export function RowActions({
           title="Edit"
         >
           <Pencil className="h-5 w-5" />
+        </button>
+      )}
+      {onPrint && (
+        <button
+          type="button"
+          onClick={onPrint}
+          className="rounded-lg p-2 text-gray-600 transition-colors hover:bg-gray-100"
+          title="Print"
+        >
+          <Printer className="h-5 w-5" />
         </button>
       )}
       {onDelete && (

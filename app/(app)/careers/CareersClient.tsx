@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { Topbar } from "@/components/Topbar";
 import { Button } from "@/components/Button";
@@ -13,6 +13,7 @@ import { ViewDetailModal } from "@/components/ViewDetailModal";
 import { AddVacancyModal, type VacancyFormData } from "@/components/AddVacancyModal";
 import { EditVacancyModal, type JobVacancyRow } from "@/components/EditVacancyModal";
 import { ViewApplicantsModal, type Applicant } from "@/components/ViewApplicantsModal";
+import { getJobs, createJob, updateJob, deleteJob } from "@/app/actions/jobs";
 
 import {
   Briefcase,
@@ -23,185 +24,27 @@ import {
   Search,
   List,
   LayoutGrid,
+  Loader2,
+  Filter,
 } from "lucide-react";
-
-// ─── Mock Data ───────────────────────────────────────────────────────────────
-
-const INITIAL_VACANCIES: JobVacancyRow[] = [
-  {
-    id: "vac-1",
-    title: "Senior Frontend Developer",
-    department: "Developer",
-    type: "Full-time",
-    mode: "Remote",
-    location: "Kathmandu / Remote",
-    salaryRange: "$65,000 - $85,000 / yr",
-    experience: "3-5 years",
-    vacanciesCount: 2,
-    deadline: "2026-08-30",
-    isActive: true,
-    isFeatured: true,
-    tags: ["React", "TypeScript", "Tailwind", "Next.js"],
-    description: "Help us build high-performance, accessible, and beautiful web interfaces for our enterprise core platform using modern tech stacks.",
-    responsibilities: [
-      "Develop responsive and accessible web applications using React & Next.js",
-      "Collaborate with backend engineers to integrate GraphQL & REST APIs",
-      "Lead web performance optimizations and code quality standards",
-    ],
-    requirements: [
-      "3+ years experience with React, Next.js, and TypeScript",
-      "In-depth mastery of CSS/Tailwind and modern frontend architectures",
-    ],
-    applicantsCount: 28,
-    createdAt: "2026-07-01",
-    updatedAt: "2026-07-15",
-  },
-  {
-    id: "vac-2",
-    title: "Lead UI/UX Product Designer",
-    department: "Design",
-    type: "Full-time",
-    mode: "Hybrid",
-    location: "Kathmandu, Nepal",
-    salaryRange: "$50,000 - $70,000 / yr",
-    experience: "4+ years",
-    vacanciesCount: 1,
-    deadline: "2026-08-20",
-    isActive: true,
-    isFeatured: true,
-    tags: ["Figma", "Design System", "User Research"],
-    description: "Design intuitive digital product experiences, interactive wireframes, and design systems for enterprise software.",
-    responsibilities: [
-      "Create high-fidelity wireframes, interactive prototypes, and user flows",
-      "Maintain and evolve our design system UI component libraries",
-    ],
-    requirements: [
-      "4+ years experience in product design for web and mobile",
-      "Expert knowledge of Figma, auto-layout, and prototyping",
-    ],
-    applicantsCount: 19,
-    createdAt: "2026-07-05",
-    updatedAt: "2026-07-16",
-  },
-  {
-    id: "vac-3",
-    title: "Backend Software Engineer (Node/Go)",
-    department: "Developer",
-    type: "Full-time",
-    mode: "Remote",
-    location: "Remote",
-    salaryRange: "$70,000 - $95,000 / yr",
-    experience: "3+ years",
-    vacanciesCount: 3,
-    deadline: "2026-09-10",
-    isActive: true,
-    isFeatured: false,
-    tags: ["Node.js", "PostgreSQL", "Go", "Prisma"],
-    description: "Architect and build resilient backend microservices, real-time sync systems, and secure cloud API infrastructure.",
-    responsibilities: [
-      "Design database models and optimize SQL query performance",
-      "Implement RESTful and GraphQL APIs using Node.js & Go",
-    ],
-    requirements: [
-      "3+ years building production backend APIs and relational databases",
-    ],
-    applicantsCount: 34,
-    createdAt: "2026-07-10",
-    updatedAt: "2026-07-18",
-  },
-  {
-    id: "vac-4",
-    title: "Digital Marketing & SEO Manager",
-    department: "Marketing",
-    type: "Full-time",
-    mode: "On-site",
-    location: "Kathmandu, Nepal",
-    salaryRange: "$35,000 - $45,000 / yr",
-    experience: "2-4 years",
-    vacanciesCount: 1,
-    deadline: "2026-08-15",
-    isActive: true,
-    isFeatured: false,
-    tags: ["SEO", "Google Ads", "Content Strategy"],
-    description: "Drive organic traffic growth, run targeted ad campaigns, and measure client acquisition metrics across digital channels.",
-    responsibilities: [
-      "Execute technical and content SEO strategies across web properties",
-    ],
-    requirements: [
-      "2+ years experience in digital marketing and SEO growth",
-    ],
-    applicantsCount: 15,
-    createdAt: "2026-07-12",
-    updatedAt: "2026-07-12",
-  },
-  {
-    id: "vac-5",
-    title: "DevOps & Cloud Systems Engineer",
-    department: "Operations",
-    type: "Contract",
-    mode: "Remote",
-    location: "Remote",
-    salaryRange: "$80,000 - $110,000 / yr",
-    experience: "4+ years",
-    vacanciesCount: 1,
-    deadline: "2026-09-01",
-    isActive: false,
-    isFeatured: false,
-    tags: ["AWS", "Kubernetes", "Terraform"],
-    description: "Manage AWS cloud infrastructure, automate deployment pipelines, and maintain system monitoring.",
-    responsibilities: [
-      "Manage cloud infrastructure using Terraform and Infrastructure-as-Code",
-    ],
-    requirements: [
-      "4+ years experience with AWS, Kubernetes, and Terraform",
-    ],
-    applicantsCount: 0,
-    createdAt: "2026-07-14",
-    updatedAt: "2026-07-14",
-  },
-];
-
-const INITIAL_APPLICANTS: Applicant[] = [
-  {
-    id: "app-101",
-    vacancyId: "vac-1",
-    jobTitle: "Senior Frontend Developer",
-    candidateName: "Aarav Sharma",
-    email: "aarav.sharma@example.com",
-    phone: "+977 9841234567",
-    experienceYears: "4 years",
-    currentCompany: "TechCraft Nepal",
-    portfolioUrl: "https://github.com",
-    resumeName: "Aarav_Sharma_Frontend_CV.pdf",
-    status: "Shortlisted",
-    appliedDate: "2026-07-10",
-    coverNote: "Passionate about React & Next.js performance.",
-  },
-  {
-    id: "app-102",
-    vacancyId: "vac-1",
-    jobTitle: "Senior Frontend Developer",
-    candidateName: "Sneha Shrestha",
-    email: "sneha.s@example.com",
-    phone: "+977 9801122334",
-    experienceYears: "3.5 years",
-    currentCompany: "WebStudio Labs",
-    portfolioUrl: "https://sneha-dev.me",
-    resumeName: "Sneha_Shrestha_Resume.pdf",
-    status: "Interviewed",
-    appliedDate: "2026-07-12",
-    coverNote: "Experienced in building scalable UI components.",
-  },
-];
 
 const PAGE_SIZE = 10;
 
 export function CareersClient() {
-  const [vacancies, setVacancies] = useState<JobVacancyRow[]>(INITIAL_VACANCIES);
-  const [applicants, setApplicants] = useState<Applicant[]>(INITIAL_APPLICANTS);
+  const [vacancies, setVacancies] = useState<JobVacancyRow[]>([]);
+  const [applicants, setApplicants] = useState<Applicant[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [deptFilter, setDeptFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [modeFilter, setModeFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState(0);
+  const [active, setActive] = useState(0);
+  const [inactive, setInactive] = useState(0);
 
   // Modal states
   const [addOpen, setAddOpen] = useState(false);
@@ -210,14 +53,23 @@ export function CareersClient() {
   const [viewItem, setViewItem] = useState<JobVacancyRow | null>(null);
   const [applicantsTarget, setApplicantsTarget] = useState<JobVacancyRow | null>(null);
 
-  // Stats calculation
-  const total = vacancies.length;
-  const active = vacancies.filter((v) => v.isActive).length;
-  const inactive = vacancies.filter((v) => !v.isActive).length;
+  const fetchJobs = async () => {
+    setLoading(true);
+    const result = await getJobs(currentPage, PAGE_SIZE);
+    setVacancies(result.jobs.map((j) => ({ ...j, deadline: j.deadline || "" })));
+    setTotal(result.total);
+    setActive(result.active);
+    setInactive(result.inactive);
+    setLoading(false);
+  };
 
-  const handleCreateVacancy = (formData: VacancyFormData) => {
-    const newVacancy: JobVacancyRow = {
-      id: `vac-${Date.now()}`,
+  useEffect(() => {
+    fetchJobs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage]);
+
+  const handleCreateVacancy = async (formData: VacancyFormData) => {
+    const result = await createJob({
       title: formData.title,
       department: formData.department,
       type: formData.type,
@@ -226,29 +78,53 @@ export function CareersClient() {
       salaryRange: formData.salaryRange,
       experience: formData.experience,
       vacanciesCount: formData.vacanciesCount,
-      deadline: formData.deadline,
+      deadline: formData.deadline || null,
       isActive: formData.isActive,
       isFeatured: formData.isFeatured,
       tags: formData.tags.split(",").map((t) => t.trim()).filter(Boolean),
       description: formData.description,
       responsibilities: formData.responsibilities.split("\n").filter(Boolean),
       requirements: formData.requirements.split("\n").filter(Boolean),
-      thumbnailUrl: formData.thumbnailUrl,
-      applicantsCount: 0,
-      createdAt: new Date().toISOString().split("T")[0],
-      updatedAt: new Date().toISOString().split("T")[0],
-    };
-    setVacancies((prev) => [newVacancy, ...prev]);
+      thumbnailUrl: formData.thumbnailUrl || "",
+    });
+    if (result.success) {
+      setAddOpen(false);
+      fetchJobs();
+    }
   };
 
-  const handleUpdateVacancy = (updated: JobVacancyRow) => {
-    setVacancies((prev) => prev.map((v) => (v.id === updated.id ? updated : v)));
+  const handleUpdateVacancy = async (updated: JobVacancyRow) => {
+    const result = await updateJob(updated.id, {
+      title: updated.title,
+      department: updated.department,
+      type: updated.type,
+      mode: updated.mode,
+      location: updated.location,
+      salaryRange: updated.salaryRange,
+      experience: updated.experience,
+      vacanciesCount: updated.vacanciesCount,
+      deadline: updated.deadline || null,
+      isActive: updated.isActive,
+      isFeatured: updated.isFeatured,
+      tags: updated.tags,
+      description: updated.description,
+      responsibilities: updated.responsibilities,
+      requirements: updated.requirements,
+      thumbnailUrl: updated.thumbnailUrl || "",
+    });
+    if (result.success) {
+      setEditTarget(null);
+      fetchJobs();
+    }
   };
 
   const handleDeleteConfirm = async () => {
     if (!deleteId) return;
-    setVacancies((prev) => prev.filter((v) => v.id !== deleteId));
-    setDeleteId(null);
+    const result = await deleteJob(deleteId);
+    if (result.success) {
+      setDeleteId(null);
+      fetchJobs();
+    }
   };
 
   const handleUpdateApplicantStatus = (applicantId: string, newStatus: Applicant["status"]) => {
@@ -257,17 +133,24 @@ export function CareersClient() {
     );
   };
 
-  const filtered = search.trim()
-    ? vacancies.filter(
-        (v) =>
-          v.title.toLowerCase().includes(search.toLowerCase()) ||
-          v.department.toLowerCase().includes(search.toLowerCase()) ||
-          v.description.toLowerCase().includes(search.toLowerCase())
-      )
-    : vacancies;
+  const departments = [...new Set(vacancies.map((v) => v.department).filter(Boolean))] as string[];
+  const types = [...new Set(vacancies.map((v) => v.type).filter(Boolean))] as string[];
+  const modes = [...new Set(vacancies.map((v) => v.mode).filter(Boolean))] as string[];
 
-  const pageCount = Math.ceil(filtered.length / PAGE_SIZE) || 1;
-  const paginated = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const filtered = vacancies.filter((v) => {
+    const matchesSearch = !search.trim() ||
+      v.title.toLowerCase().includes(search.toLowerCase()) ||
+      v.department.toLowerCase().includes(search.toLowerCase()) ||
+      v.description.toLowerCase().includes(search.toLowerCase());
+    const matchesStatus = statusFilter === "all" || (statusFilter === "Active" ? v.isActive : !v.isActive);
+    const matchesDept = deptFilter === "all" || v.department === deptFilter;
+    const matchesType = typeFilter === "all" || v.type === typeFilter;
+    const matchesMode = modeFilter === "all" || v.mode === modeFilter;
+    return matchesSearch && matchesStatus && matchesDept && matchesType && matchesMode;
+  });
+
+  const pageCount = Math.ceil(total / PAGE_SIZE) || 1;
+  const paginated = filtered;
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -280,6 +163,47 @@ export function CareersClient() {
           description="Manage all your career vacancies."
         />
         <div className="flex items-center gap-3">
+          <div className="relative">
+            <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
+              <Filter className="h-4 w-4" />
+              Filter{(statusFilter !== "all" || deptFilter !== "all" || typeFilter !== "all" || modeFilter !== "all") ? " (1)" : ""}
+            </Button>
+            {filterOpen && (
+              <div className="absolute right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
+                {["all", "Active", "Inactive"].map((s) => (
+                  <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {s === "all" ? "All Statuses" : s}
+                  </button>
+                ))}
+                <div className="my-2 border-t border-gray-100" />
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Department</p>
+                <button type="button" onClick={() => { setDeptFilter("all"); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${deptFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>All Departments</button>
+                {departments.map((d) => (
+                  <button key={d} type="button" onClick={() => { setDeptFilter(d); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${deptFilter === d ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>{d}</button>
+                ))}
+                <div className="my-2 border-t border-gray-100" />
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Type</p>
+                <button type="button" onClick={() => { setTypeFilter("all"); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${typeFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>All Types</button>
+                {types.map((t) => (
+                  <button key={t} type="button" onClick={() => { setTypeFilter(t); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${typeFilter === t ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>{t}</button>
+                ))}
+                <div className="my-2 border-t border-gray-100" />
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Mode</p>
+                <button type="button" onClick={() => { setModeFilter("all"); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${modeFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>All Modes</button>
+                {modes.map((m) => (
+                  <button key={m} type="button" onClick={() => { setModeFilter(m); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${modeFilter === m ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>{m}</button>
+                ))}
+              </div>
+            )}
+          </div>
           <Button onClick={() => setAddOpen(true)}>
             Add Vacancy
             <Plus className="h-4 w-4" />
@@ -341,7 +265,13 @@ export function CareersClient() {
       </div>
 
       {/* Content */}
-      {filtered.length === 0 ? (
+      {loading ? (
+        <Card>
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-6 w-6 animate-spin text-zinc-400" />
+          </div>
+        </Card>
+      ) : filtered.length === 0 ? (
         <Card noPadding className="overflow-hidden">
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <Briefcase className="h-10 w-10 text-zinc-300" />
@@ -426,7 +356,7 @@ export function CareersClient() {
                   </span>
                 </div>
                 <h3 className="font-semibold text-sm text-gray-900">{item.title}</h3>
-                <p className="text-xs text-gray-500">{item.department} • {item.type} ({item.mode})</p>
+                <p className="text-xs text-gray-500">{item.department} &bull; {item.type} ({item.mode})</p>
                 <div className="mt-3 flex items-center justify-between">
                   <button
                     type="button"
@@ -450,7 +380,7 @@ export function CareersClient() {
             <Pagination
               page={currentPage}
               pageCount={pageCount}
-              rangeLabel={`Showing ${paginated.length} of ${filtered.length} vacancies`}
+              rangeLabel={`Showing ${paginated.length} of ${total} vacancies`}
               onPageChange={(p) => setCurrentPage(p)}
             />
           </div>
@@ -471,7 +401,7 @@ export function CareersClient() {
                     </span>
                   </div>
                   <h3 className="text-base font-bold text-gray-900">{item.title}</h3>
-                  <p className="text-xs text-gray-500">{item.type} • {item.mode} • {item.location}</p>
+                  <p className="text-xs text-gray-500">{item.type} &bull; {item.mode} &bull; {item.location}</p>
                   <p className="text-xs text-gray-600 line-clamp-2">{item.description}</p>
                 </div>
 
@@ -501,7 +431,7 @@ export function CareersClient() {
             <Pagination
               page={currentPage}
               pageCount={pageCount}
-              rangeLabel={`Showing ${paginated.length} of ${filtered.length} vacancies`}
+              rangeLabel={`Showing ${paginated.length} of ${total} vacancies`}
               onPageChange={(p) => setCurrentPage(p)}
             />
           </Card>

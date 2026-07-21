@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { PageHeader } from "@/components/PageHeader";
-import { Layers, Plus, CheckCircle2, XCircle, Search, List, LayoutGrid } from "lucide-react";
+import { Layers, Plus, CheckCircle2, XCircle, Search, List, LayoutGrid, Filter } from "lucide-react";
 import { Topbar } from "@/components/Topbar";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
@@ -46,6 +46,10 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
   const [search, setSearch] = useState("");
   const [isPending, startTransition] = useTransition();
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [featuredFilter, setFeaturedFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
 
   // Modal state
   const [addOpen, setAddOpen] = useState(false);
@@ -83,14 +87,18 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
     }
   }
 
-  const filtered = search.trim()
-    ? data.services.filter(
-        (s) =>
-          s.serviceName.toLowerCase().includes(search.toLowerCase()) ||
-          (s.description && s.description.toLowerCase().includes(search.toLowerCase())) ||
-          (s.category && s.category.toLowerCase().includes(search.toLowerCase()))
-      )
-    : data.services;
+  const serviceCategories = [...new Set(data.services.map((s) => s.category).filter(Boolean))] as string[];
+
+  const filtered = data.services.filter((s) => {
+    const matchesSearch = !search.trim() ||
+      s.serviceName.toLowerCase().includes(search.toLowerCase()) ||
+      (s.description && s.description.toLowerCase().includes(search.toLowerCase())) ||
+      (s.category && s.category.toLowerCase().includes(search.toLowerCase()));
+    const matchesStatus = statusFilter === "all" || (statusFilter === "Active" ? s.isActive : !s.isActive);
+    const matchesFeatured = featuredFilter === "all" || (featuredFilter === "Featured" ? s.isFeatured : !s.isFeatured);
+    const matchesCategory = categoryFilter === "all" || s.category === categoryFilter;
+    return matchesSearch && matchesStatus && matchesFeatured && matchesCategory;
+  });
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -103,6 +111,39 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
           description="Manage all your services."
         />
         <div className="flex items-center gap-3">
+          <div className="relative">
+            <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
+              <Filter className="h-4 w-4" />
+              Filter{(statusFilter !== "all" || featuredFilter !== "all" || categoryFilter !== "all") ? " (1)" : ""}
+            </Button>
+            {filterOpen && (
+              <div className="absolute right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
+                {["all", "Active", "Inactive"].map((s) => (
+                  <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {s === "all" ? "All Statuses" : s}
+                  </button>
+                ))}
+                <div className="my-2 border-t border-gray-100" />
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Featured</p>
+                {["all", "Featured", "Not Featured"].map((f) => (
+                  <button key={f} type="button" onClick={() => { setFeaturedFilter(f); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${featuredFilter === f ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {f === "all" ? "All" : f}
+                  </button>
+                ))}
+                <div className="my-2 border-t border-gray-100" />
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Category</p>
+                <button type="button" onClick={() => { setCategoryFilter("all"); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${categoryFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>All Categories</button>
+                {serviceCategories.map((c) => (
+                  <button key={c} type="button" onClick={() => { setCategoryFilter(c); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${categoryFilter === c ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>{c}</button>
+                ))}
+              </div>
+            )}
+          </div>
           <Button onClick={() => setAddOpen(true)}>
             Add Service
             <Plus className="h-4 w-4" />

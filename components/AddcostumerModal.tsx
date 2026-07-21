@@ -32,15 +32,23 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCu
     image: "",
   });
 
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
 
-    // For phone number, only allow digits and limit to 10
     if (name === "phoneNumber") {
-      const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
-      setFormData((prev) => ({ ...prev, [name]: digitsOnly }));
+      const cleaned = value.replace(/[^\d+]/g, "");
+      const plusCount = (cleaned.match(/\+/g) || []).length;
+      const sanitized = plusCount > 1 ? "+" + cleaned.replace(/\+/g, "") : cleaned;
+      setFormData((prev) => ({ ...prev, [name]: sanitized }));
+      if (sanitized && !/^\+?\d{7,15}$/.test(sanitized)) {
+        setPhoneError("Enter a valid phone number (e.g. 9801234567 or +9779801234567)");
+      } else {
+        setPhoneError(null);
+      }
       return;
     }
 
@@ -131,14 +139,13 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCu
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                  Phone No. <span className="text-gray-400">(10 digits)</span>
+                  Phone No. <span className="text-gray-400">(e.g. +9779801234567)</span>
                 </label>
                 <input name="phoneNumber" value={formData.phoneNumber} onChange={handleChange}
-                  type="tel" placeholder="Enter 10-digit phone number" maxLength={10}
-                  pattern="\d{10}"
+                  type="tel" placeholder="e.g. +9779801234567"
                   className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-gray-400 outline-none transition-colors text-sm" />
-                {formData.phoneNumber && formData.phoneNumber.length !== 10 && (
-                  <p className="text-xs text-amber-600 mt-1">Phone number must be exactly 10 digits</p>
+                {phoneError && (
+                  <p className="text-xs text-amber-600 mt-1">{phoneError}</p>
                 )}
               </div>
               <div>

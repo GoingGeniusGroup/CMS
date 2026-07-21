@@ -111,14 +111,19 @@ function DevelopmentProcess() {
           <div className="mx-auto mt-3 h-0.5 w-24 rounded-full bg-zinc-300" />
         </div>
 
-        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
-          {PROCESS_STEPS.map(({ num, icon: Icon, label }) => (
-            <div key={label} className="flex flex-col items-center gap-3">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-indigo-200 bg-white shadow-sm">
-                <Icon className="h-7 w-7 text-indigo-400" strokeWidth={1.5} />
+        <div className="flex flex-wrap items-start justify-center">
+          {PROCESS_STEPS.map(({ num, icon: Icon, label }, i) => (
+            <div key={label} className="w-1/2 sm:w-1/3 lg:w-auto flex flex-col items-center px-2 sm:px-4 lg:px-0">
+              <div className="flex items-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-indigo-200 bg-white shadow-sm shrink-0">
+                  <Icon className="h-7 w-7 text-indigo-400" strokeWidth={1.5} />
+                </div>
+                {i < PROCESS_STEPS.length - 1 && (
+                  <div className="hidden lg:block h-0.5 w-28 bg-indigo-200" />
+                )}
               </div>
-              <p className="text-[10px] font-bold text-zinc-400">{num}</p>
-              <p className="text-xs font-semibold text-zinc-700">{label}</p>
+              <p className="text-[10px] font-bold text-zinc-400 mt-3">{num}</p>
+              <p className="text-xs font-semibold text-zinc-700 mt-1">{label}</p>
             </div>
           ))}
         </div>

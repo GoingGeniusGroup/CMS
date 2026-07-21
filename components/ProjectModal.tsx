@@ -149,125 +149,131 @@ export function ProjectModal({
       onClick={onClose}
     >
       <div
-        className="relative max-h-[95vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-xl sm:p-8"
+        className="relative flex max-h-[95vh] w-full max-w-2xl flex-col rounded-2xl bg-white shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 text-zinc-400 hover:text-zinc-700"
+          className="absolute right-4 top-4 z-10 text-zinc-400 hover:text-zinc-700"
           aria-label="Close"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <h2 className="text-xl font-bold text-gray-900">
-          {isEditing ? "Edit Project" : "Add Project"}
-        </h2>
+        <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
+          <h2 className="text-xl font-bold text-gray-900">
+            {isEditing ? "Edit Project" : "Add Project"}
+          </h2>
+        </div>
 
-        <form onSubmit={handleSubmit} className="mt-5 space-y-5">
-          {error && (
-            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              {error}
+        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
+          <div className="flex-1 overflow-y-auto px-6 sm:px-8">
+            <div className="space-y-5 pt-5">
+              {error && (
+                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  {error}
+                </div>
+              )}
+
+              {/* ─── Basic Info ─── */}
+              <fieldset className="space-y-4 rounded-xl border border-zinc-200 p-4">
+                <legend className="px-2 text-sm font-bold text-zinc-700">Basic Info</legend>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className={labelCls}>Title <span className="text-red-500">*</span></label>
+                    <input type="text" required value={title} onChange={(e) => handleTitleChange(e.target.value)} placeholder="Project title" className={inputCls} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Slug</label>
+                    <input type="text" value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="project-slug" className={inputCls} />
+                  </div>
+                </div>
+
+                <div>
+                  <label className={labelCls}>Short Description</label>
+                  <textarea rows={2} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Brief project description..." className={inputCls + " resize-none"} />
+                </div>
+
+                <div>
+                  <label className={labelCls}>Detailed Overview</label>
+                  <textarea rows={3} value={overview} onChange={(e) => setOverview(e.target.value)} placeholder="Detailed project overview for the case study page..." className={inputCls + " resize-none"} />
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                  <div>
+                    <label className={labelCls}>Category</label>
+                    <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="e.g. Web Development" className={inputCls} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Live URL</label>
+                    <input type="url" value={liveUrl} onChange={(e) => setLiveUrl(e.target.value)} placeholder="https://..." className={inputCls} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Status <span className="text-red-500">*</span></label>
+                    <select value={status} onChange={(e) => setStatus(e.target.value as "Published" | "Draft")} className={inputCls}>
+                      <option value="Draft">Draft</option>
+                      <option value="Published">Published</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className={labelCls}>Customer</label>
+                    <select value={customerId} onChange={(e) => setCustomerId(e.target.value)} className={inputCls}>
+                      <option value="">Select customer</option>
+                      {customers.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className={labelCls}>Service</label>
+                    <select value={serviceId} onChange={(e) => setServiceId(e.target.value)} className={inputCls}>
+                      <option value="">Select service</option>
+                      {services.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                  <div>
+                    <label className={labelCls}>Start Date</label>
+                    <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className={inputCls} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>End Date</label>
+                    <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className={inputCls} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Budget</label>
+                    <input type="number" step="0.01" value={budget} onChange={(e) => setBudget(e.target.value)} placeholder="0.00" className={inputCls} />
+                  </div>
+                </div>
+
+                <ImageUploader label="Thumbnail" value={thumbnail} onChange={(url) => setThumbnail(url || "")} />
+              </fieldset>
+
+              {/* ─── Project Details ─── */}
+              <fieldset className="space-y-4 rounded-xl border border-zinc-200 p-4">
+                <legend className="px-2 text-sm font-bold text-zinc-700">Project Details</legend>
+
+                <ListEditor label="Highlights" items={highlights} onChange={setHighlights} placeholder="e.g. Modern UI/UX design" />
+                <ListEditor label="Key Challenges" items={challenges} onChange={setChallenges} placeholder="e.g. Handling high traffic" />
+                <ListEditor label="Solutions" items={solutions} onChange={setSolutions} placeholder="e.g. Auto-scaling infrastructure" />
+                <ListEditor label="Technologies" items={technologies} onChange={setTechnologies} placeholder="e.g. React, Node.js" />
+              </fieldset>
+
+              {/* ─── Gallery ─── */}
+              <fieldset className="space-y-3 rounded-xl border border-zinc-200 p-4">
+                <legend className="px-2 text-sm font-bold text-zinc-700">Gallery Images</legend>
+                <GalleryEditor images={gallery} onChange={setGallery} />
+              </fieldset>
             </div>
-          )}
+          </div>
 
-          {/* ─── Basic Info ─── */}
-          <fieldset className="space-y-4 rounded-xl border border-zinc-200 p-4">
-            <legend className="px-2 text-sm font-bold text-zinc-700">Basic Info</legend>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div>
-                <label className={labelCls}>Title <span className="text-red-500">*</span></label>
-                <input type="text" required value={title} onChange={(e) => handleTitleChange(e.target.value)} placeholder="Project title" className={inputCls} />
-              </div>
-              <div>
-                <label className={labelCls}>Slug</label>
-                <input type="text" value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="project-slug" className={inputCls} />
-              </div>
-            </div>
-
-            <div>
-              <label className={labelCls}>Short Description</label>
-              <textarea rows={2} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Brief project description..." className={inputCls + " resize-none"} />
-            </div>
-
-            <div>
-              <label className={labelCls}>Detailed Overview</label>
-              <textarea rows={3} value={overview} onChange={(e) => setOverview(e.target.value)} placeholder="Detailed project overview for the case study page..." className={inputCls + " resize-none"} />
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <div>
-                <label className={labelCls}>Category</label>
-                <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="e.g. Web Development" className={inputCls} />
-              </div>
-              <div>
-                <label className={labelCls}>Live URL</label>
-                <input type="url" value={liveUrl} onChange={(e) => setLiveUrl(e.target.value)} placeholder="https://..." className={inputCls} />
-              </div>
-              <div>
-                <label className={labelCls}>Status <span className="text-red-500">*</span></label>
-                <select value={status} onChange={(e) => setStatus(e.target.value as "Published" | "Draft")} className={inputCls}>
-                  <option value="Draft">Draft</option>
-                  <option value="Published">Published</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div>
-                <label className={labelCls}>Customer</label>
-                <select value={customerId} onChange={(e) => setCustomerId(e.target.value)} className={inputCls}>
-                  <option value="">Select customer</option>
-                  {customers.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}
-                </select>
-              </div>
-              <div>
-                <label className={labelCls}>Service</label>
-                <select value={serviceId} onChange={(e) => setServiceId(e.target.value)} className={inputCls}>
-                  <option value="">Select service</option>
-                  {services.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
-                </select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <div>
-                <label className={labelCls}>Start Date</label>
-                <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className={inputCls} />
-              </div>
-              <div>
-                <label className={labelCls}>End Date</label>
-                <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className={inputCls} />
-              </div>
-              <div>
-                <label className={labelCls}>Budget</label>
-                <input type="number" step="0.01" value={budget} onChange={(e) => setBudget(e.target.value)} placeholder="0.00" className={inputCls} />
-              </div>
-            </div>
-
-            <ImageUploader label="Thumbnail" value={thumbnail} onChange={(url) => setThumbnail(url || "")} />
-          </fieldset>
-
-          {/* ─── Project Details ─── */}
-          <fieldset className="space-y-4 rounded-xl border border-zinc-200 p-4">
-            <legend className="px-2 text-sm font-bold text-zinc-700">Project Details</legend>
-
-            <ListEditor label="Highlights" items={highlights} onChange={setHighlights} placeholder="e.g. Modern UI/UX design" />
-            <ListEditor label="Key Challenges" items={challenges} onChange={setChallenges} placeholder="e.g. Handling high traffic" />
-            <ListEditor label="Solutions" items={solutions} onChange={setSolutions} placeholder="e.g. Auto-scaling infrastructure" />
-            <ListEditor label="Technologies" items={technologies} onChange={setTechnologies} placeholder="e.g. React, Node.js" />
-          </fieldset>
-
-          {/* ─── Gallery ─── */}
-          <fieldset className="space-y-3 rounded-xl border border-zinc-200 p-4">
-            <legend className="px-2 text-sm font-bold text-zinc-700">Gallery Images</legend>
-            <GalleryEditor images={gallery} onChange={setGallery} />
-          </fieldset>
-
-          {/* Submit */}
-          <div className="flex items-center justify-end gap-3 pt-2">
+          {/* Submit - sticky */}
+          <div className="flex shrink-0 items-center justify-end gap-3 border-t border-zinc-200 px-6 py-4 sm:px-8">
             <Button variant="secondary" onClick={onClose} type="button">Cancel</Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (isEditing ? "Saving..." : "Creating...") : (isEditing ? "Save Changes" : "Add Project")}

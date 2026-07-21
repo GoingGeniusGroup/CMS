@@ -146,259 +146,265 @@ export function EditVacancyModal({
       onClick={onClose}
     >
       <div
-        className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-8 shadow-xl"
+        className="relative flex max-h-[90vh] w-full max-w-lg flex-col rounded-2xl bg-white shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 text-zinc-400 hover:text-zinc-700"
+          className="absolute right-4 top-4 z-10 text-zinc-400 hover:text-zinc-700"
           aria-label="Close"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <h2 className="text-2xl font-bold text-zinc-900">Edit Vacancy</h2>
+        <div className="shrink-0 px-8 pt-8">
+          <h2 className="text-2xl font-bold text-zinc-900">Edit Vacancy</h2>
+        </div>
 
-        {error && (
-          <p className="mt-3 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
-            {error}
-          </p>
-        )}
+        <form className="flex min-h-0 flex-1 flex-col" onSubmit={handleSubmit}>
+          <div className="flex-1 overflow-y-auto px-8">
+            <div className="space-y-5 pt-5">
+              {error && (
+                <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
+                  {error}
+                </p>
+              )}
 
-        <form className="mt-6 flex flex-col gap-5" onSubmit={handleSubmit}>
-          {/* Title */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-bold text-zinc-800">
-              Job Title <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="title"
-              value={form.title}
-              onChange={handleChange}
-              required
-              className={inputCls}
-            />
-          </div>
+              {/* Title */}
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold text-zinc-800">
+                  Job Title <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="title"
+                  value={form.title}
+                  onChange={handleChange}
+                  required
+                  className={inputCls}
+                />
+              </div>
 
-          {/* Department & Type */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-zinc-800">
-                Department <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="department"
-                value={form.department}
-                onChange={handleChange}
-                className={inputCls}
-              >
-                <option value="Developer">Developer</option>
-                <option value="Design">Design</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Operations">Operations</option>
-                <option value="Sales">Sales</option>
-                <option value="HR">HR</option>
-                <option value="Quality Assurance">Quality Assurance</option>
-              </select>
+              {/* Department & Type */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-bold text-zinc-800">
+                    Department <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="department"
+                    value={form.department}
+                    onChange={handleChange}
+                    className={inputCls}
+                  >
+                    <option value="Developer">Developer</option>
+                    <option value="Design">Design</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Operations">Operations</option>
+                    <option value="Sales">Sales</option>
+                    <option value="HR">HR</option>
+                    <option value="Quality Assurance">Quality Assurance</option>
+                  </select>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-bold text-zinc-800">
+                    Employment Type
+                  </label>
+                  <select
+                    name="type"
+                    value={form.type}
+                    onChange={handleChange}
+                    className={inputCls}
+                  >
+                    <option value="Full-time">Full-time</option>
+                    <option value="Part-time">Part-time</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Internship">Internship</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Work Mode & Experience */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-bold text-zinc-800">
+                    Work Mode
+                  </label>
+                  <select
+                    name="mode"
+                    value={form.mode}
+                    onChange={handleChange}
+                    className={inputCls}
+                  >
+                    <option value="Remote">Remote</option>
+                    <option value="On-site">On-site</option>
+                    <option value="Hybrid">Hybrid</option>
+                  </select>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-bold text-zinc-800">
+                    Experience
+                  </label>
+                  <input
+                    type="text"
+                    name="experience"
+                    value={form.experience}
+                    onChange={handleChange}
+                    className={inputCls}
+                  />
+                </div>
+              </div>
+
+              {/* Location & Salary */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-bold text-zinc-800">
+                    Location
+                  </label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={form.location}
+                    onChange={handleChange}
+                    className={inputCls}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-bold text-zinc-800">
+                    Salary / Compensation
+                  </label>
+                  <input
+                    type="text"
+                    name="salaryRange"
+                    value={form.salaryRange}
+                    onChange={handleChange}
+                    className={inputCls}
+                  />
+                </div>
+              </div>
+
+              {/* Deadline & Vacancies Count */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-bold text-zinc-800">
+                    Application Deadline
+                  </label>
+                  <input
+                    type="date"
+                    name="deadline"
+                    value={form.deadline}
+                    onChange={handleChange}
+                    className={inputCls}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-bold text-zinc-800">
+                    Open Vacancies
+                  </label>
+                  <input
+                    type="number"
+                    name="vacanciesCount"
+                    min={1}
+                    value={form.vacanciesCount}
+                    onChange={handleChange}
+                    className={inputCls}
+                  />
+                </div>
+              </div>
+
+              {/* Tags */}
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold text-zinc-800">
+                  Tags / Skills (Comma-separated)
+                </label>
+                <input
+                  type="text"
+                  name="tags"
+                  value={form.tags}
+                  onChange={handleChange}
+                  className={inputCls}
+                />
+              </div>
+
+              {/* Status Checkbox & Featured */}
+              <div className="flex flex-wrap items-center gap-6 pt-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="isActive"
+                    checked={form.isActive}
+                    onChange={handleChange}
+                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                  />
+                  Active Status
+                </label>
+
+                <label className="flex items-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="isFeatured"
+                    checked={form.isFeatured}
+                    onChange={handleChange}
+                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                  />
+                  Featured Vacancy
+                </label>
+              </div>
+
+              {/* Description */}
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold text-zinc-800">
+                  Description
+                </label>
+                <textarea
+                  name="description"
+                  value={form.description}
+                  onChange={handleChange}
+                  rows={3}
+                  className="w-full resize-none rounded-xl border border-black/15 bg-white p-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200"
+                />
+              </div>
+
+              {/* Thumbnail — Uploadcare */}
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold text-zinc-800">
+                  Thumbnail
+                </label>
+                <FileUploaderRegular
+                  pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!}
+                  maxLocalFileSizeBytes={2_000_000}
+                  imgOnly
+                  onFileUploadSuccess={(file) => {
+                    setThumbnailUrl(file.cdnUrl ?? null);
+                    setFileName(file.name ?? null);
+                  }}
+                  onFileRemoved={() => {
+                    setThumbnailUrl(null);
+                    setFileName(null);
+                  }}
+                  className="w-full"
+                />
+                {fileName && thumbnailUrl && (
+                  <p className="text-xs text-emerald-600">
+                    ✓ Uploaded: {fileName}
+                  </p>
+                )}
+                {!fileName && thumbnailUrl && (
+                  <p className="text-xs text-emerald-600">
+                    ✓ Has existing thumbnail
+                  </p>
+                )}
+              </div>
             </div>
-
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-zinc-800">
-                Employment Type
-              </label>
-              <select
-                name="type"
-                value={form.type}
-                onChange={handleChange}
-                className={inputCls}
-              >
-                <option value="Full-time">Full-time</option>
-                <option value="Part-time">Part-time</option>
-                <option value="Contract">Contract</option>
-                <option value="Internship">Internship</option>
-              </select>
-            </div>
           </div>
 
-          {/* Work Mode & Experience */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-zinc-800">
-                Work Mode
-              </label>
-              <select
-                name="mode"
-                value={form.mode}
-                onChange={handleChange}
-                className={inputCls}
-              >
-                <option value="Remote">Remote</option>
-                <option value="On-site">On-site</option>
-                <option value="Hybrid">Hybrid</option>
-              </select>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-zinc-800">
-                Experience
-              </label>
-              <input
-                type="text"
-                name="experience"
-                value={form.experience}
-                onChange={handleChange}
-                className={inputCls}
-              />
-            </div>
-          </div>
-
-          {/* Location & Salary */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-zinc-800">
-                Location
-              </label>
-              <input
-                type="text"
-                name="location"
-                value={form.location}
-                onChange={handleChange}
-                className={inputCls}
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-zinc-800">
-                Salary / Compensation
-              </label>
-              <input
-                type="text"
-                name="salaryRange"
-                value={form.salaryRange}
-                onChange={handleChange}
-                className={inputCls}
-              />
-            </div>
-          </div>
-
-          {/* Deadline & Vacancies Count */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-zinc-800">
-                Application Deadline
-              </label>
-              <input
-                type="date"
-                name="deadline"
-                value={form.deadline}
-                onChange={handleChange}
-                className={inputCls}
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold text-zinc-800">
-                Open Vacancies
-              </label>
-              <input
-                type="number"
-                name="vacanciesCount"
-                min={1}
-                value={form.vacanciesCount}
-                onChange={handleChange}
-                className={inputCls}
-              />
-            </div>
-          </div>
-
-          {/* Tags */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-bold text-zinc-800">
-              Tags / Skills (Comma-separated)
-            </label>
-            <input
-              type="text"
-              name="tags"
-              value={form.tags}
-              onChange={handleChange}
-              className={inputCls}
-            />
-          </div>
-
-          {/* Status Checkbox & Featured */}
-          <div className="flex flex-wrap items-center gap-6 pt-2">
-            <label className="flex items-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer">
-              <input
-                type="checkbox"
-                name="isActive"
-                checked={form.isActive}
-                onChange={handleChange}
-                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-              />
-              Active Status
-            </label>
-
-            <label className="flex items-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer">
-              <input
-                type="checkbox"
-                name="isFeatured"
-                checked={form.isFeatured}
-                onChange={handleChange}
-                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-              />
-              Featured Vacancy
-            </label>
-          </div>
-
-          {/* Description */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-bold text-zinc-800">
-              Description
-            </label>
-            <textarea
-              name="description"
-              value={form.description}
-              onChange={handleChange}
-              rows={3}
-              className="w-full resize-none rounded-xl border border-black/15 bg-white p-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200"
-            />
-          </div>
-
-          {/* Thumbnail — Uploadcare */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-bold text-zinc-800">
-              Thumbnail
-            </label>
-            <FileUploaderRegular
-              pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!}
-              maxLocalFileSizeBytes={2_000_000}
-              imgOnly
-              onFileUploadSuccess={(file) => {
-                setThumbnailUrl(file.cdnUrl ?? null);
-                setFileName(file.name ?? null);
-              }}
-              onFileRemoved={() => {
-                setThumbnailUrl(null);
-                setFileName(null);
-              }}
-              className="w-full"
-            />
-            {fileName && thumbnailUrl && (
-              <p className="text-xs text-emerald-600">
-                ✓ Uploaded: {fileName}
-              </p>
-            )}
-            {!fileName && thumbnailUrl && (
-              <p className="text-xs text-emerald-600">
-                ✓ Has existing thumbnail
-              </p>
-            )}
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+          {/* Actions - sticky */}
+          <div className="flex shrink-0 items-center justify-end gap-3 border-t border-zinc-200 px-8 py-4">
             <button
               type="button"
               onClick={onClose}

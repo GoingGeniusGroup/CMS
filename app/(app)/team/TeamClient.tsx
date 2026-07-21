@@ -60,6 +60,9 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
   const [search, setSearch] = useState("");
   const [isPending, startTransition] = useTransition();
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [departmentFilter, setDepartmentFilter] = useState<string>("all");
 
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
@@ -151,16 +154,18 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
     }
   }
 
-  // Client-side search filter
-  const filtered = search.trim()
-    ? data.members.filter(
-        (m) =>
-          m.fullName.toLowerCase().includes(search.toLowerCase()) ||
-          m.email.toLowerCase().includes(search.toLowerCase()) ||
-          (m.role && m.role.toLowerCase().includes(search.toLowerCase())) ||
-          (m.department && m.department.toLowerCase().includes(search.toLowerCase()))
-      )
-    : data.members;
+  const departments = [...new Set(data.members.map((m) => m.department).filter(Boolean))] as string[];
+
+  const filtered = data.members.filter((m) => {
+    const matchesSearch = !search.trim() ||
+      m.fullName.toLowerCase().includes(search.toLowerCase()) ||
+      m.email.toLowerCase().includes(search.toLowerCase()) ||
+      (m.role && m.role.toLowerCase().includes(search.toLowerCase())) ||
+      (m.department && m.department.toLowerCase().includes(search.toLowerCase()));
+    const matchesStatus = statusFilter === "all" || m.status.toLowerCase() === statusFilter.toLowerCase();
+    const matchesDept = departmentFilter === "all" || m.department === departmentFilter;
+    return matchesSearch && matchesStatus && matchesDept;
+  });
 
   // Convert DB member to modal's edit format
   const editMemberRecord = editingMember
@@ -196,10 +201,52 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader title="Team" description="Manage Your team members and their information." />
         <div className="flex items-center gap-3">
-          <Button variant="secondary">
-            <Filter className="h-4 w-4" />
-            Filter
-          </Button>
+          <div className="relative">
+            <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
+              <Filter className="h-4 w-4" />
+              Filter{(statusFilter !== "all" || departmentFilter !== "all") ? " (1)" : ""}
+            </Button>
+            {filterOpen && (
+              <div className="absolute right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
+                {["all", "Active", "Inactive"].map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${
+                      statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"
+                    }`}
+                  >
+                    {s === "all" ? "All Statuses" : s}
+                  </button>
+                ))}
+                <div className="my-2 border-t border-gray-100" />
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Department</p>
+                <button
+                  type="button"
+                  onClick={() => { setDepartmentFilter("all"); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${
+                    departmentFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"
+                  }`}
+                >
+                  All Departments
+                </button>
+                {departments.map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    onClick={() => { setDepartmentFilter(d); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${
+                      departmentFilter === d ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"
+                    }`}
+                  >
+                    {d}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <Button onClick={handleAdd}>
             Add Member
             <Plus className="h-4 w-4" />

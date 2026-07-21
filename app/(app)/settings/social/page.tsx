@@ -3,7 +3,6 @@
 import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import { Globe, Share2 } from "lucide-react";
-import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import {
   FaFacebookF,
@@ -31,6 +30,7 @@ export default function SocialSettingsPage() {
     facebook: "", twitter: "", linkedin: "", instagram: "",
     pinterest: "", youtube: "", whatsapp: "",
   });
+  const [savedValues, setSavedValues] = useState<SocialLinks | null>(null);
   const [errors, setErrors] = useState<Partial<Record<keyof SocialLinks, string>>>({});
   const [toast, setToast] = useState<{ message: string; ok: boolean } | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -40,9 +40,28 @@ export default function SocialSettingsPage() {
   useEffect(() => {
     getSocialSettings().then((data) => {
       setValues(data);
+      setSavedValues(data);
       setLoaded(true);
     });
   }, []);
+
+  const hasChanges = savedValues !== null && (
+    values.facebook !== savedValues.facebook ||
+    values.twitter !== savedValues.twitter ||
+    values.linkedin !== savedValues.linkedin ||
+    values.instagram !== savedValues.instagram ||
+    values.pinterest !== savedValues.pinterest ||
+    values.youtube !== savedValues.youtube ||
+    values.whatsapp !== savedValues.whatsapp
+  );
+
+  function handleCancel() {
+    if (savedValues) {
+      setValues({ ...savedValues });
+    }
+    setErrors({});
+    setToast(null);
+  }
 
   // Auto-dismiss toast
   useEffect(() => {
@@ -90,6 +109,9 @@ export default function SocialSettingsPage() {
 
     startTransition(async () => {
       const result = await saveSocialSettings(values);
+      if (result.success) {
+        setSavedValues({ ...values });
+      }
       setToast(
         result.success
           ? { message: "Social settings saved successfully.", ok: true }
@@ -99,35 +121,49 @@ export default function SocialSettingsPage() {
   }
 
   return (
-    <Card className="lg:p-8">
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-amber-500">
-              <Share2 className="h-4 w-4" />
+    <>
+      {/* Sticky Top Bar */}
+      <div className="sticky top-0 z-10 mb-6 rounded-lg border border-zinc-200 bg-white px-6 py-4 shadow-sm sm:px-8">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-500">
+              <Share2 className="h-5 w-5" />
             </span>
-            <h1 className="text-lg font-bold text-amber-500">Social Settings</h1>
-            <Link
-              href="/settings/footer"
-              className="group relative ml-1 flex h-7 w-7 items-center justify-center rounded-lg bg-sky-50 text-sky-500 transition-colors hover:bg-sky-100"
-            >
-              <Globe className="h-4 w-4 animate-spin-slow" />
-              <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-zinc-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
-                Move to website/footer
-              </span>
-            </Link>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-xl font-bold text-amber-500 sm:text-2xl">Social Settings</h1>
+                <Link
+                  href="/settings/footer"
+                  className="group relative flex h-7 w-7 items-center justify-center rounded-lg bg-sky-50 text-sky-500 transition-colors hover:bg-sky-100"
+                >
+                  <Globe className="h-4 w-4" />
+                  <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-zinc-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
+                    Move to website/footer
+                  </span>
+                </Link>
+              </div>
+              <p className="text-xs text-zinc-500">Manage social media links.</p>
+            </div>
           </div>
-          <p className="text-sm text-zinc-500">Manage social media links.</p>
+          {hasChanges && (
+          <div className="flex items-center gap-3">
+            <button type="button" onClick={handleCancel} disabled={isPending}
+              className="rounded-lg border border-zinc-300 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50">
+              Cancel
+            </button>
+            <button type="button" onClick={handleSave} disabled={isPending || !loaded}
+              className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
+              {isPending ? "Saving..." : "Save Changes"}
+            </button>
+          </div>
+          )}
         </div>
-        <Button className="shrink-0" onClick={handleSave} disabled={isPending || !loaded}>
-          {isPending ? "Saving..." : "Save Changes"}
-        </Button>
       </div>
 
       {/* Toast */}
       {toast && (
         <div
-          className={`mt-4 rounded-lg px-4 py-2.5 text-sm font-medium ${
+          className={`mb-6 rounded-lg px-4 py-2.5 text-sm font-medium ${
             toast.ok
               ? "bg-green-50 text-green-700 border border-green-200"
               : "bg-red-50 text-red-700 border border-red-200"
@@ -137,7 +173,8 @@ export default function SocialSettingsPage() {
         </div>
       )}
 
-      <div className="mt-6 flex flex-col gap-5">
+    <Card className="lg:p-8">
+      <div className="flex flex-col gap-5">
         {socialFields.map((field) => {
           const Icon = field.icon;
           return (
@@ -171,5 +208,6 @@ export default function SocialSettingsPage() {
         )}
       </div>
     </Card>
+    </>
   );
 }

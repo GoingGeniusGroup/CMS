@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Bar,
   BarChart,
@@ -26,112 +26,131 @@ import { PageHeader } from "@/components/PageHeader";
 import { Topbar } from "@/components/Topbar";
 import { Card } from "@/components/Card";
 import { StatCard } from "@/components/StatCard";
+import { getDashboardStats, type DashboardStats } from "@/app/actions/dashboard";
 
-type RevenueDatum = {
-  month: string;
-  value: number;
-  status: "received" | "pending" | "overdue";
-  badge?: string;
-};
+const PERIODS = [
+  { label: "This Year", months: 0 },
+  { label: "Last 30 Days", months: 1 },
+  { label: "Last 3 Months", months: 3 },
+  { label: "Last 6 Months", months: 6 },
+  { label: "Last 12 Months", months: 12 },
+  { label: "All Time", months: -1 },
+] as const;
 
-const revenueData: RevenueDatum[] = [
-  { month: "Jan", value: 32, status: "received" },
-  { month: "Feb", value: 58, status: "received", badge: "12k" },
-  { month: "Mar", value: 24, status: "pending" },
-  { month: "Apr", value: 46, status: "received" },
-  { month: "May", value: 70, status: "received" },
-  { month: "Jun", value: 88, status: "received", badge: "47k" },
-  { month: "Jul", value: 54, status: "received" },
-  { month: "Aug", value: 60, status: "received" },
-  { month: "Sep", value: 18, status: "received" },
-  { month: "Oct", value: 52, status: "overdue", badge: "27k" },
-  { month: "Nov", value: 30, status: "received" },
-  { month: "Dec", value: 40, status: "received" },
-];
-
-const statusColors: Record<RevenueDatum["status"], string> = {
+const statusColors: Record<string, string> = {
   received: "#facc15",
   pending: "#34d399",
   overdue: "#f43f5e",
 };
 
-const growthData = [
-  { label: "Web & Software", value: 81, color: "#f43f5e", track: "#fee2e2" },
-  { label: "Customer Growth", value: 22, color: "#10b981", track: "#d1fae5" },
-  { label: "On-time Projects", value: 62, color: "#0ea5e9", track: "#e0f2fe" },
-];
-
-const stats = [
-  {
-    icon: FolderClosed,
-    value: "75",
-    label: "Active Projects",
-    delta: "4% (30 days)",
-    up: true,
-  },
-  {
-    icon: Users,
-    value: "357",
-    label: "Total Clients",
-    delta: "4% (30 days)",
-    up: true,
-  },
-  {
-    icon: CalendarDays,
-    value: "65",
-    label: "Pending Tasks",
-    delta: "25% (30 days)",
-    up: true,
-  },
-  {
-    icon: TrendingUp,
-    value: "$128",
-    label: "Total Revenue",
-    delta: "12% (30 days)",
-    up: false,
-  },
-];
-
 export default function DashboardPage() {
+  const [periodLabel, setPeriodLabel] = useState("This Year");
+  const [periodOpen, setPeriodOpen] = useState(false);
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+
+  const fetchStats = useCallback(async (label: string) => {
+    const period = PERIODS.find((p) => p.label === label);
+    if (!period) return;
+    const now = new Date();
+    let start: string | undefined;
+    let end: string | undefined;
+    if (period.months === -1) {
+      start = new Date(2020, 0, 1).toISOString();
+    } else if (period.months > 0) {
+      start = new Date(now.getFullYear(), now.getMonth() - period.months, 1).toISOString();
+    } else {
+      start = new Date(now.getFullYear(), 0, 1).toISOString();
+    }
+    end = now.toISOString();
+    const data = await getDashboardStats(start, end);
+    setStats(data);
+  }, []);
+
+  useEffect(() => {
+    fetchStats(periodLabel);
+  }, [fetchStats, periodLabel]);
+
   return (
     <div className="space-y-5 sm:space-y-6">
-      <Topbar showSearch={false}/>
+      <Topbar showSearch={false} />
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader title="Dashboard" description="Hi, Admin. Welcome back to Admin!" />
-        <FilterPeriod />
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setPeriodOpen((v) => !v)}
+            className="flex w-full items-center gap-3 rounded-2xl bg-white px-4 py-2.5 text-left shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow hover:shadow-[0_8px_30px_rgba(0,0,0,0.14)] sm:w-auto"
+          >
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
+              <CalendarDays className="h-5 w-5" />
+            </span>
+            <span className="flex flex-1 flex-col">
+              <span className="text-sm font-semibold text-black">Filter Period</span>
+              <span className="text-xs text-zinc-500">{periodLabel}</span>
+            </span>
+            <ChevronDown className="h-4 w-4 shrink-0 text-black" />
+          </button>
+          {periodOpen && (
+            <div className="absolute right-0 top-full z-10 mt-1 w-full overflow-hidden rounded-xl bg-white py-1 shadow-[0_8px_30px_rgba(0,0,0,0.16)]">
+              {PERIODS.map((p) => (
+                <button
+                  key={p.label}
+                  type="button"
+                  onClick={() => { setPeriodLabel(p.label); setPeriodOpen(false); }}
+                  className={`block w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${
+                    periodLabel === p.label ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"
+                  }`}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-4">
-        {stats.map((stat) => (
-          <StatCard key={stat.label} {...stat} />
-        ))}
-      </section>
+      {stats ? (
+        <>
+          <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-4">
+            <StatCard
+              icon={FolderClosed}
+              value={String(stats.activeProjects)}
+              label="Active Projects"
+              delta={`${stats.statsDelta.activeProjects.value}% (30 days)`}
+              up={stats.statsDelta.activeProjects.up}
+            />
+            <StatCard
+              icon={Users}
+              value={String(stats.totalClients)}
+              label="Total Clients"
+              delta={`${stats.statsDelta.totalClients.value}% (30 days)`}
+              up={stats.statsDelta.totalClients.up}
+            />
+            <StatCard
+              icon={CalendarDays}
+              value={String(stats.pendingTasks)}
+              label="Pending Tasks"
+              delta={`${stats.statsDelta.pendingTasks.value}% (30 days)`}
+              up={stats.statsDelta.pendingTasks.up}
+            />
+            <StatCard
+              icon={TrendingUp}
+              value={`Rs. ${stats.totalRevenue}`}
+              label="Total Revenue"
+              delta={`${stats.statsDelta.totalRevenue.value}% (30 days)`}
+              up={stats.statsDelta.totalRevenue.up}
+            />
+          </section>
 
-      <section className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-2">
-        <RevenueCard />
-        <GrowthCard />
-      </section>
+          <section className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-2">
+            <RevenueCard revenueData={stats.revenueMonthly} />
+            <GrowthCard growthData={stats.growthMetrics} />
+          </section>
+        </>
+      ) : (
+        <div className="flex items-center justify-center py-20 text-sm text-zinc-500">Loading...</div>
+      )}
     </div>
-  );
-}
-
-function FilterPeriod() {
-  return (
-    <button
-      type="button"
-      className="flex w-full items-center gap-3 rounded-2xl bg-white px-4 py-2.5 text-left shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow hover:shadow-[0_8px_30px_rgba(0,0,0,0.14)] sm:w-auto"
-    >
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-500">
-        <CalendarDays className="h-5 w-5" />
-      </span>
-      <span className="flex flex-1 flex-col">
-        <span className="text-sm font-semibold text-black">
-          Filter Period
-        </span>
-        <span className="text-xs text-zinc-500">17 April 2021 - 21 May 2021</span>
-      </span>
-      <ChevronDown className="h-4 w-4 shrink-0 text-black" />
-    </button>
   );
 }
 
@@ -140,7 +159,7 @@ function RevenueTooltip({
   payload,
 }: {
   active?: boolean;
-  payload?: Array<{ payload: RevenueDatum }>;
+  payload?: Array<{ payload: { month: string; value: number; status: string; badge?: string } }>;
 }) {
   if (!active || !payload?.length) return null;
   const datum = payload[0].payload;
@@ -151,18 +170,17 @@ function RevenueTooltip({
   );
 }
 
-function RevenueCard() {
+function RevenueCard({ revenueData }: { revenueData: DashboardStats["revenueMonthly"] }) {
+  const total = revenueData.reduce((s, d) => s + d.value, 0);
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <Card className="relative">
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-3">
-          <h2 className="text-base font-semibold text-black">
-            Revenue
-          </h2>
+          <h2 className="text-base font-semibold text-black">Revenue</h2>
           <p className="text-2xl font-bold tracking-tight text-black">
-            90,00,000
+            {total.toLocaleString()}k
           </p>
         </div>
         <div className="relative">
@@ -193,13 +211,10 @@ function RevenueCard() {
               tickLine={false}
               tick={{ fontSize: 11, fill: "#000000" }}
             />
-            <Tooltip
-              cursor={{ fill: "transparent" }}
-              content={<RevenueTooltip />}
-            />
+            <Tooltip cursor={{ fill: "transparent" }} content={<RevenueTooltip />} />
             <Bar dataKey="value" radius={[6, 6, 6, 6]} maxBarSize={18}>
-              {revenueData.map((entry) => (
-                <Cell key={entry.month} fill={statusColors[entry.status]} />
+              {revenueData.map((entry, idx) => (
+                <Cell key={`${entry.month}-${idx}`} fill={statusColors[entry.status]} />
               ))}
             </Bar>
           </BarChart>
@@ -215,15 +230,7 @@ function RevenueCard() {
   );
 }
 
-function MenuItem({
-  icon: Icon,
-  label,
-  danger,
-}: {
-  icon: typeof Eye;
-  label: string;
-  danger?: boolean;
-}) {
+function MenuItem({ icon: Icon, label, danger }: { icon: typeof Eye; label: string; danger?: boolean }) {
   return (
     <button
       type="button"
@@ -246,12 +253,10 @@ function Legend({ color, label }: { color: string; label: string }) {
   );
 }
 
-function GrowthCard() {
+function GrowthCard({ growthData }: { growthData: DashboardStats["growthMetrics"] }) {
   return (
     <Card className="flex h-full flex-col">
-      <h2 className="text-lg font-bold text-black">
-        This Year&apos;s Growth
-      </h2>
+      <h2 className="text-lg font-bold text-black">This Year&apos;s Growth</h2>
       <div className="mt-4 grid flex-1 grid-cols-1 place-items-center gap-6 sm:grid-cols-3 sm:gap-4">
         {growthData.map((item) => (
           <GrowthRing key={item.label} {...item} />
@@ -261,17 +266,7 @@ function GrowthCard() {
   );
 }
 
-function GrowthRing({
-  label,
-  value,
-  color,
-  track,
-}: {
-  label: string;
-  value: number;
-  color: string;
-  track: string;
-}) {
+function GrowthRing({ label, value, color, track }: { label: string; value: number; color: string; track: string }) {
   const data = [
     { name: "value", value },
     { name: "rest", value: 100 - value },
@@ -301,9 +296,7 @@ function GrowthRing({
           {value}%
         </span>
       </div>
-      <span className="text-sm font-medium text-black">
-        {label}
-      </span>
+      <span className="text-sm font-medium text-black">{label}</span>
     </div>
   );
 }

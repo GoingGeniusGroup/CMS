@@ -8,7 +8,7 @@ import {
   Building2,
 } from "lucide-react";
 import { getPublicProjects } from "@/app/actions/projects";
-import { ProjectsGrid } from "./ProjectsGrid";
+import { ProjectsGrid } from "@/components/ProjectsGrid";
 
 // ─── Hero Section ────────────────────────────────────────────────────────────
 

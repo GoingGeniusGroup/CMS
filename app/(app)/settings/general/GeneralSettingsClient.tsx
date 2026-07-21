@@ -52,6 +52,16 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
   const isUsingRecommended =
     themeTextColor.toLowerCase() === recommendedTextColor.toLowerCase();
 
+  const hasChanges =
+    form.siteName !== initialData.siteName ||
+    form.logoUrl !== initialData.logoUrl ||
+    form.faviconUrl !== initialData.faviconUrl ||
+    themeColor !== (initialData.themeColor || "#6366f1") ||
+    themeTextColor !== (initialData.themeTextColor || "#ffffff") ||
+    description !== (initialData.description || "") ||
+    metaKeywords !== (initialData.metaKeywords || "") ||
+    baseColorEnabled !== initialData.baseColorEnabled;
+
   function set(field: keyof GeneralSettingData, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
@@ -63,6 +73,16 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
     if (/^#[0-9a-fA-F]{6}$/.test(value) || /^#[0-9a-fA-F]{3}$/.test(value)) {
       setThemeTextColor(getReadableTextColor(value));
     }
+  }
+
+  function handleCancel() {
+    setForm(initialData);
+    setThemeColor(initialData.themeColor || "#6366f1");
+    setThemeTextColor(initialData.themeTextColor || "#ffffff");
+    setDescription(initialData.description || "");
+    setMetaKeywords(initialData.metaKeywords || "");
+    setBaseColorEnabled(initialData.baseColorEnabled);
+    setMessage(null);
   }
 
   function handleSave() {
@@ -87,28 +107,36 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
   }
 
   return (
-    <Card className="lg:p-8">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
+    <>
+      <div className="sticky top-0 z-10 mb-6 rounded-lg border border-zinc-200 bg-white px-6 py-4 shadow-sm sm:px-8">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-500">
               <Lock className="h-5 w-5" />
             </span>
-            <h1 className="text-xl font-bold text-amber-500 sm:text-2xl">General Settings</h1>
+            <div>
+              <h1 className="text-xl font-bold text-amber-500 sm:text-2xl">General Settings</h1>
+              <p className="text-xs text-zinc-500">Manage the websites basic information and appearance</p>
+            </div>
           </div>
-          <p className="mt-2 text-sm text-black">
-            Manage the websites basic information and appearance
-          </p>
+          {hasChanges && (
+          <div className="flex items-center gap-3">
+            <button type="button" onClick={handleCancel} disabled={isPending}
+              className="rounded-lg border border-zinc-300 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50">
+              Cancel
+            </button>
+            <button type="button" onClick={handleSave} disabled={isPending}
+              className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
+              {isPending ? "Saving…" : "Save Changes"}
+            </button>
+          </div>
+          )}
         </div>
-        <Button onClick={handleSave} disabled={isPending} className="shrink-0">
-          {isPending ? "Saving…" : "Save Changes"}
-        </Button>
       </div>
 
       {message && (
         <p
-          className={`mt-4 rounded-lg px-4 py-2 text-sm font-medium ${
+          className={`mb-6 rounded-lg px-4 py-2 text-sm font-medium ${
             message.type === "success" ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"
           }`}
         >
@@ -116,6 +144,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
         </p>
       )}
 
+    <Card className="lg:p-8">
       {/* Logo + Favicon */}
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
@@ -270,5 +299,6 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
         <span className="text-sm font-semibold text-black">Enable</span>
       </div>
     </Card>
+    </>
   );
 }

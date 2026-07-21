@@ -10,6 +10,7 @@ import { RowActions } from "@/components/RowActions";
 import { Pagination } from "@/components/Pagination";
 import { PageHeader } from "@/components/PageHeader";
 import { InvoiceModal } from "@/components/InvoiceModal";
+import { InvoicePrintModal } from "@/components/InvoicePrintModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { ViewDetailModal } from "@/components/ViewDetailModal";
 import { getInvoices, deleteInvoice } from "@/app/actions/invoices";
@@ -20,9 +21,9 @@ type Invoice = {
   id: string;
   invoiceNumber: string;
   customerId: string | null;
-  projectId: string | null;
+  category: string | null;
   customer: { id: string; fullName: string } | null;
-  project: { id: string; title: string } | null;
+  projects: { project: { id: string; title: string } }[];
   amount: number;
   tax: number;
   total: number;
@@ -68,10 +69,12 @@ export function InvoicesClient({
   initialData,
   customers = [],
   projects = [],
+  printSettings,
 }: {
   initialData: InvoicesData;
   customers?: SelectOption[];
   projects?: SelectOption[];
+  printSettings?: { siteName: string; address: string; email: string; phone: string };
 }) {
   const [data, setData] = useState(initialData);
   const [currentPage, setCurrentPage] = useState(initialData.page);
@@ -81,6 +84,7 @@ export function InvoicesClient({
   const [modalOpen, setModalOpen] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState<Invoice | null>(null);
   const [viewItem, setViewItem] = useState<Invoice | null>(null);
+  const [printInvoice, setPrintInvoice] = useState<Invoice | null>(null);
 
   function refresh(page = currentPage) {
     startTransition(async () => {
@@ -106,6 +110,8 @@ export function InvoicesClient({
 
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
 
   async function handleDelete(id: string) {
     setDeleteId(id);
@@ -125,15 +131,16 @@ export function InvoicesClient({
     }
   }
 
-  const filtered = search.trim()
-    ? data.invoices.filter(
-        (inv) =>
-          inv.invoiceNumber.toLowerCase().includes(search.toLowerCase()) ||
-          (inv.customer?.fullName.toLowerCase().includes(search.toLowerCase())) ||
-          (inv.project?.title.toLowerCase().includes(search.toLowerCase())) ||
-          inv.status.toLowerCase().includes(search.toLowerCase())
-      )
-    : data.invoices;
+  const filtered = data.invoices.filter((inv) => {
+    const projectTitles = inv.projects?.map((p) => p.project.title).join(" ") || "";
+    const matchesSearch = !search.trim() ||
+      inv.invoiceNumber.toLowerCase().includes(search.toLowerCase()) ||
+      (inv.customer?.fullName.toLowerCase().includes(search.toLowerCase())) ||
+      projectTitles.toLowerCase().includes(search.toLowerCase()) ||
+      inv.status.toLowerCase().includes(search.toLowerCase());
+    const matchesStatus = statusFilter === "all" || inv.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -143,10 +150,23 @@ export function InvoicesClient({
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader title="Invoices" description="Manage and track all your invoices." />
         <div className="flex items-center gap-3">
-          <Button variant="secondary">
-            <Filter className="h-4 w-4" />
-            Filter
-          </Button>
+          <div className="relative">
+            <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
+              <Filter className="h-4 w-4" />
+              Filter{statusFilter !== "all" ? " (1)" : ""}
+            </Button>
+            {filterOpen && (
+              <div className="absolute right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
+                {["all", "Paid", "Pending", "Overdue"].map((s) => (
+                  <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {s === "all" ? "All Statuses" : s}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <Button onClick={handleAdd}>
             Add Invoice
             <Plus className="h-4 w-4" />
@@ -221,10 +241,9 @@ export function InvoicesClient({
                     <tr className="border-b border-gray-100 text-zinc-500">
                       <th className="px-6 py-4 font-medium">Invoice #</th>
                       <th className="px-6 py-4 font-medium">Customer</th>
-                      <th className="px-6 py-4 font-medium">Project</th>
+                      <th className="px-6 py-4 font-medium">Category</th>
+                      <th className="px-6 py-4 font-medium">Projects</th>
                       <th className="px-6 py-4 font-medium">Amount</th>
-                      <th className="px-6 py-4 font-medium">Issued</th>
-                      <th className="px-6 py-4 font-medium">Due</th>
                       <th className="px-6 py-4 font-medium">Status</th>
                       <th className="px-6 py-4 font-medium">Actions</th>
                     </tr>
@@ -234,13 +253,14 @@ export function InvoicesClient({
                       <tr key={inv.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
                         <td className="px-6 py-4 font-medium text-gray-900">{inv.invoiceNumber}</td>
                         <td className="px-6 py-4 text-zinc-600">{inv.customer?.fullName || "—"}</td>
-                        <td className="px-6 py-4 text-zinc-600">{inv.project?.title || "—"}</td>
+                        <td className="px-6 py-4 text-zinc-600">{inv.category || "—"}</td>
+                        <td className="px-6 py-4 text-zinc-600">
+                          {inv.projects?.length ? inv.projects.map((p) => p.project.title).join(", ") : "—"}
+                        </td>
                         <td className="px-6 py-4 text-zinc-700 font-medium">Rs. {inv.total.toLocaleString()}</td>
-                        <td className="px-6 py-4 text-zinc-600">{formatDate(inv.issuedDate)}</td>
-                        <td className="px-6 py-4 text-zinc-600">{formatDate(inv.dueDate)}</td>
                         <td className="px-6 py-4"><StatusBadge status={inv.status} /></td>
                         <td className="px-6 py-4">
-                          <RowActions onView={() => setViewItem(inv)} onEdit={() => handleEdit(inv)} onDelete={() => handleDelete(inv.id)} />
+                          <RowActions onView={() => setViewItem(inv)} onEdit={() => handleEdit(inv)} onPrint={() => setPrintInvoice(inv)} onDelete={() => handleDelete(inv.id)} />
                         </td>
                       </tr>
                     ))}
@@ -255,8 +275,12 @@ export function InvoicesClient({
                       <div>
                         <h3 className="font-semibold text-sm text-gray-900">{inv.invoiceNumber}</h3>
                         <p className="text-xs text-gray-600">{inv.customer?.fullName || "No customer"}</p>
+                        {inv.category && <p className="text-xs text-gray-400 mt-0.5">{inv.category}</p>}
                       </div>
                       <StatusBadge status={inv.status} />
+                    </div>
+                    <div className="text-xs text-gray-500 mb-2">
+                      {inv.projects?.length ? inv.projects.map((p) => p.project.title).join(", ") : "No projects"}
                     </div>
                     <div className="grid grid-cols-2 gap-2 mb-3 text-xs sm:text-sm">
                       <div>
@@ -268,7 +292,7 @@ export function InvoicesClient({
                         <span className="text-gray-900">{formatDate(inv.dueDate)}</span>
                       </div>
                     </div>
-                    <RowActions variant="buttons" onView={() => setViewItem(inv)} onEdit={() => handleEdit(inv)} onDelete={() => handleDelete(inv.id)} />
+                    <RowActions variant="buttons" onView={() => setViewItem(inv)} onEdit={() => handleEdit(inv)} onPrint={() => setPrintInvoice(inv)} onDelete={() => handleDelete(inv.id)} />
                   </div>
                 ))}
               </div>
@@ -299,9 +323,15 @@ export function InvoicesClient({
                     <StatusBadge status={inv.status} />
                   </div>
                   <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
+                    <div className="col-span-2">
+                      <span className="text-gray-400 text-xs block">Projects</span>
+                      <span className="text-gray-700 font-medium">
+                        {inv.projects?.length ? inv.projects.map((p) => p.project.title).join(", ") : "—"}
+                      </span>
+                    </div>
                     <div>
-                      <span className="text-gray-400 text-xs block">Project</span>
-                      <span className="text-gray-700 font-medium">{inv.project?.title || "—"}</span>
+                      <span className="text-gray-400 text-xs block">Category</span>
+                      <span className="text-gray-700">{inv.category || "—"}</span>
                     </div>
                     <div>
                       <span className="text-gray-400 text-xs block">Amount</span>
@@ -316,7 +346,7 @@ export function InvoicesClient({
                       <span className="text-gray-700">{formatDate(inv.dueDate)}</span>
                     </div>
                   </div>
-                  <RowActions variant="buttons" onView={() => setViewItem(inv)} onEdit={() => handleEdit(inv)} onDelete={() => handleDelete(inv.id)} />
+                  <RowActions variant="buttons" onView={() => setViewItem(inv)} onEdit={() => handleEdit(inv)} onPrint={() => setPrintInvoice(inv)} onDelete={() => handleDelete(inv.id)} />
                 </div>
               ))}
             </div>
@@ -354,6 +384,17 @@ export function InvoicesClient({
         onConfirm={handleDeleteConfirm}
       />
 
+      {/* Print Modal */}
+      <InvoicePrintModal
+        open={!!printInvoice}
+        onClose={() => setPrintInvoice(null)}
+        invoice={printInvoice}
+        companyName={printSettings?.siteName || "Your Company"}
+        companyAddress={printSettings?.address || ""}
+        companyEmail={printSettings?.email || ""}
+        companyPhone={printSettings?.phone || ""}
+      />
+
       {/* View Detail Modal */}
       <ViewDetailModal
         open={!!viewItem}
@@ -362,7 +403,8 @@ export function InvoicesClient({
         fields={[
           { label: "Invoice #", value: viewItem?.invoiceNumber },
           { label: "Customer", value: viewItem?.customer?.fullName },
-          { label: "Project", value: viewItem?.project?.title },
+          { label: "Category", value: viewItem?.category },
+          { label: "Projects", value: viewItem?.projects?.length ? viewItem.projects.map((p) => p.project.title).join(", ") : "—" },
           { label: "Amount", value: viewItem?.amount },
           { label: "Tax", value: viewItem?.tax },
           { label: "Total", value: viewItem?.total },

@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { FileText, Search, List, LayoutGrid, Folder } from "lucide-react";
+import { FileText, Search, List, LayoutGrid, Folder, Filter } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Topbar } from "@/components/Topbar";
+import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { StatCard } from "@/components/StatCard";
 import { Pagination } from "@/components/Pagination";
@@ -54,6 +55,8 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
   const [search, setSearch] = useState("");
   const [isPending, startTransition] = useTransition();
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [editingPage, setEditingPage] = useState<Page | null>(null);
   const [viewItem, setViewItem] = useState<Page | null>(null);
@@ -84,13 +87,13 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
     }
   }
 
-  const filtered = search.trim()
-    ? data.pages.filter(
-        (p) =>
-          p.title.toLowerCase().includes(search.toLowerCase()) ||
-          p.slug.toLowerCase().includes(search.toLowerCase())
-      )
-    : data.pages;
+  const filtered = data.pages.filter((p) => {
+    const matchesSearch = !search.trim() ||
+      p.title.toLowerCase().includes(search.toLowerCase()) ||
+      p.slug.toLowerCase().includes(search.toLowerCase());
+    const matchesStatus = statusFilter === "all" || p.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -102,6 +105,23 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
           title="Pages"
           description="View all website pages. Add new pages from Website Setup → Add New Page."
         />
+        <div className="relative">
+          <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
+            <Filter className="h-4 w-4" />
+            Filter{statusFilter !== "all" ? " (1)" : ""}
+          </Button>
+          {filterOpen && (
+            <div className="absolute right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
+              <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
+              {["all", "Published", "Draft"].map((s) => (
+                <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                  {s === "all" ? "All Statuses" : s}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Stats Cards */}

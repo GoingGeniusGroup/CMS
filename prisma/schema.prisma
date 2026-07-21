@@ -110,7 +110,7 @@ model Project {
   technologies String[]   @default([])
   results     Json?
   analytics   Analytics[]
-  invoices    Invoice[]
+  invoices    InvoiceProject[]
   customer    Customer?   @relation(fields: [customerId], references: [id])
   service     Service?    @relation(fields: [serviceId], references: [id])
   team        Team?       @relation(fields: [teamId], references: [id])
@@ -141,8 +141,8 @@ model Blog {
 model Invoice {
   id            String    @id @default(cuid())
   customerId    String?
-  projectId     String?
   invoiceNumber String    @unique
+  category      String?
   amount        Float     @default(0)
   tax           Float     @default(0)
   total         Float     @default(0)
@@ -152,9 +152,19 @@ model Invoice {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   customer      Customer? @relation(fields: [customerId], references: [id])
-  project       Project?  @relation(fields: [projectId], references: [id])
+  projects      InvoiceProject[]
 
   @@map("invoices")
+}
+
+model InvoiceProject {
+  invoiceId String
+  projectId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@id([invoiceId, projectId])
+  @@map("invoice_projects")
 }
 
 model Analytics {
@@ -173,6 +183,7 @@ model Analytics {
 model PopupSetting {
   id        String   @id @default(cuid())
   showPopup Boolean  @default(true)
+  // Stored as a serialized JSON string (see app/actions/popup.ts).
   content   String   @default("")
   updatedAt DateTime @updatedAt
 
@@ -351,10 +362,66 @@ model FooterSetting {
   copyrightText  String   @default("")
   playStoreLink  String   @default("")
   appStoreLink   String   @default("")
-  paymentLogoUrl String   @default("")
+  paymentLogos   Json     @default("[]")
   socials        Json     @default("[]")
   linkColumns    Json     @default("[]")
   updatedAt      DateTime @updatedAt
 
   @@map("footer_settings")
+}
+
+model Job {
+  id              String   @id @default(cuid())
+  title           String
+  department      String   @default("")
+  type            String   @default("Full-time")
+  mode            String   @default("Remote")
+  location        String   @default("")
+  salaryRange     String   @default("")
+  experience      String   @default("")
+  vacanciesCount  Int      @default(1)
+  deadline        DateTime?
+  isActive        Boolean  @default(true)
+  isFeatured      Boolean  @default(false)
+  tags            String[] @default([])
+  description     String   @default("")
+  responsibilities String[] @default([])
+  requirements    String[] @default([])
+  thumbnailUrl    String   @default("")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  applicants      Applicant[]
+
+  @@map("jobs")
+}
+
+model Applicant {
+  id              String   @id @default(cuid())
+  jobId           String
+  candidateName   String
+  email           String
+  phone           String   @default("")
+  experienceYears String   @default("")
+  currentCompany  String   @default("")
+  portfolioUrl    String   @default("")
+  resumeName      String   @default("")
+  status          String   @default("Submitted")
+  appliedDate     DateTime @default(now())
+  coverNote       String   @default("")
+  job             Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@map("job_applicants")
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @default("")
+  category  String   @default("")
+  order     Int      @default(0)
+  status    String   @default("Active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("faqs")
 }

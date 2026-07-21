@@ -61,6 +61,10 @@ export function BlogsClient({
   const [search, setSearch] = useState("");
   const [isPending, startTransition] = useTransition();
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [authorFilter, setAuthorFilter] = useState("all");
 
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
@@ -109,15 +113,19 @@ export function BlogsClient({
     }
   }
 
-  // Client-side search filter
-  const filtered = search.trim()
-    ? data.blogs.filter(
-        (b) =>
-          b.title.toLowerCase().includes(search.toLowerCase()) ||
-          b.slug.toLowerCase().includes(search.toLowerCase()) ||
-          (b.category && b.category.toLowerCase().includes(search.toLowerCase()))
-      )
-    : data.blogs;
+  const blogCategories = [...new Set(data.blogs.map((b) => b.category).filter(Boolean))] as string[];
+  const blogAuthors = [...new Set(data.blogs.map((b) => b.author?.fullName).filter(Boolean))] as string[];
+
+  const filtered = data.blogs.filter((b) => {
+    const matchesSearch = !search.trim() ||
+      b.title.toLowerCase().includes(search.toLowerCase()) ||
+      b.slug.toLowerCase().includes(search.toLowerCase()) ||
+      (b.category && b.category.toLowerCase().includes(search.toLowerCase()));
+    const matchesStatus = statusFilter === "all" || b.status === statusFilter;
+    const matchesCategory = categoryFilter === "all" || b.category === categoryFilter;
+    const matchesAuthor = authorFilter === "all" || b.author?.fullName === authorFilter;
+    return matchesSearch && matchesStatus && matchesCategory && matchesAuthor;
+  });
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -127,10 +135,47 @@ export function BlogsClient({
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader title="Blog" description="Manage all your blogs." />
         <div className="flex items-center gap-3">
-          <Button variant="secondary">
-            <Filter className="h-4 w-4" />
-            Filter
-          </Button>
+          <div className="relative">
+            <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
+              <Filter className="h-4 w-4" />
+              Filter{(statusFilter !== "all" || categoryFilter !== "all" || authorFilter !== "all") ? " (1)" : ""}
+            </Button>
+            {filterOpen && (
+              <div className="absolute right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
+                {["all", "Published", "Draft"].map((s) => (
+                  <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {s === "all" ? "All Statuses" : s}
+                  </button>
+                ))}
+                <div className="my-2 border-t border-gray-100" />
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Category</p>
+                <button type="button" onClick={() => { setCategoryFilter("all"); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${categoryFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                  All Categories
+                </button>
+                {blogCategories.map((c) => (
+                  <button key={c} type="button" onClick={() => { setCategoryFilter(c); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${categoryFilter === c ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {c}
+                  </button>
+                ))}
+                <div className="my-2 border-t border-gray-100" />
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Author</p>
+                <button type="button" onClick={() => { setAuthorFilter("all"); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${authorFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                  All Authors
+                </button>
+                {blogAuthors.map((a) => (
+                  <button key={a} type="button" onClick={() => { setAuthorFilter(a); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${authorFilter === a ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {a}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <Button onClick={handleAdd}>
             Add Blog
             <Plus className="h-4 w-4" />
@@ -209,6 +254,7 @@ export function BlogsClient({
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left p-4 text-sm font-semibold text-gray-700 w-16">#</th>
+                  <th className="text-left p-4 text-sm font-semibold text-gray-700 w-20">Thumbnail</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Title</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Slug</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Category</th>
@@ -222,6 +268,16 @@ export function BlogsClient({
                   <tr key={blog.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                     <td className="p-4 text-sm text-gray-600">
                       {String((currentPage - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}
+                    </td>
+                    <td className="p-4">
+                      <div className="h-10 w-10 overflow-hidden rounded-lg bg-zinc-100 border border-zinc-200">
+                        {blog.thumbnail ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={blog.thumbnail} alt="" className="h-full w-full object-cover" />
+                        ) : (
+                          <div className="h-full w-full bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                        )}
+                      </div>
                     </td>
                     <td className="p-4 text-sm font-medium text-gray-900">{blog.title}</td>
                     <td className="p-4 text-sm text-gray-600">{blog.slug}</td>
@@ -253,6 +309,14 @@ export function BlogsClient({
                   <div className="text-xs text-gray-500 font-medium w-6">
                     {String((currentPage - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}
                   </div>
+                  <div className="h-9 w-9 shrink-0 overflow-hidden rounded-lg bg-zinc-100 border border-zinc-200">
+                    {blog.thumbnail ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={blog.thumbnail} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      <div className="h-full w-full bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                    )}
+                  </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm text-gray-900 mb-1">{blog.title}</h3>
                     <p className="text-xs text-gray-600 mb-2 truncate">{blog.slug}</p>
@@ -274,33 +338,49 @@ export function BlogsClient({
           {filtered.map((blog) => (
             <div
               key={blog.id}
-              className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
+              className="group rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 overflow-hidden"
             >
-              {/* Title & Status */}
-              <div className="mb-3 flex items-start justify-between gap-2">
-                <h3 className="text-sm font-bold text-gray-900 line-clamp-2">{blog.title}</h3>
-                <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-medium ${
-                  blog.status === "Published" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                }`}>
-                  {blog.status}
-                </span>
-              </div>
-
-              {/* Slug */}
-              <p className="mb-3 text-xs text-gray-400 truncate">{blog.slug}</p>
-
-              {/* Meta */}
-              <div className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
-                {blog.category && (
-                  <span>Category: <span className="text-gray-700">{blog.category}</span></span>
-                )}
-                {blog.author && (
-                  <span>Author: <span className="text-gray-700">{blog.author.fullName}</span></span>
+              {/* Thumbnail */}
+              <div className="aspect-[3/2] w-full relative bg-zinc-50 border-b border-zinc-100 overflow-hidden">
+                {blog.thumbnail ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={blog.thumbnail}
+                    alt={blog.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="h-full w-full bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
                 )}
               </div>
 
-              {/* Actions */}
-              <RowActions variant="buttons" onView={() => setViewItem(blog)} onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
+              <div className="p-5">
+                {/* Title & Status */}
+                <div className="mb-3 flex items-start justify-between gap-2">
+                  <h3 className="text-sm font-bold text-gray-900 line-clamp-2">{blog.title}</h3>
+                  <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-medium ${
+                    blog.status === "Published" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                  }`}>
+                    {blog.status}
+                  </span>
+                </div>
+
+                {/* Slug */}
+                <p className="mb-3 text-xs text-gray-400 truncate">{blog.slug}</p>
+
+                {/* Meta */}
+                <div className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                  {blog.category && (
+                    <span>Category: <span className="text-gray-700">{blog.category}</span></span>
+                  )}
+                  {blog.author && (
+                    <span>Author: <span className="text-gray-700">{blog.author.fullName}</span></span>
+                  )}
+                </div>
+
+                {/* Actions */}
+                <RowActions variant="buttons" onView={() => setViewItem(blog)} onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
+              </div>
             </div>
           ))}
         </div>

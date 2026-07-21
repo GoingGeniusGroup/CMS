@@ -2,7 +2,6 @@
 
 import { useState, useTransition } from "react";
 import { Search } from "lucide-react";
-import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { ImageUploader } from "@/components/ImageUploader";
 import { saveSeoSettings, type SeoData } from "@/app/actions/seo";
@@ -15,6 +14,20 @@ export default function SeoClient({ initialData }: { initialData: SeoData }) {
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<string | null>(null);
 
+  const hasChanges =
+    metaTitle !== initialData.metaTitle ||
+    metaDescription !== initialData.metaDescription ||
+    metaKeywords !== initialData.metaKeywords ||
+    metaImage !== initialData.metaImage;
+
+  function handleCancel() {
+    setMetaTitle(initialData.metaTitle);
+    setMetaDescription(initialData.metaDescription);
+    setMetaKeywords(initialData.metaKeywords);
+    setMetaImage(initialData.metaImage);
+    setMessage(null);
+  }
+
   function handleSave() {
     startTransition(async () => {
       const result = await saveSeoSettings({ metaTitle, metaDescription, metaKeywords, metaImage });
@@ -24,25 +37,45 @@ export default function SeoClient({ initialData }: { initialData: SeoData }) {
   }
 
   return (
-    <Card className="p-6 sm:p-8">
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold" style={{ color: "#f0a500" }}>
-            <Search className="h-5 w-5" />
-            Global SEO Settings
-          </h1>
-          <p className="mt-1 text-sm font-semibold text-zinc-800">
-            Manage global SEO information for your website.
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          {message && <p className="text-sm text-zinc-500">{message}</p>}
-          <Button onClick={handleSave} disabled={isPending} className="w-full shrink-0 sm:w-auto">
-            {isPending ? "Saving..." : "Save Changes"}
-          </Button>
+    <>
+      {/* Sticky Top Bar */}
+      <div className="sticky top-0 z-10 mb-6 rounded-lg border border-zinc-200 bg-white px-6 py-4 shadow-sm sm:px-8">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-500">
+              <Search className="h-5 w-5" />
+            </span>
+            <div>
+              <h1 className="text-xl font-bold text-amber-500 sm:text-2xl">Global SEO Settings</h1>
+              <p className="text-xs text-zinc-500">Manage global SEO information for your website.</p>
+            </div>
+          </div>
+          {hasChanges && (
+          <div className="flex items-center gap-3">
+            <button type="button" onClick={handleCancel} disabled={isPending}
+              className="rounded-lg border border-zinc-300 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50">
+              Cancel
+            </button>
+            <button type="button" onClick={handleSave} disabled={isPending}
+              className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
+              {isPending ? "Saving..." : "Save Changes"}
+            </button>
+          </div>
+          )}
         </div>
       </div>
 
+      {message && (
+        <div className={`mb-6 rounded-lg border px-4 py-3 text-sm ${
+          message.includes("Failed") || message.includes("error")
+            ? "border-red-200 bg-red-50 text-red-700"
+            : "border-green-200 bg-green-50 text-green-700"
+        }`}>
+          {message}
+        </div>
+      )}
+
+    <Card className="p-6 sm:p-8">
       <div className="space-y-6">
         <div>
           <label className="mb-2 block text-sm font-bold text-zinc-800">Meta Title</label>
@@ -83,5 +116,6 @@ export default function SeoClient({ initialData }: { initialData: SeoData }) {
         </div>
       </div>
     </Card>
+    </>
   );
 }

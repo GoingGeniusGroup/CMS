@@ -117,150 +117,156 @@ export function BlogModal({
       onClick={onClose}
     >
       <div
-        className="relative max-h-[95vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-white p-6 shadow-xl sm:p-8"
+        className="relative flex max-h-[95vh] w-full max-w-3xl flex-col rounded-2xl bg-white shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 text-zinc-400 hover:text-zinc-700"
+          className="absolute right-4 top-4 z-10 text-zinc-400 hover:text-zinc-700"
           aria-label="Close"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <h2 className="text-xl font-bold text-gray-900">
-          {isEditing ? "Edit Blog" : "Add Blog"}
-        </h2>
+        <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
+          <h2 className="text-xl font-bold text-gray-900">
+            {isEditing ? "Edit Blog" : "Add Blog"}
+          </h2>
+        </div>
 
-        <form onSubmit={handleSubmit} className="mt-5 space-y-4">
-          {error && (
-            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              {error}
-            </div>
-          )}
+        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
+          <div className="flex-1 overflow-y-auto px-6 sm:px-8">
+            <div className="space-y-4 pt-5">
+              {error && (
+                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  {error}
+                </div>
+              )}
 
-          {/* Title */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Title <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              required
-              value={title}
-              onChange={(e) => handleTitleChange(e.target.value)}
-              placeholder="Blog title"
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
-            />
-          </div>
-
-          {/* Slug */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Slug <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              required
-              value={slug}
-              onChange={(e) => setSlug(e.target.value)}
-              placeholder="blog-slug"
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
-            />
-          </div>
-
-          {/* Content — Tiptap Editor */}
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Content
-            </label>
-            <TiptapEditor
-              content={content as JSONContent | null}
-              onChange={(json) => setContent(json)}
-              placeholder="Start writing your blog post..."
-            />
-          </div>
-
-          {/* Category + Author + ReadTime row */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Category</label>
-              <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="e.g. Technology" className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Author</label>
-              <select value={authorId} onChange={(e) => setAuthorId(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40">
-                <option value="">Select author</option>
-                {authors.map((a) => (<option key={a.id} value={a.id}>{a.fullName}</option>))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Read Time</label>
-              <input type="text" value={readTime} onChange={(e) => setReadTime(e.target.value)} placeholder="e.g. 8 min read" className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40" />
-            </div>
-          </div>
-
-          {/* Excerpt */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Excerpt</label>
-            <textarea rows={2} value={excerpt} onChange={(e) => setExcerpt(e.target.value)} placeholder="Short summary shown in blog cards..." className="mt-1 w-full resize-none rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40" />
-          </div>
-
-          {/* Tags */}
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Tags</label>
-            {tags.length > 0 && (
-              <div className="mb-2 flex flex-wrap gap-1.5">
-                {tags.map((tag, i) => (
-                  <span key={i} className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-600">
-                    {tag}
-                    <button type="button" onClick={() => setTags(tags.filter((_, idx) => idx !== i))} className="text-indigo-400 hover:text-indigo-700">×</button>
-                  </span>
-                ))}
+              {/* Title */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Title <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={title}
+                  onChange={(e) => handleTitleChange(e.target.value)}
+                  placeholder="Blog title"
+                  className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
+                />
               </div>
-            )}
-            <input
-              type="text"
-              placeholder="Type a tag and press Enter"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  const val = (e.target as HTMLInputElement).value.trim();
-                  if (val && !tags.includes(val)) {
-                    setTags([...tags, val]);
-                    (e.target as HTMLInputElement).value = "";
-                  }
-                }
-              }}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
-            />
+
+              {/* Slug */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Slug <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  placeholder="blog-slug"
+                  className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
+                />
+              </div>
+
+              {/* Content — Tiptap Editor */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Content
+                </label>
+                <TiptapEditor
+                  content={content as JSONContent | null}
+                  onChange={(json) => setContent(json)}
+                  placeholder="Start writing your blog post..."
+                />
+              </div>
+
+              {/* Category + Author + ReadTime row */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Category</label>
+                  <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="e.g. Technology" className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Author</label>
+                  <select value={authorId} onChange={(e) => setAuthorId(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40">
+                    <option value="">Select author</option>
+                    {authors.map((a) => (<option key={a.id} value={a.id}>{a.fullName}</option>))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Read Time</label>
+                  <input type="text" value={readTime} onChange={(e) => setReadTime(e.target.value)} placeholder="e.g. 8 min read" className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40" />
+                </div>
+              </div>
+
+              {/* Excerpt */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Excerpt</label>
+                <textarea rows={2} value={excerpt} onChange={(e) => setExcerpt(e.target.value)} placeholder="Short summary shown in blog cards..." className="mt-1 w-full resize-none rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40" />
+              </div>
+
+              {/* Tags */}
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">Tags</label>
+                {tags.length > 0 && (
+                  <div className="mb-2 flex flex-wrap gap-1.5">
+                    {tags.map((tag, i) => (
+                      <span key={i} className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-600">
+                        {tag}
+                        <button type="button" onClick={() => setTags(tags.filter((_, idx) => idx !== i))} className="text-indigo-400 hover:text-indigo-700">×</button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <input
+                  type="text"
+                  placeholder="Type a tag and press Enter"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      const val = (e.target as HTMLInputElement).value.trim();
+                      if (val && !tags.includes(val)) {
+                        setTags([...tags, val]);
+                        (e.target as HTMLInputElement).value = "";
+                      }
+                    }
+                  }}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
+                />
+              </div>
+
+              {/* Thumbnail */}
+              <ImageUploader
+                label="Thumbnail"
+                value={thumbnail}
+                onChange={(url) => setThumbnail(url || "")}
+              />
+
+              {/* Status */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Status <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value as "Published" | "Draft")}
+                  className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
+                >
+                  <option value="Draft">Draft</option>
+                  <option value="Published">Published</option>
+                </select>
+              </div>
+            </div>
           </div>
 
-          {/* Thumbnail */}
-          <ImageUploader
-            label="Thumbnail"
-            value={thumbnail}
-            onChange={(url) => setThumbnail(url || "")}
-          />
-
-          {/* Status */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Status <span className="text-red-500">*</span>
-            </label>
-            <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value as "Published" | "Draft")}
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
-            >
-              <option value="Draft">Draft</option>
-              <option value="Published">Published</option>
-            </select>
-          </div>
-
-          {/* Buttons */}
-          <div className="flex items-center justify-end gap-3 pt-2">
+          {/* Buttons - sticky */}
+          <div className="flex shrink-0 items-center justify-end gap-3 border-t border-zinc-200 px-6 py-4 sm:px-8">
             <Button variant="secondary" onClick={onClose} type="button">
               Cancel
             </Button>

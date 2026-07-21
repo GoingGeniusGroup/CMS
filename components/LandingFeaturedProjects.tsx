@@ -1,15 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronRight, Layers } from "lucide-react";
 import { getPublicProjects } from "@/app/actions/projects";
+import { ProjectDetailModal } from "@/components/ProjectDetailModal";
 
 type ProjectData = {
   id: string;
   title: string;
   description: string | null;
+  category: string | null;
   thumbnail: string | null;
   budget: number | null;
   startDate: string | null;
@@ -19,6 +20,8 @@ type ProjectData = {
 
 export function LandingFeaturedProjects() {
   const [projects, setProjects] = useState<ProjectData[]>([]);
+  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
+  const [flippedIds, setFlippedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     getPublicProjects().then((data) =>
@@ -26,76 +29,124 @@ export function LandingFeaturedProjects() {
     );
   }, []);
 
+  const toggleFlip = (id: string) => {
+    setFlippedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
   if (projects.length === 0) return null;
 
-  const featured = projects.slice(0, 4);
-
   return (
-    <section id="portfolio" className="bg-white px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">
+    <>
+      <section id="portfolio" className="bg-white px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 text-center">
+            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-indigo-600">
               Featured Works
             </p>
-            <h2 className="mt-2 text-2xl font-extrabold text-zinc-900">
+            <h2 className="text-2xl font-extrabold text-zinc-900 sm:text-3xl">
               Recent Success Stories
             </h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-500">
+              Explore our latest projects and see how we help businesses grow.
+            </p>
           </div>
-          <Link
-            href="/our-projects"
-            className="text-sm font-semibold text-indigo-600 hover:underline"
-          >
-            View All Projects
-          </Link>
-        </div>
 
-        <div className="grid gap-6 sm:grid-cols-2">
-          {featured.map((project) => (
-            <div
-              key={project.id}
-              className="group rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {projects.slice(0, 4).map((project) => {
+              const isFlipped = flippedIds.has(project.id);
+              return (
+                <div
+                  key={project.id}
+                  className="group perspective-[1000px] sm:h-[340px]"
+                >
+                  <div
+                    className={`relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] sm:group-hover:[transform:rotateY(180deg)] ${
+                      isFlipped ? "[transform:rotateY(180deg)]" : ""
+                    }`}
+                  >
+                    {/* Front */}
+                    <div className="absolute inset-0 [backface-visibility:hidden] rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm flex flex-col overflow-hidden">
+                      {project.thumbnail ? (
+                        <div className="mb-4 aspect-square w-full overflow-hidden rounded-xl relative bg-zinc-50 border border-zinc-100">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={project.thumbnail}
+                            alt={project.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="mb-4 flex aspect-square w-full items-center justify-center rounded-xl bg-gradient-to-br from-indigo-50 to-indigo-100">
+                          <Layers className="h-10 w-10 text-indigo-300" strokeWidth={1.5} />
+                        </div>
+                      )}
+                      <h3 className="text-base font-bold text-zinc-900 text-center">
+                        {project.title}
+                      </h3>
+                      <div className="mt-auto flex pt-3">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFlip(project.id);
+                          }}
+                          className="sm:hidden flex h-8 w-8 items-center justify-center rounded-full border border-zinc-200 text-zinc-400 transition-colors hover:border-indigo-300 hover:text-indigo-500"
+                        >
+                          <ChevronRight className="h-4 w-4" />
+                        </button>
+                        <span className="hidden sm:flex h-8 w-8 items-center justify-center rounded-full border border-zinc-200 text-zinc-400">
+                          <ChevronRight className="h-4 w-4" />
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Back */}
+                    <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm flex flex-col items-center justify-center gap-4">
+                      <h3 className="text-base font-bold text-zinc-900 text-center">
+                        {project.title}
+                      </h3>
+                      <p className="text-sm text-zinc-500 text-center line-clamp-3">
+                        {project.description || "No description available."}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedProject(project);
+                        }}
+                        className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
+                      >
+                        View Case Study
+                        <ArrowRight className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link
+              href="/our-projects"
+              className="inline-flex items-center rounded-lg border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-indigo-400 hover:text-indigo-600"
             >
-              {/* Thumbnail */}
-              {project.thumbnail ? (
-                <div className="relative aspect-[3/2] overflow-hidden rounded-xl bg-zinc-50">
-                  <Image
-                    src={project.thumbnail}
-                    alt={project.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-              ) : (
-                <div className="flex aspect-[3/2] items-center justify-center rounded-xl bg-gradient-to-br from-indigo-50 to-purple-100">
-                  <span className="text-4xl font-extrabold text-indigo-200">
-                    {project.title.charAt(0)}
-                  </span>
-                </div>
-              )}
-
-              {/* Content */}
-              <h3 className="mt-5 text-base font-bold text-zinc-900">
-                {project.title}
-              </h3>
-              {project.description && (
-                <p className="mt-2 text-sm leading-relaxed text-zinc-500 line-clamp-2">
-                  {project.description}
-                </p>
-              )}
-
-              <Link
-                href={`/portfolio/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
-                className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 hover:gap-2.5 transition-all"
-              >
-                View Project
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          ))}
+              View All Projects
+            </Link>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <ProjectDetailModal
+        open={!!selectedProject}
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
+    </>
   );
 }

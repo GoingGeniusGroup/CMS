@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -16,12 +17,55 @@ import {
   Code2,
   CheckCircle2,
 } from "lucide-react";
+import { getJobById, type JobRow } from "@/app/actions/jobs";
+
+/* ─── Loading skeleton ───────────────────────────────────── */
+function Skeleton() {
+  return (
+    <div className="min-h-screen bg-white">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
+        <div className="mt-3 h-8 w-64 animate-pulse rounded bg-gray-200" />
+        <div className="mt-3 flex gap-4">
+          <div className="h-4 w-20 animate-pulse rounded bg-gray-200" />
+          <div className="h-4 w-20 animate-pulse rounded bg-gray-200" />
+          <div className="h-4 w-20 animate-pulse rounded bg-gray-200" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Not found ──────────────────────────────────────────── */
+function NotFound() {
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+      <Briefcase className="h-12 w-12 text-gray-300" />
+      <p className="text-lg font-semibold text-gray-700">Job not found</p>
+      <Link href="/career" className="text-sm text-indigo-600 hover:underline">
+        &larr; Back to Careers
+      </Link>
+    </div>
+  );
+}
 
 /* ─── Page ───────────────────────────────────────────────── */
 export default function ApplyPage() {
+  const searchParams = useSearchParams();
+  const jobId = searchParams.get("jobId");
+
+  const [job, setJob] = useState<JobRow | null | undefined>(undefined);
   const [experienceLevel, setExperienceLevel] = useState("");
   const [location, setLocation] = useState("");
   const [confirmed, setConfirmed] = useState(false);
+
+  useEffect(() => {
+    if (!jobId) { setJob(null); return; }
+    getJobById(jobId).then(setJob);
+  }, [jobId]);
+
+  if (job === undefined) return <Skeleton />;
+  if (job === null) return <NotFound />;
 
   return (
     <div className="min-h-screen bg-white">
@@ -32,17 +76,17 @@ export default function ApplyPage() {
             Apply For
           </p>
           <h1 className="mt-1 text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Frontend Developer
+            {job.title}
           </h1>
           <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-gray-500">
             <span className="flex items-center gap-1.5">
-              <Briefcase className="h-4 w-4" /> Developer
+              <Briefcase className="h-4 w-4" /> {job.department}
             </span>
             <span className="flex items-center gap-1.5">
-              <Briefcase className="h-4 w-4" /> Full-time
+              <Briefcase className="h-4 w-4" /> {job.type}
             </span>
             <span className="flex items-center gap-1.5">
-              <MapPin className="h-4 w-4" /> Remote
+              <MapPin className="h-4 w-4" /> {job.mode}
             </span>
           </div>
         </div>
@@ -58,15 +102,9 @@ export default function ApplyPage() {
                 </span>
                 <div>
                   <p className="text-xs text-gray-500">You are applying for:</p>
-                  <p className="text-sm font-bold text-gray-900">Frontend Developer</p>
+                  <p className="text-sm font-bold text-gray-900">{job.title}</p>
                 </div>
               </div>
-              <Link
-                href="/career"
-                className="text-xs font-semibold text-indigo-600 hover:text-indigo-700"
-              >
-                ✏️ Change Position
-              </Link>
             </div>
 
             {/* Personal Information */}
@@ -330,24 +368,42 @@ export default function ApplyPage() {
               <div className="space-y-3 text-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500">Position</span>
-                  <span className="font-semibold text-gray-900">Frontend Developer</span>
+                  <span className="font-semibold text-gray-900">{job.title}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500">Department</span>
-                  <span className="font-semibold text-gray-900">Development</span>
+                  <span className="font-semibold text-gray-900">{job.department}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500">Employment Type</span>
-                  <span className="font-semibold text-gray-900">Full-time</span>
+                  <span className="font-semibold text-gray-900">{job.type}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500">Work Mode</span>
-                  <span className="font-semibold text-gray-900">Remote</span>
+                  <span className="font-semibold text-gray-900">{job.mode}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500">Posted On</span>
-                  <span className="font-semibold text-gray-900">May 25, 2024</span>
+                  <span className="font-semibold text-gray-900">{job.createdAt}</span>
                 </div>
+                {job.location && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-500">Location</span>
+                    <span className="font-semibold text-gray-900">{job.location}</span>
+                  </div>
+                )}
+                {job.salaryRange && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-500">Salary</span>
+                    <span className="font-semibold text-gray-900">{job.salaryRange}</span>
+                  </div>
+                )}
+                {job.experience && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-500">Experience</span>
+                    <span className="font-semibold text-gray-900">{job.experience}</span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -360,30 +416,21 @@ export default function ApplyPage() {
                 <h3 className="text-sm font-bold text-gray-900">What You&apos;ll Do</h3>
               </div>
               <div className="space-y-3">
-                <div className="flex gap-2">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-indigo-500 mt-0.5" />
-                  <p className="text-xs leading-relaxed text-gray-600">
-                    Build responsive and interactive user interfaces using modern frameworks.
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-indigo-500 mt-0.5" />
-                  <p className="text-xs leading-relaxed text-gray-600">
-                    Collaborate with designers and backend developers to bridge technology and design.
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-indigo-500 mt-0.5" />
-                  <p className="text-xs leading-relaxed text-gray-600">
-                    Optimize applications for maximum speed, scalability and cross-browser compatibility.
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-indigo-500 mt-0.5" />
-                  <p className="text-xs leading-relaxed text-gray-600">
-                    Write clean, reusable, and efficient code following industry best practices.
-                  </p>
-                </div>
+                {job.responsibilities.length > 0
+                  ? job.responsibilities.map((r, i) => (
+                      <div key={i} className="flex gap-2">
+                        <CheckCircle2 className="h-4 w-4 shrink-0 text-indigo-500 mt-0.5" />
+                        <p className="text-xs leading-relaxed text-gray-600">{r}</p>
+                      </div>
+                    ))
+                  : (
+                      <div className="flex gap-2">
+                        <CheckCircle2 className="h-4 w-4 shrink-0 text-indigo-500 mt-0.5" />
+                        <p className="text-xs leading-relaxed text-gray-600">
+                          Build responsive and interactive user interfaces using modern frameworks.
+                        </p>
+                      </div>
+                    )}
               </div>
             </div>
 
@@ -396,14 +443,20 @@ export default function ApplyPage() {
                 <h3 className="text-sm font-bold text-gray-900">Required Skills</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {["React", "TypeScript", "Next.js", "Tailwind CSS", "HTML", "CSS", "JavaScript", "Git"].map((skill) => (
-                  <span
-                    key={skill}
-                    className="rounded-md bg-indigo-50 px-2.5 py-1 text-[11px] font-medium text-indigo-700"
-                  >
-                    {skill}
-                  </span>
-                ))}
+                {job.tags.length > 0
+                  ? job.tags.map((skill) => (
+                      <span
+                        key={skill}
+                        className="rounded-md bg-indigo-50 px-2.5 py-1 text-[11px] font-medium text-indigo-700"
+                      >
+                        {skill}
+                      </span>
+                    ))
+                  : (
+                      <span className="rounded-md bg-indigo-50 px-2.5 py-1 text-[11px] font-medium text-indigo-700">
+                        React
+                      </span>
+                    )}
               </div>
             </div>
 

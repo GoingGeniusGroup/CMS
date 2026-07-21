@@ -3,6 +3,26 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 
+/**
+ * The `content` column is stored as a serialized JSON string (TEXT column).
+ * This helper safely parses it back into an object, tolerating empty/invalid
+ * values as well as values that are already objects.
+ */
+function parseContent(value: unknown): Record<string, unknown> {
+  if (value && typeof value === "object") {
+    return value as Record<string, unknown>;
+  }
+  if (typeof value === "string" && value.trim() !== "") {
+    try {
+      const parsed = JSON.parse(value);
+      return parsed && typeof parsed === "object" ? (parsed as Record<string, unknown>) : {};
+    } catch {
+      return {};
+    }
+  }
+  return {};
+}
+
 /** Returns the single popup settings record (or defaults if none exists). */
 export async function getPopupSettings() {
   const session = await auth();
@@ -10,27 +30,29 @@ export async function getPopupSettings() {
 
   const setting = await prisma.popupSetting.findFirst();
   if (!setting) {
-    return { id: null, showPopup: true, content: "" };
+    return { id: null, showPopup: true, content: {} };
   }
-  return { id: setting.id, showPopup: setting.showPopup, content: setting.content };
+  return { id: setting.id, showPopup: setting.showPopup, content: parseContent(setting.content) };
 }
 
 /** Upsert the popup settings record. */
-export async function savePopupSettings(data: { showPopup: boolean; content: string }) {
+export async function savePopupSettings(data: { showPopup: boolean; content: unknown }) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
   try {
     const existing = await prisma.popupSetting.findFirst();
+    // Persist as a serialized JSON string to match the TEXT `content` column.
+    const cleanContent = JSON.stringify(data.content ?? {});
 
     if (existing) {
       await prisma.popupSetting.update({
         where: { id: existing.id },
-        data: { showPopup: data.showPopup, content: data.content },
+        data: { showPopup: data.showPopup, content: cleanContent },
       });
     } else {
       await prisma.popupSetting.create({
-        data: { showPopup: data.showPopup, content: data.content },
+        data: { showPopup: data.showPopup, content: cleanContent },
       });
     }
 
@@ -45,7 +67,7 @@ export async function savePopupSettings(data: { showPopup: boolean; content: str
 export async function getPublicPopupSettings() {
   const setting = await prisma.popupSetting.findFirst();
   if (!setting) {
-    return { showPopup: true, content: "" };
+    return { showPopup: true, content: {} };
   }
-  return { showPopup: setting.showPopup, content: setting.content };
+  return { showPopup: setting.showPopup, content: parseContent(setting.content) };
 }

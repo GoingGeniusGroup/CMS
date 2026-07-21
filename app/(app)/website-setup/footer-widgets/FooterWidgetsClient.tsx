@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Plus, Trash2, Loader2 } from "lucide-react";
 import { Card } from "@/components/Card";
 import { ImageUploader } from "@/components/ImageUploader";
@@ -15,7 +15,9 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
   const [copyrightText, setCopyrightText] = useState(initialData.copyrightText);
   const [playStoreLink, setPlayStoreLink] = useState(initialData.playStoreLink);
   const [appStoreLink, setAppStoreLink] = useState(initialData.appStoreLink);
-  const [paymentLogoUrl, setPaymentLogoUrl] = useState<string | null>(initialData.paymentLogoUrl || null);
+  const [paymentLogos, setPaymentLogos] = useState<string[]>(initialData.paymentLogos);
+  const paymentLogosRef = useRef(paymentLogos);
+  useEffect(() => { paymentLogosRef.current = paymentLogos; }, [paymentLogos]);
   const [socials, setSocials] = useState<SocialEntry[]>(initialData.socials);
   const [linkColumns, setLinkColumns] = useState<LinkColumn[]>(initialData.linkColumns);
 
@@ -52,7 +54,7 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
       footerLogoUrl: footerLogoUrl || "",
       brandText,
       aboutDesc, copyrightText, playStoreLink, appStoreLink,
-      paymentLogoUrl: paymentLogoUrl || "",
+      paymentLogos,
       socials, linkColumns,
     });
     setIsSaving(false);
@@ -62,18 +64,40 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
 
   const inputCls = "w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm text-zinc-700 outline-none focus:border-indigo-400 focus:bg-white";
 
+  function handleCancel() {
+    setFooterLogoUrl(initialData.footerLogoUrl || null);
+    setBrandText(initialData.brandText);
+    setAboutDesc(initialData.aboutDesc);
+    setCopyrightText(initialData.copyrightText);
+    setPlayStoreLink(initialData.playStoreLink);
+    setAppStoreLink(initialData.appStoreLink);
+    setPaymentLogos(initialData.paymentLogos);
+    setSocials(initialData.socials);
+    setLinkColumns(initialData.linkColumns);
+    setMessage(null);
+  }
+
   return (
-    <div className="space-y-6">
-      {/* ── Header with Save button ── */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-bold text-zinc-900">Footer Widgets</h1>
-          <p className="text-sm text-zinc-500">Manage all footer content and appearance.</p>
+    <div className="flex flex-col">
+      {/* Sticky Top Bar */}
+      <div className="sticky top-0 z-10 -mx-6 -mt-5 mb-6 border-b border-zinc-200 bg-white px-6 py-4 sm:-mx-8 sm:-mt-6 sm:px-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-zinc-900">Footer Widgets</h1>
+            <p className="text-sm text-zinc-500">Manage all footer content and appearance.</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <button type="button" onClick={handleCancel} disabled={isSaving}
+              className="rounded-lg border border-zinc-300 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50">
+              Cancel
+            </button>
+            <button type="button" onClick={handleSave} disabled={isSaving}
+              className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
+              {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
+              {isSaving ? "Saving..." : "Save Changes"}
+            </button>
+          </div>
         </div>
-        <button type="button" onClick={handleSave} disabled={isSaving} className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
-          {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
-          {isSaving ? "Saving..." : "Save All Changes"}
-        </button>
       </div>
 
       {message && (
@@ -178,12 +202,47 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
         </div>
       </Card>
 
-      {/* ── Payment Logo ── */}
+      {/* ── Payment Logos ── */}
       <Card>
-        <h2 className="text-base font-bold text-zinc-900">Payment Logo</h2>
-        <div className="mt-4">
-          <ImageUploader label="Payment Methods Logo" value={paymentLogoUrl} onChange={(url) => setPaymentLogoUrl(url)} />
+        <h2 className="text-base font-bold text-zinc-900">Payment Logos</h2>
+        <p className="mt-0.5 text-xs text-zinc-500">Upload payment method logos displayed in the footer.</p>
+        <div className="mt-4 max-w-sm">
+          <ImageUploader
+            label="Payment Logo"
+            required
+            value={null}
+            multiple
+            onChange={(url) => {
+              if (url) {
+                const updated = [...paymentLogosRef.current, url];
+                setPaymentLogos(updated);
+                paymentLogosRef.current = updated;
+              }
+            }}
+          />
         </div>
+
+        {paymentLogos.length > 0 && (
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {paymentLogos.map((url, i) => (
+              <div key={i} className="group relative flex items-center justify-center rounded-xl border border-zinc-200 bg-white p-4 transition-all hover:shadow-md">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={url} alt={`Payment ${i + 1}`} className="h-10 max-w-full object-contain" />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const updated = paymentLogos.filter((_, idx) => idx !== i);
+                    setPaymentLogos(updated);
+                    paymentLogosRef.current = updated;
+                  }}
+                  className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-red-600"
+                >
+                  <Trash2 className="h-3 w-3" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </Card>
 
     </div>

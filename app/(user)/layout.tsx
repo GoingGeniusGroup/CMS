@@ -111,7 +111,7 @@ export default async function UserLayout({
         copyrightText={footerSettings.copyrightText || undefined}
         linkColumns={footerSettings.linkColumns}
         socials={footerSettings.socials}
-        paymentLogoUrl={footerSettings.paymentLogoUrl || undefined}
+        paymentLogos={footerSettings.paymentLogos}
         footerLogoUrl={footerSettings.footerLogoUrl || undefined}
       />
       {cookieSettings.cookiesAgreement && (

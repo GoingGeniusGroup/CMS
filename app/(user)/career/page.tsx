@@ -1,33 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowRight, Bookmark, Briefcase, ChevronDown, Clock, MapPin } from "lucide-react";
+import { getPublicJobs, type JobRow } from "@/app/actions/jobs";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const DEPARTMENTS = ["All Departments", "Developer", "Design", "Marketing", "Operations"];
-
-const JOBS = [
-  { id: 1, dept: "Developer", title: "Frontend Developer", type: "Full-time", mode: "Remote", desc: "Help us build high-performance, accessible, and beautiful interfaces for our core platform using modern tech stacks.", tags: ["React", "TypeScript", "Tailwind", "Next.js"] },
-  { id: 2, dept: "Developer", title: "Frontend Developer", type: "Full-time", mode: "Remote", desc: "Help us build high-performance, accessible, and beautiful interfaces for our core platform using modern tech stacks.", tags: ["React", "TypeScript", "Tailwind", "Next.js"] },
-  { id: 3, dept: "Developer", title: "Frontend Developer", type: "Full-time", mode: "Remote", desc: "Help us build high-performance, accessible, and beautiful interfaces for our core platform using modern tech stacks.", tags: ["React", "TypeScript", "Tailwind", "Next.js"] },
-  { id: 4, dept: "Developer", title: "Frontend Developer", type: "Full-time", mode: "Remote", desc: "Help us build high-performance, accessible, and beautiful interfaces for our core platform using modern tech stacks.", tags: ["React", "TypeScript", "Tailwind", "Next.js"] },
-  { id: 5, dept: "Developer", title: "Frontend Developer", type: "Full-time", mode: "Remote", desc: "Help us build high-performance, accessible, and beautiful interfaces for our core platform using modern tech stacks.", tags: ["React", "TypeScript", "Tailwind", "Next.js"] },
-  { id: 6, dept: "Developer", title: "Frontend Developer", type: "Full-time", mode: "Remote", desc: "Help us build high-performance, accessible, and beautiful interfaces for our core platform using modern tech stacks.", tags: ["React", "TypeScript", "Tailwind", "Next.js"] },
-];
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 function HeroSection() {
   return (
     <div className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+      <div className="relative aspect-[21/9] overflow-hidden rounded-2xl bg-zinc-900">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/career3.png"
+          src="/career-new.png"
           alt="Careers at Going Genius"
-          className="w-full h-full object-cover"
-          style={{ objectPosition: "center 30%", display: "block" }}
+          className="w-full h-full object-contain"
+          style={{ display: "block" }}
         />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 20px", zIndex: 1 }}>
@@ -48,11 +41,12 @@ function HeroSection() {
 
 // ─── Job Card ─────────────────────────────────────────────────────────────────
 
-function JobCard({ job }: { job: (typeof JOBS)[number] }) {
+function JobCard({ job }: { job: JobRow }) {
+  const router = useRouter();
   return (
     <div className="flex flex-col rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
       <div className="flex items-start justify-between gap-2">
-        <span className="text-[11px] font-bold uppercase tracking-widest text-indigo-500">{job.dept}</span>
+        <span className="text-[11px] font-bold uppercase tracking-widest text-indigo-500">{job.department}</span>
         <button type="button" aria-label="Bookmark" className="text-zinc-400 hover:text-indigo-500">
           <Bookmark className="h-4 w-4" />
         </button>
@@ -62,7 +56,7 @@ function JobCard({ job }: { job: (typeof JOBS)[number] }) {
         <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{job.type}</span>
         <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{job.mode}</span>
       </div>
-      <p className="mt-3 flex-1 text-xs leading-relaxed text-zinc-500">{job.desc}</p>
+      <p className="mt-3 flex-1 text-xs leading-relaxed text-zinc-500">{job.description}</p>
       <div className="mt-4 flex flex-wrap gap-1.5">
         {job.tags.map((t) => (
           <span key={t} className="rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] font-medium text-zinc-600">{t}</span>
@@ -70,6 +64,7 @@ function JobCard({ job }: { job: (typeof JOBS)[number] }) {
       </div>
       <button
         type="button"
+        onClick={() => router.push(`/career/apply?jobId=${job.id}`)}
         className="mt-5 inline-flex items-center justify-center gap-1.5 rounded-lg border border-zinc-200 py-2 text-sm font-semibold text-zinc-800 transition-colors hover:border-indigo-400 hover:text-indigo-600"
       >
         Apply Now <ArrowRight className="h-4 w-4" />
@@ -80,11 +75,13 @@ function JobCard({ job }: { job: (typeof JOBS)[number] }) {
 
 // ─── Open Positions ───────────────────────────────────────────────────────────
 
-function OpenPositions() {
+function OpenPositions({ jobs }: { jobs: JobRow[] }) {
   const [activeDept, setActiveDept] = useState("All Departments");
   const [deptOpen, setDeptOpen] = useState(false);
 
-  const filtered = activeDept === "All Departments" ? JOBS : JOBS.filter((j) => j.dept === activeDept);
+  const depts = ["All Departments", ...new Set(jobs.map((j) => j.department).filter(Boolean))];
+
+  const filtered = activeDept === "All Departments" ? jobs : jobs.filter((j) => j.department === activeDept);
 
   return (
     <section className="bg-white px-4 py-14 sm:px-6 lg:px-16">
@@ -105,12 +102,12 @@ function OpenPositions() {
             </button>
             {deptOpen && (
               <div className="absolute right-0 top-full z-20 mt-1 w-full overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg">
-                {DEPARTMENTS.map((dept) => (
+                {depts.map((dept) => (
                   <button
                     key={dept}
                     type="button"
                     onClick={() => { setActiveDept(dept); setDeptOpen(false); }}
-                    className={`block w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-indigo-50 hover:text-indigo-600 ${activeDept === dept ? "bg-indigo-50 font-semibold text-indigo-600" : "text-zinc-700"}`}
+                    className={`block w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${activeDept === dept ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}
                   >
                     {dept}
                   </button>
@@ -189,10 +186,16 @@ function LifeSection() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function CareerPage() {
+  const [jobs, setJobs] = useState<JobRow[]>([]);
+
+  useEffect(() => {
+    getPublicJobs().then((data) => setJobs(data));
+  }, []);
+
   return (
     <>
       <HeroSection />
-      <OpenPositions />
+      <OpenPositions jobs={jobs} />
       <LifeSection />
     </>
   );

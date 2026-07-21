@@ -75,6 +75,29 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
+  const hasChanges =
+    phone1 !== (initialData?.phone1 ?? "") ||
+    phone2 !== (initialData?.phone2 ?? "") ||
+    email1 !== (initialData?.email1 ?? "") ||
+    email2 !== (initialData?.email2 ?? "") ||
+    address !== (initialData?.address ?? "") ||
+    contactMail !== (initialData?.contactMail ?? "") ||
+    officeHours !== (initialData?.officeHours ?? "") ||
+    googleMapEmbed !== (initialData?.googleMapEmbed ?? "");
+
+  function handleCancel() {
+    setPhone1(initialData?.phone1 ?? "");
+    setPhone2(initialData?.phone2 ?? "");
+    setEmail1(initialData?.email1 ?? "");
+    setEmail2(initialData?.email2 ?? "");
+    setAddress(initialData?.address ?? "");
+    setContactMail(initialData?.contactMail ?? "");
+    setOfficeHours(initialData?.officeHours ?? "");
+    setGoogleMapEmbed(initialData?.googleMapEmbed ?? "");
+    setMessage(null);
+    setFieldErrors({});
+  }
+
   async function handleSave() {
     // Client-side validation first
     const errors = validateFields({ phone1, phone2, email1, email2, contactMail });
@@ -123,36 +146,38 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
     }`;
 
   return (
-    <Card>
-      {/* Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
+    <>
+      {/* Sticky Top Bar */}
+      <div className="sticky top-0 z-10 mb-6 rounded-lg border border-zinc-200 bg-white px-6 py-4 shadow-sm sm:px-8">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-500">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-500">
               <Phone className="h-5 w-5" />
             </span>
-            <h1 className="text-2xl font-bold text-amber-500">
-              Contact Settings
-            </h1>
+            <div>
+              <h1 className="text-xl font-bold text-amber-500 sm:text-2xl">Contact Settings</h1>
+              <p className="text-xs text-zinc-500">Manage your contact information that will be displayed on websites.</p>
+            </div>
           </div>
-          <p className="mt-2 text-sm text-black">
-            Manage your contact information that will be displayed on websites.
-          </p>
+          {hasChanges && (
+          <div className="flex items-center gap-3">
+            <button type="button" onClick={handleCancel} disabled={isSaving}
+              className="rounded-lg border border-zinc-300 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50">
+              Cancel
+            </button>
+            <button type="button" onClick={handleSave} disabled={isSaving}
+              className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
+              {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
+              {isSaving ? "Saving..." : "Save Changes"}
+            </button>
+          </div>
+          )}
         </div>
-        <button
-          type="button"
-          onClick={handleSave}
-          disabled={isSaving}
-          className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
-        >
-          {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
-          {isSaving ? "Saving..." : "Save Changes"}
-        </button>
       </div>
 
       {/* Message */}
       {message && (
-        <div className={`mt-4 rounded-lg px-4 py-3 text-sm ${
+        <div className={`mb-6 rounded-lg px-4 py-3 text-sm ${
           message.type === "success"
             ? "border border-green-200 bg-green-50 text-green-700"
             : "border border-red-200 bg-red-50 text-red-700"
@@ -161,6 +186,7 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
         </div>
       )}
 
+    <Card>
       {/* Phone numbers */}
       <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
@@ -322,5 +348,6 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
         </div>
       </div>
     </Card>
+    </>
   );
 }

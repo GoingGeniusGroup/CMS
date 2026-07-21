@@ -4,7 +4,6 @@ import { useState, useTransition } from "react";
 import { ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { Card } from "@/components/Card";
-import { Button } from "@/components/Button";
 import { saveAppearanceSettings, type AppearanceData } from "@/app/actions/appearance";
 
 const TIMEZONES = [
@@ -95,6 +94,18 @@ export default function AppearanceClient({
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<string | null>(null);
 
+  const hasChanges =
+    hoverColor !== initialData.hoverColor ||
+    hoverEnabled !== initialData.hoverEnabled ||
+    timezone !== initialData.timezone;
+
+  function handleCancel() {
+    setHoverColor(initialData.hoverColor);
+    setHoverEnabled(initialData.hoverEnabled);
+    setTimezone(initialData.timezone);
+    setMessage(null);
+  }
+
   function handleSave() {
     startTransition(async () => {
       const result = await saveAppearanceSettings({ hoverColor, hoverEnabled, timezone });
@@ -104,24 +115,46 @@ export default function AppearanceClient({
   }
 
   return (
-    <Card className="lg:p-8">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
+    <>
+      {/* Sticky Top Bar */}
+      <div className="sticky top-0 z-10 mb-6 rounded-lg border border-zinc-200 bg-white px-6 py-4 shadow-sm sm:px-8">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-800">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-500">
               <ShieldCheck className="h-5 w-5" />
             </span>
-            <h1 className="text-xl font-bold text-zinc-900 sm:text-2xl">
-              Appearance Settings
-            </h1>
+            <div>
+              <h1 className="text-xl font-bold text-amber-500 sm:text-2xl">Appearance Settings</h1>
+              <p className="text-xs text-zinc-500">Manage website colors and timezone settings.</p>
+            </div>
           </div>
-          <p className="mt-2 text-sm text-zinc-500">
-            Manage website colors and timezone settings.
-          </p>
+          {hasChanges && (
+          <div className="flex items-center gap-3">
+            <button type="button" onClick={handleCancel} disabled={isPending}
+              className="rounded-lg border border-zinc-300 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50">
+              Cancel
+            </button>
+            <button type="button" onClick={handleSave} disabled={isPending}
+              className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
+              {isPending ? "Saving..." : "Save Changes"}
+            </button>
+          </div>
+          )}
         </div>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {message && (
+        <div className={`mb-6 rounded-lg border px-4 py-3 text-sm ${
+          message.includes("Failed") || message.includes("error")
+            ? "border-red-200 bg-red-50 text-red-700"
+            : "border-green-200 bg-green-50 text-green-700"
+        }`}>
+          {message}
+        </div>
+      )}
+
+    <Card className="lg:p-8">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         {/* Base color — read-only, synced from General Settings theme color */}
         <div>
           <ColorField label="Website Base Color" value={baseColor} disabled />
@@ -189,12 +222,7 @@ export default function AppearanceClient({
         <p className="mt-2 text-xs text-zinc-400">Select the timezone for your system.</p>
       </div>
 
-      <div className="mt-8 flex items-center justify-end gap-4">
-        {message && <p className="text-sm text-zinc-500">{message}</p>}
-        <Button onClick={handleSave} disabled={isPending}>
-          {isPending ? "Saving..." : "Save Changes"}
-        </Button>
-      </div>
     </Card>
+    </>
   );
 }

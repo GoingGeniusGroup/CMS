@@ -13,7 +13,7 @@ export type FooterSettingData = {
   copyrightText: string;
   playStoreLink: string;
   appStoreLink: string;
-  paymentLogoUrl: string;
+  paymentLogos: string[];
   socials: SocialEntry[];
   linkColumns: LinkColumn[];
 };
@@ -25,7 +25,7 @@ const DEFAULTS: FooterSettingData = {
   copyrightText: "",
   playStoreLink: "",
   appStoreLink: "",
-  paymentLogoUrl: "",
+  paymentLogos: [],
   socials: [],
   linkColumns: [],
 };
@@ -42,7 +42,7 @@ export async function getPublicFooterSettings(): Promise<FooterSettingData> {
     copyrightText: row.copyrightText || "",
     playStoreLink: row.playStoreLink || "",
     appStoreLink: row.appStoreLink || "",
-    paymentLogoUrl: row.paymentLogoUrl || "",
+    paymentLogos: (row.paymentLogos as string[]) ?? [],
     socials: (row.socials as SocialEntry[]) ?? [],
     linkColumns: (row.linkColumns as LinkColumn[]) ?? [],
   };
@@ -63,7 +63,7 @@ export async function getFooterSettings(): Promise<FooterSettingData> {
     copyrightText: row.copyrightText || "",
     playStoreLink: row.playStoreLink || "",
     appStoreLink: row.appStoreLink || "",
-    paymentLogoUrl: row.paymentLogoUrl || "",
+    paymentLogos: (row.paymentLogos as string[]) ?? [],
     socials: (row.socials as SocialEntry[]) ?? [],
     linkColumns: (row.linkColumns as LinkColumn[]) ?? [],
   };
@@ -82,7 +82,7 @@ export async function saveFooterSettings(data: FooterSettingData) {
       copyrightText: data.copyrightText || "",
       playStoreLink: data.playStoreLink || "",
       appStoreLink: data.appStoreLink || "",
-      paymentLogoUrl: data.paymentLogoUrl || "",
+      paymentLogos: data.paymentLogos as unknown as object,
       socials: data.socials as unknown as object,
       linkColumns: data.linkColumns as unknown as object,
     };

@@ -18,7 +18,7 @@ type FooterProps = {
   copyrightText?: string;
   linkColumns?: LinkColumn[];
   socials?: SocialEntry[];
-  paymentLogoUrl?: string;
+  paymentLogos?: string[];
   footerLogoUrl?: string;
 };
 
@@ -43,7 +43,7 @@ function Footer({
   copyrightText,
   linkColumns,
   socials,
-  paymentLogoUrl,
+  paymentLogos,
   footerLogoUrl,
 }: FooterProps) {
   const columns: LinkColumn[] = linkColumns && linkColumns.length > 0
@@ -146,13 +146,18 @@ function Footer({
         <div className="mt-10 border-t border-white/10 pt-6 flex flex-wrap items-center justify-between gap-4">
           <p className="text-xs text-zinc-500">{copyright}</p>
 
-          {paymentLogoUrl && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={paymentLogoUrl}
-              alt="Payment methods"
-              className="h-10 w-auto max-w-[200px] object-contain sm:h-12 sm:max-w-[260px]"
-            />
+          {paymentLogos && paymentLogos.length > 0 && (
+            <div className="flex flex-wrap items-center gap-3">
+              {paymentLogos.map((url, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={i}
+                  src={url}
+                  alt={`Payment method ${i + 1}`}
+                  className="h-10 w-auto max-w-[100px] object-contain sm:h-12 sm:max-w-[130px]"
+                />
+              ))}
+            </div>
           )}
         </div>
       </div>

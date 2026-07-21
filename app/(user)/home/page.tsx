@@ -1,49 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import { images } from "@/lib/images";
 import { LandingServicesSection } from "@/components/LandingServicesSection";
 import { LandingFeaturedProjects } from "@/components/LandingFeaturedProjects";
+import { LandingBlogSection } from "@/components/LandingBlogSection";
 import { LandingTeamSection } from "@/components/LandingTeamSection";
 import { LandingPartnersSection } from "@/components/LandingPartnersSection";
 import { LandingTechSection } from "@/components/LandingTechSection";
-
-// ΓöÇΓöÇΓöÇ Data ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-const posts = [
-  {
-    src: images.container1,
-    tag: "Web Development",
-    date: "Jan 15, 2026",
-    title: "Top 10 Web Design Trends",
-    desc: "Exploring modern web technologies.",
-  },
-  {
-    src: images.container2,
-    tag: "Design",
-    date: "Feb 02, 2026",
-    title: "Choosing the Right UI/UX",
-    desc: "Creating better user experiences.",
-  },
-];
-
-const faqs = [
-  {
-    q: "Why Going Genius?",
-    a: "We have the best and the most experienced Agile team who work together as a business team to manage your business with Going Genius Group. We have a Genius Team for expert advice, and we believe Genius Work brings more value than Hard Work.",
-  },
-  {
-    q: "Why Us?",
-    a: "We combine a dedicated project manager, transparent pricing, and an in-house team on every engagement, so you always know who's accountable and what's next.",
-  },
-  {
-    q: "What are our company strengths?",
-    a: "Twelve-plus years of delivery experience, a 98% client satisfaction rate, and post-launch support included with every package.",
-  },
-];
+import { FaqSection } from "@/components/FaqSection";
 
 // ΓöÇΓöÇΓöÇ Hero ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
@@ -152,85 +118,9 @@ function Products() {
   );
 }
 
-// ΓöÇΓöÇΓöÇ Blog / Insights ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-function Insights() {
-  return (
-    <section id="blog" className="bg-[#f6f4f3] px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">Insights</p>
-            <h2 className="mt-2 text-2xl font-extrabold text-zinc-900">Industry Perspectives</h2>
-          </div>
-          <Link
-            href="/blog"
-            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 hover:border-zinc-400"
-          >
-            Read Blog
-          </Link>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2">
-          {posts.map((post) => (
-            <div key={post.title} className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
-              <div className="relative aspect-[16/10]">
-                <Image src={post.src} alt={post.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
-                <span className="absolute left-4 top-4 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white">
-                  {post.tag}
-                </span>
-              </div>
-              <div className="p-5">
-                <p className="text-xs font-medium text-zinc-400">{post.date}</p>
-                <h3 className="mt-1 text-base font-bold text-zinc-900">{post.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-zinc-500">{post.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ─── FAQ ───────────────────────────────────────────────────────────────────
-
-function FAQ() {
-  const [open, setOpen] = useState<number | null>(0);
-
-  return (
-    <section className="bg-[#f6f4f3] px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-2xl">
-        <p className="text-center text-xs font-bold uppercase tracking-widest text-indigo-600">Support</p>
-        <h2 className="mt-2 text-center text-2xl font-extrabold text-zinc-900">Frequently Asked Questions</h2>
-
-        <div className="mt-8 space-y-3">
-          {faqs.map((item, i) => {
-            const isOpen = open === i;
-            return (
-              <div key={item.q} className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
-                <button
-                  onClick={() => setOpen(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between px-5 py-4 text-left text-sm font-bold text-zinc-900"
-                >
-                  {item.q}
-                  {isOpen ? (
-                    <ChevronUp className="h-4 w-4 text-indigo-600" />
-                  ) : (
-                    <ChevronDown className="h-4 w-4 text-zinc-400" />
-                  )}
-                </button>
-                {isOpen && (
-                  <p className="px-5 pb-4 text-sm leading-relaxed text-zinc-500">{item.a}</p>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
+// (dynamic content from database — see FaqSection component)
 
 // ΓöÇΓöÇΓöÇ Page ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
@@ -243,9 +133,9 @@ export default function Page() {
       <LandingServicesSection />
       <Products />
       <LandingFeaturedProjects />
-      <Insights />
+      <LandingBlogSection />
       <LandingTeamSection />
-      <FAQ />
+      <FaqSection />
     </>
   );
 }

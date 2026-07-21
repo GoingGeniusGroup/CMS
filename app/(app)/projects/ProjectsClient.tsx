@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { PageHeader } from "@/components/PageHeader";
-import { Folder, Plus, FileText, FileEdit, Search, List, LayoutGrid } from "lucide-react";
+import { Folder, Plus, FileText, FileEdit, Search, List, LayoutGrid, Filter } from "lucide-react";
 import { Topbar } from "@/components/Topbar";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
@@ -74,6 +74,11 @@ export function ProjectsClient({
   const [search, setSearch] = useState("");
   const [isPending, startTransition] = useTransition();
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [customerFilter, setCustomerFilter] = useState("all");
+  const [servicePFilter, setServicePFilter] = useState("all");
 
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
@@ -121,14 +126,21 @@ export function ProjectsClient({
     }
   }
 
-  const filtered = search.trim()
-    ? data.projects.filter(
-        (p) =>
-          p.title.toLowerCase().includes(search.toLowerCase()) ||
-          (p.customer?.fullName.toLowerCase().includes(search.toLowerCase())) ||
-          (p.service?.serviceName.toLowerCase().includes(search.toLowerCase()))
-      )
-    : data.projects;
+  const projectCategories = [...new Set(data.projects.map((p) => p.category).filter(Boolean))] as string[];
+  const projectCustomers = [...new Set(data.projects.map((p) => p.customer?.fullName).filter(Boolean))] as string[];
+  const projectServices = [...new Set(data.projects.map((p) => p.service?.serviceName).filter(Boolean))] as string[];
+
+  const filtered = data.projects.filter((p) => {
+    const matchesSearch = !search.trim() ||
+      p.title.toLowerCase().includes(search.toLowerCase()) ||
+      (p.customer?.fullName.toLowerCase().includes(search.toLowerCase())) ||
+      (p.service?.serviceName.toLowerCase().includes(search.toLowerCase()));
+    const matchesStatus = statusFilter === "all" || p.status === statusFilter;
+    const matchesCategory = categoryFilter === "all" || p.category === categoryFilter;
+    const matchesCustomer = customerFilter === "all" || p.customer?.fullName === customerFilter;
+    const matchesService = servicePFilter === "all" || p.service?.serviceName === servicePFilter;
+    return matchesSearch && matchesStatus && matchesCategory && matchesCustomer && matchesService;
+  });
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -141,6 +153,47 @@ export function ProjectsClient({
           description="Manage your Portfolio Projects."
         />
         <div className="flex items-center gap-3">
+          <div className="relative">
+            <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
+              <Filter className="h-4 w-4" />
+              Filter{(statusFilter !== "all" || categoryFilter !== "all" || customerFilter !== "all" || servicePFilter !== "all") ? " (1)" : ""}
+            </Button>
+            {filterOpen && (
+              <div className="absolute right-0 top-full z-20 mt-2 max-h-80 w-56 overflow-y-auto rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
+                {["all", "Published", "Draft"].map((s) => (
+                  <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {s === "all" ? "All Statuses" : s}
+                  </button>
+                ))}
+                <div className="my-2 border-t border-gray-100" />
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Category</p>
+                <button type="button" onClick={() => { setCategoryFilter("all"); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${categoryFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>All Categories</button>
+                {projectCategories.map((c) => (
+                  <button key={c} type="button" onClick={() => { setCategoryFilter(c); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${categoryFilter === c ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>{c}</button>
+                ))}
+                <div className="my-2 border-t border-gray-100" />
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Customer</p>
+                <button type="button" onClick={() => { setCustomerFilter("all"); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${customerFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>All Customers</button>
+                {projectCustomers.map((c) => (
+                  <button key={c} type="button" onClick={() => { setCustomerFilter(c); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${customerFilter === c ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>{c}</button>
+                ))}
+                <div className="my-2 border-t border-gray-100" />
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Service</p>
+                <button type="button" onClick={() => { setServicePFilter("all"); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${servicePFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>All Services</button>
+                {projectServices.map((s) => (
+                  <button key={s} type="button" onClick={() => { setServicePFilter(s); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${servicePFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>{s}</button>
+                ))}
+              </div>
+            )}
+          </div>
           <Button onClick={handleAdd}>
             Add Project
             <Plus className="h-4 w-4" />
@@ -220,6 +273,7 @@ export function ProjectsClient({
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left p-4 text-sm font-semibold text-gray-700 w-16">#</th>
+                  <th className="text-left p-4 text-sm font-semibold text-gray-700 w-20">Thumbnail</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Title</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Customer</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Service</th>
@@ -232,6 +286,16 @@ export function ProjectsClient({
                   <tr key={project.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                     <td className="p-4 text-sm text-gray-600">
                       {String((currentPage - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}
+                    </td>
+                    <td className="p-4">
+                      <div className="h-10 w-10 overflow-hidden rounded-lg bg-zinc-100 border border-zinc-200">
+                        {project.thumbnail ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={project.thumbnail} alt="" className="h-full w-full object-cover" />
+                        ) : (
+                          <div className="h-full w-full bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                        )}
+                      </div>
                     </td>
                     <td className="p-4 text-sm font-medium text-gray-900">{project.title}</td>
                     <td className="p-4 text-sm text-gray-600">{project.customer?.fullName || "—"}</td>
@@ -267,6 +331,14 @@ export function ProjectsClient({
                 <div className="flex items-start gap-3 mb-3">
                   <div className="text-xs text-gray-500 font-medium w-6">
                     {String((currentPage - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}
+                  </div>
+                  <div className="h-9 w-9 shrink-0 overflow-hidden rounded-lg bg-zinc-100 border border-zinc-200">
+                    {project.thumbnail ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={project.thumbnail} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      <div className="h-full w-full bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm text-gray-900 mb-1">{project.title}</h3>

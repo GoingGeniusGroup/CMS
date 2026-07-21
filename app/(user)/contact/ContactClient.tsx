@@ -3,8 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import {
-  ChevronDown,
-  ChevronUp,
   Clock,
   Headphones,
   Mail,
@@ -15,6 +13,7 @@ import {
   User,
   Zap,
 } from "lucide-react";
+import { FaqSection } from "@/components/FaqSection";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -30,25 +29,6 @@ type ContactSettings = {
 };
 
 // ─── FAQ Data ────────────────────────────────────────────────────────────────
-
-const FAQS = [
-  {
-    q: "How quickly can I expect a response?",
-    a: "Our typical response time is under 24 hours during business days. For urgent inquiries, we recommend giving us a call directly.",
-  },
-  {
-    q: "What services does Going Genius provide?",
-    a: "We provide web development, mobile app development, UI/UX design, digital marketing, software development, and cloud solutions.",
-  },
-  {
-    q: "Do you work with international clients?",
-    a: "Yes, we work with clients globally. Our team is experienced in collaborating across time zones and cultures.",
-  },
-  {
-    q: "How can I start a project with you?",
-    a: "Simply fill out the contact form or give us a call. We'll schedule a free consultation to understand your needs and provide a proposal.",
-  },
-];
 
 const FEATURES = [
   { icon: Zap, title: "Quick Response", desc: "We respond to all inquiries within 24 hours." },
@@ -332,69 +312,7 @@ function MapSection({ settings }: { settings: ContactSettings }) {
 }
 
 // ─── Section: FAQ ─────────────────────────────────────────────────────────────
-
-function FAQSection() {
-  const [open, setOpen] = useState<number | null>(0);
-
-  return (
-    <section className="bg-[#fdf5f5] px-4 py-20 sm:px-6 lg:px-16">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid items-start gap-12 lg:grid-cols-2">
-          {/* Left */}
-          <div>
-            <h2 className="text-3xl font-extrabold text-zinc-900 sm:text-4xl">
-              Have <span className="text-indigo-600">Questions?</span>
-            </h2>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-zinc-500">
-              We&apos;ve got answers. If you can&apos;t find what you&apos;re
-              looking for, feel free to contact our support team.
-            </p>
-            <div className="relative mt-8 aspect-video overflow-hidden rounded-2xl">
-              <Image
-                src="/letsTalk.png"
-                alt="Have questions - contact support"
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
-          </div>
-
-          {/* Right — FAQ accordion */}
-          <div className="flex flex-col gap-3">
-            {FAQS.map((item, i) => {
-              const isOpen = open === i;
-              return (
-                <div
-                  key={item.q}
-                  className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm"
-                >
-                  <button
-                    type="button"
-                    onClick={() => setOpen(isOpen ? null : i)}
-                    className="flex w-full items-center justify-between px-5 py-4 text-left text-sm font-semibold text-zinc-800"
-                  >
-                    {item.q}
-                    {isOpen ? (
-                      <ChevronUp className="h-4 w-4 shrink-0 text-indigo-500" />
-                    ) : (
-                      <ChevronDown className="h-4 w-4 shrink-0 text-zinc-400" />
-                    )}
-                  </button>
-                  {isOpen && (
-                    <p className="px-5 pb-4 text-sm leading-relaxed text-zinc-500">
-                      {item.a}
-                    </p>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+// (dynamic content from database — see FaqSection component)
 
 // ─── Section: Let's Work Together ────────────────────────────────────────────
 
@@ -443,7 +361,7 @@ export function ContactClient({ settings }: { settings: ContactSettings }) {
       <ContactSection settings={settings} />
       <FeaturesSection />
       <MapSection settings={settings} />
-      <FAQSection />
+      <FaqSection />
       <WorkTogetherSection />
     </>
   );

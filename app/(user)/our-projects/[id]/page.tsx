@@ -293,17 +293,23 @@ export default async function ProjectDetailPage({
         <div className="mx-auto max-w-7xl">
           <div className="flex items-center gap-2">
             <div className="h-6 w-1 rounded-full bg-indigo-600" />
-            <h2 className="text-2xl font-extrabold italic text-zinc-900">See How We Work</h2>
+            <h2 className="text-2xl font-extrabold italic text-zinc-900">How We Work</h2>
           </div>
-          <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
-            {PROCESS_STEPS.map(({ icon: Icon, step, title, description }) => (
-              <div key={step} className="flex flex-col items-center text-center">
-                <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-xl border border-zinc-200 bg-white shadow-sm">
-                  <Icon className="h-6 w-6 text-indigo-600" />
+          <div className="mt-10 flex flex-wrap items-start justify-center lg:flex-nowrap">
+            {PROCESS_STEPS.map(({ icon: Icon, step, title }, i) => (
+              <div key={step} className="w-1/2 sm:w-1/3 lg:w-auto flex flex-col px-2 sm:px-4 lg:px-0">
+                <div className="flex items-center">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-zinc-200 bg-white shadow-sm shrink-0">
+                    <Icon className="h-6 w-6 text-indigo-600" />
+                  </div>
+                  {i < PROCESS_STEPS.length - 1 && (
+                    <div className="hidden lg:block h-0.5 w-36 bg-indigo-200" />
+                  )}
                 </div>
-                <p className="text-[10px] font-bold text-zinc-400">{step}</p>
-                <h4 className="mt-1 text-sm font-bold text-zinc-900">{title}</h4>
-                <p className="mt-1 text-[11px] leading-relaxed text-zinc-500">{description}</p>
+                <p className="text-[10px] font-bold text-zinc-400 mt-3 text-center w-14">{step}</p>
+                <div className="w-14">
+                  <h4 className="mt-1 text-sm font-bold text-zinc-900 text-center leading-tight">{title}</h4>
+                </div>
               </div>
             ))}
           </div>

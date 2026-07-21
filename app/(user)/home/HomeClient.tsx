@@ -9,8 +9,6 @@ import { LandingServicesSection } from "@/components/LandingServicesSection";
 import { LandingFeaturedProjects } from "@/components/LandingFeaturedProjects";
 import { LandingTeamSection } from "@/components/LandingTeamSection";
 
-// ΓöÇΓöÇΓöÇ Data ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
 const techStack = [
   { name: "PHP", src: images.php, w: 60, h: 30 },
   { name: "Supabase", src: images.supabase, w: 110, h: 26 },
@@ -155,7 +153,7 @@ function Products() {
             <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">Products</p>
             <h2 className="mt-2 text-2xl font-extrabold text-zinc-900">Products and Solutions</h2>
           </div>
-          <a href="#contact" className="text-sm font-semibold text-indigo-600 hover:underline">
+          <a href="/contact" className="text-sm font-semibold text-indigo-600 hover:underline">
             Contact Sales
           </a>
         </div>
@@ -186,8 +184,6 @@ function Products() {
   );
 }
 
-// ΓöÇΓöÇΓöÇ Blog / Insights ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
 function Insights() {
   return (
     <section id="blog" className="bg-[#f6f4f3] px-4 py-20 sm:px-6 lg:px-8">
@@ -201,7 +197,7 @@ function Insights() {
             href="/blogs"
             className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 hover:border-zinc-400"
           >
-            Read Blog
+            Read Blogs
           </Link>
         </div>
 

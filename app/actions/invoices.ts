@@ -6,8 +6,9 @@ import { z } from "zod";
 
 const invoiceSchema = z.object({
   customerId: z.string().optional(),
-  projectId: z.string().optional(),
+  projectIds: z.array(z.string()).optional(),
   invoiceNumber: z.string().min(1, "Invoice number is required"),
+  category: z.string().optional(),
   amount: z.number().min(0),
   tax: z.number().min(0).default(0),
   total: z.number().min(0),
@@ -27,7 +28,7 @@ export async function getInvoices(page = 1, pageSize = 10) {
       orderBy: { createdAt: "desc" },
       skip: (page - 1) * pageSize,
       take: pageSize,
-      include: { customer: true, project: true },
+      include: { customer: true, projects: { include: { project: true } } },
     }),
     prisma.invoice.count(),
     prisma.invoice.count({ where: { status: "Paid" } }),
@@ -57,14 +58,17 @@ export async function createInvoice(data: InvoiceInput) {
   }
 
   try {
-    const { issuedDate, dueDate, ...rest } = result.data;
+    const { issuedDate, dueDate, projectIds, ...rest } = result.data;
     await prisma.invoice.create({
       data: {
         ...rest,
         customerId: rest.customerId || null,
-        projectId: rest.projectId || null,
+        category: rest.category || null,
         issuedDate: issuedDate ? new Date(issuedDate) : null,
         dueDate: dueDate ? new Date(dueDate) : null,
+        projects: projectIds?.length
+          ? { create: projectIds.map((projectId) => ({ projectId })) }
+          : undefined,
       },
     });
     return { success: true };
@@ -87,13 +91,24 @@ export async function updateInvoice(id: string, data: InvoiceInput) {
   }
 
   try {
-    const { issuedDate, dueDate, ...rest } = result.data;
+    const { issuedDate, dueDate, projectIds, ...rest } = result.data;
+
+    // Replace projects: delete old links, create new ones
+    if (projectIds) {
+      await prisma.invoiceProject.deleteMany({ where: { invoiceId: id } });
+      if (projectIds.length > 0) {
+        await prisma.invoiceProject.createMany({
+          data: projectIds.map((projectId) => ({ invoiceId: id, projectId })),
+        });
+      }
+    }
+
     await prisma.invoice.update({
       where: { id },
       data: {
         ...rest,
         customerId: rest.customerId || null,
-        projectId: rest.projectId || null,
+        category: rest.category || null,
         issuedDate: issuedDate ? new Date(issuedDate) : null,
         dueDate: dueDate ? new Date(dueDate) : null,
       },
@@ -106,6 +121,19 @@ export async function updateInvoice(id: string, data: InvoiceInput) {
     console.error("Update invoice error:", error);
     return { success: false, error: "Failed to update invoice" };
   }
+}
+
+export async function getInvoicePrintSettings() {
+  const [general, contact] = await Promise.all([
+    prisma.generalSetting.findFirst(),
+    prisma.contactSetting.findFirst(),
+  ]);
+  return {
+    siteName: general?.siteName || "",
+    address: contact?.address || "",
+    email: contact?.email1 || "",
+    phone: contact?.phone1 || "",
+  };
 }
 
 export async function deleteInvoice(id: string) {

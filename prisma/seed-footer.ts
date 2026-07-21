@@ -12,7 +12,7 @@ async function main() {
     copyrightText: `© ${new Date().getFullYear()} Going Genius Group of Company. All rights reserved.`,
     playStoreLink: "",
     appStoreLink: "",
-    paymentLogoUrl: "",
+    paymentLogos: [],
     socials: [
       { platform: "Facebook", url: "https://facebook.com/goinggenius" },
       { platform: "LinkedIn", url: "https://linkedin.com/company/goinggenius" },

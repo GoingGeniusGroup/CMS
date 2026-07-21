@@ -92,25 +92,41 @@ export function WebsiteHeaderClient({ initialData }: { initialData: WebsiteHeade
   }
 
   return (
-    <div className="space-y-6">
-      <Card className="p-6 sm:p-8">
-        <div className="mb-6">
-          <h1 className="text-xl font-bold text-zinc-900">Website Header</h1>
-          <p className="mt-0.5 text-sm text-zinc-500">
-            Manage sticky navbar, top banner ad, and navigation menu.
-          </p>
-        </div>
-
-        {message && (
-          <div className={`mb-6 rounded-lg px-4 py-3 text-sm ${
-            message.type === "success"
-              ? "border border-green-200 bg-green-50 text-green-700"
-              : "border border-red-200 bg-red-50 text-red-700"
-          }`}>
-            {message.text}
+    <div className="flex flex-col">
+      {/* Sticky Top Bar */}
+      <div className="sticky top-0 z-10 -mx-6 -mt-5 mb-6 border-b border-zinc-200 bg-white px-6 py-4 sm:-mx-8 sm:-mt-6 sm:px-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-zinc-900">Website Header</h1>
+            <p className="mt-0.5 text-sm text-zinc-500">
+              Manage sticky navbar, top banner ad, and navigation menu.
+            </p>
           </div>
-        )}
+          <div className="flex items-center gap-3">
+            <button type="button" onClick={handleCancel} disabled={isSaving}
+              className="rounded-lg border border-zinc-300 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50">
+              Cancel
+            </button>
+            <button type="button" onClick={handleSave} disabled={isSaving}
+              className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
+              {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
+              {isSaving ? "Saving..." : "Save Changes"}
+            </button>
+          </div>
+        </div>
+      </div>
 
+      {message && (
+        <div className={`mb-6 rounded-lg px-4 py-3 text-sm ${
+          message.type === "success"
+            ? "border border-green-200 bg-green-50 text-green-700"
+            : "border border-red-200 bg-red-50 text-red-700"
+        }`}>
+          {message.text}
+        </div>
+      )}
+
+      <Card className="p-6 sm:p-8">
         <div className="space-y-6">
           {/* Sticky Header Toggle */}
           <div className="flex items-center justify-between rounded-xl border border-zinc-200 px-4 py-3">
@@ -239,19 +255,6 @@ export function WebsiteHeaderClient({ initialData }: { initialData: WebsiteHeade
                 <Plus className="mr-1 inline h-4 w-4" /> Add Menu Link
               </button>
             </div>
-          </div>
-
-          {/* Actions */}
-          <div className="flex justify-end gap-3 pt-2">
-            <button type="button" onClick={handleCancel} disabled={isSaving}
-              className="rounded-lg border border-zinc-300 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50">
-              Cancel
-            </button>
-            <button type="button" onClick={handleSave} disabled={isSaving}
-              className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
-              {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
-              {isSaving ? "Saving..." : "Save Changes"}
-            </button>
           </div>
         </div>
       </Card>

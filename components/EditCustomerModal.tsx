@@ -32,6 +32,7 @@ interface EditCustomerModalProps {
 export function EditCustomerModal({ isOpen, customer, services = [], onClose, onSuccess }: EditCustomerModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -62,6 +63,18 @@ export function EditCustomerModal({ isOpen, customer, services = [], onClose, on
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+    if (name === "phoneNumber") {
+      const cleaned = value.replace(/[^\d+]/g, "");
+      const plusCount = (cleaned.match(/\+/g) || []).length;
+      const sanitized = plusCount > 1 ? "+" + cleaned.replace(/\+/g, "") : cleaned;
+      setFormData((prev) => ({ ...prev, [name]: sanitized }));
+      if (sanitized && !/^\+?\d{7,15}$/.test(sanitized)) {
+        setPhoneError("Enter a valid phone number (e.g. 9801234567 or +9779801234567)");
+      } else {
+        setPhoneError(null);
+      }
+      return;
+    }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -130,9 +143,12 @@ export function EditCustomerModal({ isOpen, customer, services = [], onClose, on
                   type="email" required placeholder="Enter email" className={inputCls} />
               </div>
               <div>
-                <label className={labelCls}>Phone No.</label>
+                <label className={labelCls}>Phone No. <span className="text-gray-400">(e.g. +9779801234567)</span></label>
                 <input name="phoneNumber" value={formData.phoneNumber} onChange={handleChange}
-                  type="tel" placeholder="Enter phone number" className={inputCls} />
+                  type="tel" placeholder="e.g. +9779801234567" className={inputCls} />
+                {phoneError && (
+                  <p className="text-xs text-amber-600 mt-1">{phoneError}</p>
+                )}
               </div>
               <div>
                 <label className={labelCls}>Company Name</label>

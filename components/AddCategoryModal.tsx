@@ -31,7 +31,7 @@ export function AddCategoryModal({
   onClose,
   onSuccess,
   category,
-  parentOptions = ["Services", "Marketing", "Technology"],
+  parentOptions = ["Services", "Careers", "Invoices", "Blogs", "Pages"],
 }: AddCategoryModalProps) {
   const isEditing = !!category;
 

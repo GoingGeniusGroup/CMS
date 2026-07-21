@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { PageHeader } from "@/components/PageHeader";
-import { Users, UserCheck, UserX, Plus, Search, List, LayoutGrid, Mail } from "lucide-react";
+import { Users, UserCheck, UserX, Plus, Search, List, LayoutGrid, Mail, Filter } from "lucide-react";
 import { Topbar } from "@/components/Topbar";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
@@ -56,6 +56,9 @@ export function CustomersClient({
   const [search, setSearch] = useState("");
   const [isPending, startTransition] = useTransition();
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [serviceFilter, setServiceFilter] = useState("all");
 
   // Modal state
   const [addOpen, setAddOpen] = useState(false);
@@ -101,15 +104,18 @@ export function CustomersClient({
     }
   }
 
-  const filtered = search.trim()
-    ? data.customers.filter(
-        (c) =>
-          c.fullName.toLowerCase().includes(search.toLowerCase()) ||
-          c.email.toLowerCase().includes(search.toLowerCase()) ||
-          (c.companyName && c.companyName.toLowerCase().includes(search.toLowerCase())) ||
-          (c.service?.serviceName.toLowerCase().includes(search.toLowerCase()))
-      )
-    : data.customers;
+  const customerServices = [...new Set(data.customers.map((c) => c.service?.serviceName).filter(Boolean))] as string[];
+
+  const filtered = data.customers.filter((c) => {
+    const matchesSearch = !search.trim() ||
+      c.fullName.toLowerCase().includes(search.toLowerCase()) ||
+      c.email.toLowerCase().includes(search.toLowerCase()) ||
+      (c.companyName && c.companyName.toLowerCase().includes(search.toLowerCase())) ||
+      (c.service?.serviceName.toLowerCase().includes(search.toLowerCase()));
+    const matchesStatus = statusFilter === "all" || c.status === statusFilter;
+    const matchesService = serviceFilter === "all" || c.service?.serviceName === serviceFilter;
+    return matchesSearch && matchesStatus && matchesService;
+  });
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -122,6 +128,31 @@ export function CustomersClient({
           description="Manage your customers."
         />
         <div className="flex items-center gap-3">
+          <div className="relative">
+            <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
+              <Filter className="h-4 w-4" />
+              Filter{(statusFilter !== "all" || serviceFilter !== "all") ? " (1)" : ""}
+            </Button>
+            {filterOpen && (
+              <div className="absolute right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
+                {["all", "Active", "Inactive"].map((s) => (
+                  <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {s === "all" ? "All Statuses" : s}
+                  </button>
+                ))}
+                <div className="my-2 border-t border-gray-100" />
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Service</p>
+                <button type="button" onClick={() => { setServiceFilter("all"); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${serviceFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>All Services</button>
+                {customerServices.map((s) => (
+                  <button key={s} type="button" onClick={() => { setServiceFilter(s); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${serviceFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>{s}</button>
+                ))}
+              </div>
+            )}
+          </div>
           <Button onClick={() => setAddOpen(true)}>
             Add Customer
             <Plus className="h-4 w-4" />

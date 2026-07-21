@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Tag, CheckCircle2, XCircle, Plus, Search, List, LayoutGrid } from "lucide-react";
+import { Tag, CheckCircle2, XCircle, Plus, Search, List, LayoutGrid, Filter } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Topbar } from "@/components/Topbar";
 import { Button } from "@/components/Button";
@@ -56,6 +56,8 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
   const [search, setSearch] = useState("");
   const [isPending, startTransition] = useTransition();
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
@@ -98,14 +100,14 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
     }
   }
 
-  const filtered = search.trim()
-    ? data.categories.filter(
-        (c) =>
-          c.name.toLowerCase().includes(search.toLowerCase()) ||
-          c.slug.toLowerCase().includes(search.toLowerCase()) ||
-          (c.parent && c.parent.toLowerCase().includes(search.toLowerCase()))
-      )
-    : data.categories;
+  const filtered = data.categories.filter((c) => {
+    const matchesSearch = !search.trim() ||
+      c.name.toLowerCase().includes(search.toLowerCase()) ||
+      c.slug.toLowerCase().includes(search.toLowerCase()) ||
+      (c.parent && c.parent.toLowerCase().includes(search.toLowerCase()));
+    const matchesStatus = statusFilter === "all" || c.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <div className="space-y-5 sm:space-y-6 text-zinc-800">
@@ -115,6 +117,23 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader title="Category" description="Manage all your categories." />
         <div className="flex items-center gap-3">
+          <div className="relative">
+            <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
+              <Filter className="h-4 w-4" />
+              Filter{statusFilter !== "all" ? " (1)" : ""}
+            </Button>
+            {filterOpen && (
+              <div className="absolute right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
+                <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
+                {["all", "Active", "Draft", "Inactive"].map((s) => (
+                  <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {s === "all" ? "All Statuses" : s}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <Button onClick={handleAdd}>
             Add Category
             <Plus className="h-4 w-4" />

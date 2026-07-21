@@ -29,6 +29,7 @@ import {
   Tag,
   Handshake,
   Cpu,
+  HelpCircle,
   type LucideIcon,
 } from "lucide-react";
 
@@ -60,6 +61,7 @@ export const navItems: NavItem[] = [
       { label: "Footer Widgets", href: "/website-setup/footer-widgets", icon: LayoutPanelTop },
       { label: "Our Partners", href: "/website-setup/partners", icon: Handshake },
       { label: "Technologies", href: "/website-setup/technologies", icon: Cpu },
+      { label: "FAQ", href: "/website-setup/faq", icon: HelpCircle },
       { label: "Add New Page", href: "/website-setup/add-newpage", icon: FilePlus2 },
     ],
   },
@@ -173,14 +175,6 @@ export function Sidebar({
     setOpenMenus((prev) => ({ ...prev, [href]: !prev[href] }));
   };
 
-  const openMenu = (href: string) => {
-    setOpenMenus((prev) => (prev[href] ? prev : { ...prev, [href]: true }));
-  };
-
-  const closeMenu = (href: string) => {
-    setOpenMenus((prev) => (prev[href] ? { ...prev, [href]: false } : prev));
-  };
-
   const handleLogout = async () => {
     setIsLoggingOut(true);
     try {
@@ -253,8 +247,6 @@ export function Sidebar({
                 return (
                   <div
                     key={item.href}
-                    onMouseEnter={() => openMenu(item.href)}
-                    onMouseLeave={() => closeMenu(item.href)}
                   >
                     <button
                       type="button"
