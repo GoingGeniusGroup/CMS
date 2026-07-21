@@ -7,6 +7,7 @@ import type { NextAuthConfig } from "next-auth";
 export const authConfig: NextAuthConfig = {
   providers: [], // Providers are defined in the full auth.ts
   session: { strategy: "jwt" },
+  secret: process.env.AUTH_SECRET,
   pages: {
     signIn: "/login",
   },

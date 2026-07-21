@@ -38,7 +38,7 @@ export default async function BlogArticlePage({
 
         {/* Full-width hero image */}
         {blog.thumbnail && (
-          <div className="relative aspect-[16/7] overflow-hidden rounded-2xl border border-zinc-200">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-zinc-200">
             <Image src={blog.thumbnail} alt={blog.title} fill sizes="100vw" className="object-cover" priority />
           </div>
         )}

@@ -58,7 +58,7 @@ export function LandingFeaturedProjects() {
             >
               {/* Thumbnail */}
               {project.thumbnail ? (
-                <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-zinc-50">
+                <div className="relative aspect-[3/2] overflow-hidden rounded-xl bg-zinc-50">
                   <Image
                     src={project.thumbnail}
                     alt={project.title}
@@ -68,7 +68,7 @@ export function LandingFeaturedProjects() {
                   />
                 </div>
               ) : (
-                <div className="flex aspect-[16/9] items-center justify-center rounded-xl bg-gradient-to-br from-indigo-50 to-purple-100">
+                <div className="flex aspect-[3/2] items-center justify-center rounded-xl bg-gradient-to-br from-indigo-50 to-purple-100">
                   <span className="text-4xl font-extrabold text-indigo-200">
                     {project.title.charAt(0)}
                   </span>

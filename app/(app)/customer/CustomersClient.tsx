@@ -313,9 +313,15 @@ export function CustomersClient({
               className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
             >
               {/* Avatar + Name */}
-              <div className="flex items-center gap-3 mb-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={customer.image} alt={customer.fullName} className="h-14 w-14 rounded-full object-cover" />
+              <div className="w-full aspect-square relative bg-zinc-50 border border-zinc-100 rounded-xl overflow-hidden mb-3 flex items-center justify-center">
+                {customer.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={customer.image} alt={customer.fullName} className="w-full h-full object-contain" />
+                ) : (
+                  <Users className="h-12 w-12 text-zinc-300" />
+                )}
+              </div>
+              <div className="mb-4">
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-bold text-gray-900 truncate">{customer.fullName}</h3>
                   {customer.companyName && <p className="text-xs text-gray-400 truncate">{customer.companyName}</p>}

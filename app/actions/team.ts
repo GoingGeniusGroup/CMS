@@ -16,6 +16,11 @@ const teamMemberSchema = z.object({
   location: z.string().optional(),
   experience: z.string().optional(),
   skills: z.array(z.string()).optional(),
+  facebook: z.string().optional(),
+  twitter: z.string().optional(),
+  instagram: z.string().optional(),
+  linkedin: z.string().optional(),
+  website: z.string().optional(),
 });
 
 export type TeamMemberInput = z.infer<typeof teamMemberSchema>;
@@ -150,6 +155,11 @@ export async function getPublicTeamMembers() {
       skills: true,
       email: true,
       phone: true,
+      facebook: true,
+      twitter: true,
+      instagram: true,
+      linkedin: true,
+      website: true,
     },
     orderBy: { joinedAt: "asc" },
   });

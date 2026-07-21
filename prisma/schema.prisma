@@ -56,6 +56,11 @@ model Team {
   location   String?
   experience String?
   skills     String[]  @default([])
+  facebook   String?
+  twitter    String?
+  instagram  String?
+  linkedin   String?
+  website    String?
   blogs      Blog[]
   projects   Project[]
 

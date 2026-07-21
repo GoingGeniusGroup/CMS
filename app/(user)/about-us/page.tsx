@@ -67,12 +67,12 @@ function HeroSection() {
 
           {/* Right — career3.png with stat badge */}
           <div className="relative">
-            <div className="overflow-hidden rounded-2xl border border-zinc-100 bg-zinc-50">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-zinc-100 bg-zinc-50">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/career3.png"
                 alt="Going Genius team"
-                className="w-full"
+                className="w-full h-full object-cover"
               />
             </div>
             {/* Floating stat */}
@@ -142,12 +142,12 @@ function OurStorySection() {
               designers, developers and strategists delivering world-class digital
               experiences.
             </p>
-            <div className="mt-8 overflow-hidden rounded-2xl border border-zinc-100">
+            <div className="relative aspect-[4/3] mt-8 overflow-hidden rounded-2xl border border-zinc-100">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/career3.png"
                 alt="Going Genius team"
-                className="w-full"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>

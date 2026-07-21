@@ -264,12 +264,14 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
               className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
             >
               {/* Thumbnail */}
-              {service.thumbnailUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={service.thumbnailUrl} alt={service.serviceName} className="mb-4 h-36 w-full rounded-xl object-cover" />
-              ) : (
-                <div className="mb-4 h-36 w-full rounded-xl bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
-              )}
+              <div className="mb-4 aspect-square w-full relative bg-zinc-50 border border-zinc-100 rounded-xl overflow-hidden flex items-center justify-center">
+                {service.thumbnailUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={service.thumbnailUrl} alt={service.serviceName} className="h-full w-full object-contain" />
+                ) : (
+                  <div className="h-full w-full bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+                )}
+              </div>
 
               {/* Title & Status */}
               <div className="mb-3 flex items-start justify-between gap-2">

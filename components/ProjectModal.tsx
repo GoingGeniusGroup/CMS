@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { X, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ImageUploader } from "@/components/ImageUploader";
@@ -345,6 +345,27 @@ function GalleryEditor({
   images: string[];
   onChange: (images: string[]) => void;
 }) {
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const imagesRef = useRef(images);
+  useEffect(() => {
+    imagesRef.current = images;
+  }, [images]);
+
+  const handleAddImage = (url: string) => {
+    const updated = [...imagesRef.current, url];
+    onChange(updated);
+    imagesRef.current = updated;
+  };
+
+  const handleReplaceImage = (url: string) => {
+    if (editingIndex === null) return;
+    setEditingIndex(null);
+    const updated = [...imagesRef.current];
+    updated[editingIndex] = url;
+    onChange(updated);
+    imagesRef.current = updated;
+  };
+
   return (
     <div>
       {images.length > 0 && (
@@ -353,24 +374,62 @@ function GalleryEditor({
             <div key={i} className="group relative rounded-lg border border-zinc-200 overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={url} alt={`Gallery ${i + 1}`} className="h-16 w-full object-cover" />
-              <button
-                type="button"
-                onClick={() => onChange(images.filter((_, idx) => idx !== i))}
-                className="absolute inset-0 flex items-center justify-center bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100"
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
+              <div className="absolute inset-0 flex items-center justify-center gap-1 bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100">
+                <button
+                  type="button"
+                  onClick={() => setEditingIndex(i)}
+                  className="flex items-center gap-1 rounded bg-white/20 px-2 py-1 text-xs hover:bg-white/30"
+                >
+                  Change
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const updated = imagesRef.current.filter((_, idx) => idx !== i);
+                    onChange(updated);
+                    imagesRef.current = updated;
+                  }}
+                  className="flex items-center gap-1 rounded bg-white/20 px-2 py-1 text-xs hover:bg-white/30"
+                >
+                  <Trash2 className="h-3 w-3" />
+                </button>
+              </div>
             </div>
           ))}
         </div>
       )}
-      <ImageUploader
-        label="Add Gallery Image"
-        value={null}
-        onChange={(url) => {
-          if (url) onChange([...images, url]);
-        }}
-      />
+
+      {editingIndex !== null ? (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+          <div className="mb-2 flex items-center justify-between">
+            <p className="text-xs font-medium text-amber-700">
+              Replacing image {editingIndex + 1}
+            </p>
+            <button
+              type="button"
+              onClick={() => setEditingIndex(null)}
+              className="text-xs text-amber-600 hover:text-amber-800"
+            >
+              Cancel
+            </button>
+          </div>
+          <ImageUploader
+            value={images[editingIndex]}
+            onChange={(url) => {
+              if (url) handleReplaceImage(url);
+            }}
+          />
+        </div>
+      ) : (
+        <ImageUploader
+          label="Add Gallery Image"
+          value={null}
+          multiple
+          onChange={(url) => {
+            if (url) handleAddImage(url);
+          }}
+        />
+      )}
     </div>
   );
 }

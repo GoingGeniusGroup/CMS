@@ -39,7 +39,7 @@ export default function BlogArticlePage() {
     <div className="bg-[#f7f6f4]">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Full-width hero image */}
-        <div className="relative aspect-[16/7] overflow-hidden rounded-2xl border border-zinc-200">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-zinc-200">
           <Image src="/picture1.png" alt="AI Innovation" fill sizes="100vw" className="object-cover" />
         </div>
 

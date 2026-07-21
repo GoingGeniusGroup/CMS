@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Cpu, Trash2, Loader2 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Topbar } from "@/components/Topbar";
@@ -10,14 +10,20 @@ import { saveSetting } from "@/app/actions/settings";
 
 export function TechnologiesClient({ initialTechnologies }: { initialTechnologies: string[] }) {
   const [technologies, setTechnologies] = useState<string[]>(initialTechnologies);
-  const [newLogo, setNewLogo] = useState<string | null>(null);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const techRef = useRef(technologies);
+  useEffect(() => {
+    techRef.current = technologies;
+  }, [technologies]);
 
-  function handleAdd() {
-    if (!newLogo) return;
-    setTechnologies((prev) => [...prev, newLogo]);
-    setNewLogo(null);
+  function handleUpdate(url: string) {
+    if (editingIndex === null) return;
+    const updated = techRef.current.map((u, idx) => (idx === editingIndex ? url : u));
+    setTechnologies(updated);
+    techRef.current = updated;
+    setEditingIndex(null);
   }
 
   async function handleRemove(i: number) {
@@ -66,17 +72,45 @@ export function TechnologiesClient({ initialTechnologies }: { initialTechnologie
       {/* Upload Section */}
       <Card className="p-6">
         <h3 className="mb-4 text-sm font-bold text-zinc-800">Upload Technology Logo</h3>
-        <div className="max-w-sm">
-          <ImageUploader label="Technology Logo" required value={newLogo} onChange={(url) => setNewLogo(url)} />
-        </div>
-        <div className="mt-4 flex gap-3">
-          <button type="button" onClick={() => setNewLogo(null)} className="rounded-lg border border-zinc-300 bg-white px-5 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50">
-            Cancel
-          </button>
-          <button type="button" onClick={handleAdd} disabled={!newLogo} className="rounded-lg bg-amber-500 px-5 py-2 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
-            Add Technology
-          </button>
-        </div>
+        {editingIndex !== null ? (
+          <div className="space-y-3">
+            <p className="text-xs font-medium text-amber-700">
+              Changing logo {editingIndex + 1} — upload a new image to replace it
+            </p>
+            <div className="max-w-sm">
+              <ImageUploader
+                label="Replace Logo"
+                value={technologies[editingIndex]}
+                onChange={(url) => {
+                  if (url) handleUpdate(url);
+                }}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => setEditingIndex(null)}
+              className="text-xs text-amber-600 hover:text-amber-800"
+            >
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <div className="max-w-sm">
+            <ImageUploader
+              label="Technology Logo"
+              required
+              value={null}
+              multiple
+              onChange={(url) => {
+                if (url) {
+                  const updated = [...techRef.current, url];
+                  setTechnologies(updated);
+                  techRef.current = updated;
+                }
+              }}
+            />
+          </div>
+        )}
       </Card>
 
       {/* List */}
@@ -95,13 +129,22 @@ export function TechnologiesClient({ initialTechnologies }: { initialTechnologie
               <div key={i} className="group relative flex items-center justify-center rounded-xl border border-zinc-200 bg-white p-5 transition-all hover:shadow-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={url} alt={`Tech ${i + 1}`} className="h-12 max-w-full object-contain" />
-                <button
-                  type="button"
-                  onClick={() => handleRemove(i)}
-                  className="absolute right-2 top-2 hidden h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white transition-all group-hover:flex hover:bg-red-600"
-                >
-                  <Trash2 className="h-3 w-3" />
-                </button>
+                <div className="absolute inset-0 flex items-center justify-center gap-1 rounded-xl bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100">
+                  <button
+                    type="button"
+                    onClick={() => setEditingIndex(i)}
+                    className="flex items-center gap-1 rounded bg-white/20 px-2 py-1 text-xs hover:bg-white/30"
+                  >
+                    Change
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleRemove(i)}
+                    className="flex items-center gap-1 rounded bg-white/20 px-2 py-1 text-xs hover:bg-white/30"
+                  >
+                    <Trash2 className="h-3 w-3" />
+                  </button>
+                </div>
               </div>
             ))}
           </div>

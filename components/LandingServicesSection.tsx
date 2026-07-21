@@ -53,7 +53,7 @@ export function LandingServicesSection() {
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                 >
                   {service.thumbnailUrl ? (
-                    <div className="mx-auto mb-5 h-32 w-full overflow-hidden rounded-xl relative">
+                    <div className="mx-auto mb-5 aspect-square w-full overflow-hidden rounded-xl relative bg-zinc-50 border border-zinc-100">
                       <Image
                         src={service.thumbnailUrl}
                         alt={service.serviceName}
@@ -63,7 +63,7 @@ export function LandingServicesSection() {
                       />
                     </div>
                   ) : (
-                    <div className="mx-auto mb-5 flex h-32 w-full items-center justify-center rounded-xl bg-gradient-to-br from-indigo-50 to-indigo-100">
+                    <div className="mx-auto mb-5 flex aspect-square w-full items-center justify-center rounded-xl bg-gradient-to-br from-indigo-50 to-indigo-100">
                       <span className="text-3xl font-extrabold text-indigo-300">
                         {service.serviceName.charAt(0)}
                       </span>

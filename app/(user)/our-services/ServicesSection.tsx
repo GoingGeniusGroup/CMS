@@ -66,12 +66,12 @@ function FlipCardSmall({ service }: { service: ServiceData }) {
         {/* ── Front ── */}
         <div className="absolute inset-0 flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm [backface-visibility:hidden]">
           {service.thumbnailUrl ? (
-            <div className="relative h-20 w-full overflow-hidden rounded-xl">
+            <div className="relative aspect-square h-20 w-20 mx-auto overflow-hidden rounded-xl bg-zinc-50 border border-zinc-100 shrink-0">
               <Image
                 src={service.thumbnailUrl}
                 alt={service.serviceName}
                 fill
-                sizes="20vw"
+                sizes="80px"
                 className="object-cover"
               />
             </div>
@@ -119,12 +119,12 @@ function FlipCardLarge({ service }: { service: ServiceData }) {
         {/* ── Front ── */}
         <div className="absolute inset-0 flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm [backface-visibility:hidden]">
           {service.thumbnailUrl ? (
-            <div className="relative h-28 w-full overflow-hidden rounded-xl">
+            <div className="relative aspect-square h-24 w-24 mx-auto overflow-hidden rounded-xl bg-zinc-50 border border-zinc-100 shrink-0">
               <Image
                 src={service.thumbnailUrl}
                 alt={service.serviceName}
                 fill
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes="96px"
                 className="object-cover"
               />
             </div>
