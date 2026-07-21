@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Search, ArrowRight, Mail, Calendar, Clock, BookOpen, Monitor, BarChart3, Users, Shield, ChevronLeft, ChevronRight } from "lucide-react";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
+import { getPublicBlogs } from "@/app/actions/blogs";
 
 const popularArticles = [
   { title: "How AI is Transforming the IT Industry", date: "MAY 12, 2024", image: "/blog2.png" },
@@ -18,14 +19,7 @@ const collections = [
   { label: "AI & Machine Learning", count: 22, color: "bg-rose-500" },
 ];
 
-const blogCards = [
-  { title: "The Future of Web Development", desc: "Discover the emerging frameworks and tools that are redefining the digital landscape in 2024 and beyond.", date: "July 12, 2024", readTime: "8 min read", tag: "PRODUCT", author: "John Doe", image: "/blog2.png" },
-  { title: "The Future of Web Development", desc: "Discover the emerging frameworks and tools that are redefining the digital landscape in 2024 and beyond.", date: "July 12, 2024", readTime: "8 min read", tag: "PRODUCT", author: "John Doe", image: "/blog2.png" },
-  { title: "The Future of Web Development", desc: "Discover the emerging frameworks and tools that are redefining the digital landscape in 2024 and beyond.", date: "July 12, 2024", readTime: "8 min read", tag: "PRODUCT", author: "John Doe", image: "/blog2.png" },
-  { title: "The Future of Web Development", desc: "Discover the emerging frameworks and tools that are redefining the digital landscape in 2024 and beyond.", date: "July 12, 2024", readTime: "8 min read", tag: "PRODUCT", author: "John Doe", image: "/blog2.png" },
-  { title: "The Future of Web Development", desc: "Discover the emerging frameworks and tools that are redefining the digital landscape in 2024 and beyond.", date: "July 12, 2024", readTime: "8 min read", tag: "PRODUCT", author: "John Doe", image: "/blog2.png" },
-  { title: "The Future of Web Development", desc: "Discover the emerging frameworks and tools that are redefining the digital landscape in 2024 and beyond.", date: "July 12, 2024", readTime: "8 min read", tag: "PRODUCT", author: "John Doe", image: "/blog2.png" },
-];
+const fallbackImages = ["/blog1.png", "/blog2.png", "/picture1.png", "/webdev.png"];
 
 const benefits = [
   { icon: Monitor, title: "Increased Efficiency", desc: "Automate repetitive tasks and streamline workflows." },
@@ -34,7 +28,9 @@ const benefits = [
   { icon: Shield, title: "Cost Reduction", desc: "Optimize operations and reduce operational costs." },
 ];
 
-export default function BlogArticlePage() {
+export default async function BlogArticlePage() {
+  const blogs = await getPublicBlogs();
+
   return (
     <div className="bg-[#f7f6f4]">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -255,30 +251,47 @@ export default function BlogArticlePage() {
           </div>
 
           {/* Blog grid */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {blogCards.map((card, i) => (
-              <div key={i} className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
-                <div className="relative aspect-[16/10]">
-                  <Image src={card.image} alt={card.title} fill sizes="100vw" className="object-cover" />
-                  <span className="absolute left-3 top-3 rounded bg-indigo-600 px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">{card.tag}</span>
-                </div>
-                <div className="p-5">
-                  <div className="mb-2 flex items-center gap-3 text-xs text-zinc-400">
-                    <span className="flex items-center gap-1"><Calendar className="h-3 w-3" />{card.date}</span>
-                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{card.readTime}</span>
+          {blogs.length > 0 ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {blogs.map((blog, i) => (
+                <Link key={blog.id} href={`/blogs/${blog.slug}`} className="group overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
+                  <div className="relative aspect-[16/10]">
+                    <Image src={blog.thumbnail || fallbackImages[i % fallbackImages.length]} alt={blog.title} fill sizes="100vw" className="object-cover" />
+                    {blog.category && (
+                      <span className="absolute left-3 top-3 rounded bg-indigo-600 px-2.5 py-0.5 text-[10px] font-bold uppercase text-white">{blog.category}</span>
+                    )}
                   </div>
-                  <h3 className="text-base font-bold text-zinc-900">{card.title}</h3>
-                  <p className="mt-2 text-xs leading-relaxed text-zinc-500">{card.desc}</p>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="text-xs text-zinc-500">By <span className="font-semibold text-zinc-700">{card.author}</span></span>
-                    <Link href="#" className="text-xs font-semibold text-indigo-600 hover:underline flex items-center gap-0.5">
-                      Read More <ArrowRight className="h-3 w-3" />
-                    </Link>
+                  <div className="p-5">
+                    <div className="mb-2 flex items-center gap-3 text-xs text-zinc-400">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="h-3 w-3" />
+                        {(blog.publishedAt || blog.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                      </span>
+                      {blog.readTime && (
+                        <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{blog.readTime}</span>
+                      )}
+                    </div>
+                    <h3 className="text-base font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">{blog.title}</h3>
+                    {blog.excerpt && (
+                      <p className="mt-2 text-xs leading-relaxed text-zinc-500 line-clamp-2">{blog.excerpt}</p>
+                    )}
+                    <div className="mt-4 flex items-center justify-between">
+                      {blog.author && (
+                        <span className="text-xs text-zinc-500">By <span className="font-semibold text-zinc-700">{blog.author.fullName}</span></span>
+                      )}
+                      <span className="text-xs font-semibold text-indigo-600 group-hover:underline flex items-center gap-0.5">
+                        Read More <ArrowRight className="h-3 w-3" />
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-zinc-200 bg-white p-12 text-center">
+              <p className="text-sm text-zinc-500">No articles published yet. Check back soon!</p>
+            </div>
+          )}
 
           {/* Pagination */}
           <div className="mt-10 flex items-center justify-center gap-2">
