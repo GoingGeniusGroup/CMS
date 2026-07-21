@@ -2,8 +2,7 @@
 
 import { X, Loader2, Star } from "lucide-react";
 import { useEffect, useState } from "react";
-import { FileUploaderRegular } from "@uploadcare/react-uploader/next";
-import "@uploadcare/react-uploader/core.css";
+import { ImageUploader } from "@/components/ImageUploader";
 import { updateService } from "@/app/actions/services";
 
 export interface ServiceRow {
@@ -185,50 +184,15 @@ export function EditServiceModal({
             </div>
           </div>
 
-          {/* Thumbnail — Uploadcare */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-bold text-zinc-800">
-              Thumbnail
-            </label>
-            {thumbnailUrl && !fileName && (
-              <div className="flex items-center gap-3 rounded-lg border border-zinc-200 p-3">
-                <img
-                  src={thumbnailUrl}
-                  alt="Current thumbnail"
-                  className="h-12 w-12 rounded-lg object-cover"
-                />
-                <span className="text-xs text-zinc-500 truncate flex-1">
-                  Current thumbnail
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setThumbnailUrl(null)}
-                  className="text-xs text-red-500 hover:text-red-700 font-medium"
-                >
-                  Remove
-                </button>
-              </div>
-            )}
-            <FileUploaderRegular
-              pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!}
-              maxLocalFileSizeBytes={2_000_000}
-              imgOnly
-              onFileUploadSuccess={(file) => {
-                setThumbnailUrl(file.cdnUrl ?? null);
-                setFileName(file.name ?? null);
-              }}
-              onFileRemoved={() => {
-                setThumbnailUrl(service.thumbnailUrl ?? null);
-                setFileName(null);
-              }}
-              className="w-full"
-            />
-            {fileName && thumbnailUrl && (
-              <p className="text-xs text-emerald-600">
-                ✓ New thumbnail: {fileName}
-              </p>
-            )}
-          </div>
+          {/* Thumbnail — ImageUploader */}
+          <ImageUploader
+            label="Thumbnail"
+            value={thumbnailUrl}
+            onChange={(url) => {
+              setThumbnailUrl(url);
+              setFileName(url ? "Uploaded Image" : null);
+            }}
+          />
 
           {/* Featured Toggle */}
           <div className="flex items-center justify-between rounded-xl border border-black/15 px-4 py-3">

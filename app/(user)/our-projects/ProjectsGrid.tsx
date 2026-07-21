@@ -26,7 +26,7 @@ function ProjectCard({ project }: { project: ProjectData }) {
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
       {/* Image */}
       {project.thumbnail && (
-        <div className="relative aspect-square overflow-hidden bg-zinc-100">
+        <div className="relative aspect-[3/2] overflow-hidden bg-zinc-100">
           <Image
             src={project.thumbnail}
             alt={project.title}

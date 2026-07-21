@@ -92,7 +92,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className="relative h-64 w-full overflow-hidden rounded-lg border border-gray-200 sm:h-80">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
           <Image src="/webdev.png" alt="Web development team" fill sizes="100vw" className="object-cover" />
         </div>
       </div>
@@ -106,8 +106,8 @@ function Mission() {
     <section className="border-t border-gray-100">
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 md:grid-cols-2">
-          <div className="relative h-72 w-full sm:h-96">
-            <Image src="/mission.png" alt="Designer at work" fill className="object-contain" />
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+            <Image src="/mission.png" alt="Designer at work" fill className="object-cover" />
           </div>
 
           <div>

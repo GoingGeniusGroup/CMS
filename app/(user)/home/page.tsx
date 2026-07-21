@@ -174,7 +174,7 @@ function Insights() {
         <div className="grid gap-6 sm:grid-cols-2">
           {posts.map((post) => (
             <div key={post.title} className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
-              <div className="relative aspect-[16/9]">
+              <div className="relative aspect-[16/10]">
                 <Image src={post.src} alt={post.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
                 <span className="absolute left-4 top-4 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white">
                   {post.tag}

@@ -77,7 +77,7 @@ export function LandingTeamSection() {
               key={member.id}
               className="min-w-[200px] max-w-[200px] flex-shrink-0 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
             >
-              <div className="relative h-48 w-full bg-zinc-50">
+              <div className="relative aspect-square w-full bg-zinc-50">
                 {member.image ? (
                   <Image
                     src={member.image}

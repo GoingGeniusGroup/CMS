@@ -83,7 +83,7 @@ function TeamSection({
             onClick={() => onMemberClick(member)}
             className="min-w-[200px] max-w-[200px] flex-shrink-0 rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition group"
           >
-            <div className="relative h-48 w-full bg-gradient-to-br from-indigo-50 to-purple-50">
+            <div className="relative aspect-square w-full bg-gradient-to-br from-indigo-50 to-purple-50">
               {member.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={member.image} alt={member.fullName} className="w-full h-full object-cover" />

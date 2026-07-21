@@ -158,9 +158,9 @@ function FeaturedServicesStrip({ services }: { services: ServiceData[] }) {
                 className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
               >
                 {svc.thumbnailUrl ? (
-                  <div className="relative h-32 w-full overflow-hidden rounded-xl">
+                  <div className="mx-auto mb-5 aspect-square w-full overflow-hidden rounded-xl relative bg-zinc-50 border border-zinc-100">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={svc.thumbnailUrl} alt={svc.serviceName} className="h-full w-full object-cover" />
+                    <img src={svc.thumbnailUrl} alt={svc.serviceName} className="w-full h-full object-cover" />
                   </div>
                 ) : (
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
@@ -201,12 +201,12 @@ function AllServicesGrid({ services }: { services: ServiceData[] }) {
                 className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
               >
                 {svc.thumbnailUrl ? (
-                  <div className="relative h-40 w-full overflow-hidden rounded-xl">
+                  <div className="mx-auto mb-5 aspect-square w-full overflow-hidden rounded-xl relative bg-zinc-50 border border-zinc-100">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={svc.thumbnailUrl}
                       alt={svc.serviceName}
-                      className="h-full w-full object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 ) : (
@@ -297,7 +297,7 @@ function CTASection() {
             </div>
           </div>
 
-          <div className="relative aspect-[16/10] overflow-hidden rounded-2xl">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
             <Image
               src="/Rectangle.png"
               alt="Web development"

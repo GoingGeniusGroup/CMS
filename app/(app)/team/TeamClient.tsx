@@ -365,22 +365,20 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((m) => (
             <Card key={m.id} className="flex flex-col gap-4 p-5">
-              <div className="flex items-center gap-4">
+              <div className="w-full aspect-square relative bg-zinc-50 border border-zinc-100 rounded-xl overflow-hidden mb-1 flex items-center justify-center">
                 {m.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={m.image} alt={m.fullName} className="h-14 w-14 shrink-0 rounded-full object-cover" />
+                  <img src={m.image} alt={m.fullName} className="w-full h-full object-contain" />
                 ) : (
-                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-sky-50 text-sky-500">
-                    <User className="h-7 w-7" />
-                  </span>
+                  <User className="h-12 w-12 text-zinc-300" />
                 )}
-                <div className="min-w-0">
-                  <p className="font-semibold text-zinc-800 truncate">{m.fullName}</p>
-                  <p className="text-sm text-zinc-500 truncate">{m.role || "—"}</p>
-                  <span className={`mt-1 inline-block text-xs font-medium ${m.status === "Active" ? "text-emerald-600" : "text-zinc-400"}`}>
-                    {m.status}
-                  </span>
-                </div>
+              </div>
+              <div className="min-w-0">
+                <p className="font-semibold text-zinc-800 truncate">{m.fullName}</p>
+                <p className="text-sm text-zinc-500 truncate">{m.role || "—"}</p>
+                <span className={`mt-1 inline-block text-xs font-medium ${m.status === "Active" ? "text-emerald-600" : "text-zinc-400"}`}>
+                  {m.status}
+                </span>
               </div>
               <div className="space-y-1.5 text-sm text-zinc-600">
                 <div className="flex items-center gap-2">
