@@ -31,7 +31,7 @@ export function ImageUploader({
   const handleDelete = () => {
     onChange(null);
     try {
-      uploaderRef.current?.getAPI()?.clear();
+      uploaderRef.current?.getAPI()?.removeAllFiles();
     } catch {
       // ignore
     }
@@ -69,17 +69,6 @@ export function ImageUploader({
 
             <button
               type="button"
-              onClick={handleTriggerUpload}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              Add More
-            </button>
-
-            <button
-              type="button"
               onClick={handleDelete}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-red-600 bg-white border border-red-200 rounded-lg hover:bg-red-50 hover:text-red-700 transition-colors"
             >
@@ -92,7 +81,7 @@ export function ImageUploader({
         </div>
       )}
 
-      <div className={value ? "fixed left-[-9999px] top-0 opacity-0" : "block"}>
+      <div className={value ? "absolute opacity-0" : "block"}>
         <FileUploaderRegular
           apiRef={uploaderRef}
           pubkey={process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY!}
@@ -104,8 +93,11 @@ export function ImageUploader({
               onChange(file.cdnUrl);
             }
           }}
-          onFileRemoved={() => {
-            onChange(null);
+          onFileUploadFailed={(file) => {
+            console.error("Uploadcare file upload failed:", file);
+          }}
+          onCommonUploadFailed={(event) => {
+            console.error("Uploadcare common upload failed:", event);
           }}
           className="w-full"
         />

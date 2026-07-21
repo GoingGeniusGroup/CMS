@@ -16,18 +16,34 @@ export function LandingTechSection() {
     <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl text-center">
         <p className="mb-8 text-3xl font-bold text-zinc-900">Technologies We Use</p>
-        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 sm:gap-x-14">
-          {technologies.map((url, i) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              key={i}
-              src={url}
-              alt={`Technology ${i + 1}`}
-              className="h-7 w-auto max-w-[100px] object-contain sm:h-9 sm:max-w-[120px]"
-            />
-          ))}
+        <div className="overflow-hidden">
+          <div className="flex gap-x-20 sm:gap-x-28 tech-scroll">
+            {[...technologies, ...technologies].map((url, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={i}
+                src={url}
+                alt={`Technology ${i + 1}`}
+                className="h-7 w-auto max-w-[100px] object-contain flex-shrink-0 sm:h-9 sm:max-w-[120px]"
+              />
+            ))}
+          </div>
         </div>
       </div>
+
+      <style>{`
+        .tech-scroll {
+          animation: tech-scroll-right 10s linear infinite;
+          will-change: transform;
+        }
+        .tech-scroll:hover {
+          animation-play-state: paused;
+        }
+        @keyframes tech-scroll-right {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+      `}</style>
     </section>
   );
 }

@@ -5,33 +5,14 @@ import {
   CheckCircle,
   BookOpen,
   Code2,
-  Globe,
   Layers,
-  Megaphone,
   Pencil,
   Search,
   Send,
-  Cloud,
-  Smartphone,
-  type LucideIcon,
 } from "lucide-react";
 import { getPublicServices } from "@/app/actions/services";
-
-// ─── Icon map for service categories ─────────────────────────────────────────
-
-const CATEGORY_ICONS: Record<string, LucideIcon> = {
-  Development: Code2,
-  Design: Pencil,
-  Marketing: Megaphone,
-  Infrastructure: Cloud,
-  Mobile: Smartphone,
-  default: Globe,
-};
-
-function getIcon(category?: string | null): LucideIcon {
-  if (!category) return CATEGORY_ICONS.default;
-  return CATEGORY_ICONS[category] || CATEGORY_ICONS.default;
-}
+import { ServicesGrid } from "@/components/ServicesGrid";
+import { FeaturedServicesGrid } from "@/components/FeaturedServicesGrid";
 
 // ─── Static process steps ────────────────────────────────────────────────────
 
@@ -153,46 +134,24 @@ function FeaturedServicesStrip({ services }: { services: ServiceData[] }) {
           {featured.map((svc) => {
             const Icon = getIcon(svc.category);
             return (
-              <div key={svc.id} className="group h-64 w-full [perspective:1000px]">
-                <div className="relative h-full w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                  {/* Front */}
-                  <div className="absolute inset-0 flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm [backface-visibility:hidden]">
-                    {svc.thumbnailUrl ? (
-                      <div className="relative h-20 w-full overflow-hidden rounded-xl">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={svc.thumbnailUrl} alt={svc.serviceName} className="h-full w-full object-cover" />
-                      </div>
-                    ) : (
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
-                        <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
-                      </div>
-                    )}
-                    <h3 className="text-sm font-bold text-zinc-900">{svc.serviceName}</h3>
-                    <p className="text-xs leading-relaxed text-zinc-500 line-clamp-2">
-                      {svc.description || "Professional service tailored to your needs."}
-                    </p>
-                    <div className="mt-auto">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-full border border-zinc-200 text-zinc-400">
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      </span>
-                    </div>
+              <div
+                key={svc.id}
+                className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+              >
+                {svc.thumbnailUrl ? (
+                  <div className="mx-auto mb-5 aspect-square w-full overflow-hidden rounded-xl relative bg-zinc-50 border border-zinc-100">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={svc.thumbnailUrl} alt={svc.serviceName} className="w-full h-full object-cover" />
                   </div>
-                  {/* Back */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-indigo-600 p-6 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
-                      <Icon className="h-6 w-6 text-white" strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-sm font-bold text-white">{svc.serviceName}</h3>
-                    <p className="text-xs leading-relaxed text-indigo-100 line-clamp-3">
-                      {svc.description || "Professional service tailored to your needs."}
-                    </p>
-                    <div className="mt-auto pt-3">
-                      <Link href="/servicedetail" className="rounded-full bg-white px-5 py-2 text-xs font-semibold text-indigo-600 transition-transform hover:scale-105">
-                        Learn More
-                      </Link>
-                    </div>
+                ) : (
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
+                    <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
                   </div>
-                </div>
+                )}
+                <h3 className="text-sm font-bold text-zinc-900">{svc.serviceName}</h3>
+                <p className="text-xs leading-relaxed text-zinc-500 line-clamp-3">
+                  {svc.description || "Professional service tailored to your needs."}
+                </p>
               </div>
             );
           })}
@@ -218,52 +177,30 @@ function AllServicesGrid({ services }: { services: ServiceData[] }) {
           {services.map((svc) => {
             const Icon = getIcon(svc.category);
             return (
-              <div key={svc.id} className="group h-72 w-full [perspective:1000px]">
-                <div className="relative h-full w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                  {/* Front */}
-                  <div className="absolute inset-0 flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm [backface-visibility:hidden]">
-                    {svc.thumbnailUrl ? (
-                      <div className="relative h-24 w-full overflow-hidden rounded-xl">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={svc.thumbnailUrl}
-                          alt={svc.serviceName}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
-                        <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
-                      </div>
-                    )}
-                    <h3 className="text-base font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">
-                      {svc.serviceName}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-zinc-500 line-clamp-2">
-                      {svc.description || "Professional service tailored to your business needs."}
-                    </p>
-                    <div className="mt-auto">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-full border border-zinc-200 text-zinc-400">
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      </span>
-                    </div>
+              <div
+                key={svc.id}
+                className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+              >
+                {svc.thumbnailUrl ? (
+                  <div className="mx-auto mb-5 aspect-square w-full overflow-hidden rounded-xl relative bg-zinc-50 border border-zinc-100">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={svc.thumbnailUrl}
+                      alt={svc.serviceName}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                  {/* Back */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-2xl bg-indigo-600 p-8 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20">
-                      <Icon className="h-7 w-7 text-white" strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-base font-bold text-white">{svc.serviceName}</h3>
-                    <p className="text-sm leading-relaxed text-indigo-100 line-clamp-4">
-                      {svc.description || "Professional service tailored to your business needs."}
-                    </p>
-                    <div className="mt-auto pt-4">
-                      <Link href="/servicedetail" className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm transition-transform hover:scale-105">
-                        Learn More
-                      </Link>
-                    </div>
+                ) : (
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
+                    <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
                   </div>
-                </div>
+                )}
+                <h3 className="text-base font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">
+                  {svc.serviceName}
+                </h3>
+                <p className="text-sm leading-relaxed text-zinc-500">
+                  {svc.description || "Professional service tailored to your business needs."}
+                </p>
               </div>
             );
           })}
@@ -364,8 +301,8 @@ export default async function ServicesPublicPage() {
   return (
     <>
       <HeroSection serviceCount={services.length} />
-      <FeaturedServicesStrip services={services} />
-      <AllServicesGrid services={services} />
+      <FeaturedServicesGrid services={services} />
+      <ServicesGrid services={services} />
       <DevelopmentProcess />
       <CTASection />
     </>
