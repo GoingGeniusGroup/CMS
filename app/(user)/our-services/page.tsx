@@ -5,33 +5,14 @@ import {
   CheckCircle,
   BookOpen,
   Code2,
-  Globe,
   Layers,
-  Megaphone,
   Pencil,
   Search,
   Send,
-  Cloud,
-  Smartphone,
-  type LucideIcon,
 } from "lucide-react";
 import { getPublicServices } from "@/app/actions/services";
-
-// ─── Icon map for service categories ─────────────────────────────────────────
-
-const CATEGORY_ICONS: Record<string, LucideIcon> = {
-  Development: Code2,
-  Design: Pencil,
-  Marketing: Megaphone,
-  Infrastructure: Cloud,
-  Mobile: Smartphone,
-  default: Globe,
-};
-
-function getIcon(category?: string | null): LucideIcon {
-  if (!category) return CATEGORY_ICONS.default;
-  return CATEGORY_ICONS[category] || CATEGORY_ICONS.default;
-}
+import { ServicesGrid } from "@/components/ServicesGrid";
+import { FeaturedServicesGrid } from "@/components/FeaturedServicesGrid";
 
 // ─── Static process steps ────────────────────────────────────────────────────
 
@@ -112,124 +93,6 @@ function HeroSection({ serviceCount }: { serviceCount: number }) {
             </div>
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Section: Featured Services Strip ────────────────────────────────────────
-
-type ServiceData = {
-  id: string;
-  serviceName: string;
-  description: string | null;
-  category: string | null;
-  thumbnailUrl: string | null;
-  isFeatured: boolean;
-};
-
-function FeaturedServicesStrip({ services }: { services: ServiceData[] }) {
-  const featured = services.filter((s) => s.isFeatured);
-
-  if (featured.length === 0) return null;
-
-  return (
-    <section className="bg-[#f8f9ff] px-4 py-20 sm:px-6 lg:px-16">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-12 text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-indigo-500">
-            WHAT WE DO
-          </p>
-          <h2 className="mt-2 text-3xl font-extrabold text-zinc-900">
-            Our <span className="text-indigo-600">Digital Services</span>
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-500">
-            We build digital products and services that help you grow, scale and
-            succeed in the digital world.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((svc) => {
-            const Icon = getIcon(svc.category);
-            return (
-              <div
-                key={svc.id}
-                className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
-              >
-                {svc.thumbnailUrl ? (
-                  <div className="mx-auto mb-5 aspect-square w-full overflow-hidden rounded-xl relative bg-zinc-50 border border-zinc-100">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={svc.thumbnailUrl} alt={svc.serviceName} className="w-full h-full object-cover" />
-                  </div>
-                ) : (
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
-                    <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
-                  </div>
-                )}
-                <h3 className="text-sm font-bold text-zinc-900">{svc.serviceName}</h3>
-                <p className="text-xs leading-relaxed text-zinc-500 line-clamp-3">
-                  {svc.description || "Professional service tailored to your needs."}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Section: All Services Grid ──────────────────────────────────────────────
-
-function AllServicesGrid({ services }: { services: ServiceData[] }) {
-  return (
-    <section id="services-we-provide" className="bg-white px-4 py-20 sm:px-6 lg:px-16">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-12 text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-indigo-500">
-            SERVICES WE PROVIDE
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((svc) => {
-            const Icon = getIcon(svc.category);
-            return (
-              <div
-                key={svc.id}
-                className="group flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
-              >
-                {svc.thumbnailUrl ? (
-                  <div className="mx-auto mb-5 aspect-square w-full overflow-hidden rounded-xl relative bg-zinc-50 border border-zinc-100">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={svc.thumbnailUrl}
-                      alt={svc.serviceName}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
-                    <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
-                  </div>
-                )}
-                <h3 className="text-base font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">
-                  {svc.serviceName}
-                </h3>
-                <p className="text-sm leading-relaxed text-zinc-500">
-                  {svc.description || "Professional service tailored to your business needs."}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-
-        {services.length === 0 && (
-          <p className="text-center text-sm text-zinc-400 py-10">
-            No services available yet. Check back soon!
-          </p>
-        )}
       </div>
     </section>
   );
@@ -320,8 +183,8 @@ export default async function ServicesPublicPage() {
   return (
     <>
       <HeroSection serviceCount={services.length} />
-      <FeaturedServicesStrip services={services} />
-      <AllServicesGrid services={services} />
+      <FeaturedServicesGrid services={services} />
+      <ServicesGrid services={services} />
       <DevelopmentProcess />
       <CTASection />
     </>

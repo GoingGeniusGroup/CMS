@@ -31,7 +31,7 @@ export function ImageUploader({
   const handleDelete = () => {
     onChange(null);
     try {
-      uploaderRef.current?.getAPI()?.clear();
+      uploaderRef.current?.getAPI()?.removeAllFiles();
     } catch {
       // ignore
     }
