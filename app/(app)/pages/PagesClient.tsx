@@ -111,7 +111,7 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
             Filter{statusFilter !== "all" ? " (1)" : ""}
           </Button>
           {filterOpen && (
-            <div className="absolute right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
+            <div className="absolute max-md:left-0 max-md:right-auto md:right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
               <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
               {["all", "Published", "Draft"].map((s) => (
                 <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}

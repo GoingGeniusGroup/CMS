@@ -178,7 +178,7 @@ export function Sidebar({
   const handleLogout = async () => {
     setIsLoggingOut(true);
     try {
-      await signOut({ callbackUrl: "/login", redirect: true });
+      await signOut({ callbackUrl: `${window.location.origin}/login`, redirect: true });
     } catch (error) {
       console.error("Logout error:", error);
       setIsLoggingOut(false);
@@ -295,6 +295,7 @@ export function Sidebar({
                               <Link
                                 key={child.href}
                                 href={child.href}
+                                onClick={onClose}
                                 aria-current={active ? "page" : undefined}
                                 className={cn(
                                   "flex items-center gap-3 rounded-lg px-3 py-2 text-[14px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
@@ -324,6 +325,7 @@ export function Sidebar({
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={onClose}
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex items-center gap-4 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-color,#e8821a)]",

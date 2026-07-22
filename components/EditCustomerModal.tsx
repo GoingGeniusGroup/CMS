@@ -166,6 +166,7 @@ export function EditCustomerModal({ isOpen, customer, services = [], onClose, on
           {/* Project Info */}
           <div>
             <h3 className="text-base font-semibold text-gray-900 mb-4">Project Info</h3>
+            <div className="max-md:mb-24" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className={labelCls}>Services</label>
@@ -200,7 +201,7 @@ export function EditCustomerModal({ isOpen, customer, services = [], onClose, on
           </div>
 
           {/* Buttons */}
-          <div className="flex items-center gap-3 pt-2">
+          <div className="flex items-center gap-3 pt-2 max-md:sticky max-md:bottom-0 max-md:z-10 max-md:bg-white max-md:border-t max-md:border-gray-200 max-md:py-4 max-md:-mx-6 max-md:px-6">
             <button type="button" onClick={onClose}
               className="flex-1 border-2 border-gray-300 hover:bg-gray-50 text-gray-700 font-medium px-6 py-3 rounded-lg transition-colors text-sm">
               Cancel

@@ -99,117 +99,123 @@ export function AddCategoryModal({
   const inputCls = "w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:border-amber-400 focus:bg-white";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 p-4">
-      <div className="my-auto w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
-        {/* Header */}
-        <div className="mb-6 flex items-start justify-between">
-          <div>
-            <h2 className="text-xl font-bold text-zinc-900">
-              {isEditing ? "Edit Category" : "Add New Category"}
-            </h2>
-            <p className="mt-1 text-sm text-zinc-500">
-              {isEditing ? "Update category details." : "Create a new category to organize your website content."}
-            </p>
-          </div>
-          <button type="button" onClick={onClose} className="text-zinc-400 hover:text-zinc-700">
-            <X className="h-5 w-5" />
-          </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+      <div className="relative flex max-h-[90vh] w-full max-w-2xl flex-col rounded-2xl bg-white shadow-xl">
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-4 top-4 z-10 text-zinc-400 hover:text-zinc-700"
+        >
+          <X className="h-5 w-5" />
+        </button>
+
+        <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
+          <h2 className="text-xl font-bold text-zinc-900">
+            {isEditing ? "Edit Category" : "Add New Category"}
+          </h2>
+          <p className="mt-1 text-sm text-zinc-500">
+            {isEditing ? "Update category details." : "Create a new category to organize your website content."}
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {error && (
-            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              {error}
+        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
+          <div className="flex-1 overflow-y-auto px-6 sm:px-8">
+            <div className="space-y-5 pt-5">
+              {error && (
+                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  {error}
+                </div>
+              )}
+
+              {/* Name */}
+              <div>
+                <label className="mb-0.5 block text-sm font-bold text-zinc-800">
+                  Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => handleNameChange(e.target.value)}
+                  placeholder="e.g. Web Development"
+                  className={inputCls}
+                />
+              </div>
+
+              {/* Slug */}
+              <div>
+                <label className="mb-0.5 block text-sm font-bold text-zinc-800">
+                  Slug <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  placeholder="e.g. web-development"
+                  className={inputCls}
+                />
+              </div>
+
+              {/* Parent Category */}
+              <div>
+                <label className="mb-0.5 block text-sm font-bold text-zinc-800">Parent Category</label>
+                <select value={parent} onChange={(e) => setParent(e.target.value)} className={inputCls}>
+                  <option value="">None (Top Level)</option>
+                  {parentOptions.map((p) => (
+                    <option key={p} value={p}>{p}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Order + Status */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="mb-0.5 block text-sm font-bold text-zinc-800">Order Number</label>
+                  <input
+                    type="number"
+                    value={order}
+                    onChange={(e) => setOrder(e.target.value)}
+                    placeholder="e.g. 1"
+                    className={inputCls}
+                  />
+                </div>
+                <div>
+                  <label className="mb-0.5 block text-sm font-bold text-zinc-800">Status</label>
+                  <select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value as "Active" | "Draft" | "Inactive")}
+                    className={inputCls}
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Draft">Draft</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Banner via Uploadcare */}
+              <ImageUploader label="Banner" value={banner} onChange={(url) => setBanner(url)} />
+
+              {/* Icon via Uploadcare */}
+              <ImageUploader label="Icon" value={icon} onChange={(url) => setIcon(url)} />
+
+              {/* Link */}
+              <div>
+                <label className="mb-0.5 block text-sm font-bold text-zinc-800">Link</label>
+                <input
+                  type="text"
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                  placeholder="Category page URL"
+                  className={inputCls}
+                />
+              </div>
             </div>
-          )}
-
-          {/* Name */}
-          <div>
-            <label className="mb-0.5 block text-sm font-bold text-zinc-800">
-              Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              required
-              value={name}
-              onChange={(e) => handleNameChange(e.target.value)}
-              placeholder="e.g. Web Development"
-              className={inputCls}
-            />
-          </div>
-
-          {/* Slug */}
-          <div>
-            <label className="mb-0.5 block text-sm font-bold text-zinc-800">
-              Slug <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              required
-              value={slug}
-              onChange={(e) => setSlug(e.target.value)}
-              placeholder="e.g. web-development"
-              className={inputCls}
-            />
-          </div>
-
-          {/* Parent Category */}
-          <div>
-            <label className="mb-0.5 block text-sm font-bold text-zinc-800">Parent Category</label>
-            <select value={parent} onChange={(e) => setParent(e.target.value)} className={inputCls}>
-              <option value="">None (Top Level)</option>
-              {parentOptions.map((p) => (
-                <option key={p} value={p}>{p}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Order + Status */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="mb-0.5 block text-sm font-bold text-zinc-800">Order Number</label>
-              <input
-                type="number"
-                value={order}
-                onChange={(e) => setOrder(e.target.value)}
-                placeholder="e.g. 1"
-                className={inputCls}
-              />
-            </div>
-            <div>
-              <label className="mb-0.5 block text-sm font-bold text-zinc-800">Status</label>
-              <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value as "Active" | "Draft" | "Inactive")}
-                className={inputCls}
-              >
-                <option value="Active">Active</option>
-                <option value="Draft">Draft</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Banner via Uploadcare */}
-          <ImageUploader label="Banner" value={banner} onChange={(url) => setBanner(url)} />
-
-          {/* Icon via Uploadcare */}
-          <ImageUploader label="Icon" value={icon} onChange={(url) => setIcon(url)} />
-
-          {/* Link */}
-          <div>
-            <label className="mb-0.5 block text-sm font-bold text-zinc-800">Link</label>
-            <input
-              type="text"
-              value={link}
-              onChange={(e) => setLink(e.target.value)}
-              placeholder="Category page URL"
-              className={inputCls}
-            />
           </div>
 
           {/* Actions */}
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex shrink-0 items-center justify-end gap-3 border-t border-zinc-200 px-6 py-4 sm:px-8">
             <Button variant="secondary" type="button" onClick={onClose} disabled={isSubmitting}>
               Cancel
             </Button>

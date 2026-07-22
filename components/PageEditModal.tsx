@@ -88,94 +88,99 @@ export function PageEditModal({
       onClick={onClose}
     >
       <div
-        className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-6 shadow-xl sm:p-8"
+        className="relative flex max-h-[90vh] w-full max-w-lg flex-col rounded-2xl bg-white shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 text-zinc-400 hover:text-zinc-700"
+          className="absolute right-4 top-4 z-10 text-zinc-400 hover:text-zinc-700"
           aria-label="Close"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <h2 className="text-xl font-bold text-gray-900">Edit Page</h2>
+        <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
+          <h2 className="text-xl font-bold text-gray-900">Edit Page</h2>
+        </div>
 
-        <form onSubmit={handleSubmit} className="mt-5 space-y-4">
-          {error && (
-            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              {error}
-            </div>
-          )}
+        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
+          <div className="flex-1 overflow-y-auto px-6 sm:px-8">
+            <div className="space-y-4 pt-5">
+              {error && (
+                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  {error}
+                </div>
+              )}
 
-          {/* Title */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Title <span className="text-red-500">*</span>
-            </label>
-            <input type="text" required value={title} onChange={(e) => setTitle(e.target.value)}
-              placeholder="Page title" className={inputCls} />
-          </div>
-
-          {/* Slug */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Slug <span className="text-red-500">*</span>
-            </label>
-            <input type="text" required value={slug} onChange={(e) => setSlug(e.target.value)}
-              placeholder="page-slug" className={inputCls} />
-          </div>
-
-          {/* Content — Tiptap Editor */}
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">Content</label>
-            <TiptapEditor
-              content={content}
-              onChange={(json) => setContent(json)}
-              placeholder="Start writing your page content..."
-            />
-          </div>
-
-          {/* Thumbnail */}
-          <ImageUploader label="Thumbnail" value={thumbnail} onChange={(url) => setThumbnail(url)} />
-
-          {/* Status */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Status</label>
-            <select value={status} onChange={(e) => setStatus(e.target.value as "Published" | "Draft")}
-              className={inputCls}>
-              <option value="Draft">Draft</option>
-              <option value="Published">Published</option>
-            </select>
-          </div>
-
-          {/* SEO Section */}
-          <div className="border-t border-gray-200 pt-4">
-            <p className="text-sm font-bold text-gray-700 mb-3">SEO Fields</p>
-
-            <div className="space-y-3">
+              {/* Title */}
               <div>
-                <label className="block text-xs font-medium text-gray-600">Meta Title</label>
-                <input type="text" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)}
-                  placeholder="Meta title" maxLength={60} className={inputCls} />
+                <label className="block text-sm font-medium text-gray-700">
+                  Title <span className="text-red-500">*</span>
+                </label>
+                <input type="text" required value={title} onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Page title" className={inputCls} />
               </div>
+
+              {/* Slug */}
               <div>
-                <label className="block text-xs font-medium text-gray-600">Meta Description</label>
-                <input type="text" value={metaDesc} onChange={(e) => setMetaDesc(e.target.value)}
-                  placeholder="Meta description" maxLength={160} className={inputCls} />
+                <label className="block text-sm font-medium text-gray-700">
+                  Slug <span className="text-red-500">*</span>
+                </label>
+                <input type="text" required value={slug} onChange={(e) => setSlug(e.target.value)}
+                  placeholder="page-slug" className={inputCls} />
               </div>
+
+              {/* Content — Tiptap Editor */}
               <div>
-                <label className="block text-xs font-medium text-gray-600">Keywords</label>
-                <input type="text" value={keywords} onChange={(e) => setKeywords(e.target.value)}
-                  placeholder="keyword1, keyword2" className={inputCls} />
+                <label className="mb-2 block text-sm font-medium text-gray-700">Content</label>
+                <TiptapEditor
+                  content={content}
+                  onChange={(json) => setContent(json)}
+                  placeholder="Start writing your page content..."
+                />
               </div>
-              <ImageUploader label="Meta Image" value={metaImage} onChange={(url) => setMetaImage(url)} />
+
+              {/* Thumbnail */}
+              <ImageUploader label="Thumbnail" value={thumbnail} onChange={(url) => setThumbnail(url)} />
+
+              {/* Status */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Status</label>
+                <select value={status} onChange={(e) => setStatus(e.target.value as "Published" | "Draft")}
+                  className={inputCls}>
+                  <option value="Draft">Draft</option>
+                  <option value="Published">Published</option>
+                </select>
+              </div>
+
+              {/* SEO Section */}
+              <div className="border-t border-gray-200 pt-4">
+                <p className="text-sm font-bold text-gray-700 mb-3">SEO Fields</p>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600">Meta Title</label>
+                    <input type="text" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)}
+                      placeholder="Meta title" maxLength={60} className={inputCls} />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600">Meta Description</label>
+                    <input type="text" value={metaDesc} onChange={(e) => setMetaDesc(e.target.value)}
+                      placeholder="Meta description" maxLength={160} className={inputCls} />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600">Keywords</label>
+                    <input type="text" value={keywords} onChange={(e) => setKeywords(e.target.value)}
+                      placeholder="keyword1, keyword2" className={inputCls} />
+                  </div>
+                  <ImageUploader label="Meta Image" value={metaImage} onChange={(url) => setMetaImage(url)} />
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-2">
+          <div className="flex shrink-0 items-center justify-end gap-3 border-t border-zinc-200 px-6 py-4 sm:px-8">
             <Button variant="secondary" onClick={onClose} type="button">Cancel</Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</> : "Save Changes"}

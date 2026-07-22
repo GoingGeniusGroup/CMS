@@ -195,7 +195,7 @@ export function EditServiceModal({
           />
 
           {/* Featured Toggle */}
-          <div className="flex items-center justify-between rounded-xl border border-black/15 px-4 py-3">
+          <div className="flex items-center justify-between rounded-xl border border-black/15 px-4 py-3 max-md:mb-24">
             <div className="flex items-center gap-2">
               <Star className={`h-4 w-4 ${isFeatured ? "text-amber-500 fill-amber-500" : "text-zinc-400"}`} />
               <span className="text-sm font-bold text-zinc-800">Featured Service</span>
@@ -214,7 +214,7 @@ export function EditServiceModal({
           </div>
 
           {/* Actions */}
-          <div className="mt-2 flex items-center justify-end gap-3">
+          <div className="mt-2 flex items-center justify-end gap-3 max-md:sticky max-md:bottom-0 max-md:z-10 max-md:bg-white max-md:border-t max-md:border-gray-200 max-md:py-4 max-md:-mx-8 max-md:px-8">
             <button
               type="button"
               onClick={onClose}

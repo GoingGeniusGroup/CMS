@@ -439,7 +439,7 @@ export function AddMemberModal({
           </div>
 
           {/* Email field */}
-          <div className="mt-3">
+          <div className="mt-3 max-md:mb-24">
             <label className="mb-1 block text-xs font-bold">
               Email <span className="text-red-500">*</span>
             </label>
@@ -459,7 +459,7 @@ export function AddMemberModal({
           </div>
 
           {/* Actions */}
-          <div className="mt-5 flex justify-end gap-3">
+          <div className="mt-5 flex justify-end gap-3 max-md:sticky max-md:bottom-0 max-md:z-10 max-md:bg-white max-md:border-t max-md:border-gray-200 max-md:py-4 max-md:-mx-5 max-md:px-5">
             <button
               type="button"
               onClick={onClose}

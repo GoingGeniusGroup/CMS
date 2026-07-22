@@ -36,6 +36,15 @@ body {
   animation: spin-slow 2.5s linear infinite;
 }
 
+/* Hide scrollbar for horizontally scrolling containers */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Prevent Uploadcare widget from creating extra scroll height */
 .uploadcare-config {
   position: fixed !important;

@@ -21,6 +21,17 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
   const [socials, setSocials] = useState<SocialEntry[]>(initialData.socials);
   const [linkColumns, setLinkColumns] = useState<LinkColumn[]>(initialData.linkColumns);
 
+  const hasChanges =
+    (footerLogoUrl ?? "") !== (initialData.footerLogoUrl ?? "") ||
+    brandText !== initialData.brandText ||
+    aboutDesc !== initialData.aboutDesc ||
+    copyrightText !== initialData.copyrightText ||
+    playStoreLink !== initialData.playStoreLink ||
+    appStoreLink !== initialData.appStoreLink ||
+    JSON.stringify(paymentLogos) !== JSON.stringify(initialData.paymentLogos) ||
+    JSON.stringify(socials) !== JSON.stringify(initialData.socials) ||
+    JSON.stringify(linkColumns) !== JSON.stringify(initialData.linkColumns);
+
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -86,17 +97,19 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
             <h1 className="text-xl font-bold text-zinc-900">Footer Widgets</h1>
             <p className="text-sm text-zinc-500">Manage all footer content and appearance.</p>
           </div>
-          <div className="flex items-center gap-3">
-            <button type="button" onClick={handleCancel} disabled={isSaving}
-              className="rounded-lg border border-zinc-300 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50">
-              Cancel
-            </button>
-            <button type="button" onClick={handleSave} disabled={isSaving}
-              className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
-              {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
-              {isSaving ? "Saving..." : "Save Changes"}
-            </button>
-          </div>
+          {hasChanges && (
+            <div className="flex items-center gap-3">
+              <button type="button" onClick={handleCancel} disabled={isSaving}
+                className="rounded-lg border border-zinc-300 bg-white px-4 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50">
+                Cancel
+              </button>
+              <button type="button" onClick={handleSave} disabled={isSaving}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-amber-500 px-4 py-2 text-xs font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
+                {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
+                {isSaving ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -132,17 +145,17 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
         <div className="mt-4 space-y-5">
           {linkColumns.map((col, colIdx) => (
             <div key={colIdx} className="rounded-xl border border-zinc-200 p-4 space-y-3">
-              <div className="flex items-center gap-3">
-                <input type="text" value={col.title} onChange={(e) => updateColumnTitle(colIdx, e.target.value)} placeholder="Column title" className="flex-1 rounded-lg border border-zinc-200 bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-700 outline-none focus:border-indigo-400" />
-                <button type="button" onClick={() => removeColumn(colIdx)} className="text-red-500 hover:text-red-600">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+                <input type="text" value={col.title} onChange={(e) => updateColumnTitle(colIdx, e.target.value)} placeholder="Column title" className="w-full sm:flex-1 rounded-lg border border-zinc-200 bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-700 outline-none focus:border-indigo-400" />
+                <button type="button" onClick={() => removeColumn(colIdx)} className="self-end sm:self-auto text-red-500 hover:text-red-600">
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>
               {col.links.map((link, linkIdx) => (
-                <div key={linkIdx} className="flex items-center gap-2 pl-4">
-                  <input type="text" value={link.label} onChange={(e) => updateLink(colIdx, linkIdx, "label", e.target.value)} placeholder="Label" className="flex-1 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700 outline-none focus:border-indigo-400" />
-                  <input type="text" value={link.href} onChange={(e) => updateLink(colIdx, linkIdx, "href", e.target.value)} placeholder="/path or URL" className="flex-1 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700 outline-none focus:border-indigo-400" />
-                  <button type="button" onClick={() => removeLinkFromColumn(colIdx, linkIdx)} className="text-red-400 hover:text-red-600">
+                <div key={linkIdx} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2 pl-4">
+                  <input type="text" value={link.label} onChange={(e) => updateLink(colIdx, linkIdx, "label", e.target.value)} placeholder="Label" className="w-full sm:flex-1 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700 outline-none focus:border-indigo-400" />
+                  <input type="text" value={link.href} onChange={(e) => updateLink(colIdx, linkIdx, "href", e.target.value)} placeholder="/path or URL" className="w-full sm:flex-1 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700 outline-none focus:border-indigo-400" />
+                  <button type="button" onClick={() => removeLinkFromColumn(colIdx, linkIdx)} className="self-end sm:self-auto text-red-400 hover:text-red-600">
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 </div>
@@ -171,12 +184,12 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
             <p className="mb-2 text-sm font-bold text-zinc-800">Social Links</p>
             <div className="space-y-2">
               {socials.map((s, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <select value={s.platform} onChange={(e) => updateSocial(i, "platform", e.target.value)} className="w-32 rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-2 text-sm text-zinc-700 outline-none">
+                <div key={i} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2">
+                  <select value={s.platform} onChange={(e) => updateSocial(i, "platform", e.target.value)} className="w-full sm:w-32 rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-2 text-sm text-zinc-700 outline-none">
                     {PLATFORM_OPTIONS.map((p) => <option key={p} value={p}>{p}</option>)}
                   </select>
-                  <input type="url" value={s.url} onChange={(e) => updateSocial(i, "url", e.target.value)} placeholder="https://..." className="flex-1 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700 outline-none placeholder:text-zinc-400" />
-                  <button type="button" onClick={() => removeSocial(i)} className="text-red-500 hover:text-red-600"><Trash2 className="h-4 w-4" /></button>
+                  <input type="url" value={s.url} onChange={(e) => updateSocial(i, "url", e.target.value)} placeholder="https://..." className="w-full sm:flex-1 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700 outline-none placeholder:text-zinc-400" />
+                  <button type="button" onClick={() => removeSocial(i)} className="self-end sm:self-auto text-red-500 hover:text-red-600"><Trash2 className="h-4 w-4" /></button>
                 </div>
               ))}
             </div>
