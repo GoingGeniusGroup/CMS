@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone, MapPin } from "lucide-react";
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaYoutube, FaWhatsapp, FaGithub } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaYoutube, FaWhatsapp, FaGithub, FaGooglePlay, FaApple } from "react-icons/fa";
 
 type LinkItem = { label: string; href: string };
 type LinkColumn = { title: string; links: LinkItem[] };
@@ -20,6 +20,8 @@ type FooterProps = {
   socials?: SocialEntry[];
   paymentLogos?: string[];
   footerLogoUrl?: string;
+  playStoreLink?: string;
+  appStoreLink?: string;
 };
 
 const SOCIAL_ICONS: Record<string, React.ElementType> = {
@@ -31,6 +33,28 @@ const SOCIAL_ICONS: Record<string, React.ElementType> = {
   WhatsApp: FaWhatsapp,
   GitHub: FaGithub,
 };
+
+// Words that should be rendered in the theme color inside the brand name.
+// The keyword "Genius" and the final word are always accented; everything else stays white.
+const BRAND_HIGHLIGHT_WORDS = new Set(["genius"]);
+
+function BrandName({ text }: { text: string }) {
+  const words = text.trim().split(/\s+/);
+  const lastIndex = words.length - 1;
+  return (
+    <>
+      {words.map((word, i) => {
+        const themed = BRAND_HIGHLIGHT_WORDS.has(word.toLowerCase()) || i === lastIndex;
+        return (
+          <span key={i} className={themed ? "theme-text" : "text-white"}>
+            {word}
+            {i < lastIndex ? " " : ""}
+          </span>
+        );
+      })}
+    </>
+  );
+}
 
 function Footer({
   logoUrl,
@@ -45,6 +69,8 @@ function Footer({
   socials,
   paymentLogos,
   footerLogoUrl,
+  playStoreLink,
+  appStoreLink,
 }: FooterProps) {
   const columns: LinkColumn[] = linkColumns && linkColumns.length > 0
     ? linkColumns
@@ -62,7 +88,7 @@ function Footer({
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-wrap items-start justify-between gap-6">
           {/* Brand + Description + Socials */}
-          <div className="min-w-[220px] flex-1">
+          <div className="min-w-[240px] flex-[1.4]">
             <div className="flex items-center gap-3">
               <Image
                 src={footerLogoUrl || logoUrl || "/logo.png"}
@@ -74,36 +100,14 @@ function Footer({
                 unoptimized
               />
               <div>
-                <p className="text-2xl font-bold text-white">
-                  {brandText || "Going Genius Group of Companies"}
+                <p className="text-xl font-bold leading-tight text-white text-balance">
+                  <BrandName text={brandText || "Going Genius Group of Companies"} />
                 </p>
               </div>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-zinc-400">
               {description}
             </p>
-
-            {/* Social Icons */}
-            {socials && socials.length > 0 && (
-              <div className="mt-5 flex items-center gap-3">
-                {socials.map((s, i) => {
-                  const Icon = SOCIAL_ICONS[s.platform];
-                  if (!Icon || !s.url) return null;
-                  return (
-                    <a
-                      key={i}
-                      href={s.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-zinc-300 transition-colors hover:bg-white/20 hover:text-white"
-                      title={s.platform}
-                    >
-                      <Icon className="h-3.5 w-3.5" />
-                    </a>
-                  );
-                })}
-              </div>
-            )}
           </div>
 
           {/* Link Columns */}
@@ -139,8 +143,47 @@ function Footer({
                 {contactAddress || "Milan Chowk Marga, Kathmandu 44600"}
               </li>
             </ul>
+
           </div>
         </div>
+
+        {/* Social Icons (left) + App Store Badges (far right) on the same axis */}
+        {((socials && socials.length > 0) || playStoreLink || appStoreLink) && (
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              {socials && socials.length > 0 && socials.map((s, i) => {
+                const Icon = SOCIAL_ICONS[s.platform];
+                if (!Icon || !s.url) return null;
+                return (
+                  <a
+                    key={i}
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-zinc-300 transition-colors hover:bg-white/20 hover:text-white"
+                    title={s.platform}
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                  </a>
+                );
+              })}
+            </div>
+            {(playStoreLink || appStoreLink) && (
+              <div className="flex items-center gap-3">
+                {playStoreLink && (
+                  <a href={playStoreLink} target="_blank" rel="noopener noreferrer" className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-zinc-300 transition-colors hover:bg-white/20 hover:text-white" title="Google Play">
+                    <FaGooglePlay className="h-3.5 w-3.5" />
+                  </a>
+                )}
+                {appStoreLink && (
+                  <a href={appStoreLink} target="_blank" rel="noopener noreferrer" className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-zinc-300 transition-colors hover:bg-white/20 hover:text-white" title="App Store">
+                    <FaApple className="h-3.5 w-3.5" />
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Bottom: Copyright + Payment Logo */}
         <div className="mt-10 border-t border-white/10 pt-6 flex flex-wrap items-center justify-between gap-4">

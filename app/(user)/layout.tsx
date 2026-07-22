@@ -113,6 +113,8 @@ export default async function UserLayout({
         socials={footerSettings.socials}
         paymentLogos={footerSettings.paymentLogos}
         footerLogoUrl={footerSettings.footerLogoUrl || undefined}
+        playStoreLink={footerSettings.playStoreLink || undefined}
+        appStoreLink={footerSettings.appStoreLink || undefined}
       />
       {cookieSettings.cookiesAgreement && (
         <CookieBanner

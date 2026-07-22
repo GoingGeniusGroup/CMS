@@ -89,7 +89,7 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="space-y-5">
       {/* Sticky Top Bar */}
       <div className="sticky top-0 z-10 -mx-6 -mt-5 mb-6 border-b border-zinc-200 bg-white px-6 py-4 sm:-mx-8 sm:-mt-6 sm:px-8">
         <div className="flex items-center justify-between">
@@ -145,14 +145,14 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
         <div className="mt-4 space-y-5">
           {linkColumns.map((col, colIdx) => (
             <div key={colIdx} className="rounded-xl border border-zinc-200 p-4 space-y-3">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
                 <input type="text" value={col.title} onChange={(e) => updateColumnTitle(colIdx, e.target.value)} placeholder="Column title" className="w-full sm:flex-1 rounded-lg border border-zinc-200 bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-700 outline-none focus:border-indigo-400" />
                 <button type="button" onClick={() => removeColumn(colIdx)} className="self-end sm:self-auto text-red-500 hover:text-red-600">
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>
               {col.links.map((link, linkIdx) => (
-                <div key={linkIdx} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2 pl-4">
+                <div key={linkIdx} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4 pl-4">
                   <input type="text" value={link.label} onChange={(e) => updateLink(colIdx, linkIdx, "label", e.target.value)} placeholder="Label" className="w-full sm:flex-1 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700 outline-none focus:border-indigo-400" />
                   <input type="text" value={link.href} onChange={(e) => updateLink(colIdx, linkIdx, "href", e.target.value)} placeholder="/path or URL" className="w-full sm:flex-1 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700 outline-none focus:border-indigo-400" />
                   <button type="button" onClick={() => removeLinkFromColumn(colIdx, linkIdx)} className="self-end sm:self-auto text-red-400 hover:text-red-600">
@@ -184,7 +184,7 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
             <p className="mb-2 text-sm font-bold text-zinc-800">Social Links</p>
             <div className="space-y-2">
               {socials.map((s, i) => (
-                <div key={i} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2">
+                <div key={i} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
                   <select value={s.platform} onChange={(e) => updateSocial(i, "platform", e.target.value)} className="w-full sm:w-32 rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-2 text-sm text-zinc-700 outline-none">
                     {PLATFORM_OPTIONS.map((p) => <option key={p} value={p}>{p}</option>)}
                   </select>
