@@ -81,8 +81,10 @@ export function LandingFeaturedProjects() {
                           />
                         </div>
                       ) : (
-                        <div className="mb-4 flex aspect-square w-full items-center justify-center rounded-xl bg-gradient-to-br from-indigo-50 to-indigo-100">
-                          <Layers className="h-10 w-10 text-indigo-300" strokeWidth={1.5} />
+                        <div className="mb-4 aspect-square w-full overflow-hidden rounded-xl relative bg-gradient-to-br from-indigo-50 to-indigo-100 border border-zinc-100">
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <Layers className="h-10 w-10 text-indigo-300" strokeWidth={1.5} />
+                          </div>
                         </div>
                       )}
                       <h3 className="text-base font-bold text-zinc-900 text-center">

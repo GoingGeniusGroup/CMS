@@ -8,6 +8,7 @@ type FaqItem = { question: string; answer: string; category: string };
 
 export function FaqSection() {
   const [faqs, setFaqs] = useState<FaqItem[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [open, setOpen] = useState<string | null>(null);
 
   useEffect(() => {
@@ -23,42 +24,63 @@ export function FaqSection() {
     return acc;
   }, {});
 
+  const categories = Object.keys(grouped);
+  const selected = activeCategory && grouped[activeCategory] ? activeCategory : categories[0];
+  const items = grouped[selected] ?? [];
+
   return (
     <section className="bg-[#f6f4f3] px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-3xl">
         <p className="text-center text-xs font-bold uppercase tracking-widest text-indigo-600">Support</p>
-        <h2 className="mt-2 text-center text-2xl font-extrabold text-zinc-900">Frequently Asked Questions</h2>
+        <h2 className="mt-2 text-center text-3xl font-extrabold text-zinc-900">Frequently Asked Questions</h2>
 
-        <div className="mt-10 space-y-10">
-          {Object.entries(grouped).map(([category, items]) => (
-            <div key={category}>
-              <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-zinc-500">{category}</h3>
-              <div className="space-y-3">
-                {items.map((item, i) => {
-                  const idx = `${category}-${i}`;
-                  const isOpen = open === idx;
-                  return (
-                    <div key={idx} className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
-                      <button
-                        onClick={() => setOpen(isOpen ? null : idx)}
-                        className="flex w-full items-center justify-between px-5 py-4 text-left text-sm font-bold text-zinc-900"
-                      >
-                        {item.question}
-                        {isOpen ? (
-                          <ChevronUp className="h-4 w-4 shrink-0 text-indigo-600" />
-                        ) : (
-                          <ChevronDown className="h-4 w-4 shrink-0 text-zinc-400" />
-                        )}
-                      </button>
-                      {isOpen && (
-                        <p className="px-5 pb-4 text-sm leading-relaxed text-zinc-500">{item.answer}</p>
-                      )}
-                    </div>
-                  );
-                })}
+        {/* Category filter pills */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          {categories.map((category) => {
+            const isActive = category === selected;
+            return (
+              <button
+                key={category}
+                onClick={() => {
+                  setActiveCategory(category);
+                  setOpen(null);
+                }}
+                className={`rounded-full px-6 py-2.5 text-sm font-semibold transition ${
+                  isActive
+                    ? "bg-indigo-600 text-white shadow-sm"
+                    : "border border-zinc-200 bg-white text-zinc-700 hover:border-indigo-300"
+                }`}
+              >
+                {category}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Accordion cards for the selected category */}
+        <div className="mt-8 space-y-4">
+          {items.map((item, i) => {
+            const idx = `${selected}-${i}`;
+            const isOpen = open === idx;
+            return (
+              <div key={idx} className="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+                <button
+                  onClick={() => setOpen(isOpen ? null : idx)}
+                  className="flex w-full items-center justify-between px-6 py-5 text-left text-base font-bold text-zinc-900"
+                >
+                  {item.question}
+                  {isOpen ? (
+                    <ChevronUp className="h-4 w-4 shrink-0 text-indigo-600" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4 shrink-0 text-indigo-600" />
+                  )}
+                </button>
+                {isOpen && (
+                  <p className="px-6 pb-6 text-sm leading-relaxed text-zinc-500">{item.answer}</p>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
