@@ -170,17 +170,7 @@ export function InvoicePrintModal({
           </div>
         </div>
 
-        {/* Screen-only bottom bar */}
-        <div className="flex items-center justify-center border-t border-zinc-200 px-6 py-4 print:hidden">
-          <button
-            type="button"
-            onClick={() => window.print()}
-            className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700"
-          >
-            <Printer className="h-4 w-4" />
-            Print Invoice
-          </button>
-        </div>
+
       </div>
 
       <style jsx global>{`
