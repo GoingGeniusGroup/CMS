@@ -29,15 +29,23 @@ export default function PopupSettingsClient({ initialData }: { initialData: { sh
     return () => clearTimeout(t);
   }, [toast]);
 
+  // Baseline of the last-saved values, advanced after every successful save so
+  // re-entering a previously-saved value is still detected as a change.
+  const [baseline, setBaseline] = useState<{ showPopup: boolean; slides: Slide[]; editorContent: JSONContent | null }>({
+    showPopup: initialData.showPopup,
+    slides: initialSlides,
+    editorContent: initialEditorContent,
+  });
+
   const hasChanges =
-    showPopup !== initialData.showPopup ||
-    JSON.stringify(slides) !== JSON.stringify(initialSlides) ||
-    JSON.stringify(editorContent) !== JSON.stringify(initialEditorContent);
+    showPopup !== baseline.showPopup ||
+    JSON.stringify(slides) !== JSON.stringify(baseline.slides) ||
+    JSON.stringify(editorContent) !== JSON.stringify(baseline.editorContent);
 
   function handleCancel() {
-    setShowPopup(initialData.showPopup);
-    setSlides(initialSlides);
-    setEditorContent(initialEditorContent);
+    setShowPopup(baseline.showPopup);
+    setSlides(baseline.slides);
+    setEditorContent(baseline.editorContent);
     setToast(null);
   }
 
@@ -59,6 +67,9 @@ export default function PopupSettingsClient({ initialData }: { initialData: { sh
         showPopup,
         content: { slides, editorContent },
       });
+      if (result.success) {
+        setBaseline({ showPopup, slides, editorContent });
+      }
       setToast(
         result.success
           ? { message: "Settings saved successfully.", ok: true }

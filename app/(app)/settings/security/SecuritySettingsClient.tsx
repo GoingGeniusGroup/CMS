@@ -35,17 +35,26 @@ export function SecuritySettingsClient({ initialData }: { initialData: SecurityD
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
+  // Baseline of the last-saved values, advanced after every successful save so
+  // re-entering a previously-saved value is still detected as a change.
+  const [baseline, setBaseline] = useState({
+    twoFactorEnabled: initialData.twoFactorEnabled,
+    loginAttempts: initialData.loginAttempts,
+    sessionTimeout: initialData.sessionTimeout,
+    passwordMinLength: initialData.passwordMinLength,
+  });
+
   const hasChanges =
-    twoFactorEnabled !== initialData.twoFactorEnabled ||
-    loginAttempts !== initialData.loginAttempts ||
-    sessionTimeout !== initialData.sessionTimeout ||
-    passwordMinLength !== initialData.passwordMinLength;
+    twoFactorEnabled !== baseline.twoFactorEnabled ||
+    loginAttempts !== baseline.loginAttempts ||
+    sessionTimeout !== baseline.sessionTimeout ||
+    passwordMinLength !== baseline.passwordMinLength;
 
   function handleCancel() {
-    setTwoFactorEnabled(initialData.twoFactorEnabled);
-    setLoginAttempts(initialData.loginAttempts);
-    setSessionTimeout(initialData.sessionTimeout);
-    setPasswordMinLength(initialData.passwordMinLength);
+    setTwoFactorEnabled(baseline.twoFactorEnabled);
+    setLoginAttempts(baseline.loginAttempts);
+    setSessionTimeout(baseline.sessionTimeout);
+    setPasswordMinLength(baseline.passwordMinLength);
     setMessage(null);
   }
 
@@ -60,6 +69,7 @@ export function SecuritySettingsClient({ initialData }: { initialData: SecurityD
     });
     setIsSaving(false);
     if (result.success) {
+      setBaseline({ twoFactorEnabled, loginAttempts, sessionTimeout, passwordMinLength });
       setMessage({ type: "success", text: "Security settings saved!" });
     } else {
       setMessage({ type: "error", text: result.error || "Failed to save" });

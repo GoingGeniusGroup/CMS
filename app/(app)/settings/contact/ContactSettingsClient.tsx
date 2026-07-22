@@ -79,25 +79,38 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
+  // Baseline of the last-saved values, advanced after every successful save so
+  // re-entering a previously-saved value is still detected as a change.
+  const [baseline, setBaseline] = useState({
+    phone1: initialData?.phone1 ?? "",
+    phone2: initialData?.phone2 ?? "",
+    email1: initialData?.email1 ?? "",
+    email2: initialData?.email2 ?? "",
+    address: initialData?.address ?? "",
+    contactMail: initialData?.contactMail ?? "",
+    officeHours: initialData?.officeHours ?? "",
+    googleMapEmbed: initialData?.googleMapEmbed ?? "",
+  });
+
   const hasChanges =
-    phone1 !== (initialData?.phone1 ?? "") ||
-    phone2 !== (initialData?.phone2 ?? "") ||
-    email1 !== (initialData?.email1 ?? "") ||
-    email2 !== (initialData?.email2 ?? "") ||
-    address !== (initialData?.address ?? "") ||
-    contactMail !== (initialData?.contactMail ?? "") ||
-    officeHours !== (initialData?.officeHours ?? "") ||
-    googleMapEmbed !== (initialData?.googleMapEmbed ?? "");
+    phone1 !== baseline.phone1 ||
+    phone2 !== baseline.phone2 ||
+    email1 !== baseline.email1 ||
+    email2 !== baseline.email2 ||
+    address !== baseline.address ||
+    contactMail !== baseline.contactMail ||
+    officeHours !== baseline.officeHours ||
+    googleMapEmbed !== baseline.googleMapEmbed;
 
   function handleCancel() {
-    setPhone1(initialData?.phone1 ?? "");
-    setPhone2(initialData?.phone2 ?? "");
-    setEmail1(initialData?.email1 ?? "");
-    setEmail2(initialData?.email2 ?? "");
-    setAddress(initialData?.address ?? "");
-    setContactMail(initialData?.contactMail ?? "");
-    setOfficeHours(initialData?.officeHours ?? "");
-    setGoogleMapEmbed(initialData?.googleMapEmbed ?? "");
+    setPhone1(baseline.phone1);
+    setPhone2(baseline.phone2);
+    setEmail1(baseline.email1);
+    setEmail2(baseline.email2);
+    setAddress(baseline.address);
+    setContactMail(baseline.contactMail);
+    setOfficeHours(baseline.officeHours);
+    setGoogleMapEmbed(baseline.googleMapEmbed);
     setMessage(null);
     setFieldErrors({});
   }
@@ -130,6 +143,7 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
     setIsSaving(false);
 
     if (result.success) {
+      setBaseline({ phone1, phone2, email1, email2, address, contactMail, officeHours, googleMapEmbed });
       setMessage({ type: "success", text: "Contact settings saved!" });
       setFieldErrors({});
     } else {

@@ -27,23 +27,35 @@ export function EmailSettingsClient({ initialData }: { initialData: EmailData })
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
+  // Baseline of the last-saved values, advanced after every successful save so
+  // re-entering a previously-saved value is still detected as a change.
+  const [baseline, setBaseline] = useState({
+    smtpHost: initialData.smtpHost,
+    smtpPort: initialData.smtpPort,
+    smtpUser: initialData.smtpUser,
+    smtpPassword: initialData.smtpPassword,
+    fromName: initialData.fromName,
+    fromEmail: initialData.fromEmail,
+    encryption: initialData.encryption,
+  });
+
   const hasChanges =
-    smtpHost !== initialData.smtpHost ||
-    smtpPort !== initialData.smtpPort ||
-    smtpUser !== initialData.smtpUser ||
-    smtpPassword !== initialData.smtpPassword ||
-    fromName !== initialData.fromName ||
-    fromEmail !== initialData.fromEmail ||
-    encryption !== initialData.encryption;
+    smtpHost !== baseline.smtpHost ||
+    smtpPort !== baseline.smtpPort ||
+    smtpUser !== baseline.smtpUser ||
+    smtpPassword !== baseline.smtpPassword ||
+    fromName !== baseline.fromName ||
+    fromEmail !== baseline.fromEmail ||
+    encryption !== baseline.encryption;
 
   function handleCancel() {
-    setSmtpHost(initialData.smtpHost);
-    setSmtpPort(initialData.smtpPort);
-    setSmtpUser(initialData.smtpUser);
-    setSmtpPassword(initialData.smtpPassword);
-    setFromName(initialData.fromName);
-    setFromEmail(initialData.fromEmail);
-    setEncryption(initialData.encryption);
+    setSmtpHost(baseline.smtpHost);
+    setSmtpPort(baseline.smtpPort);
+    setSmtpUser(baseline.smtpUser);
+    setSmtpPassword(baseline.smtpPassword);
+    setFromName(baseline.fromName);
+    setFromEmail(baseline.fromEmail);
+    setEncryption(baseline.encryption);
     setMessage(null);
   }
 
@@ -55,6 +67,7 @@ export function EmailSettingsClient({ initialData }: { initialData: EmailData })
     });
     setIsSaving(false);
     if (result.success) {
+      setBaseline({ smtpHost, smtpPort, smtpUser, smtpPassword, fromName, fromEmail, encryption });
       setMessage({ type: "success", text: "Email settings saved!" });
     } else {
       setMessage({ type: "error", text: result.error || "Failed to save" });

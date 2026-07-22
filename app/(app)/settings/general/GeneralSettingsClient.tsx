@@ -52,15 +52,28 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
   const isUsingRecommended =
     themeTextColor.toLowerCase() === recommendedTextColor.toLowerCase();
 
+  // Baseline of the last-saved values, advanced after every successful save so
+  // re-entering a previously-saved value is still detected as a change.
+  const [baseline, setBaseline] = useState({
+    siteName: initialData.siteName,
+    logoUrl: initialData.logoUrl,
+    faviconUrl: initialData.faviconUrl,
+    themeColor: initialData.themeColor || "#6366f1",
+    themeTextColor: initialData.themeTextColor || "#ffffff",
+    description: initialData.description || "",
+    metaKeywords: initialData.metaKeywords || "",
+    baseColorEnabled: initialData.baseColorEnabled,
+  });
+
   const hasChanges =
-    form.siteName !== initialData.siteName ||
-    form.logoUrl !== initialData.logoUrl ||
-    form.faviconUrl !== initialData.faviconUrl ||
-    themeColor !== (initialData.themeColor || "#6366f1") ||
-    themeTextColor !== (initialData.themeTextColor || "#ffffff") ||
-    description !== (initialData.description || "") ||
-    metaKeywords !== (initialData.metaKeywords || "") ||
-    baseColorEnabled !== initialData.baseColorEnabled;
+    form.siteName !== baseline.siteName ||
+    form.logoUrl !== baseline.logoUrl ||
+    form.faviconUrl !== baseline.faviconUrl ||
+    themeColor !== baseline.themeColor ||
+    themeTextColor !== baseline.themeTextColor ||
+    description !== baseline.description ||
+    metaKeywords !== baseline.metaKeywords ||
+    baseColorEnabled !== baseline.baseColorEnabled;
 
   function set(field: keyof GeneralSettingData, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -76,12 +89,17 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
   }
 
   function handleCancel() {
-    setForm(initialData);
-    setThemeColor(initialData.themeColor || "#6366f1");
-    setThemeTextColor(initialData.themeTextColor || "#ffffff");
-    setDescription(initialData.description || "");
-    setMetaKeywords(initialData.metaKeywords || "");
-    setBaseColorEnabled(initialData.baseColorEnabled);
+    setForm((prev) => ({
+      ...prev,
+      siteName: baseline.siteName,
+      logoUrl: baseline.logoUrl,
+      faviconUrl: baseline.faviconUrl,
+    }));
+    setThemeColor(baseline.themeColor);
+    setThemeTextColor(baseline.themeTextColor);
+    setDescription(baseline.description);
+    setMetaKeywords(baseline.metaKeywords);
+    setBaseColorEnabled(baseline.baseColorEnabled);
     setMessage(null);
   }
 
@@ -98,6 +116,18 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
         themeTextColor,
         baseColorEnabled,
       });
+      if (res.success) {
+        setBaseline({
+          siteName: form.siteName,
+          logoUrl: form.logoUrl,
+          faviconUrl: form.faviconUrl,
+          themeColor,
+          themeTextColor,
+          description,
+          metaKeywords,
+          baseColorEnabled,
+        });
+      }
       setMessage(
         res.success
           ? { type: "success", text: "Settings saved successfully." }

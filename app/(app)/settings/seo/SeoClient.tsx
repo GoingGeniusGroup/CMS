@@ -14,23 +14,35 @@ export default function SeoClient({ initialData }: { initialData: SeoData }) {
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<string | null>(null);
 
+  // Baseline of the last-saved values, advanced after every successful save so
+  // re-entering a previously-saved value is still detected as a change.
+  const [baseline, setBaseline] = useState({
+    metaTitle: initialData.metaTitle,
+    metaDescription: initialData.metaDescription,
+    metaKeywords: initialData.metaKeywords,
+    metaImage: initialData.metaImage,
+  });
+
   const hasChanges =
-    metaTitle !== initialData.metaTitle ||
-    metaDescription !== initialData.metaDescription ||
-    metaKeywords !== initialData.metaKeywords ||
-    metaImage !== initialData.metaImage;
+    metaTitle !== baseline.metaTitle ||
+    metaDescription !== baseline.metaDescription ||
+    metaKeywords !== baseline.metaKeywords ||
+    metaImage !== baseline.metaImage;
 
   function handleCancel() {
-    setMetaTitle(initialData.metaTitle);
-    setMetaDescription(initialData.metaDescription);
-    setMetaKeywords(initialData.metaKeywords);
-    setMetaImage(initialData.metaImage);
+    setMetaTitle(baseline.metaTitle);
+    setMetaDescription(baseline.metaDescription);
+    setMetaKeywords(baseline.metaKeywords);
+    setMetaImage(baseline.metaImage);
     setMessage(null);
   }
 
   function handleSave() {
     startTransition(async () => {
       const result = await saveSeoSettings({ metaTitle, metaDescription, metaKeywords, metaImage });
+      if (result.success) {
+        setBaseline({ metaTitle, metaDescription, metaKeywords, metaImage });
+      }
       setMessage(result.success ? "Settings saved." : (result.error ?? "Failed to save."));
       setTimeout(() => setMessage(null), 3000);
     });

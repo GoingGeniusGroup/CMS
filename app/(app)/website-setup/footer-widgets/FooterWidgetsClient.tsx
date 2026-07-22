@@ -21,16 +21,31 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
   const [socials, setSocials] = useState<SocialEntry[]>(initialData.socials);
   const [linkColumns, setLinkColumns] = useState<LinkColumn[]>(initialData.linkColumns);
 
+  // Baseline of the last-saved values. Compared against for detecting unsaved
+  // changes. Updated after every successful save so re-entering the original
+  // value (before it was changed and saved) is still detected as a change.
+  const [baseline, setBaseline] = useState({
+    footerLogoUrl: initialData.footerLogoUrl || "",
+    brandText: initialData.brandText,
+    aboutDesc: initialData.aboutDesc,
+    copyrightText: initialData.copyrightText,
+    playStoreLink: initialData.playStoreLink,
+    appStoreLink: initialData.appStoreLink,
+    paymentLogos: initialData.paymentLogos,
+    socials: initialData.socials,
+    linkColumns: initialData.linkColumns,
+  });
+
   const hasChanges =
-    (footerLogoUrl ?? "") !== (initialData.footerLogoUrl ?? "") ||
-    brandText !== initialData.brandText ||
-    aboutDesc !== initialData.aboutDesc ||
-    copyrightText !== initialData.copyrightText ||
-    playStoreLink !== initialData.playStoreLink ||
-    appStoreLink !== initialData.appStoreLink ||
-    JSON.stringify(paymentLogos) !== JSON.stringify(initialData.paymentLogos) ||
-    JSON.stringify(socials) !== JSON.stringify(initialData.socials) ||
-    JSON.stringify(linkColumns) !== JSON.stringify(initialData.linkColumns);
+    (footerLogoUrl ?? "") !== baseline.footerLogoUrl ||
+    brandText !== baseline.brandText ||
+    aboutDesc !== baseline.aboutDesc ||
+    copyrightText !== baseline.copyrightText ||
+    playStoreLink !== baseline.playStoreLink ||
+    appStoreLink !== baseline.appStoreLink ||
+    JSON.stringify(paymentLogos) !== JSON.stringify(baseline.paymentLogos) ||
+    JSON.stringify(socials) !== JSON.stringify(baseline.socials) ||
+    JSON.stringify(linkColumns) !== JSON.stringify(baseline.linkColumns);
 
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -61,14 +76,19 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
   async function handleSave() {
     setIsSaving(true);
     setMessage(null);
-    const result = await saveFooterSettings({
+    const payload = {
       footerLogoUrl: footerLogoUrl || "",
       brandText,
       aboutDesc, copyrightText, playStoreLink, appStoreLink,
       paymentLogos,
       socials, linkColumns,
-    });
+    };
+    const result = await saveFooterSettings(payload);
     setIsSaving(false);
+    if (result.success) {
+      // Advance the baseline to what we just persisted so hasChanges resets.
+      setBaseline(payload);
+    }
     setMessage(result.success ? { type: "success", text: "Footer settings saved!" } : { type: "error", text: result.error || "Failed to save" });
     setTimeout(() => setMessage(null), 3000);
   }
@@ -76,15 +96,15 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
   const inputCls = "w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm text-zinc-700 outline-none focus:border-indigo-400 focus:bg-white";
 
   function handleCancel() {
-    setFooterLogoUrl(initialData.footerLogoUrl || null);
-    setBrandText(initialData.brandText);
-    setAboutDesc(initialData.aboutDesc);
-    setCopyrightText(initialData.copyrightText);
-    setPlayStoreLink(initialData.playStoreLink);
-    setAppStoreLink(initialData.appStoreLink);
-    setPaymentLogos(initialData.paymentLogos);
-    setSocials(initialData.socials);
-    setLinkColumns(initialData.linkColumns);
+    setFooterLogoUrl(baseline.footerLogoUrl || null);
+    setBrandText(baseline.brandText);
+    setAboutDesc(baseline.aboutDesc);
+    setCopyrightText(baseline.copyrightText);
+    setPlayStoreLink(baseline.playStoreLink);
+    setAppStoreLink(baseline.appStoreLink);
+    setPaymentLogos(baseline.paymentLogos);
+    setSocials(baseline.socials);
+    setLinkColumns(baseline.linkColumns);
     setMessage(null);
   }
 

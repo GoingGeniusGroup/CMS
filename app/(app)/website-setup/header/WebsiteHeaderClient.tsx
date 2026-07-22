@@ -15,12 +15,22 @@ export function WebsiteHeaderClient({ initialData }: { initialData: WebsiteHeade
     initialData.menuItems.length > 0 ? initialData.menuItems : [{ label: "Home", path: "/home" }]
   );
 
+  // Baseline of the last-saved values, advanced after every successful save so
+  // re-entering a previously-saved value is still detected as a change.
+  const [baseline, setBaseline] = useState({
+    stickyHeader: initialData.stickyHeader,
+    bannerImageUrl: initialData.bannerImageUrl ?? "",
+    bannerLink: initialData.bannerLink,
+    helpNumber: initialData.helpNumber,
+    menuItems: initialData.menuItems.length > 0 ? initialData.menuItems : [{ label: "Home", path: "/home" }],
+  });
+
   const hasChanges =
-    stickyHeader !== initialData.stickyHeader ||
-    (bannerImageUrl ?? "") !== (initialData.bannerImageUrl ?? "") ||
-    bannerLink !== initialData.bannerLink ||
-    helpNumber !== initialData.helpNumber ||
-    JSON.stringify(menuItems) !== JSON.stringify(initialData.menuItems.length > 0 ? initialData.menuItems : [{ label: "Home", path: "/home" }]);
+    stickyHeader !== baseline.stickyHeader ||
+    (bannerImageUrl ?? "") !== baseline.bannerImageUrl ||
+    bannerLink !== baseline.bannerLink ||
+    helpNumber !== baseline.helpNumber ||
+    JSON.stringify(menuItems) !== JSON.stringify(baseline.menuItems);
 
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -82,6 +92,15 @@ export function WebsiteHeaderClient({ initialData }: { initialData: WebsiteHeade
     });
 
     setIsSaving(false);
+    if (result.success) {
+      setBaseline({
+        stickyHeader,
+        bannerImageUrl: bannerImageUrl ?? "",
+        bannerLink,
+        helpNumber,
+        menuItems,
+      });
+    }
     setMessage(result.success
       ? { type: "success", text: "Header settings saved!" }
       : { type: "error", text: result.error || "Failed to save" }
@@ -90,11 +109,11 @@ export function WebsiteHeaderClient({ initialData }: { initialData: WebsiteHeade
   }
 
   function handleCancel() {
-    setStickyHeader(initialData.stickyHeader);
-    setBannerImageUrl(initialData.bannerImageUrl || null);
-    setBannerLink(initialData.bannerLink);
-    setHelpNumber(initialData.helpNumber);
-    setMenuItems(initialData.menuItems.length > 0 ? initialData.menuItems : [{ label: "Home", path: "/home" }]);
+    setStickyHeader(baseline.stickyHeader);
+    setBannerImageUrl(baseline.bannerImageUrl || null);
+    setBannerLink(baseline.bannerLink);
+    setHelpNumber(baseline.helpNumber);
+    setMenuItems(baseline.menuItems);
     setMessage(null);
   }
 

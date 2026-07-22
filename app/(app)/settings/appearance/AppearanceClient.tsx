@@ -94,21 +94,32 @@ export default function AppearanceClient({
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<string | null>(null);
 
+  // Baseline of the last-saved values, advanced after every successful save so
+  // re-entering a previously-saved value is still detected as a change.
+  const [baseline, setBaseline] = useState({
+    hoverColor: initialData.hoverColor,
+    hoverEnabled: initialData.hoverEnabled,
+    timezone: initialData.timezone,
+  });
+
   const hasChanges =
-    hoverColor !== initialData.hoverColor ||
-    hoverEnabled !== initialData.hoverEnabled ||
-    timezone !== initialData.timezone;
+    hoverColor !== baseline.hoverColor ||
+    hoverEnabled !== baseline.hoverEnabled ||
+    timezone !== baseline.timezone;
 
   function handleCancel() {
-    setHoverColor(initialData.hoverColor);
-    setHoverEnabled(initialData.hoverEnabled);
-    setTimezone(initialData.timezone);
+    setHoverColor(baseline.hoverColor);
+    setHoverEnabled(baseline.hoverEnabled);
+    setTimezone(baseline.timezone);
     setMessage(null);
   }
 
   function handleSave() {
     startTransition(async () => {
       const result = await saveAppearanceSettings({ hoverColor, hoverEnabled, timezone });
+      if (result.success) {
+        setBaseline({ hoverColor, hoverEnabled, timezone });
+      }
       setMessage(result.success ? "Settings saved." : (result.error ?? "Failed to save."));
       setTimeout(() => setMessage(null), 3000);
     });

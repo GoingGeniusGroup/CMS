@@ -34,15 +34,23 @@ export function CookiesSettingsClient({ initialData }: { initialData: CookieData
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
+  // Baseline of the last-saved values, advanced after every successful save so
+  // re-entering a previously-saved value is still detected as a change.
+  const [baseline, setBaseline] = useState({
+    cookiesAgreement: initialData.cookiesAgreement,
+    showCookiesAgreement: initialData.showCookiesAgreement,
+    cookiesAgreementText: initialData.cookiesAgreementText,
+  });
+
   const hasChanges =
-    cookiesAgreement !== initialData.cookiesAgreement ||
-    showCookiesAgreement !== initialData.showCookiesAgreement ||
-    cookiesAgreementText !== initialData.cookiesAgreementText;
+    cookiesAgreement !== baseline.cookiesAgreement ||
+    showCookiesAgreement !== baseline.showCookiesAgreement ||
+    cookiesAgreementText !== baseline.cookiesAgreementText;
 
   function handleCancel() {
-    setCookiesAgreement(initialData.cookiesAgreement);
-    setShowCookiesAgreement(initialData.showCookiesAgreement);
-    setCookiesAgreementText(initialData.cookiesAgreementText);
+    setCookiesAgreement(baseline.cookiesAgreement);
+    setShowCookiesAgreement(baseline.showCookiesAgreement);
+    setCookiesAgreementText(baseline.cookiesAgreementText);
     setMessage(null);
   }
 
@@ -52,6 +60,7 @@ export function CookiesSettingsClient({ initialData }: { initialData: CookieData
     const result = await saveCookieSettings({ cookiesAgreement, showCookiesAgreement, cookiesAgreementText });
     setIsSaving(false);
     if (result.success) {
+      setBaseline({ cookiesAgreement, showCookiesAgreement, cookiesAgreementText });
       setMessage({ type: "success", text: "Cookie settings saved!" });
     } else {
       setMessage({ type: "error", text: result.error || "Failed to save" });
