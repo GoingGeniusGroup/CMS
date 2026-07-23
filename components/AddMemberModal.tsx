@@ -185,286 +185,290 @@ export function AddMemberModal({
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 p-4">
-        <div className="my-auto w-full max-w-2xl rounded-xl bg-white p-5 shadow-2xl">
-          <h2 className="mb-4 text-lg font-bold">
-            {isEditMode ? "Edit Member" : "Add Member"}
-          </h2>
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+        <div className="relative flex w-full max-w-2xl flex-col rounded-2xl bg-white shadow-xl max-h-[95vh]">
+          <div className="shrink-0 border-b border-gray-200 px-5 py-4 sm:px-6">
+            <h2 className="text-lg font-bold text-zinc-900">
+              {isEditMode ? "Edit Member" : "Add Member"}
+            </h2>
+          </div>
 
-          <div className="flex flex-col gap-4 md:flex-row">
-            {/* Upload photo via Uploadcare */}
-            <div className="w-full md:w-60 self-start">
-              <ImageUploader
-                label="Member Photo"
-                value={form.image}
-                onChange={(url) => setForm((prev) => ({ ...prev, image: url }))}
-              />
-            </div>
+          <div className="flex-1 overflow-y-auto px-5 py-4 sm:px-6">
+            <div className="flex flex-col gap-4 md:flex-row">
+              {/* Upload photo via Uploadcare */}
+              <div className="w-full md:w-60 self-start">
+                <ImageUploader
+                  label="Member Photo"
+                  value={form.image}
+                  onChange={(url) => setForm((prev) => ({ ...prev, image: url }))}
+                />
+              </div>
 
-            {/* Fields */}
-            <div className="flex-1 space-y-3">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {/* Name */}
-                <div>
-                  <label className="mb-1 block text-xs font-medium">
-                    Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={form.name}
-                    onChange={handleField}
-                    placeholder="Enter Full Name"
-                    className={`w-full rounded-lg border px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400 ${
-                      errors.name ? "border-red-400" : "border-black/15"
-                    }`}
-                  />
-                  {errors.name && (
-                    <p className="mt-0.5 text-xs text-red-500">{errors.name}</p>
-                  )}
+              {/* Fields */}
+              <div className="flex-1 space-y-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {/* Name */}
+                  <div>
+                    <label className="mb-1 block text-xs font-medium">
+                      Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={form.name}
+                      onChange={handleField}
+                      placeholder="Enter Full Name"
+                      className={`w-full rounded-lg border px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400 ${
+                        errors.name ? "border-red-400" : "border-black/15"
+                      }`}
+                    />
+                    {errors.name && (
+                      <p className="mt-0.5 text-xs text-red-500">{errors.name}</p>
+                    )}
+                  </div>
+
+                  {/* Designation */}
+                  <div>
+                    <label className="mb-1 block text-xs font-medium">
+                      Designation <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      name="designation"
+                      value={form.designation}
+                      onChange={handleField}
+                      className={`w-full rounded-lg border px-3 py-2 text-sm text-zinc-500 outline-none focus:border-indigo-400 ${
+                        errors.designation ? "border-red-400" : "border-black/15"
+                      }`}
+                    >
+                      <option value="">Select Designation</option>
+                      <option>Full Stack Developer</option>
+                      <option>QA Tester</option>
+                      <option>UI/UX Designer</option>
+                      {customDesignations.map((d) => (
+                        <option key={d}>{d}</option>
+                      ))}
+                    </select>
+                    {errors.designation && (
+                      <p className="mt-0.5 text-xs text-red-500">
+                        {errors.designation}
+                      </p>
+                    )}
+                    <div className="mt-1.5 flex justify-end">
+                      <button
+                        type="button"
+                        onClick={() => setShowAddDesignation(true)}
+                        className="rounded-lg border border-indigo-200 px-2.5 py-1 text-xs font-semibold text-indigo-600"
+                      >
+                        + Add Designation
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Designation */}
+                {/* Department */}
                 <div>
                   <label className="mb-1 block text-xs font-medium">
-                    Designation <span className="text-red-500">*</span>
+                    Department <span className="text-red-500">*</span>
                   </label>
                   <select
-                    name="designation"
-                    value={form.designation}
+                    name="department"
+                    value={form.department}
                     onChange={handleField}
                     className={`w-full rounded-lg border px-3 py-2 text-sm text-zinc-500 outline-none focus:border-indigo-400 ${
-                      errors.designation ? "border-red-400" : "border-black/15"
+                      errors.department ? "border-red-400" : "border-black/15"
                     }`}
                   >
-                    <option value="">Select Designation</option>
-                    <option>Full Stack Developer</option>
-                    <option>QA Tester</option>
-                    <option>UI/UX Designer</option>
-                    {customDesignations.map((d) => (
+                    <option value="">Select Department</option>
+                    {departments.map((d) => (
                       <option key={d}>{d}</option>
                     ))}
                   </select>
-                  {errors.designation && (
+                  {errors.department && (
                     <p className="mt-0.5 text-xs text-red-500">
-                      {errors.designation}
+                      {errors.department}
                     </p>
                   )}
                   <div className="mt-1.5 flex justify-end">
                     <button
                       type="button"
-                      onClick={() => setShowAddDesignation(true)}
+                      onClick={() => setShowAddDepartment(true)}
                       className="rounded-lg border border-indigo-200 px-2.5 py-1 text-xs font-semibold text-indigo-600"
                     >
-                      + Add Designation
+                      + Add Department
                     </button>
                   </div>
                 </div>
-              </div>
 
-              {/* Department */}
-              <div>
-                <label className="mb-1 block text-xs font-medium">
-                  Department <span className="text-red-500">*</span>
-                </label>
-                <select
-                  name="department"
-                  value={form.department}
-                  onChange={handleField}
-                  className={`w-full rounded-lg border px-3 py-2 text-sm text-zinc-500 outline-none focus:border-indigo-400 ${
-                    errors.department ? "border-red-400" : "border-black/15"
-                  }`}
-                >
-                  <option value="">Select Department</option>
-                  {departments.map((d) => (
-                    <option key={d}>{d}</option>
-                  ))}
-                </select>
-                {errors.department && (
-                  <p className="mt-0.5 text-xs text-red-500">
-                    {errors.department}
-                  </p>
-                )}
-                <div className="mt-1.5 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setShowAddDepartment(true)}
-                    className="rounded-lg border border-indigo-200 px-2.5 py-1 text-xs font-semibold text-indigo-600"
-                  >
-                    + Add Department
-                  </button>
+                {/* Status + Gender */}
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-xs font-medium">
+                      Status <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      name="status"
+                      value={form.status}
+                      onChange={handleField}
+                      className={`w-full rounded-lg border px-3 py-2 text-sm text-zinc-500 outline-none focus:border-indigo-400 ${
+                        errors.status ? "border-red-400" : "border-black/15"
+                      }`}
+                    >
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                    {errors.status && (
+                      <p className="mt-0.5 text-xs text-red-500">
+                        {errors.status}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs font-medium">Gender</label>
+                    <select
+                      name="gender"
+                      value={form.gender}
+                      onChange={handleField}
+                      className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm text-zinc-500 outline-none focus:border-indigo-400"
+                    >
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label className="mb-1 block text-xs font-medium">Bio / Description</label>
+                  <textarea
+                    rows={3}
+                    name="description"
+                    maxLength={500}
+                    value={form.description}
+                    onChange={handleField}
+                    placeholder="Enter description about team member......."
+                    className="w-full resize-none rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
+                  />
+                  <div className="mt-0.5 text-right text-xs text-zinc-400">
+                    {form.description.length}/500
+                  </div>
+                </div>
+
+                {/* Location + Experience */}
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-xs font-medium">Location</label>
+                    <input
+                      type="text"
+                      name="location"
+                      value={form.location}
+                      onChange={handleField}
+                      placeholder="e.g. Kathmandu, Nepal"
+                      className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs font-medium">Experience</label>
+                    <input
+                      type="text"
+                      name="experience"
+                      value={form.experience}
+                      onChange={handleField}
+                      placeholder="e.g. 5+ Years"
+                      className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Skills */}
+                <div>
+                  <label className="mb-1 block text-xs font-medium">Skills</label>
+                  {form.skills.length > 0 && (
+                    <div className="mb-2 flex flex-wrap gap-1.5">
+                      {form.skills.map((skill, i) => (
+                        <span key={i} className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-600">
+                          {skill}
+                          <button type="button" onClick={() => setForm(prev => ({ ...prev, skills: prev.skills.filter((_, idx) => idx !== i) }))} className="text-indigo-400 hover:text-indigo-700">×</button>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <input
+                    type="text"
+                    placeholder="Type a skill and press Enter"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        const val = (e.target as HTMLInputElement).value.trim();
+                        if (val && !form.skills.includes(val)) {
+                          setForm(prev => ({ ...prev, skills: [...prev.skills, val] }));
+                          (e.target as HTMLInputElement).value = "";
+                        }
+                      }
+                    }}
+                    className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
+                  />
                 </div>
               </div>
+            </div>
 
-              {/* Status + Gender */}
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div>
-                  <label className="mb-1 block text-xs font-medium">
-                    Status <span className="text-red-500">*</span>
+            {/* Social / contact fields */}
+            <div className="mt-4 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-3">
+              {(
+                [
+                  { label: "Facebook", name: "facebook" },
+                  { label: "Twitter URL", name: "twitter" },
+                  { label: "Instagram URL", name: "instagram" },
+                  { label: "LinkedIn URL", name: "linkedin" },
+                  { label: "Website URL", name: "website" },
+                  { label: "Phone", name: "phone", required: true },
+                ] as { label: string; name: keyof MemberFormData; required?: boolean }[]
+              ).map(({ label, name, required }) => (
+                <div key={label}>
+                  <label className="mb-1 block text-xs font-bold">
+                    {label}
+                    {required && <span className="text-red-500"> *</span>}
                   </label>
-                  <select
-                    name="status"
-                    value={form.status}
+                  <input
+                    type="text"
+                    name={name}
+                    value={(form[name] as string) ?? ""}
                     onChange={handleField}
-                    className={`w-full rounded-lg border px-3 py-2 text-sm text-zinc-500 outline-none focus:border-indigo-400 ${
-                      errors.status ? "border-red-400" : "border-black/15"
+                    className={`w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-indigo-400 ${
+                      name === "phone" && errors.phone
+                        ? "border-red-400"
+                        : "border-black/40"
                     }`}
-                  >
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
-                  {errors.status && (
-                    <p className="mt-0.5 text-xs text-red-500">
-                      {errors.status}
-                    </p>
+                  />
+                  {name === "phone" && errors.phone && (
+                    <p className="mt-0.5 text-xs text-red-500">{errors.phone}</p>
                   )}
                 </div>
-                <div>
-                  <label className="mb-1 block text-xs font-medium">Gender</label>
-                  <select
-                    name="gender"
-                    value={form.gender}
-                    onChange={handleField}
-                    className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm text-zinc-500 outline-none focus:border-indigo-400"
-                  >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                  </select>
-                </div>
-              </div>
+              ))}
+            </div>
 
-              {/* Description */}
-              <div>
-                <label className="mb-1 block text-xs font-medium">Bio / Description</label>
-                <textarea
-                  rows={3}
-                  name="description"
-                  maxLength={500}
-                  value={form.description}
-                  onChange={handleField}
-                  placeholder="Enter description about team member......."
-                  className="w-full resize-none rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
-                />
-                <div className="mt-0.5 text-right text-xs text-zinc-400">
-                  {form.description.length}/500
-                </div>
-              </div>
-
-              {/* Location + Experience */}
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div>
-                  <label className="mb-1 block text-xs font-medium">Location</label>
-                  <input
-                    type="text"
-                    name="location"
-                    value={form.location}
-                    onChange={handleField}
-                    placeholder="e.g. Kathmandu, Nepal"
-                    className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-medium">Experience</label>
-                  <input
-                    type="text"
-                    name="experience"
-                    value={form.experience}
-                    onChange={handleField}
-                    placeholder="e.g. 5+ Years"
-                    className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
-                  />
-                </div>
-              </div>
-
-              {/* Skills */}
-              <div>
-                <label className="mb-1 block text-xs font-medium">Skills</label>
-                {form.skills.length > 0 && (
-                  <div className="mb-2 flex flex-wrap gap-1.5">
-                    {form.skills.map((skill, i) => (
-                      <span key={i} className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-600">
-                        {skill}
-                        <button type="button" onClick={() => setForm(prev => ({ ...prev, skills: prev.skills.filter((_, idx) => idx !== i) }))} className="text-indigo-400 hover:text-indigo-700">×</button>
-                      </span>
-                    ))}
-                  </div>
-                )}
-                <input
-                  type="text"
-                  placeholder="Type a skill and press Enter"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      const val = (e.target as HTMLInputElement).value.trim();
-                      if (val && !form.skills.includes(val)) {
-                        setForm(prev => ({ ...prev, skills: [...prev.skills, val] }));
-                        (e.target as HTMLInputElement).value = "";
-                      }
-                    }
-                  }}
-                  className="w-full rounded-lg border border-black/15 px-3 py-2 text-sm outline-none placeholder:text-zinc-400 focus:border-indigo-400"
-                />
-              </div>
+            {/* Email field */}
+            <div className="mt-3">
+              <label className="mb-1 block text-xs font-bold">
+                Email <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleField}
+                placeholder="Enter email address"
+                className={`w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-indigo-400 ${
+                  errors.email ? "border-red-400" : "border-black/40"
+                }`}
+              />
+              {errors.email && (
+                <p className="mt-0.5 text-xs text-red-500">{errors.email}</p>
+              )}
             </div>
           </div>
 
-          {/* Social / contact fields */}
-          <div className="mt-4 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-3">
-            {(
-              [
-                { label: "Facebook", name: "facebook" },
-                { label: "Twitter URL", name: "twitter" },
-                { label: "Instagram URL", name: "instagram" },
-                { label: "LinkedIn URL", name: "linkedin" },
-                { label: "Website URL", name: "website" },
-                { label: "Phone", name: "phone", required: true },
-              ] as { label: string; name: keyof MemberFormData; required?: boolean }[]
-            ).map(({ label, name, required }) => (
-              <div key={label}>
-                <label className="mb-1 block text-xs font-bold">
-                  {label}
-                  {required && <span className="text-red-500"> *</span>}
-                </label>
-                <input
-                  type="text"
-                  name={name}
-                  value={(form[name] as string) ?? ""}
-                  onChange={handleField}
-                  className={`w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-indigo-400 ${
-                    name === "phone" && errors.phone
-                      ? "border-red-400"
-                      : "border-black/40"
-                  }`}
-                />
-                {name === "phone" && errors.phone && (
-                  <p className="mt-0.5 text-xs text-red-500">{errors.phone}</p>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Email field */}
-          <div className="mt-3 max-md:mb-24">
-            <label className="mb-1 block text-xs font-bold">
-              Email <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleField}
-              placeholder="Enter email address"
-              className={`w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-indigo-400 ${
-                errors.email ? "border-red-400" : "border-black/40"
-              }`}
-            />
-            {errors.email && (
-              <p className="mt-0.5 text-xs text-red-500">{errors.email}</p>
-            )}
-          </div>
-
-          {/* Actions */}
-          <div className="mt-5 flex justify-end gap-3 max-md:sticky max-md:bottom-0 max-md:z-10 max-md:bg-white max-md:border-t max-md:border-gray-200 max-md:py-4 max-md:-mx-5 max-md:px-5">
+          {/* Actions - always visible */}
+          <div className="flex shrink-0 items-center justify-end gap-3 border-t border-gray-200 px-5 py-4 sm:px-6">
             <button
               type="button"
               onClick={onClose}
