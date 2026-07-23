@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { images } from "@/lib/images";
@@ -10,6 +8,13 @@ import { LandingTeamSection } from "@/components/LandingTeamSection";
 import { LandingPartnersSection } from "@/components/LandingPartnersSection";
 import { LandingTechSection } from "@/components/LandingTechSection";
 import { FaqSection } from "@/components/FaqSection";
+import { getPublicPartners } from "@/app/actions/settings";
+import { getPublicTechnologies } from "@/app/actions/public-settings";
+import { getPublicServices } from "@/app/actions/services";
+import { getPublicProjects } from "@/app/actions/projects";
+import { getPublicBlogs } from "@/app/actions/blogs";
+import { getPublicTeamMembers } from "@/app/actions/team";
+import { getPublicFaqs } from "@/app/actions/faq";
 
 // ΓöÇΓöÇΓöÇ Hero ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
@@ -124,18 +129,37 @@ function Products() {
 
 // ΓöÇΓöÇΓöÇ Page ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
-export default function Page() {
+export default async function Page() {
+  const [rawPartners, rawTechnologies, rawServices, rawProjects, rawBlogs, rawTeam, rawFaqs] = await Promise.all([
+    getPublicPartners(),
+    getPublicTechnologies(),
+    getPublicServices(),
+    getPublicProjects(),
+    getPublicBlogs(),
+    getPublicTeamMembers(),
+    getPublicFaqs(),
+  ]);
+
+  // Serialize Date objects to strings for client component props
+  const partners = JSON.parse(JSON.stringify(rawPartners));
+  const technologies = JSON.parse(JSON.stringify(rawTechnologies));
+  const services = JSON.parse(JSON.stringify(rawServices));
+  const projects = JSON.parse(JSON.stringify(rawProjects));
+  const blogs = JSON.parse(JSON.stringify(rawBlogs));
+  const team = JSON.parse(JSON.stringify(rawTeam));
+  const faqs = JSON.parse(JSON.stringify(rawFaqs));
+
   return (
     <>
       <Hero />
-      <LandingPartnersSection />
-      <LandingTechSection />
-      <LandingServicesSection />
+      <LandingPartnersSection initialPartners={partners} />
+      <LandingTechSection initialTechnologies={technologies} />
+      <LandingServicesSection initialServices={services} />
       <Products />
-      <LandingFeaturedProjects />
-      <LandingBlogSection />
-      <LandingTeamSection />
-      <FaqSection />
+      <LandingFeaturedProjects initialProjects={projects} />
+      <LandingBlogSection initialBlogs={blogs} />
+      <LandingTeamSection initialMembers={team} />
+      <FaqSection initialFaqs={faqs} />
     </>
   );
 }

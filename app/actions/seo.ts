@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { cache } from "react";
 
 export type SeoData = {
   metaTitle: string;
@@ -39,7 +40,7 @@ export async function saveSeoSettings(data: SeoData) {
 }
 
 // Public access - no auth required (for user-facing meta tags)
-export async function getPublicSeoSettings(): Promise<SeoData> {
+export const getPublicSeoSettings = cache(async (): Promise<SeoData> => {
   const setting = await prisma.seoSetting.findFirst();
   return (
     setting ?? {
@@ -49,4 +50,4 @@ export async function getPublicSeoSettings(): Promise<SeoData> {
       metaImage: "",
     }
   );
-}
+});

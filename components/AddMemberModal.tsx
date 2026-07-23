@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AddDesignationModal } from "@/components/AddDesignationModal";
 import { AddDepartmentModal } from "@/components/AddDepartmentModal";
 import { ImageUploader } from "@/components/ImageUploader";
@@ -131,7 +131,12 @@ export function AddMemberModal({
   // Departments — loaded from DB, persisted via createDepartment
   const [departments, setDepartments] = useState<string[]>([]);
 
+  // Ref guard prevents React StrictMode's double effect invocation in dev
+  // from firing getDepartments twice per mount.
+  const deptsLoaded = useRef(false);
   useEffect(() => {
+    if (deptsLoaded.current) return;
+    deptsLoaded.current = true;
     getDepartments().then((rows) => setDepartments(rows.map((d) => d.name)));
   }, []);
 

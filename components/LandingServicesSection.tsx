@@ -16,13 +16,15 @@ type ServiceData = {
   isFeatured: boolean;
 };
 
-export function LandingServicesSection() {
-  const [services, setServices] = useState<ServiceData[]>([]);
+export function LandingServicesSection({ initialServices }: { initialServices?: ServiceData[] }) {
+  const [services, setServices] = useState<ServiceData[]>(initialServices ?? []);
   const [selectedService, setSelectedService] = useState<ServiceData | null>(null);
   const [flippedIds, setFlippedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    getPublicServices().then((data) => setServices(data));
+    if (!initialServices) {
+      getPublicServices().then((data) => setServices(data));
+    }
   }, []);
 
   const toggleFlip = (id: string) => {

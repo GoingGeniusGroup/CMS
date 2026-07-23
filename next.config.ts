@@ -22,6 +22,7 @@ const nextConfig: NextConfig = {
   },
   // Reduce serverless function size on Vercel
   serverExternalPackages: ["bcryptjs"],
+
 };
 
 export default nextConfig;

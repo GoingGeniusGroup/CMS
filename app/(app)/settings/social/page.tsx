@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { Globe, Share2 } from "lucide-react";
 import { Card } from "@/components/Card";
@@ -36,8 +36,12 @@ export default function SocialSettingsPage() {
   const [isPending, startTransition] = useTransition();
   const [loaded, setLoaded] = useState(false);
 
-  // Load on mount
+  // Load on mount. The ref guard prevents React StrictMode's double effect
+  // invocation in dev from firing getSocialSettings twice.
+  const loadedOnce = useRef(false);
   useEffect(() => {
+    if (loadedOnce.current) return;
+    loadedOnce.current = true;
     getSocialSettings().then((data) => {
       setValues(data);
       setSavedValues(data);

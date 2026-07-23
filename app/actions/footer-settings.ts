@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { cache } from "react";
 
 export type SocialEntry = { platform: string; url: string };
 export type LinkColumn = { title: string; links: { label: string; href: string }[] };
@@ -32,7 +33,7 @@ const DEFAULTS: FooterSettingData = {
 
 // ─── Public (no auth) ────────────────────────────────────────────────────────
 
-export async function getPublicFooterSettings(): Promise<FooterSettingData> {
+export const getPublicFooterSettings = cache(async (): Promise<FooterSettingData> => {
   const row = await prisma.footerSetting.findFirst();
   if (!row) return DEFAULTS;
   return {
@@ -46,7 +47,7 @@ export async function getPublicFooterSettings(): Promise<FooterSettingData> {
     socials: (row.socials as SocialEntry[]) ?? [],
     linkColumns: (row.linkColumns as LinkColumn[]) ?? [],
   };
-}
+});
 
 // ─── Admin (auth required) ───────────────────────────────────────────────────
 

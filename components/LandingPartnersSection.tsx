@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import { getPublicPartners } from "@/app/actions/settings";
 
-export function LandingPartnersSection() {
-  const [partners, setPartners] = useState<string[]>([]);
+export function LandingPartnersSection({ initialPartners }: { initialPartners?: string[] }) {
+  const [partners, setPartners] = useState<string[]>(initialPartners ?? []);
 
   useEffect(() => {
-    getPublicPartners().then((data) => setPartners(data));
+    if (!initialPartners) {
+      getPublicPartners().then((data) => setPartners(data));
+    }
   }, []);
 
   if (partners.length === 0) return null;

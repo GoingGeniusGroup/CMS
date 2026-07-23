@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { Topbar } from "@/components/Topbar";
 import { Button } from "@/components/Button";
@@ -63,7 +63,12 @@ export function CareersClient() {
     setLoading(false);
   };
 
+  // Guard against React StrictMode's double effect invocation in dev: only
+  // fetch when the page actually changes, so getJobs fires once per page.
+  const lastFetchedPage = useRef<number | null>(null);
   useEffect(() => {
+    if (lastFetchedPage.current === currentPage) return;
+    lastFetchedPage.current = currentPage;
     fetchJobs();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);

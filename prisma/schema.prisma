@@ -38,6 +38,7 @@ model Customer {
   invoices    Invoice[]
   projects    Project[]
 
+  @@index([createdAt])
   @@map("customers")
 }
 
@@ -115,6 +116,8 @@ model Project {
   service     Service?    @relation(fields: [serviceId], references: [id])
   team        Team?       @relation(fields: [teamId], references: [id])
 
+  @@index([status, createdAt])
+  @@index([status, startDate, endDate])
   @@map("projects")
 }
 
@@ -154,6 +157,8 @@ model Invoice {
   customer      Customer? @relation(fields: [customerId], references: [id])
   projects      InvoiceProject[]
 
+  @@index([status, createdAt])
+  @@index([createdAt])
   @@map("invoices")
 }
 

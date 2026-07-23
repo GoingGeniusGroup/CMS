@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
+import { unstable_cache, updateTag } from "next/cache";
 
 const teamMemberSchema = z.object({
   fullName: z.string().min(2, "Name must be at least 2 characters"),
@@ -53,10 +54,20 @@ export async function getTeamMembers(page = 1, pageSize = 10) {
 
 // ─── Departments ──────────────────────────────────────────────────────────
 
+// Cross-request cached read (Data Cache) with a short TTL. Because departments
+// change rarely, this dedupes the repeated/duplicate calls (e.g. from modals
+// mounting) down to one DB query, invalidated on mutation via the "departments" tag.
+const getDepartmentsCached = unstable_cache(
+  async () =>
+    prisma.department.findMany({
+      orderBy: [{ order: "asc" }, { name: "asc" }],
+    }),
+  ["departments-list"],
+  { revalidate: 60, tags: ["departments"] }
+);
+
 export async function getDepartments() {
-  return await prisma.department.findMany({
-    orderBy: [{ order: "asc" }, { name: "asc" }],
-  });
+  return getDepartmentsCached();
 }
 
 export async function createDepartment(name: string) {
@@ -71,6 +82,7 @@ export async function createDepartment(name: string) {
     const department = await prisma.department.create({
       data: { name: trimmed, order: count },
     });
+    updateTag("departments");
     return { success: true, department };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -87,6 +99,7 @@ export async function deleteDepartment(id: string) {
 
   try {
     await prisma.department.delete({ where: { id } });
+    updateTag("departments");
     return { success: true };
   } catch (error) {
     console.error("Delete department error:", error);

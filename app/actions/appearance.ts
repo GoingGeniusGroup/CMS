@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { cache } from "react";
 
 export type AppearanceData = {
   hoverColor: string;
@@ -16,7 +17,7 @@ const DEFAULTS: AppearanceData = {
 };
 
 // Public: fetch appearance settings — no auth needed for client pages.
-export async function getPublicAppearanceSettings(): Promise<AppearanceData> {
+export const getPublicAppearanceSettings = cache(async (): Promise<AppearanceData> => {
   const setting = await prisma.appearanceSetting.findFirst();
   if (!setting) return DEFAULTS;
   return {
@@ -24,7 +25,7 @@ export async function getPublicAppearanceSettings(): Promise<AppearanceData> {
     hoverEnabled: setting.hoverEnabled,
     timezone: setting.timezone || DEFAULTS.timezone,
   };
-}
+});
 
 export async function getAppearanceSettings(): Promise<AppearanceData> {
   const session = await auth();

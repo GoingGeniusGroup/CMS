@@ -19,12 +19,14 @@ type TeamMember = {
   phone: string | null;
 };
 
-export function LandingTeamSection() {
-  const [members, setMembers] = useState<TeamMember[]>([]);
+export function LandingTeamSection({ initialMembers }: { initialMembers?: TeamMember[] }) {
+  const [members, setMembers] = useState<TeamMember[]>(initialMembers ?? []);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    getPublicTeamMembers().then((data) => setMembers(data));
+    if (!initialMembers) {
+      getPublicTeamMembers().then((data) => setMembers(data));
+    }
   }, []);
 
   const scroll = (direction: "left" | "right") => {

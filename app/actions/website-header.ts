@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { cache } from "react";
 
 export type SubMenuItem = { label: string; path: string };
 export type MenuItem = { label: string; path: string; children?: SubMenuItem[] };
@@ -32,7 +33,7 @@ const DEFAULTS: WebsiteHeaderData = {
 
 // ─── Public (no auth) — for client-side pages ────────────────────────────────
 
-export async function getPublicWebsiteHeader(): Promise<WebsiteHeaderData> {
+export const getPublicWebsiteHeader = cache(async (): Promise<WebsiteHeaderData> => {
   const row = await prisma.websiteHeader.findFirst();
   if (!row) return DEFAULTS;
   return {
@@ -42,7 +43,7 @@ export async function getPublicWebsiteHeader(): Promise<WebsiteHeaderData> {
     helpNumber: row.helpNumber || "",
     menuItems: (row.menuItems as MenuItem[]) ?? [],
   };
-}
+});
 
 // ─── Admin (auth required) ───────────────────────────────────────────────────
 

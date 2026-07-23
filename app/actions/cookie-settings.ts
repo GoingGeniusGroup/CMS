@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { cache } from "react";
 
 export type CookieSettingInput = {
   cookiesAgreement: boolean;
@@ -36,7 +37,7 @@ export async function saveCookieSettings(data: CookieSettingInput) {
 }
 
 // Public access - no auth required (for user-facing cookie banner)
-export async function getPublicCookieSettings() {
+export const getPublicCookieSettings = cache(async () => {
   const data = await prisma.cookieSetting.findFirst();
   return data ?? { cookiesAgreement: true, showCookiesAgreement: true, cookiesAgreementText: "" };
-}
+});

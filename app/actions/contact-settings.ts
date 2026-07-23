@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
+import { cache } from "react";
 
 // Phone: allow digits, +, spaces, dashes, parentheses. Empty is allowed for optional fields.
 const phoneRegex = /^[0-9+\-\s()]*$/;
@@ -38,10 +39,10 @@ const contactSettingsSchema = z.object({
 export type ContactSettingInput = z.infer<typeof contactSettingsSchema>;
 
 // Get contact settings for public/user-facing pages (no auth required)
-export async function getPublicContactSettings() {
+export const getPublicContactSettings = cache(async () => {
   const data = await prisma.contactSetting.findFirst();
   return data;
-}
+});
 
 export async function saveContactSettings(data: ContactSettingInput) {
   const session = await auth();

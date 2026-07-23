@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { unstable_cache, updateTag } from "next/cache";
 
 export type SocialLinks = {
   facebook: string;
@@ -23,22 +24,33 @@ const DEFAULT_SOCIAL: SocialLinks = {
   whatsapp: "",
 };
 
+// Cross-request cached read (Data Cache) with a short TTL. auth() must stay
+// OUTSIDE this function since unstable_cache cannot read request-scoped data
+// like cookies. Invalidated on save via the "social-settings" tag.
+const getSocialData = unstable_cache(
+  async (): Promise<SocialLinks> => {
+    const row = await prisma.socialSetting.findFirst();
+    if (!row) return DEFAULT_SOCIAL;
+
+    return {
+      facebook: row.facebook,
+      twitter: row.twitter,
+      linkedin: row.linkedin,
+      instagram: row.instagram,
+      pinterest: row.pinterest,
+      youtube: row.youtube,
+      whatsapp: row.whatsapp,
+    };
+  },
+  ["social-settings"],
+  { revalidate: 60, tags: ["social-settings"] }
+);
+
 export async function getSocialSettings(): Promise<SocialLinks> {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
 
-  const row = await prisma.socialSetting.findFirst();
-  if (!row) return DEFAULT_SOCIAL;
-
-  return {
-    facebook: row.facebook,
-    twitter: row.twitter,
-    linkedin: row.linkedin,
-    instagram: row.instagram,
-    pinterest: row.pinterest,
-    youtube: row.youtube,
-    whatsapp: row.whatsapp,
-  };
+  return getSocialData();
 }
 
 export async function saveSocialSettings(data: SocialLinks) {
@@ -52,6 +64,7 @@ export async function saveSocialSettings(data: SocialLinks) {
     } else {
       await prisma.socialSetting.create({ data });
     }
+    updateTag("social-settings");
     return { success: true };
   } catch (err) {
     console.error("saveSocialSettings error:", err);

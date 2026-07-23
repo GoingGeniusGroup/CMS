@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { unstable_cache, updateTag } from "next/cache";
 
 export type JobRow = {
   id: string;
@@ -72,39 +73,57 @@ function toJobRow(job: {
   };
 }
 
+// Cross-request cached read (Data Cache), keyed by page/pageSize, short TTL.
+// auth() stays OUTSIDE. Invalidated on job mutations via the "jobs" tag.
+const getJobsData = unstable_cache(
+  async (page: number, pageSize: number) => {
+    const skip = (page - 1) * pageSize;
+
+    const [total, active, inactive, items] = await Promise.all([
+      prisma.job.count(),
+      prisma.job.count({ where: { isActive: true } }),
+      prisma.job.count({ where: { isActive: false } }),
+      prisma.job.findMany({
+        skip,
+        take: pageSize,
+        include: { applicants: { select: { id: true } } },
+        orderBy: { createdAt: "desc" },
+      }),
+    ]);
+
+    return {
+      total,
+      active,
+      inactive,
+      jobs: items.map(toJobRow),
+    };
+  },
+  ["jobs-list"],
+  { revalidate: 60, tags: ["jobs"] }
+);
+
 export async function getJobs(page = 1, pageSize = 10) {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
 
-  const skip = (page - 1) * pageSize;
-
-  const [total, active, inactive, items] = await Promise.all([
-    prisma.job.count(),
-    prisma.job.count({ where: { isActive: true } }),
-    prisma.job.count({ where: { isActive: false } }),
-    prisma.job.findMany({
-      skip,
-      take: pageSize,
-      include: { applicants: { select: { id: true } } },
-      orderBy: { createdAt: "desc" },
-    }),
-  ]);
-
-  return {
-    total,
-    active,
-    inactive,
-    jobs: items.map(toJobRow),
-  };
+  return getJobsData(page, pageSize);
 }
 
+const getPublicJobsData = unstable_cache(
+  async () => {
+    const rows = await prisma.job.findMany({
+      where: { isActive: true },
+      include: { applicants: { select: { id: true } } },
+      orderBy: { createdAt: "desc" },
+    });
+    return rows.map(toJobRow);
+  },
+  ["public-jobs-list"],
+  { revalidate: 60, tags: ["jobs"] }
+);
+
 export async function getPublicJobs() {
-  const rows = await prisma.job.findMany({
-    where: { isActive: true },
-    include: { applicants: { select: { id: true } } },
-    orderBy: { createdAt: "desc" },
-  });
-  return rows.map(toJobRow);
+  return getPublicJobsData();
 }
 
 export type JobInput = {
@@ -159,6 +178,7 @@ export async function createJob(data: JobInput) {
         thumbnailUrl: data.thumbnailUrl,
       },
     });
+    updateTag("jobs");
     return { success: true };
   } catch (error) {
     console.error("createJob error:", error);
@@ -192,6 +212,7 @@ export async function updateJob(id: string, data: JobInput) {
         thumbnailUrl: data.thumbnailUrl,
       },
     });
+    updateTag("jobs");
     return { success: true };
   } catch (error) {
     console.error("updateJob error:", error);
@@ -205,6 +226,7 @@ export async function deleteJob(id: string) {
 
   try {
     await prisma.job.delete({ where: { id } });
+    updateTag("jobs");
     return { success: true };
   } catch (error) {
     console.error("deleteJob error:", error);

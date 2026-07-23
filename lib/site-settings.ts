@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { connection } from "next/server";
+import { cache } from "react";
 
 export type SiteSettings = {
   siteName: string;
@@ -27,8 +27,7 @@ const DEFAULTS: SiteSettings = {
  * Fetch site settings from DB. No auth required — used by public pages.
  * Returns defaults if no settings are configured.
  */
-export async function getSiteSettings(): Promise<SiteSettings> {
-  await connection(); // Opt into dynamic rendering — always fetch fresh from DB
+export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
   try {
     const row = await prisma.generalSetting.findFirst();
     if (!row) return DEFAULTS;
@@ -46,5 +45,5 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   } catch {
     return DEFAULTS;
   }
-}
+});
   

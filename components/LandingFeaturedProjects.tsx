@@ -18,15 +18,17 @@ type ProjectData = {
   createdAt: string;
 };
 
-export function LandingFeaturedProjects() {
-  const [projects, setProjects] = useState<ProjectData[]>([]);
+export function LandingFeaturedProjects({ initialProjects }: { initialProjects?: ProjectData[] }) {
+  const [projects, setProjects] = useState<ProjectData[]>(initialProjects ?? []);
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
   const [flippedIds, setFlippedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    getPublicProjects().then((data) =>
-      setProjects(JSON.parse(JSON.stringify(data)))
-    );
+    if (!initialProjects) {
+      getPublicProjects().then((data) =>
+        setProjects(JSON.parse(JSON.stringify(data)))
+      );
+    }
   }, []);
 
   const toggleFlip = (id: string) => {

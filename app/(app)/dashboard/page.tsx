@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   Bar,
   BarChart,
@@ -66,7 +66,13 @@ export default function DashboardPage() {
     setStats(data);
   }, []);
 
+  // Guard against React StrictMode's double effect invocation in dev: only
+  // fetch when the selected period actually changes, so getDashboardStats
+  // fires once per navigation (and once per real period change), not twice.
+  const lastFetchedPeriod = useRef<string | null>(null);
   useEffect(() => {
+    if (lastFetchedPeriod.current === periodLabel) return;
+    lastFetchedPeriod.current = periodLabel;
     fetchStats(periodLabel);
   }, [fetchStats, periodLabel]);
 

@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { cache } from "react";
 
 /**
  * The `content` column is stored as a serialized JSON string (TEXT column).
@@ -64,10 +65,10 @@ export async function savePopupSettings(data: { showPopup: boolean; content: unk
 }
 
 // Public access - no auth required (for user-facing popup)
-export async function getPublicPopupSettings() {
+export const getPublicPopupSettings = cache(async () => {
   const setting = await prisma.popupSetting.findFirst();
   if (!setting) {
     return { showPopup: true, content: {} };
   }
   return { showPopup: setting.showPopup, content: parseContent(setting.content) };
-}
+});

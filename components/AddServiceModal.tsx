@@ -68,105 +68,111 @@ export function AddServiceModal({
       onClick={onClose}
     >
       <div
-        className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-8 shadow-xl"
+        className="relative flex w-full max-w-md flex-col rounded-2xl bg-white shadow-xl max-h-[95vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 text-zinc-400 hover:text-zinc-700"
+          className="absolute right-4 top-4 z-10 text-zinc-400 hover:text-zinc-700"
           aria-label="Close"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <h2 className="text-2xl font-bold text-zinc-900">Add Service</h2>
+        <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
+          <h2 className="text-xl font-bold text-zinc-900">Add Service</h2>
+        </div>
 
-        {error && (
-          <p className="mt-3 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
-            {error}
-          </p>
-        )}
+        <form className="flex min-h-0 flex-1 flex-col" onSubmit={handleSubmit}>
+          <div className="flex-1 overflow-y-auto px-6 py-5 sm:px-8">
+            {error && (
+              <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
+                {error}
+              </p>
+            )}
 
-        <form className="mt-6 flex flex-col gap-5" onSubmit={handleSubmit}>
-          {/* Title */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-bold text-zinc-800">
-              Title <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="serviceName"
-              value={form.serviceName}
-              onChange={handleChange}
-              required
-              placeholder="Enter service title"
-              className="h-12 w-full rounded-xl border border-black/15 bg-white px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200"
-            />
-          </div>
+            <div className="flex flex-col gap-5">
+              {/* Title */}
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold text-zinc-800">
+                  Title <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="serviceName"
+                  value={form.serviceName}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter service title"
+                  className="h-12 w-full rounded-xl border border-black/15 bg-white px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200"
+                />
+              </div>
 
-          {/* Short Details */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-bold text-zinc-800">
-              Short Details <span className="text-red-500">*</span>
-            </label>
-            <textarea
-              name="shortDetails"
-              value={form.shortDetails}
-              onChange={handleChange}
-              required
-              rows={3}
-              placeholder="Enter short details"
-              className="w-full resize-none rounded-xl border border-black/15 bg-white p-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200"
-            />
-          </div>
+              {/* Short Details */}
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold text-zinc-800">
+                  Short Details <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  name="shortDetails"
+                  value={form.shortDetails}
+                  onChange={handleChange}
+                  required
+                  rows={3}
+                  placeholder="Enter short details"
+                  className="w-full resize-none rounded-xl border border-black/15 bg-white p-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200"
+                />
+              </div>
 
-          {/* Description */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-bold text-zinc-800">
-              Description
-            </label>
-            <textarea
-              name="description"
-              value={form.description}
-              onChange={handleChange}
-              rows={5}
-              placeholder="Write description here......."
-              className="w-full resize-none rounded-xl border border-black/15 bg-white p-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200"
-            />
-          </div>
+              {/* Description */}
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold text-zinc-800">
+                  Description
+                </label>
+                <textarea
+                  name="description"
+                  value={form.description}
+                  onChange={handleChange}
+                  rows={5}
+                  placeholder="Write description here......."
+                  className="w-full resize-none rounded-xl border border-black/15 bg-white p-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200"
+                />
+              </div>
 
-          {/* Thumbnail — ImageUploader */}
-          <ImageUploader
-            label="Thumbnail"
-            value={thumbnailUrl}
-            onChange={(url) => {
-              setThumbnailUrl(url);
-              setFileName(url ? "Uploaded Image" : null);
-            }}
-          />
-
-          {/* Featured Toggle */}
-          <div className="flex items-center justify-between rounded-xl border border-black/15 px-4 py-3 max-md:mb-24">
-            <div className="flex items-center gap-2">
-              <Star className={`h-4 w-4 ${isFeatured ? "text-amber-500 fill-amber-500" : "text-zinc-400"}`} />
-              <span className="text-sm font-bold text-zinc-800">Featured Service</span>
-            </div>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={isFeatured}
-              onClick={() => setIsFeatured(!isFeatured)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${isFeatured ? "bg-indigo-600" : "bg-zinc-200"}`}
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${isFeatured ? "translate-x-6" : "translate-x-1"}`}
+              {/* Thumbnail — ImageUploader */}
+              <ImageUploader
+                label="Thumbnail"
+                value={thumbnailUrl}
+                onChange={(url) => {
+                  setThumbnailUrl(url);
+                  setFileName(url ? "Uploaded Image" : null);
+                }}
               />
-            </button>
+
+              {/* Featured Toggle */}
+              <div className="flex items-center justify-between rounded-xl border border-black/15 px-4 py-3">
+                <div className="flex items-center gap-2">
+                  <Star className={`h-4 w-4 ${isFeatured ? "text-amber-500 fill-amber-500" : "text-zinc-400"}`} />
+                  <span className="text-sm font-bold text-zinc-800">Featured Service</span>
+                </div>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={isFeatured}
+                  onClick={() => setIsFeatured(!isFeatured)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${isFeatured ? "bg-indigo-600" : "bg-zinc-200"}`}
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${isFeatured ? "translate-x-6" : "translate-x-1"}`}
+                  />
+                </button>
+              </div>
+            </div>
           </div>
 
-          {/* Actions */}
-          <div className="mt-2 flex items-center justify-end gap-3 max-md:sticky max-md:bottom-0 max-md:z-10 max-md:bg-white max-md:border-t max-md:border-gray-200 max-md:py-4 max-md:-mx-8 max-md:px-8">
+          {/* Actions - always visible */}
+          <div className="flex shrink-0 items-center justify-end gap-3 border-t border-zinc-200 px-6 py-4 sm:px-8">
             <button
               type="button"
               onClick={onClose}

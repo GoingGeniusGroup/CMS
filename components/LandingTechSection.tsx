@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import { getPublicTechnologies } from "@/app/actions/public-settings";
 
-export function LandingTechSection() {
-  const [technologies, setTechnologies] = useState<string[]>([]);
+export function LandingTechSection({ initialTechnologies }: { initialTechnologies?: string[] }) {
+  const [technologies, setTechnologies] = useState<string[]>(initialTechnologies ?? []);
 
   useEffect(() => {
-    getPublicTechnologies().then((data) => setTechnologies(data));
+    if (!initialTechnologies) {
+      getPublicTechnologies().then((data) => setTechnologies(data));
+    }
   }, []);
 
   if (technologies.length === 0) return null;

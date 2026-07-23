@@ -18,15 +18,17 @@ type BlogData = {
   createdAt: Date;
 };
 
-export function LandingBlogSection() {
-  const [blogs, setBlogs] = useState<BlogData[]>([]);
+export function LandingBlogSection({ initialBlogs }: { initialBlogs?: BlogData[] }) {
+  const [blogs, setBlogs] = useState<BlogData[]>(initialBlogs ?? []);
   const [selectedBlog, setSelectedBlog] = useState<BlogData | null>(null);
   const [flippedIds, setFlippedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    getPublicBlogs().then((data) =>
-      setBlogs(JSON.parse(JSON.stringify(data)))
-    );
+    if (!initialBlogs) {
+      getPublicBlogs().then((data) =>
+        setBlogs(JSON.parse(JSON.stringify(data)))
+      );
+    }
   }, []);
 
   const toggleFlip = (id: string) => {

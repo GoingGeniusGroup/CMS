@@ -43,6 +43,7 @@ export async function getDashboardStats(startDate?: string, endDate?: string): P
     totalPublishedProjects,
     totalCustomers,
     prevTotalCustomers,
+    publishedWithDates,
   ] = await Promise.all([
     // Current active projects
     prisma.project.count({ where: { status: "Published", createdAt: { gte: start, lte: endOfEnd } } }),
@@ -67,6 +68,11 @@ export async function getDashboardStats(startDate?: string, endDate?: string): P
     prisma.project.count({ where: { status: "Published" } }),
     prisma.customer.count(),
     prisma.customer.count({ where: { createdAt: { gte: new Date(new Date().getFullYear(), 0, 1) } } }),
+    // Published projects that have both start and end dates. Runs in the same
+    // parallel batch instead of two identical sequential queries after it.
+    prisma.project.count({
+      where: { status: "Published", endDate: { not: null }, startDate: { not: null } },
+    }),
   ]);
 
   const currentRevenue = revenueAgg._sum.total ?? 0;
@@ -144,12 +150,10 @@ export async function getDashboardStats(startDate?: string, endDate?: string): P
   // Growth metrics
   const projectCompletionRate = totalProjects > 0 ? Math.round((totalPublishedProjects / totalProjects) * 100) : 0;
   const customerGrowthRate = totalClients > 0 ? Math.round((prevTotalCustomers / totalCustomers) * 100) : 0;
-  const onTimeProjects = await prisma.project.count({
-    where: { status: "Published", endDate: { not: null }, startDate: { not: null } },
-  });
-  const totalWithDates = await prisma.project.count({
-    where: { status: "Published", endDate: { not: null }, startDate: { not: null } },
-  });
+  // Both values come from the single `publishedWithDates` count above
+  // (the two original queries were identical), preserving the same result.
+  const onTimeProjects = publishedWithDates;
+  const totalWithDates = publishedWithDates;
   const onTimeRate = totalWithDates > 0 ? Math.round((onTimeProjects / totalWithDates) * 100) : 0;
 
   const growthMetrics = [

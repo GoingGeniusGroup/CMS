@@ -6,13 +6,15 @@ import { getPublicFaqs } from "@/app/actions/faq";
 
 type FaqItem = { question: string; answer: string; category: string };
 
-export function FaqSection() {
-  const [faqs, setFaqs] = useState<FaqItem[]>([]);
+export function FaqSection({ initialFaqs }: { initialFaqs?: FaqItem[] }) {
+  const [faqs, setFaqs] = useState<FaqItem[]>(initialFaqs ?? []);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [open, setOpen] = useState<string | null>(null);
 
   useEffect(() => {
-    getPublicFaqs().then(setFaqs);
+    if (!initialFaqs) {
+      getPublicFaqs().then(setFaqs);
+    }
   }, []);
 
   if (faqs.length === 0) return null;
