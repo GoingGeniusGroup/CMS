@@ -21,16 +21,27 @@ export function LandingPartnersSection({ initialPartners }: { initialPartners?: 
           Our Partners
         </p>
         <div className="overflow-hidden">
-          <div className="flex gap-16 sm:gap-24 partners-scroll">
-            {[...partners, ...partners].map((url, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={i}
-                src={url}
-                alt={`Partner ${i + 1}`}
-                className="h-8 w-auto max-w-[120px] object-contain flex-shrink-0 opacity-80 transition-opacity hover:opacity-100 sm:h-10 sm:max-w-[140px]"
-              />
-            ))}
+          <div className="flex w-max partners-scroll">
+            <div className="flex gap-16 sm:gap-24 pr-16 sm:pr-24">
+              {partners.map((url, i) => (
+                <img
+                  key={i}
+                  src={url}
+                  alt={`Partner ${i + 1}`}
+                  className="h-8 w-auto max-w-[120px] object-contain flex-shrink-0 opacity-80 transition-opacity hover:opacity-100 sm:h-10 sm:max-w-[140px]"
+                />
+              ))}
+            </div>
+            <div className="flex gap-16 sm:gap-24 pr-16 sm:pr-24" aria-hidden="true">
+              {partners.map((url, i) => (
+                <img
+                  key={i}
+                  src={url}
+                  alt={`Partner ${i + 1}`}
+                  className="h-8 w-auto max-w-[120px] object-contain flex-shrink-0 opacity-80 transition-opacity hover:opacity-100 sm:h-10 sm:max-w-[140px]"
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
