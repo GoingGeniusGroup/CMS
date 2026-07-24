@@ -14,6 +14,11 @@ export function LandingPartnersSection({ initialPartners }: { initialPartners?: 
 
   if (partners.length === 0) return null;
 
+  const displayPartners = [...partners];
+  while (displayPartners.length < 12) {
+    displayPartners.push(...partners);
+  }
+
   return (
     <section className="bg-zinc-950 px-4 py-10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -23,7 +28,7 @@ export function LandingPartnersSection({ initialPartners }: { initialPartners?: 
         <div className="overflow-hidden">
           <div className="flex w-max partners-scroll">
             <div className="flex gap-16 sm:gap-24 pr-16 sm:pr-24">
-              {partners.map((url, i) => (
+              {displayPartners.map((url, i) => (
                 <img
                   key={i}
                   src={url}
@@ -33,7 +38,7 @@ export function LandingPartnersSection({ initialPartners }: { initialPartners?: 
               ))}
             </div>
             <div className="flex gap-16 sm:gap-24 pr-16 sm:pr-24" aria-hidden="true">
-              {partners.map((url, i) => (
+              {displayPartners.map((url, i) => (
                 <img
                   key={i}
                   src={url}
@@ -48,7 +53,7 @@ export function LandingPartnersSection({ initialPartners }: { initialPartners?: 
 
       <style>{`
         .partners-scroll {
-          animation: partners-scroll-left 10s linear infinite;
+          animation: partners-scroll-left ${displayPartners.length * 2.5}s linear infinite;
           will-change: transform;
         }
         .partners-scroll:hover {

@@ -14,6 +14,11 @@ export function LandingTechSection({ initialTechnologies }: { initialTechnologie
 
   if (technologies.length === 0) return null;
 
+  const displayTechs = [...technologies];
+  while (displayTechs.length < 12) {
+    displayTechs.push(...technologies);
+  }
+
   return (
     <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl text-center">
@@ -21,7 +26,7 @@ export function LandingTechSection({ initialTechnologies }: { initialTechnologie
         <div className="overflow-hidden">
           <div className="flex w-max tech-scroll">
             <div className="flex gap-x-20 sm:gap-x-28 pr-20 sm:pr-28">
-              {technologies.map((url, i) => (
+              {displayTechs.map((url, i) => (
                 <img
                   key={i}
                   src={url}
@@ -31,7 +36,7 @@ export function LandingTechSection({ initialTechnologies }: { initialTechnologie
               ))}
             </div>
             <div className="flex gap-x-20 sm:gap-x-28 pr-20 sm:pr-28" aria-hidden="true">
-              {technologies.map((url, i) => (
+              {displayTechs.map((url, i) => (
                 <img
                   key={i}
                   src={url}
@@ -46,7 +51,7 @@ export function LandingTechSection({ initialTechnologies }: { initialTechnologie
 
       <style>{`
         .tech-scroll {
-          animation: tech-scroll-right 10s linear infinite;
+          animation: tech-scroll-right ${displayTechs.length * 2.5}s linear infinite;
           will-change: transform;
         }
         .tech-scroll:hover {
