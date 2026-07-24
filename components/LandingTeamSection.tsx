@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getPublicTeamMembers } from "@/app/actions/team";
+import TeamMemberModal from "@/components/TeamMemberModal";
 
 type TeamMember = {
   id: string;
@@ -21,6 +22,8 @@ type TeamMember = {
 
 export function LandingTeamSection({ initialMembers }: { initialMembers?: TeamMember[] }) {
   const [members, setMembers] = useState<TeamMember[]>(initialMembers ?? []);
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,13 +40,23 @@ export function LandingTeamSection({ initialMembers }: { initialMembers?: TeamMe
     });
   };
 
+  const handleMemberClick = (member: TeamMember) => {
+    setSelectedMember(member);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedMember(null);
+  };
+
   if (members.length === 0) return null;
 
   return (
     <section id="company" className="bg-white px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="flex items-center justify-between mb-10">
-          <div>
+        <div className="mb-10">
+          <div className="text-center">
             <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">
               Our Team
             </p>
@@ -51,7 +64,7 @@ export function LandingTeamSection({ initialMembers }: { initialMembers?: TeamMe
               Meet the Geniuses
             </h2>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="mt-4 flex items-center justify-end gap-2">
             <button
               onClick={() => scroll("left")}
               className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-500 transition hover:border-indigo-600 hover:text-indigo-600"
@@ -77,7 +90,8 @@ export function LandingTeamSection({ initialMembers }: { initialMembers?: TeamMe
           {members.map((member) => (
             <div
               key={member.id}
-              className="min-w-[200px] max-w-[200px] flex-shrink-0 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+              onClick={() => handleMemberClick(member)}
+              className="min-w-[200px] max-w-[200px] flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
             >
               <div className="relative aspect-square w-full bg-zinc-50">
                 {member.image ? (
@@ -104,6 +118,13 @@ export function LandingTeamSection({ initialMembers }: { initialMembers?: TeamMe
           ))}
         </div>
       </div>
+
+      {/* Team Member Modal */}
+      <TeamMemberModal
+        member={selectedMember}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </section>
   );
 }

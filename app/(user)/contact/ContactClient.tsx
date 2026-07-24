@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   Clock,
@@ -40,13 +41,13 @@ const FEATURES = [
 // ─── Section: Contact Form + Info ─────────────────────────────────────────────
 
 function ContactSection({ settings }: { settings: ContactSettings }) {
+  const router = useRouter();
   const [form, setForm] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
-  const [sent, setSent] = useState(false);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -56,9 +57,7 @@ function ContactSection({ settings }: { settings: ContactSettings }) {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
-    setForm({ name: "", email: "", subject: "", message: "" });
+    router.push("/contact/thank-you");
   }
 
   return (
@@ -156,8 +155,8 @@ function ContactSection({ settings }: { settings: ContactSettings }) {
                 type="submit"
                 className="inline-flex w-fit items-center gap-2 rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
               >
-                {sent ? "Message Sent ✓" : "Send Message"}
-                {!sent && <Send className="h-4 w-4" />}
+                Send Message
+                <Send className="h-4 w-4" />
               </button>
             </form>
           </div>
