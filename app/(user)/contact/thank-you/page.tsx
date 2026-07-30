@@ -51,7 +51,7 @@ export default async function ThankYouPage() {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-lg border border-indigo-200 bg-white px-6 py-3 text-sm font-semibold text-indigo-600 transition-colors hover:bg-indigo-50"
+              className="inline-flex items-center gap-2 rounded-lg border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100"
             >
               <Mail className="h-4 w-4" /> Send Another Message
             </Link>
