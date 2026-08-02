@@ -41,6 +41,18 @@ export function CareersClient() {
   const [deptFilter, setDeptFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
   const [modeFilter, setModeFilter] = useState("all");
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setFilterOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
   const [active, setActive] = useState(0);
@@ -168,7 +180,7 @@ export function CareersClient() {
           description="Manage all your career vacancies."
         />
         <div className="flex items-center gap-3">
-          <div className="relative">
+          <div className="relative" ref={filterRef}>
             <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
               <Filter className="h-4 w-4" />
               Filter{(statusFilter !== "all" || deptFilter !== "all" || typeFilter !== "all" || modeFilter !== "all") ? " (1)" : ""}

@@ -69,18 +69,19 @@ model Team {
 }
 
 model Service {
-  id           String     @id @default(cuid())
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  basePrice    Float?
-  category     String?
-  description  String?
-  isActive     Boolean    @default(true)
-  isFeatured   Boolean    @default(false)
-  serviceName  String
-  thumbnailUrl String?
-  customers    Customer[] @relation("CustomerService")
-  projects     Project[]
+  id            String     @id @default(cuid())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  basePrice     Float?
+  category      String?
+  description   String?
+  serviceDetail String?
+  isActive      Boolean    @default(true)
+  isFeatured    Boolean    @default(false)
+  serviceName   String
+  thumbnailUrl  String?
+  customers     Customer[] @relation("CustomerService")
+  projects      Project[]
 
   @@map("services")
 }

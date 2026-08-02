@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef, useEffect } from "react";
 import { Tag, CheckCircle2, XCircle, Plus, Search, List, LayoutGrid, Filter } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Topbar } from "@/components/Topbar";
@@ -58,6 +58,17 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
   const [filterOpen, setFilterOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setFilterOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
@@ -117,7 +128,7 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader title="Category" description="Manage all your categories." />
         <div className="flex items-center gap-3">
-          <div className="relative">
+          <div className="relative" ref={filterRef}>
             <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
               <Filter className="h-4 w-4" />
               Filter{statusFilter !== "all" ? " (1)" : ""}

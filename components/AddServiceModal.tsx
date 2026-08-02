@@ -3,6 +3,8 @@
 import { X, Loader2, Star } from "lucide-react";
 import { useState } from "react";
 import { ImageUploader } from "@/components/ImageUploader";
+import { TiptapEditor } from "@/components/TiptapEditor";
+import type { JSONContent } from "@tiptap/react";
 import { createService } from "@/app/actions/services";
 
 export function AddServiceModal({
@@ -22,9 +24,9 @@ export function AddServiceModal({
 
   const [form, setForm] = useState({
     serviceName: "",
-    shortDetails: "",
-    description: "",
   });
+
+  const [descriptionContent, setDescriptionContent] = useState<JSONContent | null>(null);
 
   if (!open) return null;
 
@@ -34,14 +36,28 @@ export function AddServiceModal({
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  function handleDescriptionChange(json: JSONContent) {
+    setDescriptionContent(json);
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+
+    if (!form.serviceName.trim()) {
+      setError("Service name is required");
+      return;
+    }
+    if (!descriptionContent) {
+      setError("Description is required");
+      return;
+    }
+
     setIsLoading(true);
 
     const result = await createService({
       serviceName: form.serviceName,
-      description: form.description || form.shortDetails || undefined,
+      description: descriptionContent ? JSON.stringify(descriptionContent) : undefined,
       thumbnailUrl: thumbnailUrl || undefined,
       isFeatured,
     });
@@ -54,7 +70,8 @@ export function AddServiceModal({
     }
 
     // Reset form
-    setForm({ serviceName: "", shortDetails: "", description: "" });
+    setForm({ serviceName: "" });
+    setDescriptionContent(null);
     setFileName(null);
     setThumbnailUrl(null);
     setIsFeatured(false);
@@ -68,7 +85,7 @@ export function AddServiceModal({
       onClick={onClose}
     >
       <div
-        className="relative flex w-full max-w-md flex-col rounded-2xl bg-white shadow-xl max-h-[95vh]"
+        className="relative flex w-full max-w-3xl flex-col rounded-2xl bg-white shadow-xl max-h-[95vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -109,34 +126,15 @@ export function AddServiceModal({
                 />
               </div>
 
-              {/* Short Details */}
+              {/* Description — Tiptap Editor */}
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-zinc-800">
-                  Short Details <span className="text-red-500">*</span>
+                  Description <span className="text-red-500">*</span>
                 </label>
-                <textarea
-                  name="shortDetails"
-                  value={form.shortDetails}
-                  onChange={handleChange}
-                  required
-                  rows={3}
-                  placeholder="Enter short details"
-                  className="w-full resize-none rounded-xl border border-black/15 bg-white p-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200"
-                />
-              </div>
-
-              {/* Description */}
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-bold text-zinc-800">
-                  Description
-                </label>
-                <textarea
-                  name="description"
-                  value={form.description}
-                  onChange={handleChange}
-                  rows={5}
-                  placeholder="Write description here......."
-                  className="w-full resize-none rounded-xl border border-black/15 bg-white p-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200"
+                <TiptapEditor
+                  content={descriptionContent}
+                  onChange={handleDescriptionChange}
+                  placeholder="Write service description..."
                 />
               </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef, useEffect } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { Folder, Plus, FileText, FileEdit, Search, List, LayoutGrid, Filter } from "lucide-react";
 import { Topbar } from "@/components/Topbar";
@@ -79,6 +79,17 @@ export function ProjectsClient({
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [customerFilter, setCustomerFilter] = useState("all");
   const [servicePFilter, setServicePFilter] = useState("all");
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setFilterOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
@@ -153,7 +164,7 @@ export function ProjectsClient({
           description="Manage your Portfolio Projects."
         />
         <div className="flex items-center gap-3">
-          <div className="relative">
+          <div className="relative" ref={filterRef}>
             <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
               <Filter className="h-4 w-4" />
               Filter{(statusFilter !== "all" || categoryFilter !== "all" || customerFilter !== "all" || servicePFilter !== "all") ? " (1)" : ""}

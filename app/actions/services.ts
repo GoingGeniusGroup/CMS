@@ -72,6 +72,20 @@ export async function getServicesPaginated(page = 1, pageSize = 10) {
   };
 }
 
+function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .trim();
+}
+
+export async function getServiceBySlug(slug: string) {
+  const services = await prisma.service.findMany();
+  return services.find((s) => slugify(s.serviceName) === slug) || null;
+}
+
 // Create a service
 export async function createService(data: ServiceInput) {
   const session = await auth();

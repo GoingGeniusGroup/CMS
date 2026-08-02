@@ -6998,6 +6998,7 @@ export namespace Prisma {
     basePrice: number | null
     category: string | null
     description: string | null
+    serviceDetail: string | null
     isActive: boolean | null
     isFeatured: boolean | null
     serviceName: string | null
@@ -7011,6 +7012,7 @@ export namespace Prisma {
     basePrice: number | null
     category: string | null
     description: string | null
+    serviceDetail: string | null
     isActive: boolean | null
     isFeatured: boolean | null
     serviceName: string | null
@@ -7024,6 +7026,7 @@ export namespace Prisma {
     basePrice: number
     category: number
     description: number
+    serviceDetail: number
     isActive: number
     isFeatured: number
     serviceName: number
@@ -7047,6 +7050,7 @@ export namespace Prisma {
     basePrice?: true
     category?: true
     description?: true
+    serviceDetail?: true
     isActive?: true
     isFeatured?: true
     serviceName?: true
@@ -7060,6 +7064,7 @@ export namespace Prisma {
     basePrice?: true
     category?: true
     description?: true
+    serviceDetail?: true
     isActive?: true
     isFeatured?: true
     serviceName?: true
@@ -7073,6 +7078,7 @@ export namespace Prisma {
     basePrice?: true
     category?: true
     description?: true
+    serviceDetail?: true
     isActive?: true
     isFeatured?: true
     serviceName?: true
@@ -7173,6 +7179,7 @@ export namespace Prisma {
     basePrice: number | null
     category: string | null
     description: string | null
+    serviceDetail: string | null
     isActive: boolean
     isFeatured: boolean
     serviceName: string
@@ -7205,6 +7212,7 @@ export namespace Prisma {
     basePrice?: boolean
     category?: boolean
     description?: boolean
+    serviceDetail?: boolean
     isActive?: boolean
     isFeatured?: boolean
     serviceName?: boolean
@@ -7221,6 +7229,7 @@ export namespace Prisma {
     basePrice?: boolean
     category?: boolean
     description?: boolean
+    serviceDetail?: boolean
     isActive?: boolean
     isFeatured?: boolean
     serviceName?: boolean
@@ -7234,6 +7243,7 @@ export namespace Prisma {
     basePrice?: boolean
     category?: boolean
     description?: boolean
+    serviceDetail?: boolean
     isActive?: boolean
     isFeatured?: boolean
     serviceName?: boolean
@@ -7247,13 +7257,14 @@ export namespace Prisma {
     basePrice?: boolean
     category?: boolean
     description?: boolean
+    serviceDetail?: boolean
     isActive?: boolean
     isFeatured?: boolean
     serviceName?: boolean
     thumbnailUrl?: boolean
   }
 
-  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "basePrice" | "category" | "description" | "isActive" | "isFeatured" | "serviceName" | "thumbnailUrl", ExtArgs["result"]["service"]>
+  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "basePrice" | "category" | "description" | "serviceDetail" | "isActive" | "isFeatured" | "serviceName" | "thumbnailUrl", ExtArgs["result"]["service"]>
   export type ServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customers?: boolean | Service$customersArgs<ExtArgs>
     projects?: boolean | Service$projectsArgs<ExtArgs>
@@ -7275,6 +7286,7 @@ export namespace Prisma {
       basePrice: number | null
       category: string | null
       description: string | null
+      serviceDetail: string | null
       isActive: boolean
       isFeatured: boolean
       serviceName: string
@@ -7710,6 +7722,7 @@ export namespace Prisma {
     readonly basePrice: FieldRef<"Service", 'Float'>
     readonly category: FieldRef<"Service", 'String'>
     readonly description: FieldRef<"Service", 'String'>
+    readonly serviceDetail: FieldRef<"Service", 'String'>
     readonly isActive: FieldRef<"Service", 'Boolean'>
     readonly isFeatured: FieldRef<"Service", 'Boolean'>
     readonly serviceName: FieldRef<"Service", 'String'>
@@ -33286,6 +33299,7 @@ export namespace Prisma {
     basePrice: 'basePrice',
     category: 'category',
     description: 'description',
+    serviceDetail: 'serviceDetail',
     isActive: 'isActive',
     isFeatured: 'isFeatured',
     serviceName: 'serviceName',
@@ -34074,6 +34088,7 @@ export namespace Prisma {
     basePrice?: FloatNullableFilter<"Service"> | number | null
     category?: StringNullableFilter<"Service"> | string | null
     description?: StringNullableFilter<"Service"> | string | null
+    serviceDetail?: StringNullableFilter<"Service"> | string | null
     isActive?: BoolFilter<"Service"> | boolean
     isFeatured?: BoolFilter<"Service"> | boolean
     serviceName?: StringFilter<"Service"> | string
@@ -34089,6 +34104,7 @@ export namespace Prisma {
     basePrice?: SortOrderInput | SortOrder
     category?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    serviceDetail?: SortOrderInput | SortOrder
     isActive?: SortOrder
     isFeatured?: SortOrder
     serviceName?: SortOrder
@@ -34107,6 +34123,7 @@ export namespace Prisma {
     basePrice?: FloatNullableFilter<"Service"> | number | null
     category?: StringNullableFilter<"Service"> | string | null
     description?: StringNullableFilter<"Service"> | string | null
+    serviceDetail?: StringNullableFilter<"Service"> | string | null
     isActive?: BoolFilter<"Service"> | boolean
     isFeatured?: BoolFilter<"Service"> | boolean
     serviceName?: StringFilter<"Service"> | string
@@ -34122,6 +34139,7 @@ export namespace Prisma {
     basePrice?: SortOrderInput | SortOrder
     category?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    serviceDetail?: SortOrderInput | SortOrder
     isActive?: SortOrder
     isFeatured?: SortOrder
     serviceName?: SortOrder
@@ -34143,6 +34161,7 @@ export namespace Prisma {
     basePrice?: FloatNullableWithAggregatesFilter<"Service"> | number | null
     category?: StringNullableWithAggregatesFilter<"Service"> | string | null
     description?: StringNullableWithAggregatesFilter<"Service"> | string | null
+    serviceDetail?: StringNullableWithAggregatesFilter<"Service"> | string | null
     isActive?: BoolWithAggregatesFilter<"Service"> | boolean
     isFeatured?: BoolWithAggregatesFilter<"Service"> | boolean
     serviceName?: StringWithAggregatesFilter<"Service"> | string
@@ -36237,6 +36256,7 @@ export namespace Prisma {
     basePrice?: number | null
     category?: string | null
     description?: string | null
+    serviceDetail?: string | null
     isActive?: boolean
     isFeatured?: boolean
     serviceName: string
@@ -36252,6 +36272,7 @@ export namespace Prisma {
     basePrice?: number | null
     category?: string | null
     description?: string | null
+    serviceDetail?: string | null
     isActive?: boolean
     isFeatured?: boolean
     serviceName: string
@@ -36267,6 +36288,7 @@ export namespace Prisma {
     basePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceDetail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
@@ -36282,6 +36304,7 @@ export namespace Prisma {
     basePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceDetail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
@@ -36297,6 +36320,7 @@ export namespace Prisma {
     basePrice?: number | null
     category?: string | null
     description?: string | null
+    serviceDetail?: string | null
     isActive?: boolean
     isFeatured?: boolean
     serviceName: string
@@ -36310,6 +36334,7 @@ export namespace Prisma {
     basePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceDetail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
@@ -36323,6 +36348,7 @@ export namespace Prisma {
     basePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceDetail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
@@ -38623,6 +38649,7 @@ export namespace Prisma {
     basePrice?: SortOrder
     category?: SortOrder
     description?: SortOrder
+    serviceDetail?: SortOrder
     isActive?: SortOrder
     isFeatured?: SortOrder
     serviceName?: SortOrder
@@ -38640,6 +38667,7 @@ export namespace Prisma {
     basePrice?: SortOrder
     category?: SortOrder
     description?: SortOrder
+    serviceDetail?: SortOrder
     isActive?: SortOrder
     isFeatured?: SortOrder
     serviceName?: SortOrder
@@ -38653,6 +38681,7 @@ export namespace Prisma {
     basePrice?: SortOrder
     category?: SortOrder
     description?: SortOrder
+    serviceDetail?: SortOrder
     isActive?: SortOrder
     isFeatured?: SortOrder
     serviceName?: SortOrder
@@ -40778,6 +40807,7 @@ export namespace Prisma {
     basePrice?: number | null
     category?: string | null
     description?: string | null
+    serviceDetail?: string | null
     isActive?: boolean
     isFeatured?: boolean
     serviceName: string
@@ -40792,6 +40822,7 @@ export namespace Prisma {
     basePrice?: number | null
     category?: string | null
     description?: string | null
+    serviceDetail?: string | null
     isActive?: boolean
     isFeatured?: boolean
     serviceName: string
@@ -40928,6 +40959,7 @@ export namespace Prisma {
     basePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceDetail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
@@ -40942,6 +40974,7 @@ export namespace Prisma {
     basePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceDetail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
@@ -41432,6 +41465,7 @@ export namespace Prisma {
     basePrice?: number | null
     category?: string | null
     description?: string | null
+    serviceDetail?: string | null
     isActive?: boolean
     isFeatured?: boolean
     serviceName: string
@@ -41446,6 +41480,7 @@ export namespace Prisma {
     basePrice?: number | null
     category?: string | null
     description?: string | null
+    serviceDetail?: string | null
     isActive?: boolean
     isFeatured?: boolean
     serviceName: string
@@ -41621,6 +41656,7 @@ export namespace Prisma {
     basePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceDetail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string
@@ -41635,6 +41671,7 @@ export namespace Prisma {
     basePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceDetail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     serviceName?: StringFieldUpdateOperationsInput | string

@@ -3,6 +3,8 @@
 import { X, Loader2, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ImageUploader } from "@/components/ImageUploader";
+import { TiptapEditor } from "@/components/TiptapEditor";
+import type { JSONContent } from "@tiptap/react";
 import { updateService } from "@/app/actions/services";
 
 export interface ServiceRow {
@@ -34,25 +36,31 @@ export function EditServiceModal({
   const [error, setError] = useState<string | null>(null);
 
   const [form, setForm] = useState({
-    serviceName: "",
-    shortDetails: "",
-    description: "",
-    isActive: true,
+    serviceName: service?.serviceName ?? "",
+    isActive: service?.isActive ?? true,
   });
 
-  // Pre-fill form whenever the service changes
+  const [descriptionContent, setDescriptionContent] = useState<JSONContent | null>(() => {
+    if (!service?.description) return null;
+    try { return JSON.parse(service.description); } catch { return null; }
+  });
+
+  // Sync when service prop changes (safety net for key-based remount)
   useEffect(() => {
     if (service) {
       setForm({
         serviceName: service.serviceName,
-        shortDetails: service.description ?? "",
-        description: service.description ?? "",
         isActive: service.isActive,
       });
       setThumbnailUrl(service.thumbnailUrl ?? null);
       setIsFeatured(service.isFeatured ?? false);
       setFileName(null);
       setError(null);
+      try {
+        setDescriptionContent(service.description ? JSON.parse(service.description) : null);
+      } catch {
+        setDescriptionContent(null);
+      }
     }
   }, [service]);
 
@@ -64,14 +72,24 @@ export function EditServiceModal({
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  function handleDescriptionChange(json: JSONContent) {
+    setDescriptionContent(json);
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+
+    if (!descriptionContent) {
+      setError("Description is required");
+      return;
+    }
+
     setIsLoading(true);
 
     const result = await updateService(service.id, {
       serviceName: form.serviceName,
-      description: form.description || form.shortDetails || undefined,
+      description: descriptionContent ? JSON.stringify(descriptionContent) : undefined,
       isActive: form.isActive,
       isFeatured,
       thumbnailUrl: thumbnailUrl || undefined,
@@ -94,7 +112,7 @@ export function EditServiceModal({
       onClick={onClose}
     >
       <div
-        className="relative flex w-full max-w-md flex-col rounded-2xl bg-white shadow-xl max-h-[95vh]"
+        className="relative flex w-full max-w-3xl flex-col rounded-2xl bg-white shadow-xl max-h-[95vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -135,34 +153,15 @@ export function EditServiceModal({
                 />
               </div>
 
-              {/* Short Details */}
+              {/* Description — Tiptap Editor */}
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-zinc-800">
-                  Short Details <span className="text-red-500">*</span>
+                  Description <span className="text-red-500">*</span>
                 </label>
-                <textarea
-                  name="shortDetails"
-                  value={form.shortDetails}
-                  onChange={handleChange}
-                  required
-                  rows={3}
-                  placeholder="Enter short details"
-                  className="w-full resize-none rounded-xl border border-black/15 bg-white p-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200"
-                />
-              </div>
-
-              {/* Description */}
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-bold text-zinc-800">
-                  Description
-                </label>
-                <textarea
-                  name="description"
-                  value={form.description}
-                  onChange={handleChange}
-                  rows={5}
-                  placeholder="Write description here......."
-                  className="w-full resize-none rounded-xl border border-black/15 bg-white p-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-indigo-200"
+                <TiptapEditor
+                  content={descriptionContent}
+                  onChange={handleDescriptionChange}
+                  placeholder="Write service description..."
                 />
               </div>
 

@@ -167,10 +167,24 @@ async function main() {
   console.log(`  ✓ Categories (${categories.length})`);
 
   // ── Services ───────────────────────────────────────────────────────────
+  function makeServiceContent(sections: { heading: string; body: string }[]) {
+    const nodes: object[] = [];
+    for (const s of sections) {
+      nodes.push({ type: "heading", attrs: { level: 2 }, content: [{ type: "text", text: s.heading }] });
+      nodes.push({ type: "paragraph", content: [{ type: "text", text: s.body }] });
+    }
+    return JSON.stringify({ type: "doc", content: nodes });
+  }
+
   const services = [
     {
       serviceName: "Web Development",
-      description: "Custom, scalable websites and web applications built with modern frameworks.",
+      description: makeServiceContent([
+        { heading: "Custom Web Solutions Tailored to Your Business", body: "We build high-performance websites and web applications using cutting-edge technologies like Next.js, React, Node.js, and more. Our team follows industry best practices to deliver scalable, secure, and maintainable solutions that drive business growth." },
+        { heading: "Full-Cycle Development", body: "From concept to deployment, we handle every phase of the development lifecycle — requirements analysis, architecture design, UI/UX integration, backend development, testing, and ongoing maintenance. Our agile methodology ensures transparency and rapid iteration." },
+        { heading: "Modern Tech Stack", body: "We leverage modern frameworks and tools including Next.js for server-side rendering, Tailwind CSS for responsive design, Prisma for type-safe database access, and cloud-native deployment on AWS or Vercel. Every project is built with performance and SEO in mind." },
+        { heading: "Enterprise-Grade Security", body: "Security is baked into every layer of our applications. We implement robust authentication, data encryption, input validation, and regular security audits to protect your business and user data from emerging threats." },
+      ]),
       category: "Development",
       basePrice: 50000,
       isActive: true,
@@ -179,7 +193,12 @@ async function main() {
     },
     {
       serviceName: "Mobile App Development",
-      description: "Native and cross-platform mobile apps for iOS and Android.",
+      description: makeServiceContent([
+        { heading: "Native & Cross-Platform Excellence", body: "We develop powerful mobile applications for iOS and Android using both native technologies (Swift, Kotlin) and cross-platform frameworks (React Native, Flutter). Our approach ensures optimal performance, native look-and-feel, and code reuse across platforms." },
+        { heading: "End-to-End Mobile Strategy", body: "Our mobile service covers everything from ideation and prototyping to App Store deployment and post-launch support. We help you define the right mobile strategy — whether it's a consumer-facing app, enterprise mobility solution, or MVP for your startup." },
+        { heading: "Seamless Backend Integration", body: "We connect your mobile app with robust backend services using RESTful APIs, GraphQL, or real-time WebSocket connections. Our apps integrate seamlessly with existing systems, third-party services, and cloud platforms." },
+        { heading: "Performance & User Experience", body: "We obsess over app performance — smooth animations, fast load times, offline capabilities, and efficient battery usage. Combined with intuitive navigation and pixel-perfect UI, we deliver apps users love." },
+      ]),
       category: "Development",
       basePrice: 80000,
       isActive: true,
@@ -188,7 +207,12 @@ async function main() {
     },
     {
       serviceName: "UI/UX Design",
-      description: "User-centered design that turns ideas into intuitive, beautiful interfaces.",
+      description: makeServiceContent([
+        { heading: "Design That Delights", body: "Our design process puts users first. We conduct thorough research, create user personas, map user journeys, and prototype iteratively to ensure every pixel serves a purpose. The result is intuitive, accessible, and visually stunning interfaces." },
+        { heading: "Research-Driven Approach", body: "We start every project with user research, competitive analysis, and stakeholder interviews. Data-driven insights guide our design decisions, ensuring we solve real problems rather than just creating beautiful screens." },
+        { heading: "Design Systems & Component Libraries", body: "We build scalable design systems with reusable components that ensure consistency across your entire product. Using tools like Figma and Storybook, we maintain a single source of truth for designers and developers alike." },
+        { heading: "Accessibility & Inclusive Design", body: "Accessibility is not an afterthought — it's a core principle. We design with WCAG 2.2 standards in mind, ensuring your product is usable by everyone regardless of ability. Inclusive design expands your reach and demonstrates social responsibility." },
+      ]),
       category: "Design",
       basePrice: 30000,
       isActive: true,
@@ -197,7 +221,12 @@ async function main() {
     },
     {
       serviceName: "Digital Marketing",
-      description: "SEO, social media, and content marketing strategies that drive growth.",
+      description: makeServiceContent([
+        { heading: "Data-Driven Growth Marketing", body: "We create comprehensive digital marketing strategies that combine SEO, paid advertising, content marketing, and social media to drive measurable results. Our campaigns are continuously optimized based on real-time data and analytics." },
+        { heading: "Search Engine Optimization", body: "Our SEO services include technical SEO audits, on-page optimization, content strategy, link building, and local SEO. We stay current with search engine algorithm updates to ensure your site maintains and improves its rankings." },
+        { heading: "Paid Advertising & PPC", body: "We manage targeted pay-per-click campaigns across Google Ads, social media platforms, and programmatic networks. Our data-driven bidding strategies and A/B testing maximize ROI while minimizing cost per acquisition." },
+        { heading: "Content Marketing & Social Media", body: "We develop compelling content strategies that engage your audience and build brand authority. From blog posts and whitepapers to social media campaigns and video content, we create material that resonates and converts." },
+      ]),
       category: "Marketing",
       basePrice: 25000,
       isActive: true,
@@ -206,7 +235,12 @@ async function main() {
     },
     {
       serviceName: "Cloud & DevOps",
-      description: "Scalable cloud infrastructure, CI/CD pipelines, and DevOps automation.",
+      description: makeServiceContent([
+        { heading: "Cloud Infrastructure That Scales", body: "We design, implement, and manage cloud infrastructure on AWS, Google Cloud, and Azure. Our architecture ensures high availability, auto-scaling, disaster recovery, and cost optimization from day one." },
+        { heading: "CI/CD & Automation", body: "We set up robust CI/CD pipelines using GitHub Actions, GitLab CI, or Jenkins that automate testing, building, and deployment. Infrastructure as Code (Terraform, Pulumi) ensures reproducible and version-controlled environments." },
+        { heading: "Containerization & Orchestration", body: "We containerize applications with Docker and orchestrate them using Kubernetes or AWS ECS. This approach ensures consistency across development, staging, and production environments while simplifying scaling and management." },
+        { heading: "Monitoring & Observability", body: "We implement comprehensive monitoring, logging, and alerting systems using tools like Datadog, Grafana, and Prometheus. Proactive monitoring ensures issues are detected and resolved before they impact your users." },
+      ]),
       category: "Infrastructure",
       basePrice: 40000,
       isActive: true,

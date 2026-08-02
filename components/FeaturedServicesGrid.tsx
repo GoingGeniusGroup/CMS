@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ArrowRight, ChevronRight, Globe } from "lucide-react";
 import { ServiceDetailModal } from "@/components/ServiceDetailModal";
 
@@ -128,17 +129,13 @@ export function FeaturedServicesGrid({ services }: { services: ServiceData[] }) 
                       <p className="text-xs text-zinc-500 text-center line-clamp-4 px-2">
                         {svc.description || "Professional service tailored to your needs."}
                       </p>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedService(svc);
-                        }}
+                      <Link
+                        href={`/servicedetail/${svc.serviceName.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
                         className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
                       >
                         Learn More
                         <ArrowRight className="h-4 w-4" />
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>

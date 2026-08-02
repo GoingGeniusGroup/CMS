@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef, useEffect } from "react";
 import { Users, User, Filter, Plus, Search, Phone, Mail, List, LayoutGrid } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Topbar } from "@/components/Topbar";
@@ -63,6 +63,17 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
   const [filterOpen, setFilterOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [departmentFilter, setDepartmentFilter] = useState<string>("all");
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setFilterOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
@@ -201,7 +212,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader title="Team" description="Manage Your team members and their information." />
         <div className="flex items-center gap-3">
-          <div className="relative">
+          <div className="relative" ref={filterRef}>
             <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
               <Filter className="h-4 w-4" />
               Filter{(statusFilter !== "all" || departmentFilter !== "all") ? " (1)" : ""}

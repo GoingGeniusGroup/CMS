@@ -75,6 +75,7 @@ model Service {
   basePrice    Float?
   category     String?
   description  String?
+  serviceDetail String?
   isActive     Boolean    @default(true)
   isFeatured   Boolean    @default(false)
   serviceName  String

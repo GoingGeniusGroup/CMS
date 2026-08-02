@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef, useEffect } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { Layers, Plus, CheckCircle2, XCircle, Search, List, LayoutGrid, Filter } from "lucide-react";
 import { Topbar } from "@/components/Topbar";
@@ -40,6 +40,32 @@ type ServicesData = {
 
 const PAGE_SIZE = 10;
 
+function isRichContent(text: string | null): boolean {
+  if (!text) return false;
+  return text.startsWith('{"type":"doc"');
+}
+
+function extractPreview(text: string | null, maxLen = 120): string | null {
+  if (!text) return null;
+  if (!isRichContent(text)) return text;
+  try {
+    const json = JSON.parse(text);
+    const parts: string[] = [];
+    function walk(nodes: unknown[] | undefined) {
+      if (!nodes) return;
+      for (const node of nodes as { type?: string; text?: string; content?: unknown[] }[]) {
+        if (node.text) parts.push(node.text);
+        if (node.content) walk(node.content);
+      }
+    }
+    walk(json.content);
+    const plain = parts.join(" ").replace(/\s+/g, " ").trim();
+    return plain.length > maxLen ? plain.slice(0, maxLen) + "..." : plain;
+  } catch {
+    return text;
+  }
+}
+
 export function ServicesClient({ initialData }: { initialData: ServicesData }) {
   const [data, setData] = useState(initialData);
   const [currentPage, setCurrentPage] = useState(initialData.page);
@@ -50,6 +76,17 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
   const [statusFilter, setStatusFilter] = useState("all");
   const [featuredFilter, setFeaturedFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setFilterOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Modal state
   const [addOpen, setAddOpen] = useState(false);
@@ -92,7 +129,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
   const filtered = data.services.filter((s) => {
     const matchesSearch = !search.trim() ||
       s.serviceName.toLowerCase().includes(search.toLowerCase()) ||
-      (s.description && s.description.toLowerCase().includes(search.toLowerCase())) ||
+      (s.description && extractPreview(s.description)?.toLowerCase().includes(search.toLowerCase())) ||
       (s.category && s.category.toLowerCase().includes(search.toLowerCase()));
     const matchesStatus = statusFilter === "all" || (statusFilter === "Active" ? s.isActive : !s.isActive);
     const matchesFeatured = featuredFilter === "all" || (featuredFilter === "Featured" ? s.isFeatured : !s.isFeatured);
@@ -111,7 +148,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
           description="Manage all your services."
         />
         <div className="flex items-center gap-3">
-          <div className="relative">
+          <div className="relative" ref={filterRef}>
             <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
               <Filter className="h-4 w-4" />
               Filter{(statusFilter !== "all" || featuredFilter !== "all" || categoryFilter !== "all") ? " (1)" : ""}
@@ -244,7 +281,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
                       )}
                     </td>
                     <td className="p-4 text-sm font-medium text-gray-900">{service.serviceName}</td>
-                    <td className="p-4 text-sm text-gray-600 max-w-xs truncate">{service.description || "—"}</td>
+                    <td className="p-4 text-sm text-gray-600 max-w-xs truncate">{extractPreview(service.description) || "—"}</td>
                     <td className="p-4">
                       <span className={`px-4 py-1.5 rounded-full text-xs font-medium ${
                         service.isActive
@@ -283,7 +320,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
                   )}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm text-gray-900 mb-1">{service.serviceName}</h3>
-                    <p className="text-xs text-gray-600 mb-2 line-clamp-2">{service.description || "—"}</p>
+                    <p className="text-xs text-gray-600 mb-2 line-clamp-2">{extractPreview(service.description) || "—"}</p>
                     <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
                       service.isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
                     }`}>
@@ -326,7 +363,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
 
               {/* Description */}
               {service.description && (
-                <p className="mb-3 text-xs text-gray-500 line-clamp-2">{service.description}</p>
+                <p className="mb-3 text-xs text-gray-500 line-clamp-2">{extractPreview(service.description)}</p>
               )}
 
               {/* Meta */}
@@ -370,6 +407,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
 
       {/* Edit Service Modal */}
       <EditServiceModal
+        key={editTarget?.id ?? "none"}
         open={!!editTarget}
         service={editTarget}
         onClose={() => setEditTarget(null)}
@@ -397,7 +435,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
           { label: "Base Price", value: viewItem?.basePrice },
           { label: "Status", value: viewItem?.isActive ? "Active" : "Inactive" },
           { label: "Featured", value: viewItem?.isFeatured ? "Yes" : "No" },
-          { label: "Description", value: viewItem?.description },
+          { label: "Description", value: extractPreview(viewItem?.description ?? null) },
         ]}
       />
     </div>

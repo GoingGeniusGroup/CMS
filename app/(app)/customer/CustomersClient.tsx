@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef, useEffect } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { Users, UserCheck, UserX, Plus, Search, List, LayoutGrid, Mail, Filter } from "lucide-react";
 import { Topbar } from "@/components/Topbar";
@@ -59,6 +59,17 @@ export function CustomersClient({
   const [filterOpen, setFilterOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
   const [serviceFilter, setServiceFilter] = useState("all");
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setFilterOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Modal state
   const [addOpen, setAddOpen] = useState(false);
@@ -128,7 +139,7 @@ export function CustomersClient({
           description="Manage your customers."
         />
         <div className="flex items-center gap-3">
-          <div className="relative">
+          <div className="relative" ref={filterRef}>
             <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
               <Filter className="h-4 w-4" />
               Filter{(statusFilter !== "all" || serviceFilter !== "all") ? " (1)" : ""}
