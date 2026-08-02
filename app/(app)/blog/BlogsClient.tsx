@@ -11,6 +11,8 @@ import { Pagination } from "@/components/Pagination";
 import { BlogModal } from "@/components/BlogModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { ViewDetailModal } from "@/components/ViewDetailModal";
+import { StatusBadge } from "@/components/StatusBadge";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { Filter, Plus, Search, Newspaper, Folder, List, LayoutGrid } from "lucide-react";
 import { getBlogs, deleteBlog } from "@/app/actions/blogs";
 
@@ -66,6 +68,10 @@ export function BlogsClient({
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [authorFilter, setAuthorFilter] = useState("all");
   const filterRef = useRef<HTMLDivElement>(null);
+
+  const blogLabel = useEntityLabel("blog");
+  const blogLabelPlural = useEntityLabel("blog", { plural: true });
+  const blogStatusOptions = useStatusOptions("blog");
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -144,7 +150,7 @@ export function BlogsClient({
 
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-        <PageHeader title="Blog" description="Manage all your blogs." />
+        <PageHeader title={blogLabel} description={`Manage all your ${blogLabelPlural.toLowerCase()}.`} />
         <div className="flex items-center gap-3">
           <div className="relative" ref={filterRef}>
             <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
@@ -154,10 +160,10 @@ export function BlogsClient({
             {filterOpen && (
               <div className="absolute max-md:left-0 max-md:right-auto md:right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
                 <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
-                {["all", "Published", "Draft"].map((s) => (
+                {["all", ...blogStatusOptions.map((o) => o.statusValue)].map((s) => (
                   <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
                     className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
-                    {s === "all" ? "All Statuses" : s}
+                    {s === "all" ? "All Statuses" : (blogStatusOptions.find((o) => o.statusValue === s)?.label ?? s)}
                   </button>
                 ))}
                 <div className="my-2 border-t border-gray-100" />
@@ -188,7 +194,7 @@ export function BlogsClient({
             )}
           </div>
           <Button onClick={handleAdd}>
-            Add Blog
+            Add {blogLabel}
             <Plus className="h-4 w-4" />
           </Button>
         </div>
@@ -196,14 +202,14 @@ export function BlogsClient({
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-        <StatCard icon={Newspaper} label="Total Blogs" value={data.total} />
+        <StatCard icon={Newspaper} label={`Total ${blogLabelPlural}`} value={data.total} />
         <StatCard icon={Newspaper} label="Published" value={data.published} />
         <StatCard icon={Newspaper} label="Draft" value={data.drafts} />
       </div>
 
       {/* Search + View Toggle */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-bold text-black">Blogs</h2>
+        <h2 className="text-lg font-bold text-black">{blogLabelPlural}</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
           <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
@@ -238,7 +244,7 @@ export function BlogsClient({
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
             <input
               type="search"
-              placeholder="Search blogs..."
+              placeholder={`Search ${blogLabelPlural.toLowerCase()}...`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-10 pr-4 text-sm text-zinc-700 shadow-sm outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-sky-200"
@@ -253,7 +259,7 @@ export function BlogsClient({
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <Folder className="h-10 w-10 text-zinc-300" />
             <p className="text-sm text-zinc-500">
-              {search ? "No blogs match your search" : "No blogs yet. Add your first blog!"}
+              {search ? `No ${blogLabelPlural.toLowerCase()} match your search` : `No ${blogLabelPlural.toLowerCase()} yet. Add your first ${blogLabel.toLowerCase()}!`}
             </p>
           </div>
         </Card>
@@ -295,13 +301,7 @@ export function BlogsClient({
                     <td className="p-4 text-sm text-gray-600">{blog.category || "—"}</td>
                     <td className="p-4 text-sm text-gray-600">{blog.author?.fullName || "—"}</td>
                     <td className="p-4">
-                      <span className={`px-4 py-1.5 rounded-full text-xs font-medium ${
-                        blog.status === "Published"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}>
-                        {blog.status}
-                      </span>
+                      <StatusBadge moduleKey="blog" value={blog.status} />
                     </td>
                     <td className="p-4">
                       <RowActions onView={() => setViewItem(blog)} onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
@@ -331,11 +331,7 @@ export function BlogsClient({
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm text-gray-900 mb-1">{blog.title}</h3>
                     <p className="text-xs text-gray-600 mb-2 truncate">{blog.slug}</p>
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                      blog.status === "Published" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                    }`}>
-                      {blog.status}
-                    </span>
+                    <StatusBadge moduleKey="blog" value={blog.status} />
                   </div>
                 </div>
                 <RowActions variant="buttons" onView={() => setViewItem(blog)} onEdit={() => handleEdit(blog)} onDelete={() => handleDelete(blog.id)} />
@@ -369,11 +365,7 @@ export function BlogsClient({
                 {/* Title & Status */}
                 <div className="mb-3 flex items-start justify-between gap-2">
                   <h3 className="text-sm font-bold text-gray-900 line-clamp-2">{blog.title}</h3>
-                  <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-medium ${
-                    blog.status === "Published" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                  }`}>
-                    {blog.status}
-                  </span>
+                  <StatusBadge moduleKey="blog" value={blog.status} className="shrink-0 px-3 py-1 text-[11px]" />
                 </div>
 
                 {/* Slug */}
@@ -420,8 +412,8 @@ export function BlogsClient({
       {/* Delete Confirmation */}
       <DeleteConfirmModal
         isOpen={!!deleteId}
-        title="Delete Blog"
-        description="Are you sure you want to delete this blog? This action cannot be undone."
+        title={`Delete ${blogLabel}`}
+        description={`Are you sure you want to delete this ${blogLabel.toLowerCase()}? This action cannot be undone.`}
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
       />

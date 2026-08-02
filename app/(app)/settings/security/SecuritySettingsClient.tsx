@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Shield, Loader2 } from "lucide-react";
 import { Card } from "@/components/Card";
-import { saveSecuritySettings, type SecuritySettingInput } from "@/app/actions/security-settings";
+import { saveSecuritySettings } from "@/app/actions/security-settings";
 
 type SecurityData = {
   twoFactorEnabled: boolean;

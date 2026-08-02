@@ -5,6 +5,8 @@ import { useState } from "react";
 import { ImageUploader } from "@/components/ImageUploader";
 import { TiptapEditor } from "@/components/TiptapEditor";
 import type { JSONContent } from "@tiptap/react";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { createService } from "@/app/actions/services";
 
 export function AddServiceModal({
@@ -16,11 +18,15 @@ export function AddServiceModal({
   onClose: () => void;
   onSuccess?: () => void;
 }) {
-  const [fileName, setFileName] = useState<string | null>(null);
   const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
   const [isFeatured, setIsFeatured] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const serviceLabel = useEntityLabel("service");
+  const statusOptions = useStatusOptions("service");
+  const statusDefault = statusOptions.find((s) => s.isDefault)?.statusValue ?? statusOptions[0]?.statusValue ?? "Active";
+  const [statusValue, setStatusValue] = useState("");
+  const [customValues, setCustomValues] = useState<CustomValues>({});
 
   const [form, setForm] = useState({
     serviceName: "",
@@ -60,7 +66,8 @@ export function AddServiceModal({
       description: descriptionContent ? JSON.stringify(descriptionContent) : undefined,
       thumbnailUrl: thumbnailUrl || undefined,
       isFeatured,
-    });
+      isActive: (statusValue || statusDefault) !== "Inactive",
+    }, customValues);
 
     setIsLoading(false);
 
@@ -72,9 +79,10 @@ export function AddServiceModal({
     // Reset form
     setForm({ serviceName: "" });
     setDescriptionContent(null);
-    setFileName(null);
     setThumbnailUrl(null);
     setIsFeatured(false);
+    setStatusValue("");
+    setCustomValues({});
     onSuccess?.();
     onClose();
   };
@@ -98,7 +106,7 @@ export function AddServiceModal({
         </button>
 
         <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
-          <h2 className="text-xl font-bold text-zinc-900">Add Service</h2>
+          <h2 className="text-xl font-bold text-zinc-900">Add {serviceLabel}</h2>
         </div>
 
         <form className="flex min-h-0 flex-1 flex-col" onSubmit={handleSubmit}>
@@ -144,9 +152,25 @@ export function AddServiceModal({
                 value={thumbnailUrl}
                 onChange={(url) => {
                   setThumbnailUrl(url);
-                  setFileName(url ? "Uploaded Image" : null);
                 }}
               />
+
+              {/* Status */}
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-bold text-zinc-800">
+                  Status <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="status"
+                  value={statusValue || statusDefault}
+                  onChange={(e) => setStatusValue(e.target.value)}
+                  className="h-12 w-full rounded-xl border border-black/15 bg-white px-4 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-indigo-200"
+                >
+                  {statusOptions.map((s) => (
+                    <option key={s.statusValue} value={s.statusValue}>{s.label}</option>
+                  ))}
+                </select>
+              </div>
 
               {/* Featured Toggle */}
               <div className="flex items-center justify-between rounded-xl border border-black/15 px-4 py-3">
@@ -167,6 +191,14 @@ export function AddServiceModal({
                 </button>
               </div>
             </div>
+
+            {/* Custom Fields */}
+            <div className="mt-5">
+              <CustomFieldRenderer
+                moduleKey="service"
+                onValuesChange={setCustomValues}
+              />
+            </div>
           </div>
 
           {/* Actions - always visible */}
@@ -185,7 +217,7 @@ export function AddServiceModal({
               className="flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700 disabled:opacity-60"
             >
               {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-              {isLoading ? "Adding..." : "Add Service"}
+              {isLoading ? "Adding..." : `Add ${serviceLabel}`}
             </button>
           </div>
         </form>

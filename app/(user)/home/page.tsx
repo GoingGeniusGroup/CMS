@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { images } from "@/lib/images";
 import { LandingServicesSection } from "@/components/LandingServicesSection";
 import { LandingFeaturedProjects } from "@/components/LandingFeaturedProjects";

@@ -2,6 +2,7 @@
 
 import { X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface ServiceDetailModalProps {
   open: boolean;
@@ -71,12 +72,12 @@ export function ServiceDetailModal({ open, service, onClose }: ServiceDetailModa
 
           {/* CTA */}
           <div className="mt-6">
-            <a
+            <Link
               href="/home#contact"
               className="inline-flex items-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
             >
               Get Started
-            </a>
+            </Link>
           </div>
         </div>
       </div>

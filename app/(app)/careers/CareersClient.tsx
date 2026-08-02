@@ -13,6 +13,9 @@ import { ViewDetailModal } from "@/components/ViewDetailModal";
 import { AddVacancyModal, type VacancyFormData } from "@/components/AddVacancyModal";
 import { EditVacancyModal, type JobVacancyRow } from "@/components/EditVacancyModal";
 import { ViewApplicantsModal, type Applicant } from "@/components/ViewApplicantsModal";
+import { StatusBadge } from "@/components/StatusBadge";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
+import { type CustomValues } from "@/components/CustomFieldRenderer";
 import { getJobs, createJob, updateJob, deleteJob } from "@/app/actions/jobs";
 
 import {
@@ -42,6 +45,10 @@ export function CareersClient() {
   const [typeFilter, setTypeFilter] = useState("all");
   const [modeFilter, setModeFilter] = useState("all");
   const filterRef = useRef<HTMLDivElement>(null);
+
+  const jobLabel = useEntityLabel("job");
+  const jobLabelPlural = useEntityLabel("job", { plural: true });
+  const statusOptions = useStatusOptions("job");
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -85,7 +92,7 @@ export function CareersClient() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
-  const handleCreateVacancy = async (formData: VacancyFormData) => {
+  const handleCreateVacancy = async (formData: VacancyFormData, customValues?: CustomValues) => {
     const result = await createJob({
       title: formData.title,
       department: formData.department,
@@ -103,14 +110,14 @@ export function CareersClient() {
       responsibilities: formData.responsibilities.split("\n").filter(Boolean),
       requirements: formData.requirements.split("\n").filter(Boolean),
       thumbnailUrl: formData.thumbnailUrl || "",
-    });
+    }, customValues);
     if (result.success) {
       setAddOpen(false);
       fetchJobs();
     }
   };
 
-  const handleUpdateVacancy = async (updated: JobVacancyRow) => {
+  const handleUpdateVacancy = async (updated: JobVacancyRow, customValues?: CustomValues) => {
     const result = await updateJob(updated.id, {
       title: updated.title,
       department: updated.department,
@@ -128,7 +135,7 @@ export function CareersClient() {
       responsibilities: updated.responsibilities,
       requirements: updated.requirements,
       thumbnailUrl: updated.thumbnailUrl || "",
-    });
+    }, customValues);
     if (result.success) {
       setEditTarget(null);
       fetchJobs();
@@ -144,7 +151,7 @@ export function CareersClient() {
     }
   };
 
-  const handleUpdateApplicantStatus = (applicantId: string, newStatus: Applicant["status"]) => {
+  const handleUpdateApplicantStatus = (applicantId: string, newStatus: string) => {
     setApplicants((prev) =>
       prev.map((a) => (a.id === applicantId ? { ...a, status: newStatus } : a))
     );
@@ -176,8 +183,8 @@ export function CareersClient() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader
-          title="Careers"
-          description="Manage all your career vacancies."
+          title={jobLabelPlural}
+          description={`Manage all your career ${jobLabelPlural.toLowerCase()}.`}
         />
         <div className="flex items-center gap-3">
           <div className="relative" ref={filterRef}>
@@ -188,10 +195,10 @@ export function CareersClient() {
             {filterOpen && (
               <div className="absolute max-md:left-0 max-md:right-auto md:right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
                 <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
-                {["all", "Active", "Inactive"].map((s) => (
-                  <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
-                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
-                    {s === "all" ? "All Statuses" : s}
+                {[{ value: "all", label: "All Statuses" }, ...statusOptions.map((s) => ({ value: s.statusValue, label: s.label }))].map((s) => (
+                  <button key={s.value} type="button" onClick={() => { setStatusFilter(s.value); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s.value ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {s.label}
                   </button>
                 ))}
                 <div className="my-2 border-t border-gray-100" />
@@ -222,7 +229,7 @@ export function CareersClient() {
             )}
           </div>
           <Button onClick={() => setAddOpen(true)}>
-            Add Vacancy
+            Add {jobLabel}
             <Plus className="h-4 w-4" />
           </Button>
         </div>
@@ -230,14 +237,14 @@ export function CareersClient() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-        <StatCard icon={Briefcase} label="Total Vacancies" value={total} />
+        <StatCard icon={Briefcase} label={`Total ${jobLabelPlural}`} value={total} />
         <StatCard icon={CheckCircle2} label="Active" value={active} />
         <StatCard icon={XCircle} label="Inactive" value={inactive} />
       </div>
 
       {/* Search + View Toggle */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-bold text-black">Vacancies</h2>
+        <h2 className="text-lg font-bold text-black">{jobLabelPlural}</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
           <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
@@ -293,7 +300,7 @@ export function CareersClient() {
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <Briefcase className="h-10 w-10 text-zinc-300" />
             <p className="text-sm text-zinc-500">
-              {search ? "No vacancies match your search" : "No vacancies yet. Add your first vacancy!"}
+              {search ? `No ${jobLabelPlural.toLowerCase()} match your search` : `No ${jobLabelPlural.toLowerCase()} yet. Add your first ${jobLabel.toLowerCase()}!`}
             </p>
           </div>
         </Card>
@@ -337,13 +344,7 @@ export function CareersClient() {
                       </button>
                     </td>
                     <td className="p-4">
-                      <span className={`px-4 py-1.5 rounded-full text-xs font-medium ${
-                        item.isActive
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}>
-                        {item.isActive ? "Active" : "Inactive"}
-                      </span>
+                      <StatusBadge moduleKey="job" value={item.isActive ? "Active" : "Inactive"} />
                     </td>
                     <td className="p-4">
                       <RowActions
@@ -366,11 +367,7 @@ export function CareersClient() {
                   <span className="text-xs text-gray-500 font-medium">
                     #{String((currentPage - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}
                   </span>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    item.isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                  }`}>
-                    {item.isActive ? "Active" : "Inactive"}
-                  </span>
+                  <StatusBadge moduleKey="job" value={item.isActive ? "Active" : "Inactive"} />
                 </div>
                 <h3 className="font-semibold text-sm text-gray-900">{item.title}</h3>
                 <p className="text-xs text-gray-500">{item.department} &bull; {item.type} ({item.mode})</p>
@@ -411,11 +408,7 @@ export function CareersClient() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-semibold uppercase text-indigo-600">{item.department}</span>
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      item.isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                    }`}>
-                      {item.isActive ? "Active" : "Inactive"}
-                    </span>
+                    <StatusBadge moduleKey="job" value={item.isActive ? "Active" : "Inactive"} />
                   </div>
                   <h3 className="text-base font-bold text-gray-900">{item.title}</h3>
                   <p className="text-xs text-gray-500">{item.type} &bull; {item.mode} &bull; {item.location}</p>
@@ -463,6 +456,7 @@ export function CareersClient() {
       />
 
       <EditVacancyModal
+        key={editTarget?.id ?? "none"}
         open={!!editTarget}
         vacancy={editTarget}
         onClose={() => setEditTarget(null)}
@@ -503,7 +497,7 @@ export function CareersClient() {
 
       <DeleteConfirmModal
         isOpen={!!deleteId}
-        title="Delete Job Vacancy"
+        title={`Delete ${jobLabel}`}
         description="Are you sure you want to delete this vacancy post? Candidates won't be able to apply anymore."
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}

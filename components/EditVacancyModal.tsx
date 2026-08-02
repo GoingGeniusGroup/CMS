@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { X, Loader2 } from "lucide-react";
 import { Button } from "@/components/Button";
 import { FileUploaderRegular } from "@uploadcare/react-uploader/next";
 import "@uploadcare/react-uploader/core.css";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useStatusOptions } from "@/components/ConfigProvider";
 
 export interface JobVacancyRow {
   id: string;
@@ -33,7 +35,7 @@ interface EditVacancyModalProps {
   open: boolean;
   vacancy: JobVacancyRow | null;
   onClose: () => void;
-  onSuccess: (updated: JobVacancyRow) => void;
+  onSuccess: (updated: JobVacancyRow, customValues?: CustomValues) => void;
 }
 
 export function EditVacancyModal({
@@ -42,49 +44,30 @@ export function EditVacancyModal({
   onClose,
   onSuccess,
 }: EditVacancyModalProps) {
+  const statusOptions = useStatusOptions("job");
+  const [statusValue, setStatusValue] = useState(vacancy?.isActive ? "Active" : "Inactive");
+  const [customValues, setCustomValues] = useState<CustomValues>({});
+  // Keyed by vacancy.id at the call site, so this mounts fresh per record.
   const [form, setForm] = useState({
-    title: "",
-    department: "Developer",
-    type: "Full-time",
-    mode: "Remote",
-    location: "",
-    salaryRange: "",
-    experience: "",
-    vacanciesCount: 1,
-    deadline: "",
-    isActive: true,
-    isFeatured: false,
-    tags: "",
-    description: "",
+    title: vacancy?.title ?? "",
+    department: vacancy?.department || "Developer",
+    type: vacancy?.type || "Full-time",
+    mode: vacancy?.mode || "Remote",
+    location: vacancy?.location ?? "",
+    salaryRange: vacancy?.salaryRange ?? "",
+    experience: vacancy?.experience ?? "",
+    vacanciesCount: vacancy?.vacanciesCount || 1,
+    deadline: vacancy?.deadline ?? "",
+    isActive: vacancy?.isActive ?? true,
+    isFeatured: vacancy?.isFeatured ?? false,
+    tags: vacancy?.tags ? vacancy.tags.join(", ") : "",
+    description: vacancy?.description ?? "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
-  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (vacancy) {
-      setForm({
-        title: vacancy.title || "",
-        department: vacancy.department || "Developer",
-        type: vacancy.type || "Full-time",
-        mode: vacancy.mode || "Remote",
-        location: vacancy.location || "",
-        salaryRange: vacancy.salaryRange || "",
-        experience: vacancy.experience || "",
-        vacanciesCount: vacancy.vacanciesCount || 1,
-        deadline: vacancy.deadline || "",
-        isActive: vacancy.isActive ?? true,
-        isFeatured: vacancy.isFeatured ?? false,
-        tags: Array.isArray(vacancy.tags) ? vacancy.tags.join(", ") : "",
-        description: vacancy.description || "",
-      });
-      setThumbnailUrl(vacancy.thumbnailUrl || null);
-      setFileName(null);
-      setError(null);
-    }
-  }, [vacancy]);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(vacancy?.thumbnailUrl ?? null);
 
   if (!open || !vacancy) return null;
 
@@ -123,7 +106,7 @@ export function EditVacancyModal({
         experience: form.experience,
         vacanciesCount: form.vacanciesCount,
         deadline: form.deadline,
-        isActive: form.isActive,
+        isActive: statusValue !== "Inactive",
         isFeatured: form.isFeatured,
         tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
         description: form.description,
@@ -131,7 +114,7 @@ export function EditVacancyModal({
         updatedAt: new Date().toISOString().split("T")[0],
       };
 
-      onSuccess(updatedItem);
+      onSuccess(updatedItem, customValues);
       setIsLoading(false);
       onClose();
     }, 200);
@@ -331,18 +314,21 @@ export function EditVacancyModal({
                 />
               </div>
 
-              {/* Status Checkbox & Featured */}
-              <div className="flex flex-wrap items-center gap-6 pt-2">
-                <label className="flex items-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="isActive"
-                    checked={form.isActive}
-                    onChange={handleChange}
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                  />
-                  Active Status
-                </label>
+              {/* Status & Featured */}
+              <div className="flex flex-wrap items-end gap-6 pt-2">
+                <div className="flex-1 min-w-40">
+                  <label className="mb-1.5 block text-sm font-medium text-zinc-700">Status</label>
+                  <select
+                    name="status"
+                    value={statusValue}
+                    onChange={(e) => setStatusValue(e.target.value)}
+                    className="w-full rounded-xl border border-black/15 bg-white px-4 py-2.5 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-indigo-200"
+                  >
+                    {statusOptions.map((s) => (
+                      <option key={s.statusValue} value={s.statusValue}>{s.label}</option>
+                    ))}
+                  </select>
+                </div>
 
                 <label className="flex items-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer">
                   <input
@@ -400,6 +386,13 @@ export function EditVacancyModal({
                   </p>
                 )}
               </div>
+
+              {/* Custom Fields */}
+              <CustomFieldRenderer
+                moduleKey="job"
+                recordId={vacancy?.id}
+                onValuesChange={setCustomValues}
+              />
             </div>
           </div>
 

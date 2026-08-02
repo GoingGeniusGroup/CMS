@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { createElement } from "react";
 import {
   ArrowRight,
   Check,
@@ -144,7 +145,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               <Image src={service.thumbnailUrl} alt={service.serviceName} fill sizes="100vw" className="object-cover" />
             ) : (
               <div className="flex h-full w-full items-center justify-center bg-indigo-50">
-                <Icon className="h-20 w-20 text-indigo-300" strokeWidth={1.5} />
+                {createElement(Icon, { className: "h-20 w-20 text-indigo-300", strokeWidth: 1.5 })}
               </div>
             )}
           </div>

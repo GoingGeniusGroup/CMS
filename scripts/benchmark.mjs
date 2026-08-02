@@ -1,6 +1,5 @@
 import { spawn } from "child_process";
 import { request } from "http";
-import { homedir } from "os";
 
 const PORT = 3999;
 const BASE = `http://localhost:${PORT}`;
@@ -69,9 +68,8 @@ async function main() {
     shell: true,
   });
 
-  let serverOutput = "";
-  server.stdout.on("data", (d) => { serverOutput += d.toString(); });
-  server.stderr.on("data", (d) => { serverOutput += d.toString(); });
+  server.stdout.on("data", () => {});
+  server.stderr.on("data", () => {});
 
   try {
     console.log(" Starting dev server...");

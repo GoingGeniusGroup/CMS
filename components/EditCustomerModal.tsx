@@ -1,8 +1,10 @@
 "use client";
 
 import { X, Loader2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { updateCustomer } from "@/app/actions/customers";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 
 export interface CustomerRow {
   id: string;
@@ -33,31 +35,19 @@ export function EditCustomerModal({ isOpen, customer, services = [], onClose, on
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [phoneError, setPhoneError] = useState<string | null>(null);
+  const customerLabel = useEntityLabel("customer");
+  const statusOptions = useStatusOptions("customer");
+  const [customValues, setCustomValues] = useState<CustomValues>({});
+  // Keyed by customer.id at the call site, so this mounts fresh per record.
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phoneNumber: "",
-    address: "",
-    servicesId: "",
-    companyName: "",
-    status: "Active" as "Active" | "Inactive",
+    fullName: customer?.fullName ?? "",
+    email: customer?.email ?? "",
+    phoneNumber: customer?.phoneNumber ?? "",
+    address: customer?.address ?? "",
+    servicesId: customer?.servicesId ?? "",
+    companyName: customer?.companyName ?? "",
+    status: customer?.status ?? "",
   });
-
-  // Pre-fill form when customer changes
-  useEffect(() => {
-    if (customer) {
-      setFormData({
-        fullName: customer.fullName,
-        email: customer.email,
-        phoneNumber: customer.phoneNumber ?? "",
-        address: customer.address ?? "",
-        servicesId: customer.servicesId ?? "",
-        companyName: customer.companyName ?? "",
-        status: customer.status === "Inactive" ? "Inactive" : "Active",
-      });
-      setError(null);
-    }
-  }, [customer]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -92,7 +82,7 @@ export function EditCustomerModal({ isOpen, customer, services = [], onClose, on
       servicesId: formData.servicesId,
       companyName: formData.companyName,
       status: formData.status,
-    });
+    }, customValues);
 
     setIsSubmitting(false);
 
@@ -123,7 +113,7 @@ export function EditCustomerModal({ isOpen, customer, services = [], onClose, on
         </button>
 
         <div className="shrink-0 border-b border-gray-200 px-6 py-4 sm:px-8 sm:py-5">
-          <h2 className="text-lg font-bold text-gray-900">Edit Customer</h2>
+          <h2 className="text-lg font-bold text-gray-900">Edit {customerLabel}</h2>
         </div>
 
         <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
@@ -192,18 +182,27 @@ export function EditCustomerModal({ isOpen, customer, services = [], onClose, on
                 <div>
                   <label className={labelCls}>Status <span className="text-red-500">*</span></label>
                   <div className="flex items-center gap-6 h-[42px]">
-                    {(["Active", "Inactive"] as const).map((s) => (
-                      <label key={s} className="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="status" value={s}
-                          checked={formData.status === s} onChange={handleChange}
-                          className="w-4 h-4 text-blue-600" />
-                        <span className="text-sm text-gray-700">{s}</span>
-                      </label>
-                    ))}
+                    <select
+                      name="status"
+                      value={formData.status}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-gray-400 outline-none transition-colors text-sm"
+                    >
+                      {statusOptions.map((s) => (
+                        <option key={s.statusValue} value={s.statusValue}>{s.label}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Custom Fields */}
+            <CustomFieldRenderer
+              moduleKey="customer"
+              recordId={customer?.id}
+              onValuesChange={setCustomValues}
+            />
           </div>
 
           {/* Buttons - always visible */}

@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
+import { saveCustomFieldValues } from "./custom-fields";
 
 const serviceSchema = z.object({
   serviceName: z.string().min(2, "Service name must be at least 2 characters"),
@@ -87,7 +88,7 @@ export async function getServiceBySlug(slug: string) {
 }
 
 // Create a service
-export async function createService(data: ServiceInput) {
+export async function createService(data: ServiceInput, customFieldValues?: Record<string, string | number | boolean | null | undefined>) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
@@ -97,7 +98,10 @@ export async function createService(data: ServiceInput) {
   }
 
   try {
-    await prisma.service.create({ data: result.data });
+    const created = await prisma.service.create({ data: result.data });
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("service", created.id, customFieldValues);
+    }
     return { success: true };
   } catch (error) {
     console.error("Create service error:", error);
@@ -106,7 +110,7 @@ export async function createService(data: ServiceInput) {
 }
 
 // Update a service
-export async function updateService(id: string, data: ServiceInput) {
+export async function updateService(id: string, data: ServiceInput, customFieldValues?: Record<string, string | number | boolean | null | undefined>) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
@@ -117,6 +121,9 @@ export async function updateService(id: string, data: ServiceInput) {
 
   try {
     await prisma.service.update({ where: { id }, data: result.data });
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("service", id, customFieldValues);
+    }
     return { success: true };
   } catch (error) {
     console.error("Update service error:", error);

@@ -253,6 +253,7 @@ model GeneralSetting {
   themeColor       String   @default("#6366f1")
   themeTextColor   String   @default("#ffffff")
   baseColorEnabled Boolean  @default(true)
+  industryProfile  String   @default("Generic")
   updatedAt        DateTime @updatedAt
 
   @@map("general_settings")
@@ -430,4 +431,64 @@ model Faq {
   updatedAt DateTime @updatedAt
 
   @@map("faqs")
+}
+
+model LabelOverride {
+  id        String   @id @default(cuid())
+  entityKey String   @unique
+  singular  String
+  plural    String
+  updatedAt DateTime @updatedAt
+
+  @@map("label_overrides")
+}
+
+model CustomField {
+  id           String   @id @default(cuid())
+  moduleKey    String
+  fieldKey     String
+  label        String
+  type         String   @default("text")
+  options      Json?
+  required     Boolean  @default(false)
+  displayOrder Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  values       CustomFieldValue[]
+
+  @@unique([moduleKey, fieldKey])
+  @@index([moduleKey, isActive, displayOrder])
+  @@map("custom_fields")
+}
+
+model CustomFieldValue {
+  id            String      @id @default(cuid())
+  customFieldId String
+  recordId      String
+  value         Json?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  customField   CustomField @relation(fields: [customFieldId], references: [id], onDelete: Cascade)
+
+  @@unique([customFieldId, recordId])
+  @@index([recordId])
+  @@map("custom_field_values")
+}
+
+model StatusOption {
+  id          String   @id @default(cuid())
+  moduleKey   String
+  statusValue String
+  label       String
+  color       String   @default("#6b7280")
+  sortOrder   Int      @default(0)
+  isDefault   Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([moduleKey, statusValue])
+  @@index([moduleKey, isActive, sortOrder])
+  @@map("status_options")
 }

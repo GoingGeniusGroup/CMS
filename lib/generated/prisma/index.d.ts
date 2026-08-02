@@ -148,6 +148,26 @@ export type Applicant = $Result.DefaultSelection<Prisma.$ApplicantPayload>
  * 
  */
 export type Faq = $Result.DefaultSelection<Prisma.$FaqPayload>
+/**
+ * Model LabelOverride
+ * 
+ */
+export type LabelOverride = $Result.DefaultSelection<Prisma.$LabelOverridePayload>
+/**
+ * Model CustomField
+ * 
+ */
+export type CustomField = $Result.DefaultSelection<Prisma.$CustomFieldPayload>
+/**
+ * Model CustomFieldValue
+ * 
+ */
+export type CustomFieldValue = $Result.DefaultSelection<Prisma.$CustomFieldValuePayload>
+/**
+ * Model StatusOption
+ * 
+ */
+export type StatusOption = $Result.DefaultSelection<Prisma.$StatusOptionPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -536,6 +556,46 @@ export class PrismaClient<
     * ```
     */
   get faq(): Prisma.FaqDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.labelOverride`: Exposes CRUD operations for the **LabelOverride** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LabelOverrides
+    * const labelOverrides = await prisma.labelOverride.findMany()
+    * ```
+    */
+  get labelOverride(): Prisma.LabelOverrideDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.customField`: Exposes CRUD operations for the **CustomField** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CustomFields
+    * const customFields = await prisma.customField.findMany()
+    * ```
+    */
+  get customField(): Prisma.CustomFieldDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.customFieldValue`: Exposes CRUD operations for the **CustomFieldValue** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CustomFieldValues
+    * const customFieldValues = await prisma.customFieldValue.findMany()
+    * ```
+    */
+  get customFieldValue(): Prisma.CustomFieldValueDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.statusOption`: Exposes CRUD operations for the **StatusOption** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StatusOptions
+    * const statusOptions = await prisma.statusOption.findMany()
+    * ```
+    */
+  get statusOption(): Prisma.StatusOptionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1003,7 +1063,11 @@ export namespace Prisma {
     FooterSetting: 'FooterSetting',
     Job: 'Job',
     Applicant: 'Applicant',
-    Faq: 'Faq'
+    Faq: 'Faq',
+    LabelOverride: 'LabelOverride',
+    CustomField: 'CustomField',
+    CustomFieldValue: 'CustomFieldValue',
+    StatusOption: 'StatusOption'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1022,7 +1086,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "invoiceProject" | "analytics" | "popupSetting" | "page" | "setting" | "seoSetting" | "appearanceSetting" | "generalSetting" | "department" | "category" | "contactSetting" | "socialSetting" | "emailSetting" | "securitySetting" | "cookieSetting" | "websiteHeader" | "footerSetting" | "job" | "applicant" | "faq"
+      modelProps: "user" | "customer" | "team" | "service" | "project" | "blog" | "invoice" | "invoiceProject" | "analytics" | "popupSetting" | "page" | "setting" | "seoSetting" | "appearanceSetting" | "generalSetting" | "department" | "category" | "contactSetting" | "socialSetting" | "emailSetting" | "securitySetting" | "cookieSetting" | "websiteHeader" | "footerSetting" | "job" | "applicant" | "faq" | "labelOverride" | "customField" | "customFieldValue" | "statusOption"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3024,6 +3088,302 @@ export namespace Prisma {
           }
         }
       }
+      LabelOverride: {
+        payload: Prisma.$LabelOverridePayload<ExtArgs>
+        fields: Prisma.LabelOverrideFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LabelOverrideFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabelOverridePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LabelOverrideFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabelOverridePayload>
+          }
+          findFirst: {
+            args: Prisma.LabelOverrideFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabelOverridePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LabelOverrideFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabelOverridePayload>
+          }
+          findMany: {
+            args: Prisma.LabelOverrideFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabelOverridePayload>[]
+          }
+          create: {
+            args: Prisma.LabelOverrideCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabelOverridePayload>
+          }
+          createMany: {
+            args: Prisma.LabelOverrideCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LabelOverrideCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabelOverridePayload>[]
+          }
+          delete: {
+            args: Prisma.LabelOverrideDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabelOverridePayload>
+          }
+          update: {
+            args: Prisma.LabelOverrideUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabelOverridePayload>
+          }
+          deleteMany: {
+            args: Prisma.LabelOverrideDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LabelOverrideUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LabelOverrideUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabelOverridePayload>[]
+          }
+          upsert: {
+            args: Prisma.LabelOverrideUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LabelOverridePayload>
+          }
+          aggregate: {
+            args: Prisma.LabelOverrideAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLabelOverride>
+          }
+          groupBy: {
+            args: Prisma.LabelOverrideGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LabelOverrideGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LabelOverrideCountArgs<ExtArgs>
+            result: $Utils.Optional<LabelOverrideCountAggregateOutputType> | number
+          }
+        }
+      }
+      CustomField: {
+        payload: Prisma.$CustomFieldPayload<ExtArgs>
+        fields: Prisma.CustomFieldFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CustomFieldFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomFieldFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
+          }
+          findFirst: {
+            args: Prisma.CustomFieldFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomFieldFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
+          }
+          findMany: {
+            args: Prisma.CustomFieldFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>[]
+          }
+          create: {
+            args: Prisma.CustomFieldCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
+          }
+          createMany: {
+            args: Prisma.CustomFieldCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CustomFieldCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>[]
+          }
+          delete: {
+            args: Prisma.CustomFieldDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
+          }
+          update: {
+            args: Prisma.CustomFieldUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
+          }
+          deleteMany: {
+            args: Prisma.CustomFieldDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CustomFieldUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CustomFieldUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>[]
+          }
+          upsert: {
+            args: Prisma.CustomFieldUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldPayload>
+          }
+          aggregate: {
+            args: Prisma.CustomFieldAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCustomField>
+          }
+          groupBy: {
+            args: Prisma.CustomFieldGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CustomFieldGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CustomFieldCountArgs<ExtArgs>
+            result: $Utils.Optional<CustomFieldCountAggregateOutputType> | number
+          }
+        }
+      }
+      CustomFieldValue: {
+        payload: Prisma.$CustomFieldValuePayload<ExtArgs>
+        fields: Prisma.CustomFieldValueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CustomFieldValueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomFieldValueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
+          }
+          findFirst: {
+            args: Prisma.CustomFieldValueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomFieldValueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
+          }
+          findMany: {
+            args: Prisma.CustomFieldValueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>[]
+          }
+          create: {
+            args: Prisma.CustomFieldValueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
+          }
+          createMany: {
+            args: Prisma.CustomFieldValueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CustomFieldValueCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>[]
+          }
+          delete: {
+            args: Prisma.CustomFieldValueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
+          }
+          update: {
+            args: Prisma.CustomFieldValueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
+          }
+          deleteMany: {
+            args: Prisma.CustomFieldValueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CustomFieldValueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CustomFieldValueUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>[]
+          }
+          upsert: {
+            args: Prisma.CustomFieldValueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomFieldValuePayload>
+          }
+          aggregate: {
+            args: Prisma.CustomFieldValueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCustomFieldValue>
+          }
+          groupBy: {
+            args: Prisma.CustomFieldValueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CustomFieldValueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CustomFieldValueCountArgs<ExtArgs>
+            result: $Utils.Optional<CustomFieldValueCountAggregateOutputType> | number
+          }
+        }
+      }
+      StatusOption: {
+        payload: Prisma.$StatusOptionPayload<ExtArgs>
+        fields: Prisma.StatusOptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StatusOptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusOptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StatusOptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusOptionPayload>
+          }
+          findFirst: {
+            args: Prisma.StatusOptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusOptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StatusOptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusOptionPayload>
+          }
+          findMany: {
+            args: Prisma.StatusOptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusOptionPayload>[]
+          }
+          create: {
+            args: Prisma.StatusOptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusOptionPayload>
+          }
+          createMany: {
+            args: Prisma.StatusOptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StatusOptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusOptionPayload>[]
+          }
+          delete: {
+            args: Prisma.StatusOptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusOptionPayload>
+          }
+          update: {
+            args: Prisma.StatusOptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusOptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.StatusOptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StatusOptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StatusOptionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusOptionPayload>[]
+          }
+          upsert: {
+            args: Prisma.StatusOptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StatusOptionPayload>
+          }
+          aggregate: {
+            args: Prisma.StatusOptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStatusOption>
+          }
+          groupBy: {
+            args: Prisma.StatusOptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StatusOptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StatusOptionCountArgs<ExtArgs>
+            result: $Utils.Optional<StatusOptionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3147,6 +3507,10 @@ export namespace Prisma {
     job?: JobOmit
     applicant?: ApplicantOmit
     faq?: FaqOmit
+    labelOverride?: LabelOverrideOmit
+    customField?: CustomFieldOmit
+    customFieldValue?: CustomFieldValueOmit
+    statusOption?: StatusOptionOmit
   }
 
   /* Types for Logging */
@@ -3441,6 +3805,37 @@ export namespace Prisma {
    */
   export type JobCountOutputTypeCountApplicantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ApplicantWhereInput
+  }
+
+
+  /**
+   * Count Type CustomFieldCountOutputType
+   */
+
+  export type CustomFieldCountOutputType = {
+    values: number
+  }
+
+  export type CustomFieldCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    values?: boolean | CustomFieldCountOutputTypeCountValuesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CustomFieldCountOutputType without action
+   */
+  export type CustomFieldCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldCountOutputType
+     */
+    select?: CustomFieldCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CustomFieldCountOutputType without action
+   */
+  export type CustomFieldCountOutputTypeCountValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomFieldValueWhereInput
   }
 
 
@@ -19278,6 +19673,7 @@ export namespace Prisma {
     themeColor: string | null
     themeTextColor: string | null
     baseColorEnabled: boolean | null
+    industryProfile: string | null
     updatedAt: Date | null
   }
 
@@ -19291,6 +19687,7 @@ export namespace Prisma {
     themeColor: string | null
     themeTextColor: string | null
     baseColorEnabled: boolean | null
+    industryProfile: string | null
     updatedAt: Date | null
   }
 
@@ -19304,6 +19701,7 @@ export namespace Prisma {
     themeColor: number
     themeTextColor: number
     baseColorEnabled: number
+    industryProfile: number
     updatedAt: number
     _all: number
   }
@@ -19319,6 +19717,7 @@ export namespace Prisma {
     themeColor?: true
     themeTextColor?: true
     baseColorEnabled?: true
+    industryProfile?: true
     updatedAt?: true
   }
 
@@ -19332,6 +19731,7 @@ export namespace Prisma {
     themeColor?: true
     themeTextColor?: true
     baseColorEnabled?: true
+    industryProfile?: true
     updatedAt?: true
   }
 
@@ -19345,6 +19745,7 @@ export namespace Prisma {
     themeColor?: true
     themeTextColor?: true
     baseColorEnabled?: true
+    industryProfile?: true
     updatedAt?: true
     _all?: true
   }
@@ -19431,6 +19832,7 @@ export namespace Prisma {
     themeColor: string
     themeTextColor: string
     baseColorEnabled: boolean
+    industryProfile: string
     updatedAt: Date
     _count: GeneralSettingCountAggregateOutputType | null
     _min: GeneralSettingMinAggregateOutputType | null
@@ -19461,6 +19863,7 @@ export namespace Prisma {
     themeColor?: boolean
     themeTextColor?: boolean
     baseColorEnabled?: boolean
+    industryProfile?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["generalSetting"]>
 
@@ -19474,6 +19877,7 @@ export namespace Prisma {
     themeColor?: boolean
     themeTextColor?: boolean
     baseColorEnabled?: boolean
+    industryProfile?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["generalSetting"]>
 
@@ -19487,6 +19891,7 @@ export namespace Prisma {
     themeColor?: boolean
     themeTextColor?: boolean
     baseColorEnabled?: boolean
+    industryProfile?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["generalSetting"]>
 
@@ -19500,10 +19905,11 @@ export namespace Prisma {
     themeColor?: boolean
     themeTextColor?: boolean
     baseColorEnabled?: boolean
+    industryProfile?: boolean
     updatedAt?: boolean
   }
 
-  export type GeneralSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "description" | "logoUrl" | "faviconUrl" | "metaKeywords" | "themeColor" | "themeTextColor" | "baseColorEnabled" | "updatedAt", ExtArgs["result"]["generalSetting"]>
+  export type GeneralSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "description" | "logoUrl" | "faviconUrl" | "metaKeywords" | "themeColor" | "themeTextColor" | "baseColorEnabled" | "industryProfile" | "updatedAt", ExtArgs["result"]["generalSetting"]>
 
   export type $GeneralSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "GeneralSetting"
@@ -19518,6 +19924,7 @@ export namespace Prisma {
       themeColor: string
       themeTextColor: string
       baseColorEnabled: boolean
+      industryProfile: string
       updatedAt: Date
     }, ExtArgs["result"]["generalSetting"]>
     composites: {}
@@ -19951,6 +20358,7 @@ export namespace Prisma {
     readonly themeColor: FieldRef<"GeneralSetting", 'String'>
     readonly themeTextColor: FieldRef<"GeneralSetting", 'String'>
     readonly baseColorEnabled: FieldRef<"GeneralSetting", 'Boolean'>
+    readonly industryProfile: FieldRef<"GeneralSetting", 'String'>
     readonly updatedAt: FieldRef<"GeneralSetting", 'DateTime'>
   }
     
@@ -33223,6 +33631,4340 @@ export namespace Prisma {
 
 
   /**
+   * Model LabelOverride
+   */
+
+  export type AggregateLabelOverride = {
+    _count: LabelOverrideCountAggregateOutputType | null
+    _min: LabelOverrideMinAggregateOutputType | null
+    _max: LabelOverrideMaxAggregateOutputType | null
+  }
+
+  export type LabelOverrideMinAggregateOutputType = {
+    id: string | null
+    entityKey: string | null
+    singular: string | null
+    plural: string | null
+    updatedAt: Date | null
+  }
+
+  export type LabelOverrideMaxAggregateOutputType = {
+    id: string | null
+    entityKey: string | null
+    singular: string | null
+    plural: string | null
+    updatedAt: Date | null
+  }
+
+  export type LabelOverrideCountAggregateOutputType = {
+    id: number
+    entityKey: number
+    singular: number
+    plural: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LabelOverrideMinAggregateInputType = {
+    id?: true
+    entityKey?: true
+    singular?: true
+    plural?: true
+    updatedAt?: true
+  }
+
+  export type LabelOverrideMaxAggregateInputType = {
+    id?: true
+    entityKey?: true
+    singular?: true
+    plural?: true
+    updatedAt?: true
+  }
+
+  export type LabelOverrideCountAggregateInputType = {
+    id?: true
+    entityKey?: true
+    singular?: true
+    plural?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LabelOverrideAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LabelOverride to aggregate.
+     */
+    where?: LabelOverrideWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LabelOverrides to fetch.
+     */
+    orderBy?: LabelOverrideOrderByWithRelationInput | LabelOverrideOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LabelOverrideWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LabelOverrides from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LabelOverrides.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LabelOverrides
+    **/
+    _count?: true | LabelOverrideCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LabelOverrideMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LabelOverrideMaxAggregateInputType
+  }
+
+  export type GetLabelOverrideAggregateType<T extends LabelOverrideAggregateArgs> = {
+        [P in keyof T & keyof AggregateLabelOverride]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLabelOverride[P]>
+      : GetScalarType<T[P], AggregateLabelOverride[P]>
+  }
+
+
+
+
+  export type LabelOverrideGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LabelOverrideWhereInput
+    orderBy?: LabelOverrideOrderByWithAggregationInput | LabelOverrideOrderByWithAggregationInput[]
+    by: LabelOverrideScalarFieldEnum[] | LabelOverrideScalarFieldEnum
+    having?: LabelOverrideScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LabelOverrideCountAggregateInputType | true
+    _min?: LabelOverrideMinAggregateInputType
+    _max?: LabelOverrideMaxAggregateInputType
+  }
+
+  export type LabelOverrideGroupByOutputType = {
+    id: string
+    entityKey: string
+    singular: string
+    plural: string
+    updatedAt: Date
+    _count: LabelOverrideCountAggregateOutputType | null
+    _min: LabelOverrideMinAggregateOutputType | null
+    _max: LabelOverrideMaxAggregateOutputType | null
+  }
+
+  type GetLabelOverrideGroupByPayload<T extends LabelOverrideGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LabelOverrideGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LabelOverrideGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LabelOverrideGroupByOutputType[P]>
+            : GetScalarType<T[P], LabelOverrideGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LabelOverrideSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    entityKey?: boolean
+    singular?: boolean
+    plural?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["labelOverride"]>
+
+  export type LabelOverrideSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    entityKey?: boolean
+    singular?: boolean
+    plural?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["labelOverride"]>
+
+  export type LabelOverrideSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    entityKey?: boolean
+    singular?: boolean
+    plural?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["labelOverride"]>
+
+  export type LabelOverrideSelectScalar = {
+    id?: boolean
+    entityKey?: boolean
+    singular?: boolean
+    plural?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LabelOverrideOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "entityKey" | "singular" | "plural" | "updatedAt", ExtArgs["result"]["labelOverride"]>
+
+  export type $LabelOverridePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LabelOverride"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      entityKey: string
+      singular: string
+      plural: string
+      updatedAt: Date
+    }, ExtArgs["result"]["labelOverride"]>
+    composites: {}
+  }
+
+  type LabelOverrideGetPayload<S extends boolean | null | undefined | LabelOverrideDefaultArgs> = $Result.GetResult<Prisma.$LabelOverridePayload, S>
+
+  type LabelOverrideCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LabelOverrideFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LabelOverrideCountAggregateInputType | true
+    }
+
+  export interface LabelOverrideDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LabelOverride'], meta: { name: 'LabelOverride' } }
+    /**
+     * Find zero or one LabelOverride that matches the filter.
+     * @param {LabelOverrideFindUniqueArgs} args - Arguments to find a LabelOverride
+     * @example
+     * // Get one LabelOverride
+     * const labelOverride = await prisma.labelOverride.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LabelOverrideFindUniqueArgs>(args: SelectSubset<T, LabelOverrideFindUniqueArgs<ExtArgs>>): Prisma__LabelOverrideClient<$Result.GetResult<Prisma.$LabelOverridePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LabelOverride that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LabelOverrideFindUniqueOrThrowArgs} args - Arguments to find a LabelOverride
+     * @example
+     * // Get one LabelOverride
+     * const labelOverride = await prisma.labelOverride.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LabelOverrideFindUniqueOrThrowArgs>(args: SelectSubset<T, LabelOverrideFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LabelOverrideClient<$Result.GetResult<Prisma.$LabelOverridePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LabelOverride that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabelOverrideFindFirstArgs} args - Arguments to find a LabelOverride
+     * @example
+     * // Get one LabelOverride
+     * const labelOverride = await prisma.labelOverride.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LabelOverrideFindFirstArgs>(args?: SelectSubset<T, LabelOverrideFindFirstArgs<ExtArgs>>): Prisma__LabelOverrideClient<$Result.GetResult<Prisma.$LabelOverridePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LabelOverride that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabelOverrideFindFirstOrThrowArgs} args - Arguments to find a LabelOverride
+     * @example
+     * // Get one LabelOverride
+     * const labelOverride = await prisma.labelOverride.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LabelOverrideFindFirstOrThrowArgs>(args?: SelectSubset<T, LabelOverrideFindFirstOrThrowArgs<ExtArgs>>): Prisma__LabelOverrideClient<$Result.GetResult<Prisma.$LabelOverridePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LabelOverrides that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabelOverrideFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LabelOverrides
+     * const labelOverrides = await prisma.labelOverride.findMany()
+     * 
+     * // Get first 10 LabelOverrides
+     * const labelOverrides = await prisma.labelOverride.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const labelOverrideWithIdOnly = await prisma.labelOverride.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LabelOverrideFindManyArgs>(args?: SelectSubset<T, LabelOverrideFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabelOverridePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LabelOverride.
+     * @param {LabelOverrideCreateArgs} args - Arguments to create a LabelOverride.
+     * @example
+     * // Create one LabelOverride
+     * const LabelOverride = await prisma.labelOverride.create({
+     *   data: {
+     *     // ... data to create a LabelOverride
+     *   }
+     * })
+     * 
+     */
+    create<T extends LabelOverrideCreateArgs>(args: SelectSubset<T, LabelOverrideCreateArgs<ExtArgs>>): Prisma__LabelOverrideClient<$Result.GetResult<Prisma.$LabelOverridePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LabelOverrides.
+     * @param {LabelOverrideCreateManyArgs} args - Arguments to create many LabelOverrides.
+     * @example
+     * // Create many LabelOverrides
+     * const labelOverride = await prisma.labelOverride.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LabelOverrideCreateManyArgs>(args?: SelectSubset<T, LabelOverrideCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LabelOverrides and returns the data saved in the database.
+     * @param {LabelOverrideCreateManyAndReturnArgs} args - Arguments to create many LabelOverrides.
+     * @example
+     * // Create many LabelOverrides
+     * const labelOverride = await prisma.labelOverride.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LabelOverrides and only return the `id`
+     * const labelOverrideWithIdOnly = await prisma.labelOverride.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LabelOverrideCreateManyAndReturnArgs>(args?: SelectSubset<T, LabelOverrideCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabelOverridePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LabelOverride.
+     * @param {LabelOverrideDeleteArgs} args - Arguments to delete one LabelOverride.
+     * @example
+     * // Delete one LabelOverride
+     * const LabelOverride = await prisma.labelOverride.delete({
+     *   where: {
+     *     // ... filter to delete one LabelOverride
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LabelOverrideDeleteArgs>(args: SelectSubset<T, LabelOverrideDeleteArgs<ExtArgs>>): Prisma__LabelOverrideClient<$Result.GetResult<Prisma.$LabelOverridePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LabelOverride.
+     * @param {LabelOverrideUpdateArgs} args - Arguments to update one LabelOverride.
+     * @example
+     * // Update one LabelOverride
+     * const labelOverride = await prisma.labelOverride.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LabelOverrideUpdateArgs>(args: SelectSubset<T, LabelOverrideUpdateArgs<ExtArgs>>): Prisma__LabelOverrideClient<$Result.GetResult<Prisma.$LabelOverridePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LabelOverrides.
+     * @param {LabelOverrideDeleteManyArgs} args - Arguments to filter LabelOverrides to delete.
+     * @example
+     * // Delete a few LabelOverrides
+     * const { count } = await prisma.labelOverride.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LabelOverrideDeleteManyArgs>(args?: SelectSubset<T, LabelOverrideDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LabelOverrides.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabelOverrideUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LabelOverrides
+     * const labelOverride = await prisma.labelOverride.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LabelOverrideUpdateManyArgs>(args: SelectSubset<T, LabelOverrideUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LabelOverrides and returns the data updated in the database.
+     * @param {LabelOverrideUpdateManyAndReturnArgs} args - Arguments to update many LabelOverrides.
+     * @example
+     * // Update many LabelOverrides
+     * const labelOverride = await prisma.labelOverride.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LabelOverrides and only return the `id`
+     * const labelOverrideWithIdOnly = await prisma.labelOverride.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LabelOverrideUpdateManyAndReturnArgs>(args: SelectSubset<T, LabelOverrideUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LabelOverridePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LabelOverride.
+     * @param {LabelOverrideUpsertArgs} args - Arguments to update or create a LabelOverride.
+     * @example
+     * // Update or create a LabelOverride
+     * const labelOverride = await prisma.labelOverride.upsert({
+     *   create: {
+     *     // ... data to create a LabelOverride
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LabelOverride we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LabelOverrideUpsertArgs>(args: SelectSubset<T, LabelOverrideUpsertArgs<ExtArgs>>): Prisma__LabelOverrideClient<$Result.GetResult<Prisma.$LabelOverridePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LabelOverrides.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabelOverrideCountArgs} args - Arguments to filter LabelOverrides to count.
+     * @example
+     * // Count the number of LabelOverrides
+     * const count = await prisma.labelOverride.count({
+     *   where: {
+     *     // ... the filter for the LabelOverrides we want to count
+     *   }
+     * })
+    **/
+    count<T extends LabelOverrideCountArgs>(
+      args?: Subset<T, LabelOverrideCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LabelOverrideCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LabelOverride.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabelOverrideAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LabelOverrideAggregateArgs>(args: Subset<T, LabelOverrideAggregateArgs>): Prisma.PrismaPromise<GetLabelOverrideAggregateType<T>>
+
+    /**
+     * Group by LabelOverride.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LabelOverrideGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LabelOverrideGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LabelOverrideGroupByArgs['orderBy'] }
+        : { orderBy?: LabelOverrideGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LabelOverrideGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLabelOverrideGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LabelOverride model
+   */
+  readonly fields: LabelOverrideFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LabelOverride.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LabelOverrideClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LabelOverride model
+   */
+  interface LabelOverrideFieldRefs {
+    readonly id: FieldRef<"LabelOverride", 'String'>
+    readonly entityKey: FieldRef<"LabelOverride", 'String'>
+    readonly singular: FieldRef<"LabelOverride", 'String'>
+    readonly plural: FieldRef<"LabelOverride", 'String'>
+    readonly updatedAt: FieldRef<"LabelOverride", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LabelOverride findUnique
+   */
+  export type LabelOverrideFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabelOverride
+     */
+    select?: LabelOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabelOverride
+     */
+    omit?: LabelOverrideOmit<ExtArgs> | null
+    /**
+     * Filter, which LabelOverride to fetch.
+     */
+    where: LabelOverrideWhereUniqueInput
+  }
+
+  /**
+   * LabelOverride findUniqueOrThrow
+   */
+  export type LabelOverrideFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabelOverride
+     */
+    select?: LabelOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabelOverride
+     */
+    omit?: LabelOverrideOmit<ExtArgs> | null
+    /**
+     * Filter, which LabelOverride to fetch.
+     */
+    where: LabelOverrideWhereUniqueInput
+  }
+
+  /**
+   * LabelOverride findFirst
+   */
+  export type LabelOverrideFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabelOverride
+     */
+    select?: LabelOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabelOverride
+     */
+    omit?: LabelOverrideOmit<ExtArgs> | null
+    /**
+     * Filter, which LabelOverride to fetch.
+     */
+    where?: LabelOverrideWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LabelOverrides to fetch.
+     */
+    orderBy?: LabelOverrideOrderByWithRelationInput | LabelOverrideOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LabelOverrides.
+     */
+    cursor?: LabelOverrideWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LabelOverrides from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LabelOverrides.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LabelOverrides.
+     */
+    distinct?: LabelOverrideScalarFieldEnum | LabelOverrideScalarFieldEnum[]
+  }
+
+  /**
+   * LabelOverride findFirstOrThrow
+   */
+  export type LabelOverrideFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabelOverride
+     */
+    select?: LabelOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabelOverride
+     */
+    omit?: LabelOverrideOmit<ExtArgs> | null
+    /**
+     * Filter, which LabelOverride to fetch.
+     */
+    where?: LabelOverrideWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LabelOverrides to fetch.
+     */
+    orderBy?: LabelOverrideOrderByWithRelationInput | LabelOverrideOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LabelOverrides.
+     */
+    cursor?: LabelOverrideWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LabelOverrides from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LabelOverrides.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LabelOverrides.
+     */
+    distinct?: LabelOverrideScalarFieldEnum | LabelOverrideScalarFieldEnum[]
+  }
+
+  /**
+   * LabelOverride findMany
+   */
+  export type LabelOverrideFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabelOverride
+     */
+    select?: LabelOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabelOverride
+     */
+    omit?: LabelOverrideOmit<ExtArgs> | null
+    /**
+     * Filter, which LabelOverrides to fetch.
+     */
+    where?: LabelOverrideWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LabelOverrides to fetch.
+     */
+    orderBy?: LabelOverrideOrderByWithRelationInput | LabelOverrideOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LabelOverrides.
+     */
+    cursor?: LabelOverrideWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LabelOverrides from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LabelOverrides.
+     */
+    skip?: number
+    distinct?: LabelOverrideScalarFieldEnum | LabelOverrideScalarFieldEnum[]
+  }
+
+  /**
+   * LabelOverride create
+   */
+  export type LabelOverrideCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabelOverride
+     */
+    select?: LabelOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabelOverride
+     */
+    omit?: LabelOverrideOmit<ExtArgs> | null
+    /**
+     * The data needed to create a LabelOverride.
+     */
+    data: XOR<LabelOverrideCreateInput, LabelOverrideUncheckedCreateInput>
+  }
+
+  /**
+   * LabelOverride createMany
+   */
+  export type LabelOverrideCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LabelOverrides.
+     */
+    data: LabelOverrideCreateManyInput | LabelOverrideCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LabelOverride createManyAndReturn
+   */
+  export type LabelOverrideCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabelOverride
+     */
+    select?: LabelOverrideSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabelOverride
+     */
+    omit?: LabelOverrideOmit<ExtArgs> | null
+    /**
+     * The data used to create many LabelOverrides.
+     */
+    data: LabelOverrideCreateManyInput | LabelOverrideCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LabelOverride update
+   */
+  export type LabelOverrideUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabelOverride
+     */
+    select?: LabelOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabelOverride
+     */
+    omit?: LabelOverrideOmit<ExtArgs> | null
+    /**
+     * The data needed to update a LabelOverride.
+     */
+    data: XOR<LabelOverrideUpdateInput, LabelOverrideUncheckedUpdateInput>
+    /**
+     * Choose, which LabelOverride to update.
+     */
+    where: LabelOverrideWhereUniqueInput
+  }
+
+  /**
+   * LabelOverride updateMany
+   */
+  export type LabelOverrideUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LabelOverrides.
+     */
+    data: XOR<LabelOverrideUpdateManyMutationInput, LabelOverrideUncheckedUpdateManyInput>
+    /**
+     * Filter which LabelOverrides to update
+     */
+    where?: LabelOverrideWhereInput
+    /**
+     * Limit how many LabelOverrides to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LabelOverride updateManyAndReturn
+   */
+  export type LabelOverrideUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabelOverride
+     */
+    select?: LabelOverrideSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabelOverride
+     */
+    omit?: LabelOverrideOmit<ExtArgs> | null
+    /**
+     * The data used to update LabelOverrides.
+     */
+    data: XOR<LabelOverrideUpdateManyMutationInput, LabelOverrideUncheckedUpdateManyInput>
+    /**
+     * Filter which LabelOverrides to update
+     */
+    where?: LabelOverrideWhereInput
+    /**
+     * Limit how many LabelOverrides to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LabelOverride upsert
+   */
+  export type LabelOverrideUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabelOverride
+     */
+    select?: LabelOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabelOverride
+     */
+    omit?: LabelOverrideOmit<ExtArgs> | null
+    /**
+     * The filter to search for the LabelOverride to update in case it exists.
+     */
+    where: LabelOverrideWhereUniqueInput
+    /**
+     * In case the LabelOverride found by the `where` argument doesn't exist, create a new LabelOverride with this data.
+     */
+    create: XOR<LabelOverrideCreateInput, LabelOverrideUncheckedCreateInput>
+    /**
+     * In case the LabelOverride was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LabelOverrideUpdateInput, LabelOverrideUncheckedUpdateInput>
+  }
+
+  /**
+   * LabelOverride delete
+   */
+  export type LabelOverrideDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabelOverride
+     */
+    select?: LabelOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabelOverride
+     */
+    omit?: LabelOverrideOmit<ExtArgs> | null
+    /**
+     * Filter which LabelOverride to delete.
+     */
+    where: LabelOverrideWhereUniqueInput
+  }
+
+  /**
+   * LabelOverride deleteMany
+   */
+  export type LabelOverrideDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LabelOverrides to delete
+     */
+    where?: LabelOverrideWhereInput
+    /**
+     * Limit how many LabelOverrides to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LabelOverride without action
+   */
+  export type LabelOverrideDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LabelOverride
+     */
+    select?: LabelOverrideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LabelOverride
+     */
+    omit?: LabelOverrideOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CustomField
+   */
+
+  export type AggregateCustomField = {
+    _count: CustomFieldCountAggregateOutputType | null
+    _avg: CustomFieldAvgAggregateOutputType | null
+    _sum: CustomFieldSumAggregateOutputType | null
+    _min: CustomFieldMinAggregateOutputType | null
+    _max: CustomFieldMaxAggregateOutputType | null
+  }
+
+  export type CustomFieldAvgAggregateOutputType = {
+    displayOrder: number | null
+  }
+
+  export type CustomFieldSumAggregateOutputType = {
+    displayOrder: number | null
+  }
+
+  export type CustomFieldMinAggregateOutputType = {
+    id: string | null
+    moduleKey: string | null
+    fieldKey: string | null
+    label: string | null
+    type: string | null
+    required: boolean | null
+    displayOrder: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomFieldMaxAggregateOutputType = {
+    id: string | null
+    moduleKey: string | null
+    fieldKey: string | null
+    label: string | null
+    type: string | null
+    required: boolean | null
+    displayOrder: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomFieldCountAggregateOutputType = {
+    id: number
+    moduleKey: number
+    fieldKey: number
+    label: number
+    type: number
+    options: number
+    required: number
+    displayOrder: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CustomFieldAvgAggregateInputType = {
+    displayOrder?: true
+  }
+
+  export type CustomFieldSumAggregateInputType = {
+    displayOrder?: true
+  }
+
+  export type CustomFieldMinAggregateInputType = {
+    id?: true
+    moduleKey?: true
+    fieldKey?: true
+    label?: true
+    type?: true
+    required?: true
+    displayOrder?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomFieldMaxAggregateInputType = {
+    id?: true
+    moduleKey?: true
+    fieldKey?: true
+    label?: true
+    type?: true
+    required?: true
+    displayOrder?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomFieldCountAggregateInputType = {
+    id?: true
+    moduleKey?: true
+    fieldKey?: true
+    label?: true
+    type?: true
+    options?: true
+    required?: true
+    displayOrder?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CustomFieldAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomField to aggregate.
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFields to fetch.
+     */
+    orderBy?: CustomFieldOrderByWithRelationInput | CustomFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CustomFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CustomFields
+    **/
+    _count?: true | CustomFieldCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CustomFieldAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CustomFieldSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomFieldMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomFieldMaxAggregateInputType
+  }
+
+  export type GetCustomFieldAggregateType<T extends CustomFieldAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomField]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomField[P]>
+      : GetScalarType<T[P], AggregateCustomField[P]>
+  }
+
+
+
+
+  export type CustomFieldGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomFieldWhereInput
+    orderBy?: CustomFieldOrderByWithAggregationInput | CustomFieldOrderByWithAggregationInput[]
+    by: CustomFieldScalarFieldEnum[] | CustomFieldScalarFieldEnum
+    having?: CustomFieldScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomFieldCountAggregateInputType | true
+    _avg?: CustomFieldAvgAggregateInputType
+    _sum?: CustomFieldSumAggregateInputType
+    _min?: CustomFieldMinAggregateInputType
+    _max?: CustomFieldMaxAggregateInputType
+  }
+
+  export type CustomFieldGroupByOutputType = {
+    id: string
+    moduleKey: string
+    fieldKey: string
+    label: string
+    type: string
+    options: JsonValue | null
+    required: boolean
+    displayOrder: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: CustomFieldCountAggregateOutputType | null
+    _avg: CustomFieldAvgAggregateOutputType | null
+    _sum: CustomFieldSumAggregateOutputType | null
+    _min: CustomFieldMinAggregateOutputType | null
+    _max: CustomFieldMaxAggregateOutputType | null
+  }
+
+  type GetCustomFieldGroupByPayload<T extends CustomFieldGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CustomFieldGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomFieldGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomFieldGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomFieldGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CustomFieldSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    moduleKey?: boolean
+    fieldKey?: boolean
+    label?: boolean
+    type?: boolean
+    options?: boolean
+    required?: boolean
+    displayOrder?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    values?: boolean | CustomField$valuesArgs<ExtArgs>
+    _count?: boolean | CustomFieldCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customField"]>
+
+  export type CustomFieldSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    moduleKey?: boolean
+    fieldKey?: boolean
+    label?: boolean
+    type?: boolean
+    options?: boolean
+    required?: boolean
+    displayOrder?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["customField"]>
+
+  export type CustomFieldSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    moduleKey?: boolean
+    fieldKey?: boolean
+    label?: boolean
+    type?: boolean
+    options?: boolean
+    required?: boolean
+    displayOrder?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["customField"]>
+
+  export type CustomFieldSelectScalar = {
+    id?: boolean
+    moduleKey?: boolean
+    fieldKey?: boolean
+    label?: boolean
+    type?: boolean
+    options?: boolean
+    required?: boolean
+    displayOrder?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CustomFieldOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "moduleKey" | "fieldKey" | "label" | "type" | "options" | "required" | "displayOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["customField"]>
+  export type CustomFieldInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    values?: boolean | CustomField$valuesArgs<ExtArgs>
+    _count?: boolean | CustomFieldCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CustomFieldIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type CustomFieldIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $CustomFieldPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CustomField"
+    objects: {
+      values: Prisma.$CustomFieldValuePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      moduleKey: string
+      fieldKey: string
+      label: string
+      type: string
+      options: Prisma.JsonValue | null
+      required: boolean
+      displayOrder: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["customField"]>
+    composites: {}
+  }
+
+  type CustomFieldGetPayload<S extends boolean | null | undefined | CustomFieldDefaultArgs> = $Result.GetResult<Prisma.$CustomFieldPayload, S>
+
+  type CustomFieldCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CustomFieldFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CustomFieldCountAggregateInputType | true
+    }
+
+  export interface CustomFieldDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomField'], meta: { name: 'CustomField' } }
+    /**
+     * Find zero or one CustomField that matches the filter.
+     * @param {CustomFieldFindUniqueArgs} args - Arguments to find a CustomField
+     * @example
+     * // Get one CustomField
+     * const customField = await prisma.customField.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CustomFieldFindUniqueArgs>(args: SelectSubset<T, CustomFieldFindUniqueArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CustomField that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CustomFieldFindUniqueOrThrowArgs} args - Arguments to find a CustomField
+     * @example
+     * // Get one CustomField
+     * const customField = await prisma.customField.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CustomFieldFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomFieldFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomField that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldFindFirstArgs} args - Arguments to find a CustomField
+     * @example
+     * // Get one CustomField
+     * const customField = await prisma.customField.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CustomFieldFindFirstArgs>(args?: SelectSubset<T, CustomFieldFindFirstArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomField that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldFindFirstOrThrowArgs} args - Arguments to find a CustomField
+     * @example
+     * // Get one CustomField
+     * const customField = await prisma.customField.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CustomFieldFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomFieldFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CustomFields that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CustomFields
+     * const customFields = await prisma.customField.findMany()
+     * 
+     * // Get first 10 CustomFields
+     * const customFields = await prisma.customField.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const customFieldWithIdOnly = await prisma.customField.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CustomFieldFindManyArgs>(args?: SelectSubset<T, CustomFieldFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CustomField.
+     * @param {CustomFieldCreateArgs} args - Arguments to create a CustomField.
+     * @example
+     * // Create one CustomField
+     * const CustomField = await prisma.customField.create({
+     *   data: {
+     *     // ... data to create a CustomField
+     *   }
+     * })
+     * 
+     */
+    create<T extends CustomFieldCreateArgs>(args: SelectSubset<T, CustomFieldCreateArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CustomFields.
+     * @param {CustomFieldCreateManyArgs} args - Arguments to create many CustomFields.
+     * @example
+     * // Create many CustomFields
+     * const customField = await prisma.customField.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CustomFieldCreateManyArgs>(args?: SelectSubset<T, CustomFieldCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CustomFields and returns the data saved in the database.
+     * @param {CustomFieldCreateManyAndReturnArgs} args - Arguments to create many CustomFields.
+     * @example
+     * // Create many CustomFields
+     * const customField = await prisma.customField.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CustomFields and only return the `id`
+     * const customFieldWithIdOnly = await prisma.customField.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CustomFieldCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomFieldCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CustomField.
+     * @param {CustomFieldDeleteArgs} args - Arguments to delete one CustomField.
+     * @example
+     * // Delete one CustomField
+     * const CustomField = await prisma.customField.delete({
+     *   where: {
+     *     // ... filter to delete one CustomField
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CustomFieldDeleteArgs>(args: SelectSubset<T, CustomFieldDeleteArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CustomField.
+     * @param {CustomFieldUpdateArgs} args - Arguments to update one CustomField.
+     * @example
+     * // Update one CustomField
+     * const customField = await prisma.customField.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CustomFieldUpdateArgs>(args: SelectSubset<T, CustomFieldUpdateArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CustomFields.
+     * @param {CustomFieldDeleteManyArgs} args - Arguments to filter CustomFields to delete.
+     * @example
+     * // Delete a few CustomFields
+     * const { count } = await prisma.customField.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CustomFieldDeleteManyArgs>(args?: SelectSubset<T, CustomFieldDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomFields.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CustomFields
+     * const customField = await prisma.customField.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CustomFieldUpdateManyArgs>(args: SelectSubset<T, CustomFieldUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomFields and returns the data updated in the database.
+     * @param {CustomFieldUpdateManyAndReturnArgs} args - Arguments to update many CustomFields.
+     * @example
+     * // Update many CustomFields
+     * const customField = await prisma.customField.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CustomFields and only return the `id`
+     * const customFieldWithIdOnly = await prisma.customField.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CustomFieldUpdateManyAndReturnArgs>(args: SelectSubset<T, CustomFieldUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CustomField.
+     * @param {CustomFieldUpsertArgs} args - Arguments to update or create a CustomField.
+     * @example
+     * // Update or create a CustomField
+     * const customField = await prisma.customField.upsert({
+     *   create: {
+     *     // ... data to create a CustomField
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CustomField we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CustomFieldUpsertArgs>(args: SelectSubset<T, CustomFieldUpsertArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CustomFields.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldCountArgs} args - Arguments to filter CustomFields to count.
+     * @example
+     * // Count the number of CustomFields
+     * const count = await prisma.customField.count({
+     *   where: {
+     *     // ... the filter for the CustomFields we want to count
+     *   }
+     * })
+    **/
+    count<T extends CustomFieldCountArgs>(
+      args?: Subset<T, CustomFieldCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomFieldCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CustomField.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomFieldAggregateArgs>(args: Subset<T, CustomFieldAggregateArgs>): Prisma.PrismaPromise<GetCustomFieldAggregateType<T>>
+
+    /**
+     * Group by CustomField.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomFieldGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomFieldGroupByArgs['orderBy'] }
+        : { orderBy?: CustomFieldGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomFieldGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomFieldGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CustomField model
+   */
+  readonly fields: CustomFieldFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CustomField.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CustomFieldClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    values<T extends CustomField$valuesArgs<ExtArgs> = {}>(args?: Subset<T, CustomField$valuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CustomField model
+   */
+  interface CustomFieldFieldRefs {
+    readonly id: FieldRef<"CustomField", 'String'>
+    readonly moduleKey: FieldRef<"CustomField", 'String'>
+    readonly fieldKey: FieldRef<"CustomField", 'String'>
+    readonly label: FieldRef<"CustomField", 'String'>
+    readonly type: FieldRef<"CustomField", 'String'>
+    readonly options: FieldRef<"CustomField", 'Json'>
+    readonly required: FieldRef<"CustomField", 'Boolean'>
+    readonly displayOrder: FieldRef<"CustomField", 'Int'>
+    readonly isActive: FieldRef<"CustomField", 'Boolean'>
+    readonly createdAt: FieldRef<"CustomField", 'DateTime'>
+    readonly updatedAt: FieldRef<"CustomField", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CustomField findUnique
+   */
+  export type CustomFieldFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomField to fetch.
+     */
+    where: CustomFieldWhereUniqueInput
+  }
+
+  /**
+   * CustomField findUniqueOrThrow
+   */
+  export type CustomFieldFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomField to fetch.
+     */
+    where: CustomFieldWhereUniqueInput
+  }
+
+  /**
+   * CustomField findFirst
+   */
+  export type CustomFieldFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomField to fetch.
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFields to fetch.
+     */
+    orderBy?: CustomFieldOrderByWithRelationInput | CustomFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomFields.
+     */
+    cursor?: CustomFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFields.
+     */
+    distinct?: CustomFieldScalarFieldEnum | CustomFieldScalarFieldEnum[]
+  }
+
+  /**
+   * CustomField findFirstOrThrow
+   */
+  export type CustomFieldFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomField to fetch.
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFields to fetch.
+     */
+    orderBy?: CustomFieldOrderByWithRelationInput | CustomFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomFields.
+     */
+    cursor?: CustomFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFields.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFields.
+     */
+    distinct?: CustomFieldScalarFieldEnum | CustomFieldScalarFieldEnum[]
+  }
+
+  /**
+   * CustomField findMany
+   */
+  export type CustomFieldFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFields to fetch.
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFields to fetch.
+     */
+    orderBy?: CustomFieldOrderByWithRelationInput | CustomFieldOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CustomFields.
+     */
+    cursor?: CustomFieldWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFields from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFields.
+     */
+    skip?: number
+    distinct?: CustomFieldScalarFieldEnum | CustomFieldScalarFieldEnum[]
+  }
+
+  /**
+   * CustomField create
+   */
+  export type CustomFieldCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CustomField.
+     */
+    data: XOR<CustomFieldCreateInput, CustomFieldUncheckedCreateInput>
+  }
+
+  /**
+   * CustomField createMany
+   */
+  export type CustomFieldCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CustomFields.
+     */
+    data: CustomFieldCreateManyInput | CustomFieldCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomField createManyAndReturn
+   */
+  export type CustomFieldCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * The data used to create many CustomFields.
+     */
+    data: CustomFieldCreateManyInput | CustomFieldCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomField update
+   */
+  export type CustomFieldUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CustomField.
+     */
+    data: XOR<CustomFieldUpdateInput, CustomFieldUncheckedUpdateInput>
+    /**
+     * Choose, which CustomField to update.
+     */
+    where: CustomFieldWhereUniqueInput
+  }
+
+  /**
+   * CustomField updateMany
+   */
+  export type CustomFieldUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CustomFields.
+     */
+    data: XOR<CustomFieldUpdateManyMutationInput, CustomFieldUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomFields to update
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * Limit how many CustomFields to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomField updateManyAndReturn
+   */
+  export type CustomFieldUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * The data used to update CustomFields.
+     */
+    data: XOR<CustomFieldUpdateManyMutationInput, CustomFieldUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomFields to update
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * Limit how many CustomFields to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomField upsert
+   */
+  export type CustomFieldUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CustomField to update in case it exists.
+     */
+    where: CustomFieldWhereUniqueInput
+    /**
+     * In case the CustomField found by the `where` argument doesn't exist, create a new CustomField with this data.
+     */
+    create: XOR<CustomFieldCreateInput, CustomFieldUncheckedCreateInput>
+    /**
+     * In case the CustomField was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CustomFieldUpdateInput, CustomFieldUncheckedUpdateInput>
+  }
+
+  /**
+   * CustomField delete
+   */
+  export type CustomFieldDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+    /**
+     * Filter which CustomField to delete.
+     */
+    where: CustomFieldWhereUniqueInput
+  }
+
+  /**
+   * CustomField deleteMany
+   */
+  export type CustomFieldDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomFields to delete
+     */
+    where?: CustomFieldWhereInput
+    /**
+     * Limit how many CustomFields to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomField.values
+   */
+  export type CustomField$valuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    where?: CustomFieldValueWhereInput
+    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
+    cursor?: CustomFieldValueWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
+  }
+
+  /**
+   * CustomField without action
+   */
+  export type CustomFieldDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomField
+     */
+    select?: CustomFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomField
+     */
+    omit?: CustomFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CustomFieldValue
+   */
+
+  export type AggregateCustomFieldValue = {
+    _count: CustomFieldValueCountAggregateOutputType | null
+    _min: CustomFieldValueMinAggregateOutputType | null
+    _max: CustomFieldValueMaxAggregateOutputType | null
+  }
+
+  export type CustomFieldValueMinAggregateOutputType = {
+    id: string | null
+    customFieldId: string | null
+    recordId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomFieldValueMaxAggregateOutputType = {
+    id: string | null
+    customFieldId: string | null
+    recordId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CustomFieldValueCountAggregateOutputType = {
+    id: number
+    customFieldId: number
+    recordId: number
+    value: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CustomFieldValueMinAggregateInputType = {
+    id?: true
+    customFieldId?: true
+    recordId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomFieldValueMaxAggregateInputType = {
+    id?: true
+    customFieldId?: true
+    recordId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CustomFieldValueCountAggregateInputType = {
+    id?: true
+    customFieldId?: true
+    recordId?: true
+    value?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CustomFieldValueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomFieldValue to aggregate.
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFieldValues to fetch.
+     */
+    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CustomFieldValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFieldValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFieldValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CustomFieldValues
+    **/
+    _count?: true | CustomFieldValueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomFieldValueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomFieldValueMaxAggregateInputType
+  }
+
+  export type GetCustomFieldValueAggregateType<T extends CustomFieldValueAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomFieldValue]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomFieldValue[P]>
+      : GetScalarType<T[P], AggregateCustomFieldValue[P]>
+  }
+
+
+
+
+  export type CustomFieldValueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomFieldValueWhereInput
+    orderBy?: CustomFieldValueOrderByWithAggregationInput | CustomFieldValueOrderByWithAggregationInput[]
+    by: CustomFieldValueScalarFieldEnum[] | CustomFieldValueScalarFieldEnum
+    having?: CustomFieldValueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomFieldValueCountAggregateInputType | true
+    _min?: CustomFieldValueMinAggregateInputType
+    _max?: CustomFieldValueMaxAggregateInputType
+  }
+
+  export type CustomFieldValueGroupByOutputType = {
+    id: string
+    customFieldId: string
+    recordId: string
+    value: JsonValue | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CustomFieldValueCountAggregateOutputType | null
+    _min: CustomFieldValueMinAggregateOutputType | null
+    _max: CustomFieldValueMaxAggregateOutputType | null
+  }
+
+  type GetCustomFieldValueGroupByPayload<T extends CustomFieldValueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CustomFieldValueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomFieldValueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomFieldValueGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomFieldValueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CustomFieldValueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customFieldId?: boolean
+    recordId?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    customField?: boolean | CustomFieldDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customFieldValue"]>
+
+  export type CustomFieldValueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customFieldId?: boolean
+    recordId?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    customField?: boolean | CustomFieldDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customFieldValue"]>
+
+  export type CustomFieldValueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customFieldId?: boolean
+    recordId?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    customField?: boolean | CustomFieldDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["customFieldValue"]>
+
+  export type CustomFieldValueSelectScalar = {
+    id?: boolean
+    customFieldId?: boolean
+    recordId?: boolean
+    value?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CustomFieldValueOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customFieldId" | "recordId" | "value" | "createdAt" | "updatedAt", ExtArgs["result"]["customFieldValue"]>
+  export type CustomFieldValueInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customField?: boolean | CustomFieldDefaultArgs<ExtArgs>
+  }
+  export type CustomFieldValueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customField?: boolean | CustomFieldDefaultArgs<ExtArgs>
+  }
+  export type CustomFieldValueIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customField?: boolean | CustomFieldDefaultArgs<ExtArgs>
+  }
+
+  export type $CustomFieldValuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CustomFieldValue"
+    objects: {
+      customField: Prisma.$CustomFieldPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      customFieldId: string
+      recordId: string
+      value: Prisma.JsonValue | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["customFieldValue"]>
+    composites: {}
+  }
+
+  type CustomFieldValueGetPayload<S extends boolean | null | undefined | CustomFieldValueDefaultArgs> = $Result.GetResult<Prisma.$CustomFieldValuePayload, S>
+
+  type CustomFieldValueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CustomFieldValueFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CustomFieldValueCountAggregateInputType | true
+    }
+
+  export interface CustomFieldValueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomFieldValue'], meta: { name: 'CustomFieldValue' } }
+    /**
+     * Find zero or one CustomFieldValue that matches the filter.
+     * @param {CustomFieldValueFindUniqueArgs} args - Arguments to find a CustomFieldValue
+     * @example
+     * // Get one CustomFieldValue
+     * const customFieldValue = await prisma.customFieldValue.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CustomFieldValueFindUniqueArgs>(args: SelectSubset<T, CustomFieldValueFindUniqueArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CustomFieldValue that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CustomFieldValueFindUniqueOrThrowArgs} args - Arguments to find a CustomFieldValue
+     * @example
+     * // Get one CustomFieldValue
+     * const customFieldValue = await prisma.customFieldValue.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CustomFieldValueFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomFieldValueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomFieldValue that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueFindFirstArgs} args - Arguments to find a CustomFieldValue
+     * @example
+     * // Get one CustomFieldValue
+     * const customFieldValue = await prisma.customFieldValue.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CustomFieldValueFindFirstArgs>(args?: SelectSubset<T, CustomFieldValueFindFirstArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomFieldValue that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueFindFirstOrThrowArgs} args - Arguments to find a CustomFieldValue
+     * @example
+     * // Get one CustomFieldValue
+     * const customFieldValue = await prisma.customFieldValue.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CustomFieldValueFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomFieldValueFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CustomFieldValues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CustomFieldValues
+     * const customFieldValues = await prisma.customFieldValue.findMany()
+     * 
+     * // Get first 10 CustomFieldValues
+     * const customFieldValues = await prisma.customFieldValue.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const customFieldValueWithIdOnly = await prisma.customFieldValue.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CustomFieldValueFindManyArgs>(args?: SelectSubset<T, CustomFieldValueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CustomFieldValue.
+     * @param {CustomFieldValueCreateArgs} args - Arguments to create a CustomFieldValue.
+     * @example
+     * // Create one CustomFieldValue
+     * const CustomFieldValue = await prisma.customFieldValue.create({
+     *   data: {
+     *     // ... data to create a CustomFieldValue
+     *   }
+     * })
+     * 
+     */
+    create<T extends CustomFieldValueCreateArgs>(args: SelectSubset<T, CustomFieldValueCreateArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CustomFieldValues.
+     * @param {CustomFieldValueCreateManyArgs} args - Arguments to create many CustomFieldValues.
+     * @example
+     * // Create many CustomFieldValues
+     * const customFieldValue = await prisma.customFieldValue.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CustomFieldValueCreateManyArgs>(args?: SelectSubset<T, CustomFieldValueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CustomFieldValues and returns the data saved in the database.
+     * @param {CustomFieldValueCreateManyAndReturnArgs} args - Arguments to create many CustomFieldValues.
+     * @example
+     * // Create many CustomFieldValues
+     * const customFieldValue = await prisma.customFieldValue.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CustomFieldValues and only return the `id`
+     * const customFieldValueWithIdOnly = await prisma.customFieldValue.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CustomFieldValueCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomFieldValueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CustomFieldValue.
+     * @param {CustomFieldValueDeleteArgs} args - Arguments to delete one CustomFieldValue.
+     * @example
+     * // Delete one CustomFieldValue
+     * const CustomFieldValue = await prisma.customFieldValue.delete({
+     *   where: {
+     *     // ... filter to delete one CustomFieldValue
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CustomFieldValueDeleteArgs>(args: SelectSubset<T, CustomFieldValueDeleteArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CustomFieldValue.
+     * @param {CustomFieldValueUpdateArgs} args - Arguments to update one CustomFieldValue.
+     * @example
+     * // Update one CustomFieldValue
+     * const customFieldValue = await prisma.customFieldValue.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CustomFieldValueUpdateArgs>(args: SelectSubset<T, CustomFieldValueUpdateArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CustomFieldValues.
+     * @param {CustomFieldValueDeleteManyArgs} args - Arguments to filter CustomFieldValues to delete.
+     * @example
+     * // Delete a few CustomFieldValues
+     * const { count } = await prisma.customFieldValue.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CustomFieldValueDeleteManyArgs>(args?: SelectSubset<T, CustomFieldValueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomFieldValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CustomFieldValues
+     * const customFieldValue = await prisma.customFieldValue.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CustomFieldValueUpdateManyArgs>(args: SelectSubset<T, CustomFieldValueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomFieldValues and returns the data updated in the database.
+     * @param {CustomFieldValueUpdateManyAndReturnArgs} args - Arguments to update many CustomFieldValues.
+     * @example
+     * // Update many CustomFieldValues
+     * const customFieldValue = await prisma.customFieldValue.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CustomFieldValues and only return the `id`
+     * const customFieldValueWithIdOnly = await prisma.customFieldValue.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CustomFieldValueUpdateManyAndReturnArgs>(args: SelectSubset<T, CustomFieldValueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CustomFieldValue.
+     * @param {CustomFieldValueUpsertArgs} args - Arguments to update or create a CustomFieldValue.
+     * @example
+     * // Update or create a CustomFieldValue
+     * const customFieldValue = await prisma.customFieldValue.upsert({
+     *   create: {
+     *     // ... data to create a CustomFieldValue
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CustomFieldValue we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CustomFieldValueUpsertArgs>(args: SelectSubset<T, CustomFieldValueUpsertArgs<ExtArgs>>): Prisma__CustomFieldValueClient<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CustomFieldValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueCountArgs} args - Arguments to filter CustomFieldValues to count.
+     * @example
+     * // Count the number of CustomFieldValues
+     * const count = await prisma.customFieldValue.count({
+     *   where: {
+     *     // ... the filter for the CustomFieldValues we want to count
+     *   }
+     * })
+    **/
+    count<T extends CustomFieldValueCountArgs>(
+      args?: Subset<T, CustomFieldValueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomFieldValueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CustomFieldValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomFieldValueAggregateArgs>(args: Subset<T, CustomFieldValueAggregateArgs>): Prisma.PrismaPromise<GetCustomFieldValueAggregateType<T>>
+
+    /**
+     * Group by CustomFieldValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomFieldValueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomFieldValueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomFieldValueGroupByArgs['orderBy'] }
+        : { orderBy?: CustomFieldValueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomFieldValueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomFieldValueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CustomFieldValue model
+   */
+  readonly fields: CustomFieldValueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CustomFieldValue.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CustomFieldValueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    customField<T extends CustomFieldDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomFieldDefaultArgs<ExtArgs>>): Prisma__CustomFieldClient<$Result.GetResult<Prisma.$CustomFieldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CustomFieldValue model
+   */
+  interface CustomFieldValueFieldRefs {
+    readonly id: FieldRef<"CustomFieldValue", 'String'>
+    readonly customFieldId: FieldRef<"CustomFieldValue", 'String'>
+    readonly recordId: FieldRef<"CustomFieldValue", 'String'>
+    readonly value: FieldRef<"CustomFieldValue", 'Json'>
+    readonly createdAt: FieldRef<"CustomFieldValue", 'DateTime'>
+    readonly updatedAt: FieldRef<"CustomFieldValue", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CustomFieldValue findUnique
+   */
+  export type CustomFieldValueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldValue to fetch.
+     */
+    where: CustomFieldValueWhereUniqueInput
+  }
+
+  /**
+   * CustomFieldValue findUniqueOrThrow
+   */
+  export type CustomFieldValueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldValue to fetch.
+     */
+    where: CustomFieldValueWhereUniqueInput
+  }
+
+  /**
+   * CustomFieldValue findFirst
+   */
+  export type CustomFieldValueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldValue to fetch.
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFieldValues to fetch.
+     */
+    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomFieldValues.
+     */
+    cursor?: CustomFieldValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFieldValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFieldValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFieldValues.
+     */
+    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFieldValue findFirstOrThrow
+   */
+  export type CustomFieldValueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldValue to fetch.
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFieldValues to fetch.
+     */
+    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomFieldValues.
+     */
+    cursor?: CustomFieldValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFieldValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFieldValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomFieldValues.
+     */
+    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFieldValue findMany
+   */
+  export type CustomFieldValueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which CustomFieldValues to fetch.
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomFieldValues to fetch.
+     */
+    orderBy?: CustomFieldValueOrderByWithRelationInput | CustomFieldValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CustomFieldValues.
+     */
+    cursor?: CustomFieldValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomFieldValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomFieldValues.
+     */
+    skip?: number
+    distinct?: CustomFieldValueScalarFieldEnum | CustomFieldValueScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFieldValue create
+   */
+  export type CustomFieldValueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CustomFieldValue.
+     */
+    data: XOR<CustomFieldValueCreateInput, CustomFieldValueUncheckedCreateInput>
+  }
+
+  /**
+   * CustomFieldValue createMany
+   */
+  export type CustomFieldValueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CustomFieldValues.
+     */
+    data: CustomFieldValueCreateManyInput | CustomFieldValueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomFieldValue createManyAndReturn
+   */
+  export type CustomFieldValueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * The data used to create many CustomFieldValues.
+     */
+    data: CustomFieldValueCreateManyInput | CustomFieldValueCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomFieldValue update
+   */
+  export type CustomFieldValueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CustomFieldValue.
+     */
+    data: XOR<CustomFieldValueUpdateInput, CustomFieldValueUncheckedUpdateInput>
+    /**
+     * Choose, which CustomFieldValue to update.
+     */
+    where: CustomFieldValueWhereUniqueInput
+  }
+
+  /**
+   * CustomFieldValue updateMany
+   */
+  export type CustomFieldValueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CustomFieldValues.
+     */
+    data: XOR<CustomFieldValueUpdateManyMutationInput, CustomFieldValueUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomFieldValues to update
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * Limit how many CustomFieldValues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomFieldValue updateManyAndReturn
+   */
+  export type CustomFieldValueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * The data used to update CustomFieldValues.
+     */
+    data: XOR<CustomFieldValueUpdateManyMutationInput, CustomFieldValueUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomFieldValues to update
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * Limit how many CustomFieldValues to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CustomFieldValue upsert
+   */
+  export type CustomFieldValueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CustomFieldValue to update in case it exists.
+     */
+    where: CustomFieldValueWhereUniqueInput
+    /**
+     * In case the CustomFieldValue found by the `where` argument doesn't exist, create a new CustomFieldValue with this data.
+     */
+    create: XOR<CustomFieldValueCreateInput, CustomFieldValueUncheckedCreateInput>
+    /**
+     * In case the CustomFieldValue was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CustomFieldValueUpdateInput, CustomFieldValueUncheckedUpdateInput>
+  }
+
+  /**
+   * CustomFieldValue delete
+   */
+  export type CustomFieldValueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter which CustomFieldValue to delete.
+     */
+    where: CustomFieldValueWhereUniqueInput
+  }
+
+  /**
+   * CustomFieldValue deleteMany
+   */
+  export type CustomFieldValueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomFieldValues to delete
+     */
+    where?: CustomFieldValueWhereInput
+    /**
+     * Limit how many CustomFieldValues to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomFieldValue without action
+   */
+  export type CustomFieldValueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomFieldValue
+     */
+    select?: CustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomFieldValue
+     */
+    omit?: CustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CustomFieldValueInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model StatusOption
+   */
+
+  export type AggregateStatusOption = {
+    _count: StatusOptionCountAggregateOutputType | null
+    _avg: StatusOptionAvgAggregateOutputType | null
+    _sum: StatusOptionSumAggregateOutputType | null
+    _min: StatusOptionMinAggregateOutputType | null
+    _max: StatusOptionMaxAggregateOutputType | null
+  }
+
+  export type StatusOptionAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type StatusOptionSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type StatusOptionMinAggregateOutputType = {
+    id: string | null
+    moduleKey: string | null
+    statusValue: string | null
+    label: string | null
+    color: string | null
+    sortOrder: number | null
+    isDefault: boolean | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StatusOptionMaxAggregateOutputType = {
+    id: string | null
+    moduleKey: string | null
+    statusValue: string | null
+    label: string | null
+    color: string | null
+    sortOrder: number | null
+    isDefault: boolean | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StatusOptionCountAggregateOutputType = {
+    id: number
+    moduleKey: number
+    statusValue: number
+    label: number
+    color: number
+    sortOrder: number
+    isDefault: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type StatusOptionAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type StatusOptionSumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type StatusOptionMinAggregateInputType = {
+    id?: true
+    moduleKey?: true
+    statusValue?: true
+    label?: true
+    color?: true
+    sortOrder?: true
+    isDefault?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StatusOptionMaxAggregateInputType = {
+    id?: true
+    moduleKey?: true
+    statusValue?: true
+    label?: true
+    color?: true
+    sortOrder?: true
+    isDefault?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StatusOptionCountAggregateInputType = {
+    id?: true
+    moduleKey?: true
+    statusValue?: true
+    label?: true
+    color?: true
+    sortOrder?: true
+    isDefault?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type StatusOptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StatusOption to aggregate.
+     */
+    where?: StatusOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StatusOptions to fetch.
+     */
+    orderBy?: StatusOptionOrderByWithRelationInput | StatusOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StatusOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StatusOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StatusOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StatusOptions
+    **/
+    _count?: true | StatusOptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StatusOptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StatusOptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StatusOptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StatusOptionMaxAggregateInputType
+  }
+
+  export type GetStatusOptionAggregateType<T extends StatusOptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateStatusOption]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStatusOption[P]>
+      : GetScalarType<T[P], AggregateStatusOption[P]>
+  }
+
+
+
+
+  export type StatusOptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StatusOptionWhereInput
+    orderBy?: StatusOptionOrderByWithAggregationInput | StatusOptionOrderByWithAggregationInput[]
+    by: StatusOptionScalarFieldEnum[] | StatusOptionScalarFieldEnum
+    having?: StatusOptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StatusOptionCountAggregateInputType | true
+    _avg?: StatusOptionAvgAggregateInputType
+    _sum?: StatusOptionSumAggregateInputType
+    _min?: StatusOptionMinAggregateInputType
+    _max?: StatusOptionMaxAggregateInputType
+  }
+
+  export type StatusOptionGroupByOutputType = {
+    id: string
+    moduleKey: string
+    statusValue: string
+    label: string
+    color: string
+    sortOrder: number
+    isDefault: boolean
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: StatusOptionCountAggregateOutputType | null
+    _avg: StatusOptionAvgAggregateOutputType | null
+    _sum: StatusOptionSumAggregateOutputType | null
+    _min: StatusOptionMinAggregateOutputType | null
+    _max: StatusOptionMaxAggregateOutputType | null
+  }
+
+  type GetStatusOptionGroupByPayload<T extends StatusOptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StatusOptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StatusOptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StatusOptionGroupByOutputType[P]>
+            : GetScalarType<T[P], StatusOptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StatusOptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    moduleKey?: boolean
+    statusValue?: boolean
+    label?: boolean
+    color?: boolean
+    sortOrder?: boolean
+    isDefault?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["statusOption"]>
+
+  export type StatusOptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    moduleKey?: boolean
+    statusValue?: boolean
+    label?: boolean
+    color?: boolean
+    sortOrder?: boolean
+    isDefault?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["statusOption"]>
+
+  export type StatusOptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    moduleKey?: boolean
+    statusValue?: boolean
+    label?: boolean
+    color?: boolean
+    sortOrder?: boolean
+    isDefault?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["statusOption"]>
+
+  export type StatusOptionSelectScalar = {
+    id?: boolean
+    moduleKey?: boolean
+    statusValue?: boolean
+    label?: boolean
+    color?: boolean
+    sortOrder?: boolean
+    isDefault?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type StatusOptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "moduleKey" | "statusValue" | "label" | "color" | "sortOrder" | "isDefault" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["statusOption"]>
+
+  export type $StatusOptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StatusOption"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      moduleKey: string
+      statusValue: string
+      label: string
+      color: string
+      sortOrder: number
+      isDefault: boolean
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["statusOption"]>
+    composites: {}
+  }
+
+  type StatusOptionGetPayload<S extends boolean | null | undefined | StatusOptionDefaultArgs> = $Result.GetResult<Prisma.$StatusOptionPayload, S>
+
+  type StatusOptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StatusOptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StatusOptionCountAggregateInputType | true
+    }
+
+  export interface StatusOptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StatusOption'], meta: { name: 'StatusOption' } }
+    /**
+     * Find zero or one StatusOption that matches the filter.
+     * @param {StatusOptionFindUniqueArgs} args - Arguments to find a StatusOption
+     * @example
+     * // Get one StatusOption
+     * const statusOption = await prisma.statusOption.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StatusOptionFindUniqueArgs>(args: SelectSubset<T, StatusOptionFindUniqueArgs<ExtArgs>>): Prisma__StatusOptionClient<$Result.GetResult<Prisma.$StatusOptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StatusOption that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StatusOptionFindUniqueOrThrowArgs} args - Arguments to find a StatusOption
+     * @example
+     * // Get one StatusOption
+     * const statusOption = await prisma.statusOption.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StatusOptionFindUniqueOrThrowArgs>(args: SelectSubset<T, StatusOptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StatusOptionClient<$Result.GetResult<Prisma.$StatusOptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StatusOption that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusOptionFindFirstArgs} args - Arguments to find a StatusOption
+     * @example
+     * // Get one StatusOption
+     * const statusOption = await prisma.statusOption.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StatusOptionFindFirstArgs>(args?: SelectSubset<T, StatusOptionFindFirstArgs<ExtArgs>>): Prisma__StatusOptionClient<$Result.GetResult<Prisma.$StatusOptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StatusOption that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusOptionFindFirstOrThrowArgs} args - Arguments to find a StatusOption
+     * @example
+     * // Get one StatusOption
+     * const statusOption = await prisma.statusOption.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StatusOptionFindFirstOrThrowArgs>(args?: SelectSubset<T, StatusOptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__StatusOptionClient<$Result.GetResult<Prisma.$StatusOptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StatusOptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusOptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StatusOptions
+     * const statusOptions = await prisma.statusOption.findMany()
+     * 
+     * // Get first 10 StatusOptions
+     * const statusOptions = await prisma.statusOption.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const statusOptionWithIdOnly = await prisma.statusOption.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StatusOptionFindManyArgs>(args?: SelectSubset<T, StatusOptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StatusOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StatusOption.
+     * @param {StatusOptionCreateArgs} args - Arguments to create a StatusOption.
+     * @example
+     * // Create one StatusOption
+     * const StatusOption = await prisma.statusOption.create({
+     *   data: {
+     *     // ... data to create a StatusOption
+     *   }
+     * })
+     * 
+     */
+    create<T extends StatusOptionCreateArgs>(args: SelectSubset<T, StatusOptionCreateArgs<ExtArgs>>): Prisma__StatusOptionClient<$Result.GetResult<Prisma.$StatusOptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StatusOptions.
+     * @param {StatusOptionCreateManyArgs} args - Arguments to create many StatusOptions.
+     * @example
+     * // Create many StatusOptions
+     * const statusOption = await prisma.statusOption.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StatusOptionCreateManyArgs>(args?: SelectSubset<T, StatusOptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StatusOptions and returns the data saved in the database.
+     * @param {StatusOptionCreateManyAndReturnArgs} args - Arguments to create many StatusOptions.
+     * @example
+     * // Create many StatusOptions
+     * const statusOption = await prisma.statusOption.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StatusOptions and only return the `id`
+     * const statusOptionWithIdOnly = await prisma.statusOption.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StatusOptionCreateManyAndReturnArgs>(args?: SelectSubset<T, StatusOptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StatusOptionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StatusOption.
+     * @param {StatusOptionDeleteArgs} args - Arguments to delete one StatusOption.
+     * @example
+     * // Delete one StatusOption
+     * const StatusOption = await prisma.statusOption.delete({
+     *   where: {
+     *     // ... filter to delete one StatusOption
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StatusOptionDeleteArgs>(args: SelectSubset<T, StatusOptionDeleteArgs<ExtArgs>>): Prisma__StatusOptionClient<$Result.GetResult<Prisma.$StatusOptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StatusOption.
+     * @param {StatusOptionUpdateArgs} args - Arguments to update one StatusOption.
+     * @example
+     * // Update one StatusOption
+     * const statusOption = await prisma.statusOption.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StatusOptionUpdateArgs>(args: SelectSubset<T, StatusOptionUpdateArgs<ExtArgs>>): Prisma__StatusOptionClient<$Result.GetResult<Prisma.$StatusOptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StatusOptions.
+     * @param {StatusOptionDeleteManyArgs} args - Arguments to filter StatusOptions to delete.
+     * @example
+     * // Delete a few StatusOptions
+     * const { count } = await prisma.statusOption.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StatusOptionDeleteManyArgs>(args?: SelectSubset<T, StatusOptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StatusOptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusOptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StatusOptions
+     * const statusOption = await prisma.statusOption.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StatusOptionUpdateManyArgs>(args: SelectSubset<T, StatusOptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StatusOptions and returns the data updated in the database.
+     * @param {StatusOptionUpdateManyAndReturnArgs} args - Arguments to update many StatusOptions.
+     * @example
+     * // Update many StatusOptions
+     * const statusOption = await prisma.statusOption.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StatusOptions and only return the `id`
+     * const statusOptionWithIdOnly = await prisma.statusOption.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StatusOptionUpdateManyAndReturnArgs>(args: SelectSubset<T, StatusOptionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StatusOptionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StatusOption.
+     * @param {StatusOptionUpsertArgs} args - Arguments to update or create a StatusOption.
+     * @example
+     * // Update or create a StatusOption
+     * const statusOption = await prisma.statusOption.upsert({
+     *   create: {
+     *     // ... data to create a StatusOption
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StatusOption we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StatusOptionUpsertArgs>(args: SelectSubset<T, StatusOptionUpsertArgs<ExtArgs>>): Prisma__StatusOptionClient<$Result.GetResult<Prisma.$StatusOptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StatusOptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusOptionCountArgs} args - Arguments to filter StatusOptions to count.
+     * @example
+     * // Count the number of StatusOptions
+     * const count = await prisma.statusOption.count({
+     *   where: {
+     *     // ... the filter for the StatusOptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends StatusOptionCountArgs>(
+      args?: Subset<T, StatusOptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StatusOptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StatusOption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusOptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StatusOptionAggregateArgs>(args: Subset<T, StatusOptionAggregateArgs>): Prisma.PrismaPromise<GetStatusOptionAggregateType<T>>
+
+    /**
+     * Group by StatusOption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StatusOptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StatusOptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StatusOptionGroupByArgs['orderBy'] }
+        : { orderBy?: StatusOptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StatusOptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStatusOptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StatusOption model
+   */
+  readonly fields: StatusOptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StatusOption.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StatusOptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StatusOption model
+   */
+  interface StatusOptionFieldRefs {
+    readonly id: FieldRef<"StatusOption", 'String'>
+    readonly moduleKey: FieldRef<"StatusOption", 'String'>
+    readonly statusValue: FieldRef<"StatusOption", 'String'>
+    readonly label: FieldRef<"StatusOption", 'String'>
+    readonly color: FieldRef<"StatusOption", 'String'>
+    readonly sortOrder: FieldRef<"StatusOption", 'Int'>
+    readonly isDefault: FieldRef<"StatusOption", 'Boolean'>
+    readonly isActive: FieldRef<"StatusOption", 'Boolean'>
+    readonly createdAt: FieldRef<"StatusOption", 'DateTime'>
+    readonly updatedAt: FieldRef<"StatusOption", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StatusOption findUnique
+   */
+  export type StatusOptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusOption
+     */
+    select?: StatusOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatusOption
+     */
+    omit?: StatusOptionOmit<ExtArgs> | null
+    /**
+     * Filter, which StatusOption to fetch.
+     */
+    where: StatusOptionWhereUniqueInput
+  }
+
+  /**
+   * StatusOption findUniqueOrThrow
+   */
+  export type StatusOptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusOption
+     */
+    select?: StatusOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatusOption
+     */
+    omit?: StatusOptionOmit<ExtArgs> | null
+    /**
+     * Filter, which StatusOption to fetch.
+     */
+    where: StatusOptionWhereUniqueInput
+  }
+
+  /**
+   * StatusOption findFirst
+   */
+  export type StatusOptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusOption
+     */
+    select?: StatusOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatusOption
+     */
+    omit?: StatusOptionOmit<ExtArgs> | null
+    /**
+     * Filter, which StatusOption to fetch.
+     */
+    where?: StatusOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StatusOptions to fetch.
+     */
+    orderBy?: StatusOptionOrderByWithRelationInput | StatusOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StatusOptions.
+     */
+    cursor?: StatusOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StatusOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StatusOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StatusOptions.
+     */
+    distinct?: StatusOptionScalarFieldEnum | StatusOptionScalarFieldEnum[]
+  }
+
+  /**
+   * StatusOption findFirstOrThrow
+   */
+  export type StatusOptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusOption
+     */
+    select?: StatusOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatusOption
+     */
+    omit?: StatusOptionOmit<ExtArgs> | null
+    /**
+     * Filter, which StatusOption to fetch.
+     */
+    where?: StatusOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StatusOptions to fetch.
+     */
+    orderBy?: StatusOptionOrderByWithRelationInput | StatusOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StatusOptions.
+     */
+    cursor?: StatusOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StatusOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StatusOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StatusOptions.
+     */
+    distinct?: StatusOptionScalarFieldEnum | StatusOptionScalarFieldEnum[]
+  }
+
+  /**
+   * StatusOption findMany
+   */
+  export type StatusOptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusOption
+     */
+    select?: StatusOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatusOption
+     */
+    omit?: StatusOptionOmit<ExtArgs> | null
+    /**
+     * Filter, which StatusOptions to fetch.
+     */
+    where?: StatusOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StatusOptions to fetch.
+     */
+    orderBy?: StatusOptionOrderByWithRelationInput | StatusOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StatusOptions.
+     */
+    cursor?: StatusOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StatusOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StatusOptions.
+     */
+    skip?: number
+    distinct?: StatusOptionScalarFieldEnum | StatusOptionScalarFieldEnum[]
+  }
+
+  /**
+   * StatusOption create
+   */
+  export type StatusOptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusOption
+     */
+    select?: StatusOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatusOption
+     */
+    omit?: StatusOptionOmit<ExtArgs> | null
+    /**
+     * The data needed to create a StatusOption.
+     */
+    data: XOR<StatusOptionCreateInput, StatusOptionUncheckedCreateInput>
+  }
+
+  /**
+   * StatusOption createMany
+   */
+  export type StatusOptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StatusOptions.
+     */
+    data: StatusOptionCreateManyInput | StatusOptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StatusOption createManyAndReturn
+   */
+  export type StatusOptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusOption
+     */
+    select?: StatusOptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatusOption
+     */
+    omit?: StatusOptionOmit<ExtArgs> | null
+    /**
+     * The data used to create many StatusOptions.
+     */
+    data: StatusOptionCreateManyInput | StatusOptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StatusOption update
+   */
+  export type StatusOptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusOption
+     */
+    select?: StatusOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatusOption
+     */
+    omit?: StatusOptionOmit<ExtArgs> | null
+    /**
+     * The data needed to update a StatusOption.
+     */
+    data: XOR<StatusOptionUpdateInput, StatusOptionUncheckedUpdateInput>
+    /**
+     * Choose, which StatusOption to update.
+     */
+    where: StatusOptionWhereUniqueInput
+  }
+
+  /**
+   * StatusOption updateMany
+   */
+  export type StatusOptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StatusOptions.
+     */
+    data: XOR<StatusOptionUpdateManyMutationInput, StatusOptionUncheckedUpdateManyInput>
+    /**
+     * Filter which StatusOptions to update
+     */
+    where?: StatusOptionWhereInput
+    /**
+     * Limit how many StatusOptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StatusOption updateManyAndReturn
+   */
+  export type StatusOptionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusOption
+     */
+    select?: StatusOptionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatusOption
+     */
+    omit?: StatusOptionOmit<ExtArgs> | null
+    /**
+     * The data used to update StatusOptions.
+     */
+    data: XOR<StatusOptionUpdateManyMutationInput, StatusOptionUncheckedUpdateManyInput>
+    /**
+     * Filter which StatusOptions to update
+     */
+    where?: StatusOptionWhereInput
+    /**
+     * Limit how many StatusOptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StatusOption upsert
+   */
+  export type StatusOptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusOption
+     */
+    select?: StatusOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatusOption
+     */
+    omit?: StatusOptionOmit<ExtArgs> | null
+    /**
+     * The filter to search for the StatusOption to update in case it exists.
+     */
+    where: StatusOptionWhereUniqueInput
+    /**
+     * In case the StatusOption found by the `where` argument doesn't exist, create a new StatusOption with this data.
+     */
+    create: XOR<StatusOptionCreateInput, StatusOptionUncheckedCreateInput>
+    /**
+     * In case the StatusOption was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StatusOptionUpdateInput, StatusOptionUncheckedUpdateInput>
+  }
+
+  /**
+   * StatusOption delete
+   */
+  export type StatusOptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusOption
+     */
+    select?: StatusOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatusOption
+     */
+    omit?: StatusOptionOmit<ExtArgs> | null
+    /**
+     * Filter which StatusOption to delete.
+     */
+    where: StatusOptionWhereUniqueInput
+  }
+
+  /**
+   * StatusOption deleteMany
+   */
+  export type StatusOptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StatusOptions to delete
+     */
+    where?: StatusOptionWhereInput
+    /**
+     * Limit how many StatusOptions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StatusOption without action
+   */
+  export type StatusOptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StatusOption
+     */
+    select?: StatusOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StatusOption
+     */
+    omit?: StatusOptionOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -33469,6 +38211,7 @@ export namespace Prisma {
     themeColor: 'themeColor',
     themeTextColor: 'themeTextColor',
     baseColorEnabled: 'baseColorEnabled',
+    industryProfile: 'industryProfile',
     updatedAt: 'updatedAt'
   };
 
@@ -33657,6 +38400,62 @@ export namespace Prisma {
   };
 
   export type FaqScalarFieldEnum = (typeof FaqScalarFieldEnum)[keyof typeof FaqScalarFieldEnum]
+
+
+  export const LabelOverrideScalarFieldEnum: {
+    id: 'id',
+    entityKey: 'entityKey',
+    singular: 'singular',
+    plural: 'plural',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LabelOverrideScalarFieldEnum = (typeof LabelOverrideScalarFieldEnum)[keyof typeof LabelOverrideScalarFieldEnum]
+
+
+  export const CustomFieldScalarFieldEnum: {
+    id: 'id',
+    moduleKey: 'moduleKey',
+    fieldKey: 'fieldKey',
+    label: 'label',
+    type: 'type',
+    options: 'options',
+    required: 'required',
+    displayOrder: 'displayOrder',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CustomFieldScalarFieldEnum = (typeof CustomFieldScalarFieldEnum)[keyof typeof CustomFieldScalarFieldEnum]
+
+
+  export const CustomFieldValueScalarFieldEnum: {
+    id: 'id',
+    customFieldId: 'customFieldId',
+    recordId: 'recordId',
+    value: 'value',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CustomFieldValueScalarFieldEnum = (typeof CustomFieldValueScalarFieldEnum)[keyof typeof CustomFieldValueScalarFieldEnum]
+
+
+  export const StatusOptionScalarFieldEnum: {
+    id: 'id',
+    moduleKey: 'moduleKey',
+    statusValue: 'statusValue',
+    label: 'label',
+    color: 'color',
+    sortOrder: 'sortOrder',
+    isDefault: 'isDefault',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type StatusOptionScalarFieldEnum = (typeof StatusOptionScalarFieldEnum)[keyof typeof StatusOptionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -34941,6 +39740,7 @@ export namespace Prisma {
     themeColor?: StringFilter<"GeneralSetting"> | string
     themeTextColor?: StringFilter<"GeneralSetting"> | string
     baseColorEnabled?: BoolFilter<"GeneralSetting"> | boolean
+    industryProfile?: StringFilter<"GeneralSetting"> | string
     updatedAt?: DateTimeFilter<"GeneralSetting"> | Date | string
   }
 
@@ -34954,6 +39754,7 @@ export namespace Prisma {
     themeColor?: SortOrder
     themeTextColor?: SortOrder
     baseColorEnabled?: SortOrder
+    industryProfile?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -34970,6 +39771,7 @@ export namespace Prisma {
     themeColor?: StringFilter<"GeneralSetting"> | string
     themeTextColor?: StringFilter<"GeneralSetting"> | string
     baseColorEnabled?: BoolFilter<"GeneralSetting"> | boolean
+    industryProfile?: StringFilter<"GeneralSetting"> | string
     updatedAt?: DateTimeFilter<"GeneralSetting"> | Date | string
   }, "id">
 
@@ -34983,6 +39785,7 @@ export namespace Prisma {
     themeColor?: SortOrder
     themeTextColor?: SortOrder
     baseColorEnabled?: SortOrder
+    industryProfile?: SortOrder
     updatedAt?: SortOrder
     _count?: GeneralSettingCountOrderByAggregateInput
     _max?: GeneralSettingMaxOrderByAggregateInput
@@ -35002,6 +39805,7 @@ export namespace Prisma {
     themeColor?: StringWithAggregatesFilter<"GeneralSetting"> | string
     themeTextColor?: StringWithAggregatesFilter<"GeneralSetting"> | string
     baseColorEnabled?: BoolWithAggregatesFilter<"GeneralSetting"> | boolean
+    industryProfile?: StringWithAggregatesFilter<"GeneralSetting"> | string
     updatedAt?: DateTimeWithAggregatesFilter<"GeneralSetting"> | Date | string
   }
 
@@ -35903,6 +40707,287 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"Faq"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Faq"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Faq"> | Date | string
+  }
+
+  export type LabelOverrideWhereInput = {
+    AND?: LabelOverrideWhereInput | LabelOverrideWhereInput[]
+    OR?: LabelOverrideWhereInput[]
+    NOT?: LabelOverrideWhereInput | LabelOverrideWhereInput[]
+    id?: StringFilter<"LabelOverride"> | string
+    entityKey?: StringFilter<"LabelOverride"> | string
+    singular?: StringFilter<"LabelOverride"> | string
+    plural?: StringFilter<"LabelOverride"> | string
+    updatedAt?: DateTimeFilter<"LabelOverride"> | Date | string
+  }
+
+  export type LabelOverrideOrderByWithRelationInput = {
+    id?: SortOrder
+    entityKey?: SortOrder
+    singular?: SortOrder
+    plural?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LabelOverrideWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    entityKey?: string
+    AND?: LabelOverrideWhereInput | LabelOverrideWhereInput[]
+    OR?: LabelOverrideWhereInput[]
+    NOT?: LabelOverrideWhereInput | LabelOverrideWhereInput[]
+    singular?: StringFilter<"LabelOverride"> | string
+    plural?: StringFilter<"LabelOverride"> | string
+    updatedAt?: DateTimeFilter<"LabelOverride"> | Date | string
+  }, "id" | "entityKey">
+
+  export type LabelOverrideOrderByWithAggregationInput = {
+    id?: SortOrder
+    entityKey?: SortOrder
+    singular?: SortOrder
+    plural?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LabelOverrideCountOrderByAggregateInput
+    _max?: LabelOverrideMaxOrderByAggregateInput
+    _min?: LabelOverrideMinOrderByAggregateInput
+  }
+
+  export type LabelOverrideScalarWhereWithAggregatesInput = {
+    AND?: LabelOverrideScalarWhereWithAggregatesInput | LabelOverrideScalarWhereWithAggregatesInput[]
+    OR?: LabelOverrideScalarWhereWithAggregatesInput[]
+    NOT?: LabelOverrideScalarWhereWithAggregatesInput | LabelOverrideScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LabelOverride"> | string
+    entityKey?: StringWithAggregatesFilter<"LabelOverride"> | string
+    singular?: StringWithAggregatesFilter<"LabelOverride"> | string
+    plural?: StringWithAggregatesFilter<"LabelOverride"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LabelOverride"> | Date | string
+  }
+
+  export type CustomFieldWhereInput = {
+    AND?: CustomFieldWhereInput | CustomFieldWhereInput[]
+    OR?: CustomFieldWhereInput[]
+    NOT?: CustomFieldWhereInput | CustomFieldWhereInput[]
+    id?: StringFilter<"CustomField"> | string
+    moduleKey?: StringFilter<"CustomField"> | string
+    fieldKey?: StringFilter<"CustomField"> | string
+    label?: StringFilter<"CustomField"> | string
+    type?: StringFilter<"CustomField"> | string
+    options?: JsonNullableFilter<"CustomField">
+    required?: BoolFilter<"CustomField"> | boolean
+    displayOrder?: IntFilter<"CustomField"> | number
+    isActive?: BoolFilter<"CustomField"> | boolean
+    createdAt?: DateTimeFilter<"CustomField"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomField"> | Date | string
+    values?: CustomFieldValueListRelationFilter
+  }
+
+  export type CustomFieldOrderByWithRelationInput = {
+    id?: SortOrder
+    moduleKey?: SortOrder
+    fieldKey?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    options?: SortOrderInput | SortOrder
+    required?: SortOrder
+    displayOrder?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    values?: CustomFieldValueOrderByRelationAggregateInput
+  }
+
+  export type CustomFieldWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    moduleKey_fieldKey?: CustomFieldModuleKeyFieldKeyCompoundUniqueInput
+    AND?: CustomFieldWhereInput | CustomFieldWhereInput[]
+    OR?: CustomFieldWhereInput[]
+    NOT?: CustomFieldWhereInput | CustomFieldWhereInput[]
+    moduleKey?: StringFilter<"CustomField"> | string
+    fieldKey?: StringFilter<"CustomField"> | string
+    label?: StringFilter<"CustomField"> | string
+    type?: StringFilter<"CustomField"> | string
+    options?: JsonNullableFilter<"CustomField">
+    required?: BoolFilter<"CustomField"> | boolean
+    displayOrder?: IntFilter<"CustomField"> | number
+    isActive?: BoolFilter<"CustomField"> | boolean
+    createdAt?: DateTimeFilter<"CustomField"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomField"> | Date | string
+    values?: CustomFieldValueListRelationFilter
+  }, "id" | "moduleKey_fieldKey">
+
+  export type CustomFieldOrderByWithAggregationInput = {
+    id?: SortOrder
+    moduleKey?: SortOrder
+    fieldKey?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    options?: SortOrderInput | SortOrder
+    required?: SortOrder
+    displayOrder?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CustomFieldCountOrderByAggregateInput
+    _avg?: CustomFieldAvgOrderByAggregateInput
+    _max?: CustomFieldMaxOrderByAggregateInput
+    _min?: CustomFieldMinOrderByAggregateInput
+    _sum?: CustomFieldSumOrderByAggregateInput
+  }
+
+  export type CustomFieldScalarWhereWithAggregatesInput = {
+    AND?: CustomFieldScalarWhereWithAggregatesInput | CustomFieldScalarWhereWithAggregatesInput[]
+    OR?: CustomFieldScalarWhereWithAggregatesInput[]
+    NOT?: CustomFieldScalarWhereWithAggregatesInput | CustomFieldScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CustomField"> | string
+    moduleKey?: StringWithAggregatesFilter<"CustomField"> | string
+    fieldKey?: StringWithAggregatesFilter<"CustomField"> | string
+    label?: StringWithAggregatesFilter<"CustomField"> | string
+    type?: StringWithAggregatesFilter<"CustomField"> | string
+    options?: JsonNullableWithAggregatesFilter<"CustomField">
+    required?: BoolWithAggregatesFilter<"CustomField"> | boolean
+    displayOrder?: IntWithAggregatesFilter<"CustomField"> | number
+    isActive?: BoolWithAggregatesFilter<"CustomField"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"CustomField"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CustomField"> | Date | string
+  }
+
+  export type CustomFieldValueWhereInput = {
+    AND?: CustomFieldValueWhereInput | CustomFieldValueWhereInput[]
+    OR?: CustomFieldValueWhereInput[]
+    NOT?: CustomFieldValueWhereInput | CustomFieldValueWhereInput[]
+    id?: StringFilter<"CustomFieldValue"> | string
+    customFieldId?: StringFilter<"CustomFieldValue"> | string
+    recordId?: StringFilter<"CustomFieldValue"> | string
+    value?: JsonNullableFilter<"CustomFieldValue">
+    createdAt?: DateTimeFilter<"CustomFieldValue"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomFieldValue"> | Date | string
+    customField?: XOR<CustomFieldScalarRelationFilter, CustomFieldWhereInput>
+  }
+
+  export type CustomFieldValueOrderByWithRelationInput = {
+    id?: SortOrder
+    customFieldId?: SortOrder
+    recordId?: SortOrder
+    value?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    customField?: CustomFieldOrderByWithRelationInput
+  }
+
+  export type CustomFieldValueWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    customFieldId_recordId?: CustomFieldValueCustomFieldIdRecordIdCompoundUniqueInput
+    AND?: CustomFieldValueWhereInput | CustomFieldValueWhereInput[]
+    OR?: CustomFieldValueWhereInput[]
+    NOT?: CustomFieldValueWhereInput | CustomFieldValueWhereInput[]
+    customFieldId?: StringFilter<"CustomFieldValue"> | string
+    recordId?: StringFilter<"CustomFieldValue"> | string
+    value?: JsonNullableFilter<"CustomFieldValue">
+    createdAt?: DateTimeFilter<"CustomFieldValue"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomFieldValue"> | Date | string
+    customField?: XOR<CustomFieldScalarRelationFilter, CustomFieldWhereInput>
+  }, "id" | "customFieldId_recordId">
+
+  export type CustomFieldValueOrderByWithAggregationInput = {
+    id?: SortOrder
+    customFieldId?: SortOrder
+    recordId?: SortOrder
+    value?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CustomFieldValueCountOrderByAggregateInput
+    _max?: CustomFieldValueMaxOrderByAggregateInput
+    _min?: CustomFieldValueMinOrderByAggregateInput
+  }
+
+  export type CustomFieldValueScalarWhereWithAggregatesInput = {
+    AND?: CustomFieldValueScalarWhereWithAggregatesInput | CustomFieldValueScalarWhereWithAggregatesInput[]
+    OR?: CustomFieldValueScalarWhereWithAggregatesInput[]
+    NOT?: CustomFieldValueScalarWhereWithAggregatesInput | CustomFieldValueScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CustomFieldValue"> | string
+    customFieldId?: StringWithAggregatesFilter<"CustomFieldValue"> | string
+    recordId?: StringWithAggregatesFilter<"CustomFieldValue"> | string
+    value?: JsonNullableWithAggregatesFilter<"CustomFieldValue">
+    createdAt?: DateTimeWithAggregatesFilter<"CustomFieldValue"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CustomFieldValue"> | Date | string
+  }
+
+  export type StatusOptionWhereInput = {
+    AND?: StatusOptionWhereInput | StatusOptionWhereInput[]
+    OR?: StatusOptionWhereInput[]
+    NOT?: StatusOptionWhereInput | StatusOptionWhereInput[]
+    id?: StringFilter<"StatusOption"> | string
+    moduleKey?: StringFilter<"StatusOption"> | string
+    statusValue?: StringFilter<"StatusOption"> | string
+    label?: StringFilter<"StatusOption"> | string
+    color?: StringFilter<"StatusOption"> | string
+    sortOrder?: IntFilter<"StatusOption"> | number
+    isDefault?: BoolFilter<"StatusOption"> | boolean
+    isActive?: BoolFilter<"StatusOption"> | boolean
+    createdAt?: DateTimeFilter<"StatusOption"> | Date | string
+    updatedAt?: DateTimeFilter<"StatusOption"> | Date | string
+  }
+
+  export type StatusOptionOrderByWithRelationInput = {
+    id?: SortOrder
+    moduleKey?: SortOrder
+    statusValue?: SortOrder
+    label?: SortOrder
+    color?: SortOrder
+    sortOrder?: SortOrder
+    isDefault?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StatusOptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    moduleKey_statusValue?: StatusOptionModuleKeyStatusValueCompoundUniqueInput
+    AND?: StatusOptionWhereInput | StatusOptionWhereInput[]
+    OR?: StatusOptionWhereInput[]
+    NOT?: StatusOptionWhereInput | StatusOptionWhereInput[]
+    moduleKey?: StringFilter<"StatusOption"> | string
+    statusValue?: StringFilter<"StatusOption"> | string
+    label?: StringFilter<"StatusOption"> | string
+    color?: StringFilter<"StatusOption"> | string
+    sortOrder?: IntFilter<"StatusOption"> | number
+    isDefault?: BoolFilter<"StatusOption"> | boolean
+    isActive?: BoolFilter<"StatusOption"> | boolean
+    createdAt?: DateTimeFilter<"StatusOption"> | Date | string
+    updatedAt?: DateTimeFilter<"StatusOption"> | Date | string
+  }, "id" | "moduleKey_statusValue">
+
+  export type StatusOptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    moduleKey?: SortOrder
+    statusValue?: SortOrder
+    label?: SortOrder
+    color?: SortOrder
+    sortOrder?: SortOrder
+    isDefault?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: StatusOptionCountOrderByAggregateInput
+    _avg?: StatusOptionAvgOrderByAggregateInput
+    _max?: StatusOptionMaxOrderByAggregateInput
+    _min?: StatusOptionMinOrderByAggregateInput
+    _sum?: StatusOptionSumOrderByAggregateInput
+  }
+
+  export type StatusOptionScalarWhereWithAggregatesInput = {
+    AND?: StatusOptionScalarWhereWithAggregatesInput | StatusOptionScalarWhereWithAggregatesInput[]
+    OR?: StatusOptionScalarWhereWithAggregatesInput[]
+    NOT?: StatusOptionScalarWhereWithAggregatesInput | StatusOptionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StatusOption"> | string
+    moduleKey?: StringWithAggregatesFilter<"StatusOption"> | string
+    statusValue?: StringWithAggregatesFilter<"StatusOption"> | string
+    label?: StringWithAggregatesFilter<"StatusOption"> | string
+    color?: StringWithAggregatesFilter<"StatusOption"> | string
+    sortOrder?: IntWithAggregatesFilter<"StatusOption"> | number
+    isDefault?: BoolWithAggregatesFilter<"StatusOption"> | boolean
+    isActive?: BoolWithAggregatesFilter<"StatusOption"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"StatusOption"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"StatusOption"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -37210,6 +42295,7 @@ export namespace Prisma {
     themeColor?: string
     themeTextColor?: string
     baseColorEnabled?: boolean
+    industryProfile?: string
     updatedAt?: Date | string
   }
 
@@ -37223,6 +42309,7 @@ export namespace Prisma {
     themeColor?: string
     themeTextColor?: string
     baseColorEnabled?: boolean
+    industryProfile?: string
     updatedAt?: Date | string
   }
 
@@ -37236,6 +42323,7 @@ export namespace Prisma {
     themeColor?: StringFieldUpdateOperationsInput | string
     themeTextColor?: StringFieldUpdateOperationsInput | string
     baseColorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    industryProfile?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -37249,6 +42337,7 @@ export namespace Prisma {
     themeColor?: StringFieldUpdateOperationsInput | string
     themeTextColor?: StringFieldUpdateOperationsInput | string
     baseColorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    industryProfile?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -37262,6 +42351,7 @@ export namespace Prisma {
     themeColor?: string
     themeTextColor?: string
     baseColorEnabled?: boolean
+    industryProfile?: string
     updatedAt?: Date | string
   }
 
@@ -37275,6 +42365,7 @@ export namespace Prisma {
     themeColor?: StringFieldUpdateOperationsInput | string
     themeTextColor?: StringFieldUpdateOperationsInput | string
     baseColorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    industryProfile?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -37288,6 +42379,7 @@ export namespace Prisma {
     themeColor?: StringFieldUpdateOperationsInput | string
     themeTextColor?: StringFieldUpdateOperationsInput | string
     baseColorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    industryProfile?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -38330,6 +43422,317 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LabelOverrideCreateInput = {
+    id?: string
+    entityKey: string
+    singular: string
+    plural: string
+    updatedAt?: Date | string
+  }
+
+  export type LabelOverrideUncheckedCreateInput = {
+    id?: string
+    entityKey: string
+    singular: string
+    plural: string
+    updatedAt?: Date | string
+  }
+
+  export type LabelOverrideUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityKey?: StringFieldUpdateOperationsInput | string
+    singular?: StringFieldUpdateOperationsInput | string
+    plural?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LabelOverrideUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityKey?: StringFieldUpdateOperationsInput | string
+    singular?: StringFieldUpdateOperationsInput | string
+    plural?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LabelOverrideCreateManyInput = {
+    id?: string
+    entityKey: string
+    singular: string
+    plural: string
+    updatedAt?: Date | string
+  }
+
+  export type LabelOverrideUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityKey?: StringFieldUpdateOperationsInput | string
+    singular?: StringFieldUpdateOperationsInput | string
+    plural?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LabelOverrideUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityKey?: StringFieldUpdateOperationsInput | string
+    singular?: StringFieldUpdateOperationsInput | string
+    plural?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldCreateInput = {
+    id?: string
+    moduleKey: string
+    fieldKey: string
+    label: string
+    type?: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    displayOrder?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    values?: CustomFieldValueCreateNestedManyWithoutCustomFieldInput
+  }
+
+  export type CustomFieldUncheckedCreateInput = {
+    id?: string
+    moduleKey: string
+    fieldKey: string
+    label: string
+    type?: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    displayOrder?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    values?: CustomFieldValueUncheckedCreateNestedManyWithoutCustomFieldInput
+  }
+
+  export type CustomFieldUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    moduleKey?: StringFieldUpdateOperationsInput | string
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    displayOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    values?: CustomFieldValueUpdateManyWithoutCustomFieldNestedInput
+  }
+
+  export type CustomFieldUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    moduleKey?: StringFieldUpdateOperationsInput | string
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    displayOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    values?: CustomFieldValueUncheckedUpdateManyWithoutCustomFieldNestedInput
+  }
+
+  export type CustomFieldCreateManyInput = {
+    id?: string
+    moduleKey: string
+    fieldKey: string
+    label: string
+    type?: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    displayOrder?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFieldUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    moduleKey?: StringFieldUpdateOperationsInput | string
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    displayOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    moduleKey?: StringFieldUpdateOperationsInput | string
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    displayOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldValueCreateInput = {
+    id?: string
+    recordId: string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customField: CustomFieldCreateNestedOneWithoutValuesInput
+  }
+
+  export type CustomFieldValueUncheckedCreateInput = {
+    id?: string
+    customFieldId: string
+    recordId: string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFieldValueUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recordId?: StringFieldUpdateOperationsInput | string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customField?: CustomFieldUpdateOneRequiredWithoutValuesNestedInput
+  }
+
+  export type CustomFieldValueUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customFieldId?: StringFieldUpdateOperationsInput | string
+    recordId?: StringFieldUpdateOperationsInput | string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldValueCreateManyInput = {
+    id?: string
+    customFieldId: string
+    recordId: string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFieldValueUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recordId?: StringFieldUpdateOperationsInput | string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldValueUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customFieldId?: StringFieldUpdateOperationsInput | string
+    recordId?: StringFieldUpdateOperationsInput | string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatusOptionCreateInput = {
+    id?: string
+    moduleKey: string
+    statusValue: string
+    label: string
+    color?: string
+    sortOrder?: number
+    isDefault?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StatusOptionUncheckedCreateInput = {
+    id?: string
+    moduleKey: string
+    statusValue: string
+    label: string
+    color?: string
+    sortOrder?: number
+    isDefault?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StatusOptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    moduleKey?: StringFieldUpdateOperationsInput | string
+    statusValue?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatusOptionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    moduleKey?: StringFieldUpdateOperationsInput | string
+    statusValue?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatusOptionCreateManyInput = {
+    id?: string
+    moduleKey: string
+    statusValue: string
+    label: string
+    color?: string
+    sortOrder?: number
+    isDefault?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StatusOptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    moduleKey?: StringFieldUpdateOperationsInput | string
+    statusValue?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StatusOptionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    moduleKey?: StringFieldUpdateOperationsInput | string
+    statusValue?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    color?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -39284,6 +44687,7 @@ export namespace Prisma {
     themeColor?: SortOrder
     themeTextColor?: SortOrder
     baseColorEnabled?: SortOrder
+    industryProfile?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -39297,6 +44701,7 @@ export namespace Prisma {
     themeColor?: SortOrder
     themeTextColor?: SortOrder
     baseColorEnabled?: SortOrder
+    industryProfile?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -39310,6 +44715,7 @@ export namespace Prisma {
     themeColor?: SortOrder
     themeTextColor?: SortOrder
     baseColorEnabled?: SortOrder
+    industryProfile?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -39827,6 +45233,180 @@ export namespace Prisma {
 
   export type FaqSumOrderByAggregateInput = {
     order?: SortOrder
+  }
+
+  export type LabelOverrideCountOrderByAggregateInput = {
+    id?: SortOrder
+    entityKey?: SortOrder
+    singular?: SortOrder
+    plural?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LabelOverrideMaxOrderByAggregateInput = {
+    id?: SortOrder
+    entityKey?: SortOrder
+    singular?: SortOrder
+    plural?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LabelOverrideMinOrderByAggregateInput = {
+    id?: SortOrder
+    entityKey?: SortOrder
+    singular?: SortOrder
+    plural?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomFieldValueListRelationFilter = {
+    every?: CustomFieldValueWhereInput
+    some?: CustomFieldValueWhereInput
+    none?: CustomFieldValueWhereInput
+  }
+
+  export type CustomFieldValueOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CustomFieldModuleKeyFieldKeyCompoundUniqueInput = {
+    moduleKey: string
+    fieldKey: string
+  }
+
+  export type CustomFieldCountOrderByAggregateInput = {
+    id?: SortOrder
+    moduleKey?: SortOrder
+    fieldKey?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    options?: SortOrder
+    required?: SortOrder
+    displayOrder?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomFieldAvgOrderByAggregateInput = {
+    displayOrder?: SortOrder
+  }
+
+  export type CustomFieldMaxOrderByAggregateInput = {
+    id?: SortOrder
+    moduleKey?: SortOrder
+    fieldKey?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    required?: SortOrder
+    displayOrder?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomFieldMinOrderByAggregateInput = {
+    id?: SortOrder
+    moduleKey?: SortOrder
+    fieldKey?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    required?: SortOrder
+    displayOrder?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomFieldSumOrderByAggregateInput = {
+    displayOrder?: SortOrder
+  }
+
+  export type CustomFieldScalarRelationFilter = {
+    is?: CustomFieldWhereInput
+    isNot?: CustomFieldWhereInput
+  }
+
+  export type CustomFieldValueCustomFieldIdRecordIdCompoundUniqueInput = {
+    customFieldId: string
+    recordId: string
+  }
+
+  export type CustomFieldValueCountOrderByAggregateInput = {
+    id?: SortOrder
+    customFieldId?: SortOrder
+    recordId?: SortOrder
+    value?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomFieldValueMaxOrderByAggregateInput = {
+    id?: SortOrder
+    customFieldId?: SortOrder
+    recordId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomFieldValueMinOrderByAggregateInput = {
+    id?: SortOrder
+    customFieldId?: SortOrder
+    recordId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StatusOptionModuleKeyStatusValueCompoundUniqueInput = {
+    moduleKey: string
+    statusValue: string
+  }
+
+  export type StatusOptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    moduleKey?: SortOrder
+    statusValue?: SortOrder
+    label?: SortOrder
+    color?: SortOrder
+    sortOrder?: SortOrder
+    isDefault?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StatusOptionAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type StatusOptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    moduleKey?: SortOrder
+    statusValue?: SortOrder
+    label?: SortOrder
+    color?: SortOrder
+    sortOrder?: SortOrder
+    isDefault?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StatusOptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    moduleKey?: SortOrder
+    statusValue?: SortOrder
+    label?: SortOrder
+    color?: SortOrder
+    sortOrder?: SortOrder
+    isDefault?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StatusOptionSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -40535,6 +46115,62 @@ export namespace Prisma {
     upsert?: JobUpsertWithoutApplicantsInput
     connect?: JobWhereUniqueInput
     update?: XOR<XOR<JobUpdateToOneWithWhereWithoutApplicantsInput, JobUpdateWithoutApplicantsInput>, JobUncheckedUpdateWithoutApplicantsInput>
+  }
+
+  export type CustomFieldValueCreateNestedManyWithoutCustomFieldInput = {
+    create?: XOR<CustomFieldValueCreateWithoutCustomFieldInput, CustomFieldValueUncheckedCreateWithoutCustomFieldInput> | CustomFieldValueCreateWithoutCustomFieldInput[] | CustomFieldValueUncheckedCreateWithoutCustomFieldInput[]
+    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutCustomFieldInput | CustomFieldValueCreateOrConnectWithoutCustomFieldInput[]
+    createMany?: CustomFieldValueCreateManyCustomFieldInputEnvelope
+    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+  }
+
+  export type CustomFieldValueUncheckedCreateNestedManyWithoutCustomFieldInput = {
+    create?: XOR<CustomFieldValueCreateWithoutCustomFieldInput, CustomFieldValueUncheckedCreateWithoutCustomFieldInput> | CustomFieldValueCreateWithoutCustomFieldInput[] | CustomFieldValueUncheckedCreateWithoutCustomFieldInput[]
+    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutCustomFieldInput | CustomFieldValueCreateOrConnectWithoutCustomFieldInput[]
+    createMany?: CustomFieldValueCreateManyCustomFieldInputEnvelope
+    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+  }
+
+  export type CustomFieldValueUpdateManyWithoutCustomFieldNestedInput = {
+    create?: XOR<CustomFieldValueCreateWithoutCustomFieldInput, CustomFieldValueUncheckedCreateWithoutCustomFieldInput> | CustomFieldValueCreateWithoutCustomFieldInput[] | CustomFieldValueUncheckedCreateWithoutCustomFieldInput[]
+    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutCustomFieldInput | CustomFieldValueCreateOrConnectWithoutCustomFieldInput[]
+    upsert?: CustomFieldValueUpsertWithWhereUniqueWithoutCustomFieldInput | CustomFieldValueUpsertWithWhereUniqueWithoutCustomFieldInput[]
+    createMany?: CustomFieldValueCreateManyCustomFieldInputEnvelope
+    set?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    disconnect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    delete?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    update?: CustomFieldValueUpdateWithWhereUniqueWithoutCustomFieldInput | CustomFieldValueUpdateWithWhereUniqueWithoutCustomFieldInput[]
+    updateMany?: CustomFieldValueUpdateManyWithWhereWithoutCustomFieldInput | CustomFieldValueUpdateManyWithWhereWithoutCustomFieldInput[]
+    deleteMany?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
+  }
+
+  export type CustomFieldValueUncheckedUpdateManyWithoutCustomFieldNestedInput = {
+    create?: XOR<CustomFieldValueCreateWithoutCustomFieldInput, CustomFieldValueUncheckedCreateWithoutCustomFieldInput> | CustomFieldValueCreateWithoutCustomFieldInput[] | CustomFieldValueUncheckedCreateWithoutCustomFieldInput[]
+    connectOrCreate?: CustomFieldValueCreateOrConnectWithoutCustomFieldInput | CustomFieldValueCreateOrConnectWithoutCustomFieldInput[]
+    upsert?: CustomFieldValueUpsertWithWhereUniqueWithoutCustomFieldInput | CustomFieldValueUpsertWithWhereUniqueWithoutCustomFieldInput[]
+    createMany?: CustomFieldValueCreateManyCustomFieldInputEnvelope
+    set?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    disconnect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    delete?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    connect?: CustomFieldValueWhereUniqueInput | CustomFieldValueWhereUniqueInput[]
+    update?: CustomFieldValueUpdateWithWhereUniqueWithoutCustomFieldInput | CustomFieldValueUpdateWithWhereUniqueWithoutCustomFieldInput[]
+    updateMany?: CustomFieldValueUpdateManyWithWhereWithoutCustomFieldInput | CustomFieldValueUpdateManyWithWhereWithoutCustomFieldInput[]
+    deleteMany?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
+  }
+
+  export type CustomFieldCreateNestedOneWithoutValuesInput = {
+    create?: XOR<CustomFieldCreateWithoutValuesInput, CustomFieldUncheckedCreateWithoutValuesInput>
+    connectOrCreate?: CustomFieldCreateOrConnectWithoutValuesInput
+    connect?: CustomFieldWhereUniqueInput
+  }
+
+  export type CustomFieldUpdateOneRequiredWithoutValuesNestedInput = {
+    create?: XOR<CustomFieldCreateWithoutValuesInput, CustomFieldUncheckedCreateWithoutValuesInput>
+    connectOrCreate?: CustomFieldCreateOrConnectWithoutValuesInput
+    upsert?: CustomFieldUpsertWithoutValuesInput
+    connect?: CustomFieldWhereUniqueInput
+    update?: XOR<XOR<CustomFieldUpdateToOneWithWhereWithoutValuesInput, CustomFieldUpdateWithoutValuesInput>, CustomFieldUncheckedUpdateWithoutValuesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -42462,6 +48098,132 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CustomFieldValueCreateWithoutCustomFieldInput = {
+    id?: string
+    recordId: string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFieldValueUncheckedCreateWithoutCustomFieldInput = {
+    id?: string
+    recordId: string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFieldValueCreateOrConnectWithoutCustomFieldInput = {
+    where: CustomFieldValueWhereUniqueInput
+    create: XOR<CustomFieldValueCreateWithoutCustomFieldInput, CustomFieldValueUncheckedCreateWithoutCustomFieldInput>
+  }
+
+  export type CustomFieldValueCreateManyCustomFieldInputEnvelope = {
+    data: CustomFieldValueCreateManyCustomFieldInput | CustomFieldValueCreateManyCustomFieldInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CustomFieldValueUpsertWithWhereUniqueWithoutCustomFieldInput = {
+    where: CustomFieldValueWhereUniqueInput
+    update: XOR<CustomFieldValueUpdateWithoutCustomFieldInput, CustomFieldValueUncheckedUpdateWithoutCustomFieldInput>
+    create: XOR<CustomFieldValueCreateWithoutCustomFieldInput, CustomFieldValueUncheckedCreateWithoutCustomFieldInput>
+  }
+
+  export type CustomFieldValueUpdateWithWhereUniqueWithoutCustomFieldInput = {
+    where: CustomFieldValueWhereUniqueInput
+    data: XOR<CustomFieldValueUpdateWithoutCustomFieldInput, CustomFieldValueUncheckedUpdateWithoutCustomFieldInput>
+  }
+
+  export type CustomFieldValueUpdateManyWithWhereWithoutCustomFieldInput = {
+    where: CustomFieldValueScalarWhereInput
+    data: XOR<CustomFieldValueUpdateManyMutationInput, CustomFieldValueUncheckedUpdateManyWithoutCustomFieldInput>
+  }
+
+  export type CustomFieldValueScalarWhereInput = {
+    AND?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
+    OR?: CustomFieldValueScalarWhereInput[]
+    NOT?: CustomFieldValueScalarWhereInput | CustomFieldValueScalarWhereInput[]
+    id?: StringFilter<"CustomFieldValue"> | string
+    customFieldId?: StringFilter<"CustomFieldValue"> | string
+    recordId?: StringFilter<"CustomFieldValue"> | string
+    value?: JsonNullableFilter<"CustomFieldValue">
+    createdAt?: DateTimeFilter<"CustomFieldValue"> | Date | string
+    updatedAt?: DateTimeFilter<"CustomFieldValue"> | Date | string
+  }
+
+  export type CustomFieldCreateWithoutValuesInput = {
+    id?: string
+    moduleKey: string
+    fieldKey: string
+    label: string
+    type?: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    displayOrder?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFieldUncheckedCreateWithoutValuesInput = {
+    id?: string
+    moduleKey: string
+    fieldKey: string
+    label: string
+    type?: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: boolean
+    displayOrder?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFieldCreateOrConnectWithoutValuesInput = {
+    where: CustomFieldWhereUniqueInput
+    create: XOR<CustomFieldCreateWithoutValuesInput, CustomFieldUncheckedCreateWithoutValuesInput>
+  }
+
+  export type CustomFieldUpsertWithoutValuesInput = {
+    update: XOR<CustomFieldUpdateWithoutValuesInput, CustomFieldUncheckedUpdateWithoutValuesInput>
+    create: XOR<CustomFieldCreateWithoutValuesInput, CustomFieldUncheckedCreateWithoutValuesInput>
+    where?: CustomFieldWhereInput
+  }
+
+  export type CustomFieldUpdateToOneWithWhereWithoutValuesInput = {
+    where?: CustomFieldWhereInput
+    data: XOR<CustomFieldUpdateWithoutValuesInput, CustomFieldUncheckedUpdateWithoutValuesInput>
+  }
+
+  export type CustomFieldUpdateWithoutValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    moduleKey?: StringFieldUpdateOperationsInput | string
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    displayOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldUncheckedUpdateWithoutValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    moduleKey?: StringFieldUpdateOperationsInput | string
+    fieldKey?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    required?: BoolFieldUpdateOperationsInput | boolean
+    displayOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type InvoiceCreateManyCustomerInput = {
     id?: string
     invoiceNumber: string
@@ -43086,6 +48848,38 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     appliedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     coverNote?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CustomFieldValueCreateManyCustomFieldInput = {
+    id?: string
+    recordId: string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CustomFieldValueUpdateWithoutCustomFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recordId?: StringFieldUpdateOperationsInput | string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldValueUncheckedUpdateWithoutCustomFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recordId?: StringFieldUpdateOperationsInput | string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CustomFieldValueUncheckedUpdateManyWithoutCustomFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recordId?: StringFieldUpdateOperationsInput | string
+    value?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

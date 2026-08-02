@@ -175,7 +175,7 @@ export default function PopupSettingsClient({ initialData }: { initialData: { sh
 
           {slides.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-300 bg-zinc-50 py-12 text-center">
-              <p className="text-sm text-zinc-500">No images added yet. Click "Add Image" to start.</p>
+              <p className="text-sm text-zinc-500">No images added yet. Click &quot;Add Image&quot; to start.</p>
             </div>
           ) : (
             <div className="space-y-6">

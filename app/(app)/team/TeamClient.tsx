@@ -12,6 +12,9 @@ import { Pagination } from "@/components/Pagination";
 import { AddMemberModal, type MemberFormData } from "@/components/AddMemberModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { ViewDetailModal } from "@/components/ViewDetailModal";
+import { StatusBadge } from "@/components/StatusBadge";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
+import { type CustomValues } from "@/components/CustomFieldRenderer";
 import {
   getTeamMembers,
   createTeamMember,
@@ -64,6 +67,10 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [departmentFilter, setDepartmentFilter] = useState<string>("all");
   const filterRef = useRef<HTMLDivElement>(null);
+
+  const teamLabel = useEntityLabel("team");
+  const teamLabelPlural = useEntityLabel("team", { plural: true });
+  const statusOptions = useStatusOptions("team");
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -130,7 +137,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
     }
   }
 
-  async function handleSubmit(formData: MemberFormData) {
+  async function handleSubmit(formData: MemberFormData, customValues?: CustomValues) {
     const input: TeamMemberInput = {
       fullName: formData.name,
       email: formData.email,
@@ -138,7 +145,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
       image: formData.image || undefined,
       role: formData.designation || undefined,
       department: formData.department || undefined,
-      status: formData.status as "Active" | "Inactive",
+      status: formData.status || "Active",
       bio: formData.description || undefined,
       location: formData.location || undefined,
       experience: formData.experience || undefined,
@@ -155,8 +162,8 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
     setEditingMember(null);
 
     const result = editingMember
-      ? await updateTeamMember(editingMember.id, input)
-      : await createTeamMember(input);
+      ? await updateTeamMember(editingMember.id, input, customValues)
+      : await createTeamMember(input, customValues);
 
     if (result.success) {
       refresh();
@@ -210,7 +217,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
 
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-        <PageHeader title="Team" description="Manage Your team members and their information." />
+        <PageHeader title={teamLabelPlural} description={`Manage your ${teamLabelPlural.toLowerCase()} and their information.`} />
         <div className="flex items-center gap-3">
           <div className="relative" ref={filterRef}>
             <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
@@ -220,16 +227,16 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
             {filterOpen && (
               <div className="absolute max-md:left-0 max-md:right-auto md:right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
                 <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
-                {["all", "Active", "Inactive"].map((s) => (
+                {[{ value: "all", label: "All Statuses" }, ...statusOptions.map((s) => ({ value: s.statusValue, label: s.label }))].map((s) => (
                   <button
-                    key={s}
+                    key={s.value}
                     type="button"
-                    onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
+                    onClick={() => { setStatusFilter(s.value); setFilterOpen(false); }}
                     className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${
-                      statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"
+                      statusFilter === s.value ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"
                     }`}
                   >
-                    {s === "all" ? "All Statuses" : s}
+                    {s.label}
                   </button>
                 ))}
                 <div className="my-2 border-t border-gray-100" />
@@ -259,7 +266,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
             )}
           </div>
           <Button onClick={handleAdd}>
-            Add Member
+            Add {teamLabel}
             <Plus className="h-4 w-4" />
           </Button>
         </div>
@@ -267,7 +274,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
 
       {/* Stat cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-4">
-        <StatCard icon={Users} label="Total Members" value={data.total} />
+        <StatCard icon={Users} label={`Total ${teamLabelPlural}`} value={data.total} />
         <StatCard icon={Users} label="Active Members" value={data.active} />
         <StatCard icon={User} label="Inactive" value={data.inactive} />
         <StatCard icon={User} label="Departments" value={new Set(data.members.map((m) => m.department).filter(Boolean)).size} />
@@ -275,7 +282,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
 
       {/* Search + View Toggle */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-bold text-black">Team Members</h2>
+        <h2 className="text-lg font-bold text-black">{teamLabelPlural}</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
           <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
@@ -324,7 +331,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <Users className="h-10 w-10 text-zinc-300" />
             <p className="text-sm text-zinc-500">
-              {search ? "No members match your search" : "No team members yet. Add your first member!"}
+              {search ? "No members match your search" : `No ${teamLabelPlural.toLowerCase()} yet. Add your first ${teamLabel.toLowerCase()}!`}
             </p>
           </div>
         </Card>
@@ -365,9 +372,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
                     <td className="px-6 py-4 text-zinc-600">{m.phone || "—"}</td>
                     <td className="px-6 py-4 text-zinc-600">{m.email}</td>
                     <td className="px-6 py-4">
-                      <span className={`text-sm font-medium ${m.status === "Active" ? "text-gray-900" : "text-gray-500"}`}>
-                        {m.status}
-                      </span>
+                      <StatusBadge moduleKey="team" value={m.status} />
                     </td>
                     <td className="px-6 py-4">
                       <RowActions onView={() => setViewItem(m)} onEdit={() => handleEdit(m)} onDelete={() => handleDeleteRequest(m.id)} />
@@ -402,7 +407,7 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
                   </div>
                   <div>
                     <span className="text-gray-500 block mb-1">Status</span>
-                    <span className={`font-medium ${m.status === "Active" ? "text-gray-900" : "text-gray-500"}`}>{m.status}</span>
+                    <StatusBadge moduleKey="team" value={m.status} />
                   </div>
                   <div className="flex items-center gap-1.5 text-gray-600">
                     <Phone className="w-3 h-3 text-sky-500 shrink-0" />
@@ -434,9 +439,9 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
               <div className="min-w-0">
                 <p className="font-semibold text-zinc-800 truncate">{m.fullName}</p>
                 <p className="text-sm text-zinc-500 truncate">{m.role || "—"}</p>
-                <span className={`mt-1 inline-block text-xs font-medium ${m.status === "Active" ? "text-emerald-600" : "text-zinc-400"}`}>
-                  {m.status}
-                </span>
+                <div className="mt-1">
+                  <StatusBadge moduleKey="team" value={m.status} />
+                </div>
               </div>
               <div className="space-y-1.5 text-sm text-zinc-600">
                 <div className="flex items-center gap-2">
@@ -478,8 +483,8 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
       {/* Delete Confirmation */}
       <DeleteConfirmModal
         isOpen={!!deleteId}
-        title="Delete Member"
-        description="Are you sure you want to delete this team member? This action cannot be undone."
+        title={`Delete ${teamLabel}`}
+        description={`Are you sure you want to delete this ${teamLabel.toLowerCase()}? This action cannot be undone.`}
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
       />

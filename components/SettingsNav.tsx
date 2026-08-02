@@ -14,11 +14,17 @@ import {
   Shield,
   SlidersHorizontal,
   ChevronRight,
+  Type,
+  ListChecks,
+  GitBranch,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const settingsNavItems = [
   { label: "General", href: "/settings/general", icon: SlidersHorizontal },
+  { label: "Labels", href: "/settings/labels", icon: Type },
+  { label: "Custom Fields", href: "/settings/custom-fields", icon: ListChecks },
+  { label: "Status Workflows", href: "/settings/status", icon: GitBranch },
   { label: "Contact", href: "/settings/contact", icon: Phone },
   { label: "Email", href: "/settings/email", icon: Mail },
   { label: "Social", href: "/settings/social", icon: Share2 },

@@ -12,6 +12,8 @@ import { RowActions } from "@/components/RowActions";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { ViewDetailModal } from "@/components/ViewDetailModal";
 import { PageEditModal } from "@/components/PageEditModal";
+import { StatusBadge } from "@/components/StatusBadge";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { getPages, deletePage } from "@/app/actions/pages";
 
 type Page = {
@@ -58,6 +60,10 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
   const [filterOpen, setFilterOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
   const filterRef = useRef<HTMLDivElement>(null);
+
+  const pageLabel = useEntityLabel("page");
+  const pageLabelPlural = useEntityLabel("page", { plural: true });
+  const statusOptions = useStatusOptions("page");
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -114,8 +120,8 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
       {/* Header — no Add button, pages are added from Website Setup > Add New Page */}
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader
-          title="Pages"
-          description="View all website pages. Add new pages from Website Setup → Add New Page."
+          title={pageLabelPlural}
+          description={`View all website ${pageLabelPlural.toLowerCase()}. Add new ${pageLabelPlural.toLowerCase()} from Website Setup → Add New Page.`}
         />
         <div className="relative" ref={filterRef}>
           <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
@@ -125,10 +131,10 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
           {filterOpen && (
             <div className="absolute max-md:left-0 max-md:right-auto md:right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
               <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
-              {["all", "Published", "Draft"].map((s) => (
-                <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
-                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
-                  {s === "all" ? "All Statuses" : s}
+              {[{ value: "all", label: "All Statuses" }, ...statusOptions.map((s) => ({ value: s.statusValue, label: s.label }))].map((s) => (
+                <button key={s.value} type="button" onClick={() => { setStatusFilter(s.value); setFilterOpen(false); }}
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s.value ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                  {s.label}
                 </button>
               ))}
             </div>
@@ -138,14 +144,14 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-        <StatCard icon={FileText} label="Total Pages" value={data.total} />
+        <StatCard icon={FileText} label={`Total ${pageLabelPlural}`} value={data.total} />
         <StatCard icon={FileText} label="Published" value={data.published} />
         <StatCard icon={FileText} label="Drafts" value={data.drafts} />
       </div>
 
       {/* Search + View Toggle */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-bold text-black">Pages List</h2>
+        <h2 className="text-lg font-bold text-black">{pageLabelPlural} List</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
           <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
@@ -196,8 +202,8 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
             <Folder className="h-10 w-10 text-zinc-300" />
             <p className="text-sm text-zinc-500">
               {search
-                ? "No pages match your search"
-                : "No pages yet. Go to Website Setup → Add New Page to create one."}
+                ? `No ${pageLabelPlural.toLowerCase()} match your search`
+                : `No ${pageLabelPlural.toLowerCase()} yet. Go to Website Setup → Add New Page to create one.`}
             </p>
           </div>
         </Card>
@@ -234,13 +240,7 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
                     <td className="p-4 text-sm text-gray-600">/{p.slug}</td>
                     <td className="p-4 text-sm text-gray-600">{formatDate(p.createdAt)}</td>
                     <td className="p-4">
-                      <span className={`px-4 py-1.5 rounded-full text-xs font-medium ${
-                        p.status === "Published"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-700"
-                      }`}>
-                        {p.status}
-                      </span>
+                      <StatusBadge moduleKey="page" value={p.status} />
                     </td>
                     <td className="p-4">
                       <RowActions onView={() => setViewItem(p)} onEdit={() => setEditingPage(p)} onDelete={() => setDeleteId(p.id)} />
@@ -264,11 +264,7 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
                     <p className="text-xs text-gray-600 mb-1 truncate">/{p.slug}</p>
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-gray-400">{formatDate(p.createdAt)}</span>
-                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                        p.status === "Published" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
-                      }`}>
-                        {p.status}
-                      </span>
+                      <StatusBadge moduleKey="page" value={p.status} />
                     </div>
                   </div>
                 </div>
@@ -296,11 +292,9 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
 
               <div className="mb-3 flex items-start justify-between gap-2">
                 <h3 className="text-sm font-bold text-gray-900 line-clamp-2">{p.title}</h3>
-                <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-medium ${
-                  p.status === "Published" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
-                }`}>
-                  {p.status}
-                </span>
+                <div className="shrink-0">
+                  <StatusBadge moduleKey="page" value={p.status} />
+                </div>
               </div>
 
               <div className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
@@ -327,8 +321,8 @@ export function PagesClient({ initialData }: { initialData: PagesData }) {
       {/* Delete Confirmation */}
       <DeleteConfirmModal
         isOpen={!!deleteId}
-        title="Delete Page"
-        description="Are you sure you want to delete this page? This action cannot be undone."
+        title={`Delete ${pageLabel}`}
+        description={`Are you sure you want to delete this ${pageLabel.toLowerCase()}? This action cannot be undone.`}
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
       />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Cookie, X } from "lucide-react";
 
 type CookieBannerProps = {
@@ -19,18 +19,16 @@ function hashContent(str: string) {
 }
 
 export function CookieBanner({ showCookiesAgreement, cookiesAgreementText }: CookieBannerProps) {
-  const [visible, setVisible] = useState(false);
-
   const consentKey = `cookies-accepted:${hashContent(cookiesAgreementText || "")}`;
 
-  useEffect(() => {
-    // Only show if settings say to show AND user hasn't already responded to THIS text
-    if (!showCookiesAgreement) return;
-    const responded = localStorage.getItem(consentKey);
-    if (!responded) {
-      setVisible(true);
-    }
-  }, [showCookiesAgreement, consentKey]);
+  // Only show if settings say to show AND user hasn't already responded to THIS text.
+  // Read synchronously at mount (client-only component) so no effect is needed.
+  const [visible, setVisible] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      showCookiesAgreement &&
+      !localStorage.getItem(consentKey)
+  );
 
   function handleAccept() {
     localStorage.setItem(consentKey, "true");

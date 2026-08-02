@@ -60,10 +60,11 @@ export default function ApplyPage() {
   const [confirmed, setConfirmed] = useState(false);
 
   useEffect(() => {
-    if (!jobId) { setJob(null); return; }
+    if (!jobId) return;
     getJobById(jobId).then(setJob);
   }, [jobId]);
 
+  if (!jobId) return <NotFound />;
   if (job === undefined) return <Skeleton />;
   if (job === null) return <NotFound />;
 

@@ -11,7 +11,6 @@ import {
   User,
   Edit3,
   ExternalLink,
-  PlayCircle,
   Shield,
   Zap,
   Server,

@@ -13,6 +13,8 @@ import { InvoiceModal } from "@/components/InvoiceModal";
 import { InvoicePrintModal } from "@/components/InvoicePrintModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { ViewDetailModal } from "@/components/ViewDetailModal";
+import { StatusBadge } from "@/components/StatusBadge";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { getInvoices, deleteInvoice } from "@/app/actions/invoices";
 
 type SelectOption = { id: string; label: string };
@@ -46,19 +48,6 @@ type InvoicesData = {
 };
 
 const PAGE_SIZE = 10;
-
-function StatusBadge({ status }: { status: string }) {
-  const styles: Record<string, string> = {
-    Paid: "bg-green-100 text-green-700",
-    Pending: "bg-yellow-100 text-yellow-700",
-    Overdue: "bg-red-100 text-red-700",
-  };
-  return (
-    <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${styles[status] || "bg-gray-100 text-gray-700"}`}>
-      {status}
-    </span>
-  );
-}
 
 function formatDate(date: Date | null) {
   if (!date) return "—";
@@ -114,6 +103,11 @@ export function InvoicesClient({
   const [statusFilter, setStatusFilter] = useState("all");
   const filterRef = useRef<HTMLDivElement>(null);
 
+  const invoiceLabel = useEntityLabel("invoice");
+  const invoiceLabelPlural = useEntityLabel("invoice", { plural: true });
+  const customerLabel = useEntityLabel("customer");
+  const invoiceStatusOptions = useStatusOptions("invoice");
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
@@ -159,7 +153,7 @@ export function InvoicesClient({
 
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-        <PageHeader title="Invoices" description="Manage and track all your invoices." />
+        <PageHeader title={invoiceLabelPlural} description={`Manage and track all your ${invoiceLabelPlural.toLowerCase()}.`} />
         <div className="flex items-center gap-3">
           <div className="relative" ref={filterRef}>
             <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
@@ -169,17 +163,17 @@ export function InvoicesClient({
             {filterOpen && (
               <div className="absolute max-md:left-0 max-md:right-auto md:right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
                 <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
-                {["all", "Paid", "Pending", "Overdue"].map((s) => (
+                {["all", ...invoiceStatusOptions.map((o) => o.statusValue)].map((s) => (
                   <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
                     className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
-                    {s === "all" ? "All Statuses" : s}
+                    {s === "all" ? "All Statuses" : (invoiceStatusOptions.find((o) => o.statusValue === s)?.label ?? s)}
                   </button>
                 ))}
               </div>
             )}
           </div>
           <Button onClick={handleAdd}>
-            Add Invoice
+            Add {invoiceLabel}
             <Plus className="h-4 w-4" />
           </Button>
         </div>
@@ -187,7 +181,7 @@ export function InvoicesClient({
 
       {/* Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-4">
-        <StatCard icon={Wallet} label="Total Invoices" value={data.total} />
+        <StatCard icon={Wallet} label={`Total ${invoiceLabelPlural}`} value={data.total} />
         <StatCard icon={Wallet} label="Paid" value={data.paid} />
         <StatCard icon={Wallet} label="Pending" value={data.pending} />
         <StatCard icon={Wallet} label="Overdue" value={data.overdue} />
@@ -195,7 +189,7 @@ export function InvoicesClient({
 
       {/* Search + View Toggle */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-bold text-black">Invoice List</h2>
+        <h2 className="text-lg font-bold text-black">{invoiceLabel} List</h2>
         <div className="flex items-center gap-3">
           {/* View toggle */}
           <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
@@ -224,7 +218,7 @@ export function InvoicesClient({
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
             <input
               type="search"
-              placeholder="Search invoices..."
+              placeholder={`Search ${invoiceLabelPlural.toLowerCase()}...`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-10 pr-4 text-sm text-zinc-700 shadow-sm outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-sky-200"
@@ -240,7 +234,7 @@ export function InvoicesClient({
             <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
               <FileText className="h-10 w-10 text-zinc-300" />
               <p className="text-sm text-zinc-500">
-                {search ? "No invoices match your search" : "No invoices yet. Create your first invoice!"}
+                {search ? `No ${invoiceLabelPlural.toLowerCase()} match your search` : `No ${invoiceLabelPlural.toLowerCase()} yet. Create your first ${invoiceLabel.toLowerCase()}!`}
               </p>
             </div>
           ) : (
@@ -251,7 +245,7 @@ export function InvoicesClient({
                   <thead>
                     <tr className="border-b border-gray-100 text-zinc-500">
                       <th className="px-6 py-4 font-medium">Invoice #</th>
-                      <th className="px-6 py-4 font-medium">Customer</th>
+                      <th className="px-6 py-4 font-medium">{customerLabel}</th>
                       <th className="px-6 py-4 font-medium">Category</th>
                       <th className="px-6 py-4 font-medium">Projects</th>
                       <th className="px-6 py-4 font-medium">Amount</th>
@@ -269,7 +263,7 @@ export function InvoicesClient({
                           {inv.projects?.length ? inv.projects.map((p) => p.project.title).join(", ") : "—"}
                         </td>
                         <td className="px-6 py-4 text-zinc-700 font-medium">Rs. {inv.total.toLocaleString()}</td>
-                        <td className="px-6 py-4"><StatusBadge status={inv.status} /></td>
+                        <td className="px-6 py-4"><StatusBadge moduleKey="invoice" value={inv.status} /></td>
                         <td className="px-6 py-4">
                           <RowActions onView={() => setViewItem(inv)} onEdit={() => handleEdit(inv)} onPrint={() => setPrintInvoice(inv)} onDelete={() => handleDelete(inv.id)} />
                         </td>
@@ -288,7 +282,7 @@ export function InvoicesClient({
                         <p className="text-xs text-gray-600">{inv.customer?.fullName || "No customer"}</p>
                         {inv.category && <p className="text-xs text-gray-400 mt-0.5">{inv.category}</p>}
                       </div>
-                      <StatusBadge status={inv.status} />
+                      <StatusBadge moduleKey="invoice" value={inv.status} />
                     </div>
                     <div className="text-xs text-gray-500 mb-2">
                       {inv.projects?.length ? inv.projects.map((p) => p.project.title).join(", ") : "No projects"}
@@ -318,7 +312,7 @@ export function InvoicesClient({
               <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
                 <FileText className="h-10 w-10 text-zinc-300" />
                 <p className="text-sm text-zinc-500">
-                  {search ? "No invoices match your search" : "No invoices yet. Create your first invoice!"}
+                  {search ? `No ${invoiceLabelPlural.toLowerCase()} match your search` : `No ${invoiceLabelPlural.toLowerCase()} yet. Create your first ${invoiceLabel.toLowerCase()}!`}
                 </p>
               </div>
             </Card>
@@ -331,7 +325,7 @@ export function InvoicesClient({
                       <p className="font-semibold text-base text-gray-900">{inv.invoiceNumber}</p>
                       <p className="text-sm text-gray-500">{inv.customer?.fullName || "No customer"}</p>
                     </div>
-                    <StatusBadge status={inv.status} />
+                    <StatusBadge moduleKey="invoice" value={inv.status} />
                   </div>
                   <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
                     <div className="col-span-2">
@@ -389,8 +383,8 @@ export function InvoicesClient({
       {/* Delete Confirmation */}
       <DeleteConfirmModal
         isOpen={!!deleteId}
-        title="Delete Invoice"
-        description="Are you sure you want to delete this invoice? This action cannot be undone."
+        title={`Delete ${invoiceLabel}`}
+        description={`Are you sure you want to delete this ${invoiceLabel.toLowerCase()}? This action cannot be undone.`}
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
       />
@@ -413,7 +407,7 @@ export function InvoicesClient({
         title={viewItem?.invoiceNumber || ""}
         fields={[
           { label: "Invoice #", value: viewItem?.invoiceNumber },
-          { label: "Customer", value: viewItem?.customer?.fullName },
+          { label: customerLabel, value: viewItem?.customer?.fullName },
           { label: "Category", value: viewItem?.category },
           { label: "Projects", value: viewItem?.projects?.length ? viewItem.projects.map((p) => p.project.title).join(", ") : "—" },
           { label: "Amount", value: viewItem?.amount },

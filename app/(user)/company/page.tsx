@@ -40,6 +40,7 @@ const cultureItems = [
 /* ─── Logo mark ──────────────────────────────────────────── */
 function GeniusMark() {
   return (
+    // eslint-disable-next-line @next/next/no-img-element
     <img src="/logo.png" alt="Going Genius Logo" className="h-100 w-100 rounded-full object-cover"/>
   );
 }
@@ -47,30 +48,6 @@ function GeniusMark() {
 /* ─── Section heading ────────────────────────────────────── */
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">{children}</p>;
-}
-
-function SectionHeader({
-  eyebrow,
-  title,
-  action,
-}: {
-  eyebrow: string;
-  title: string;
-  action?: string;
-}) {
-  return (
-    <div className="mb-8 flex items-end justify-between">
-      <div>
-        <Eyebrow>{eyebrow}</Eyebrow>
-        <h2 className="mt-1 text-2xl font-bold text-gray-900 sm:text-3xl">{title}</h2>
-      </div>
-      {action && (
-        <a href="#" className="hidden shrink-0 items-center gap-1 text-sm font-semibold text-indigo-600 hover:text-indigo-700 sm:flex">
-          {action} <ArrowRight className="h-3.5 w-3.5" />
-        </a>
-      )}
-    </div>
-  );
 }
 
 /* ─── Page ───────────────────────────────────────────────── */
@@ -177,7 +154,7 @@ export default function CompanyPage() {
             <div>
               <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">Join Our Team</h2>
               <p className="mt-4 max-w-md text-sm leading-relaxed text-gray-500">
-                We're always looking for talented and motivated individuals to pursue an
+                We&apos;re always looking for talented and motivated individuals to pursue an
                 extraordinary journey. Be a part of a team that values creativity, growth and
                 respect.
               </p>
@@ -248,11 +225,11 @@ export default function CompanyPage() {
                 <h2 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
                   Have Questions?
                   <br />
-                  Let's Work Together.
+                  Let&apos;s Work Together.
                 </h2>
               </div>
               <p className="mt-4 max-w-sm text-sm leading-relaxed text-gray-400">
-                We'd love to hear about your project and explore how we can help you achieve your
+                We&apos;d love to hear about your project and explore how we can help you achieve your
                 goals.
               </p>
             </div>

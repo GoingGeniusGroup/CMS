@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
+import { saveCustomFieldValues } from "./custom-fields";
 
 export type FaqData = {
   id: string;
@@ -22,20 +23,27 @@ export async function getFaqs(): Promise<FaqData[]> {
   return prisma.faq.findMany({ orderBy: { order: "asc" } });
 }
 
-export async function createFaq(data: { question: string; answer?: string; category?: string }) {
+export async function createFaq(
+  data: { question: string; answer?: string; category?: string; status?: string },
+  customFieldValues?: Record<string, string | number | boolean | null | undefined>
+) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
   try {
     const maxOrder = await prisma.faq.aggregate({ _max: { order: true } });
-    await prisma.faq.create({
+    const created = await prisma.faq.create({
       data: {
         question: data.question,
         answer: data.answer ?? "",
         category: data.category ?? "",
         order: (maxOrder._max.order ?? -1) + 1,
+        status: data.status ?? "Active",
       },
     });
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("faq", created.id, customFieldValues);
+    }
     revalidatePath("/website-setup/faq");
     return { success: true };
   } catch (error) {
@@ -44,12 +52,19 @@ export async function createFaq(data: { question: string; answer?: string; categ
   }
 }
 
-export async function updateFaq(id: string, data: { question?: string; answer?: string; category?: string }) {
+export async function updateFaq(
+  id: string,
+  data: { question?: string; answer?: string; category?: string; status?: string },
+  customFieldValues?: Record<string, string | number | boolean | null | undefined>
+) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
   try {
     await prisma.faq.update({ where: { id }, data });
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("faq", id, customFieldValues);
+    }
     revalidatePath("/website-setup/faq");
     return { success: true };
   } catch (error) {

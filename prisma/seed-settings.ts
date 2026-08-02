@@ -2,15 +2,18 @@ import { PrismaClient } from "../lib/generated/prisma";
 
 const prisma = new PrismaClient();
 
-async function upsertFirst<T extends { findFirst: (...a: any[]) => any; create: (...a: any[]) => any; update: (...a: any[]) => any }>(
-  model: T,
-  data: Record<string, unknown>
-) {
+async function upsertFirst<
+  T extends {
+    findFirst: (...args: never[]) => Promise<{ id: string } | null>;
+    update: (...args: never[]) => Promise<unknown>;
+    create: (...args: never[]) => Promise<unknown>;
+  }
+>(model: T, data: Record<string, unknown>) {
   const existing = await model.findFirst();
   if (existing) {
-    await model.update({ where: { id: existing.id }, data });
+    await model.update({ where: { id: existing.id }, data } as never);
   } else {
-    await model.create({ data });
+    await model.create({ data } as never);
   }
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Briefcase, MapPin, Clock, DollarSign, Calendar, Sparkles, Flame, CheckCircle2, Users, ExternalLink } from "lucide-react";
+import { X, Briefcase, MapPin, Clock, DollarSign, Calendar, Sparkles, CheckCircle2, Users, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import type { JobVacancyRow } from "./EditVacancyModal";
 

@@ -10,7 +10,7 @@ export function LandingPartnersSection({ initialPartners }: { initialPartners?: 
     if (!initialPartners) {
       getPublicPartners().then((data) => setPartners(data));
     }
-  }, []);
+  }, [initialPartners]);
 
   if (partners.length === 0) return null;
 
@@ -29,6 +29,7 @@ export function LandingPartnersSection({ initialPartners }: { initialPartners?: 
           <div className="flex w-max partners-scroll">
             <div className="flex gap-16 sm:gap-24 pr-16 sm:pr-24">
               {displayPartners.map((url, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   key={i}
                   src={url}
@@ -39,6 +40,7 @@ export function LandingPartnersSection({ initialPartners }: { initialPartners?: 
             </div>
             <div className="flex gap-16 sm:gap-24 pr-16 sm:pr-24" aria-hidden="true">
               {displayPartners.map((url, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   key={i}
                   src={url}

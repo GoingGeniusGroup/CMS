@@ -29,7 +29,7 @@ export function LandingBlogSection({ initialBlogs }: { initialBlogs?: BlogData[]
         setBlogs(JSON.parse(JSON.stringify(data)))
       );
     }
-  }, []);
+  }, [initialBlogs]);
 
   const toggleFlip = (id: string) => {
     setFlippedIds((prev) => {

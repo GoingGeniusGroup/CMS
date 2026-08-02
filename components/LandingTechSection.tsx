@@ -10,7 +10,7 @@ export function LandingTechSection({ initialTechnologies }: { initialTechnologie
     if (!initialTechnologies) {
       getPublicTechnologies().then((data) => setTechnologies(data));
     }
-  }, []);
+  }, [initialTechnologies]);
 
   if (technologies.length === 0) return null;
 
@@ -27,6 +27,7 @@ export function LandingTechSection({ initialTechnologies }: { initialTechnologie
           <div className="flex w-max tech-scroll">
             <div className="flex gap-x-20 sm:gap-x-28 pr-20 sm:pr-28">
               {displayTechs.map((url, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   key={i}
                   src={url}
@@ -37,6 +38,7 @@ export function LandingTechSection({ initialTechnologies }: { initialTechnologie
             </div>
             <div className="flex gap-x-20 sm:gap-x-28 pr-20 sm:pr-28" aria-hidden="true">
               {displayTechs.map((url, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   key={i}
                   src={url}

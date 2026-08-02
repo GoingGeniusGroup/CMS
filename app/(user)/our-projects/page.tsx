@@ -12,7 +12,7 @@ import { ProjectsGrid } from "@/components/ProjectsGrid";
 
 // ─── Hero Section ────────────────────────────────────────────────────────────
 
-function HeroSection({ totalProjects }: { totalProjects: number }) {
+function HeroSection() {
   return (
     <section className="bg-[#f6f4f3] px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -160,7 +160,7 @@ export default async function OurProjectsPage() {
 
   return (
     <>
-      <HeroSection totalProjects={projects.length} />
+      <HeroSection />
       <StatsSection totalProjects={projects.length} />
       <ProjectsGrid projects={JSON.parse(JSON.stringify(projects))} />
       <CTASection />

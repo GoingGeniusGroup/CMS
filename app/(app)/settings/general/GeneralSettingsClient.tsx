@@ -3,10 +3,10 @@
 import { useState, useTransition } from "react";
 import { Lock, Sparkles } from "lucide-react";
 import { Card } from "@/components/Card";
-import { Button } from "@/components/Button";
 import { ImageUploader } from "@/components/ImageUploader";
 import { saveGeneralSettings } from "@/app/actions/general-settings";
 import { getReadableTextColor } from "@/lib/color-contrast";
+import { INDUSTRY_PROFILE_NAMES } from "@/lib/config/industry-profiles";
 
 type GeneralSettingData = {
   id: string | null;
@@ -18,6 +18,7 @@ type GeneralSettingData = {
   themeColor: string;
   themeTextColor: string;
   baseColorEnabled: boolean;
+  industryProfile: string;
 };
 
 function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
@@ -44,6 +45,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
   const [description, setDescription] = useState(initialData.description || "");
   const [metaKeywords, setMetaKeywords] = useState(initialData.metaKeywords || "");
   const [baseColorEnabled, setBaseColorEnabled] = useState(initialData.baseColorEnabled);
+  const [industryProfile, setIndustryProfile] = useState(initialData.industryProfile || "Generic");
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -63,6 +65,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
     description: initialData.description || "",
     metaKeywords: initialData.metaKeywords || "",
     baseColorEnabled: initialData.baseColorEnabled,
+    industryProfile: initialData.industryProfile || "Generic",
   });
 
   const hasChanges =
@@ -73,7 +76,8 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
     themeTextColor !== baseline.themeTextColor ||
     description !== baseline.description ||
     metaKeywords !== baseline.metaKeywords ||
-    baseColorEnabled !== baseline.baseColorEnabled;
+    baseColorEnabled !== baseline.baseColorEnabled ||
+    industryProfile !== baseline.industryProfile;
 
   function set(field: keyof GeneralSettingData, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -100,6 +104,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
     setDescription(baseline.description);
     setMetaKeywords(baseline.metaKeywords);
     setBaseColorEnabled(baseline.baseColorEnabled);
+    setIndustryProfile(baseline.industryProfile);
     setMessage(null);
   }
 
@@ -115,6 +120,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
         themeColor,
         themeTextColor,
         baseColorEnabled,
+        industryProfile,
       });
       if (res.success) {
         setBaseline({
@@ -126,6 +132,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
           description,
           metaKeywords,
           baseColorEnabled,
+          industryProfile,
         });
       }
       setMessage(
@@ -327,6 +334,36 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
         <span className="text-sm font-semibold text-black">Website Base Color</span>
         <Toggle on={baseColorEnabled} onToggle={() => setBaseColorEnabled((v) => !v)} />
         <span className="text-sm font-semibold text-black">Enable</span>
+      </div>
+
+      {/* Industry profile */}
+      <div className="mt-6 border-t border-zinc-100 pt-6">
+        <label className="mb-2 block text-sm font-semibold text-black">
+          Industry Profile
+        </label>
+        <p className="mb-3 text-xs text-zinc-500">
+          Pre-loads entity labels and suggested custom fields for your industry.
+          &quot;Custom&quot; means no preset is applied. Existing labels and fields you
+          have customized manually are never overwritten.
+        </p>
+        <div className="relative">
+          <select
+            value={industryProfile}
+            onChange={(e) => setIndustryProfile(e.target.value)}
+            className="h-11 w-full appearance-none rounded-lg border border-zinc-200 bg-white px-4 pr-10 text-sm text-black shadow-sm outline-none focus:ring-2 focus:ring-sky-200"
+          >
+            {INDUSTRY_PROFILE_NAMES.map((name) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </span>
+        </div>
       </div>
     </Card>
     </>

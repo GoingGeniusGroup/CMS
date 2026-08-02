@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Calendar, Clock, Mail, Search, BookOpen } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, Clock, Mail, Search } from "lucide-react";
 import { getPublicBlogBySlug, getPublicBlogs } from "@/app/actions/blogs";
 import { TiptapRenderer } from "@/components/TiptapRenderer";
 import type { JSONContent } from "@tiptap/react";

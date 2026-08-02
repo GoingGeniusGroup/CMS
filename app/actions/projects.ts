@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
+import { saveCustomFieldValues } from "./custom-fields";
 
 const projectSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
@@ -14,7 +15,7 @@ const projectSchema = z.object({
   customerId: z.string().optional().or(z.literal("")),
   teamId: z.string().optional().or(z.literal("")),
   serviceId: z.string().optional().or(z.literal("")),
-  status: z.enum(["Published", "Draft"]),
+  status: z.string().min(1, "Status is required"),
   startDate: z.string().optional().or(z.literal("")),
   endDate: z.string().optional().or(z.literal("")),
   budget: z.number().optional(),
@@ -29,6 +30,7 @@ const projectSchema = z.object({
 });
 
 export type ProjectInput = z.infer<typeof projectSchema>;
+export type CustomValuesMap = Record<string, string | number | boolean | null | undefined>;
 
 export async function getProjects(page = 1, pageSize = 10) {
   const session = await auth();
@@ -77,7 +79,7 @@ export async function getPublicProjects() {
   });
 }
 
-export async function createProject(data: ProjectInput) {
+export async function createProject(data: ProjectInput, customFieldValues?: CustomValuesMap) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
@@ -88,7 +90,7 @@ export async function createProject(data: ProjectInput) {
 
   try {
     const { startDate, endDate, thumbnail, features, results: projectResults, ...rest } = result.data;
-    await prisma.project.create({
+    const created = await prisma.project.create({
       data: {
         ...rest,
         slug: rest.slug || null,
@@ -110,6 +112,11 @@ export async function createProject(data: ProjectInput) {
         results: projectResults ?? undefined,
       },
     });
+
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("project", created.id, customFieldValues);
+    }
+
     return { success: true };
   } catch (error) {
     console.error("Create project error:", error);
@@ -117,7 +124,7 @@ export async function createProject(data: ProjectInput) {
   }
 }
 
-export async function updateProject(id: string, data: ProjectInput) {
+export async function updateProject(id: string, data: ProjectInput, customFieldValues?: CustomValuesMap) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
@@ -151,6 +158,11 @@ export async function updateProject(id: string, data: ProjectInput) {
         results: projectResults ?? undefined,
       },
     });
+
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("project", id, customFieldValues);
+    }
+
     return { success: true };
   } catch (error) {
     console.error("Update project error:", error);

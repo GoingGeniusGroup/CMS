@@ -86,15 +86,11 @@ export async function getDashboardStats(startDate?: string, endDate?: string): P
 
   // Build monthly revenue data
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const startMonth = start.getMonth();
-  const endMonth = end.getMonth();
-  const startYear = start.getFullYear();
-  const endYear = end.getFullYear();
 
   const monthlyMap: Record<string, { total: number; paid: number; pending: number; overdue: number }> = {};
 
   // Initialize all months in range
-  let d = new Date(start);
+  const d = new Date(start);
   while (d <= end) {
     const key = `${months[d.getMonth()]} ${d.getFullYear()}`;
     monthlyMap[key] = { total: 0, paid: 0, pending: 0, overdue: 0 };

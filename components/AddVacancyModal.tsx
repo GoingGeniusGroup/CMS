@@ -5,6 +5,8 @@ import { X, Loader2 } from "lucide-react";
 import { Button } from "@/components/Button";
 import { FileUploaderRegular } from "@uploadcare/react-uploader/next";
 import "@uploadcare/react-uploader/core.css";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useStatusOptions } from "@/components/ConfigProvider";
 
 export type VacancyFormData = {
   title: string;
@@ -28,10 +30,14 @@ export type VacancyFormData = {
 interface AddVacancyModalProps {
   open: boolean;
   onClose: () => void;
-  onSuccess: (data: VacancyFormData) => void;
+  onSuccess: (data: VacancyFormData, customValues?: CustomValues) => void;
 }
 
 export function AddVacancyModal({ open, onClose, onSuccess }: AddVacancyModalProps) {
+  const statusOptions = useStatusOptions("job");
+  const statusDefault = statusOptions.find((s) => s.isDefault)?.statusValue ?? statusOptions[0]?.statusValue ?? "Active";
+  const [statusValue, setStatusValue] = useState("");
+  const [customValues, setCustomValues] = useState<CustomValues>({});
   const [form, setForm] = useState<VacancyFormData>({
     title: "",
     department: "Developer",
@@ -81,7 +87,7 @@ export function AddVacancyModal({ open, onClose, onSuccess }: AddVacancyModalPro
 
     setIsLoading(true);
     setTimeout(() => {
-      onSuccess({ ...form, thumbnailUrl: thumbnailUrl || undefined });
+      onSuccess({ ...form, isActive: (statusValue || statusDefault) !== "Inactive", thumbnailUrl: thumbnailUrl || undefined }, customValues);
       setIsLoading(false);
       // Reset form
       setForm({
@@ -101,6 +107,8 @@ export function AddVacancyModal({ open, onClose, onSuccess }: AddVacancyModalPro
         responsibilities: "",
         requirements: "",
       });
+      setStatusValue("");
+      setCustomValues({});
       setFileName(null);
       setThumbnailUrl(null);
       onClose();
@@ -306,18 +314,21 @@ export function AddVacancyModal({ open, onClose, onSuccess }: AddVacancyModalPro
                 />
               </div>
 
-              {/* Status Checkbox & Featured */}
-              <div className="flex flex-wrap items-center gap-6 pt-2">
-                <label className="flex items-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="isActive"
-                    checked={form.isActive}
-                    onChange={handleChange}
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                  />
-                  Active Status
-                </label>
+              {/* Status & Featured */}
+              <div className="flex flex-wrap items-end gap-6 pt-2">
+                <div className="flex-1 min-w-40">
+                  <label className="mb-1.5 block text-sm font-medium text-zinc-700">Status</label>
+                  <select
+                    name="status"
+                    value={statusValue || statusDefault}
+                    onChange={(e) => setStatusValue(e.target.value)}
+                    className="w-full rounded-xl border border-black/15 bg-white px-4 py-2.5 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-indigo-200"
+                  >
+                    {statusOptions.map((s) => (
+                      <option key={s.statusValue} value={s.statusValue}>{s.label}</option>
+                    ))}
+                  </select>
+                </div>
 
                 <label className="flex items-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer">
                   <input
@@ -371,6 +382,12 @@ export function AddVacancyModal({ open, onClose, onSuccess }: AddVacancyModalPro
                   </p>
                 )}
               </div>
+
+              {/* Custom Fields */}
+              <CustomFieldRenderer
+                moduleKey="job"
+                onValuesChange={setCustomValues}
+              />
             </div>
           </div>
 

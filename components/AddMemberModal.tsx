@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { AddDesignationModal } from "@/components/AddDesignationModal";
 import { AddDepartmentModal } from "@/components/AddDepartmentModal";
 import { ImageUploader } from "@/components/ImageUploader";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useStatusOptions } from "@/components/ConfigProvider";
 import { getDepartments, createDepartment } from "@/app/actions/team";
 
 export interface MemberFormData {
@@ -12,7 +14,7 @@ export interface MemberFormData {
   department: string;
   phone: string;
   email: string;
-  status: "Active" | "Inactive";
+  status: string;
   gender: "male" | "female";
   image: string | null;
   description: string;
@@ -116,10 +118,12 @@ export function AddMemberModal({
 }: {
   open: boolean;
   onClose: () => void;
-  onSubmit?: (data: MemberFormData) => void;
+  onSubmit?: (data: MemberFormData, customValues?: CustomValues) => void;
   editMember?: MemberRecord | null;
 }) {
   const isEditMode = Boolean(editMember);
+  const statusOptions = useStatusOptions("team");
+  const statusDefault = statusOptions.find((s) => s.isDefault)?.statusValue ?? statusOptions[0]?.statusValue ?? "Active";
 
   // State is initialised once per mount (controlled via `key` from parent).
   const [showAddDesignation, setShowAddDesignation] = useState(false);
@@ -178,8 +182,10 @@ export function AddMemberModal({
       setErrors(validationErrors);
       return;
     }
-    onSubmit?.(form);
+    onSubmit?.(form, customValues);
   };
+
+  const [customValues, setCustomValues] = useState<CustomValues>({});
 
   if (!open) return null;
 
@@ -307,14 +313,15 @@ export function AddMemberModal({
                     </label>
                     <select
                       name="status"
-                      value={form.status}
+                      value={form.status || statusDefault}
                       onChange={handleField}
                       className={`w-full rounded-lg border px-3 py-2 text-sm text-zinc-500 outline-none focus:border-indigo-400 ${
                         errors.status ? "border-red-400" : "border-black/15"
                       }`}
                     >
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
+                      {statusOptions.map((s) => (
+                        <option key={s.statusValue} value={s.statusValue}>{s.label}</option>
+                      ))}
                     </select>
                     {errors.status && (
                       <p className="mt-0.5 text-xs text-red-500">
@@ -465,6 +472,13 @@ export function AddMemberModal({
                 <p className="mt-0.5 text-xs text-red-500">{errors.email}</p>
               )}
             </div>
+
+            {/* Custom Fields */}
+            <CustomFieldRenderer
+              moduleKey="team"
+              recordId={editMember?.id}
+              onValuesChange={setCustomValues}
+            />
           </div>
 
           {/* Actions - always visible */}

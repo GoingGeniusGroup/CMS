@@ -294,7 +294,7 @@ function CtaBanner() {
                 Ready to build your dream website?
               </h2>
               <p className="mt-1.5 max-w-md text-sm text-gray-500">
-                Let's discuss your project and bring your ideas to life with our expert team.
+                Let&apos;s discuss your project and bring your ideas to life with our expert team.
               </p>
             </div>
           </div>

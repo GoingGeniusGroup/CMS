@@ -15,7 +15,7 @@ export function FaqSection({ initialFaqs }: { initialFaqs?: FaqItem[] }) {
     if (!initialFaqs) {
       getPublicFaqs().then(setFaqs);
     }
-  }, []);
+  }, [initialFaqs]);
 
   if (faqs.length === 0) return null;
 

@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@/lib/generated/prisma";
 import { z } from "zod";
+import { saveCustomFieldValues } from "@/app/actions/custom-fields";
 
 // ─── Validation Schemas ────────────────────────────────────────────────────
 
@@ -14,7 +15,7 @@ const customerSchema = z.object({
   address: z.string().optional().or(z.literal("")),
   servicesId: z.string().optional().or(z.literal("")),
   companyName: z.string().optional().or(z.literal("")),
-  status: z.enum(["Active", "Inactive"]).default("Active"),
+  status: z.string().min(1, "Status is required"),
   image: z.string().default("https://api.dicebear.com/7.x/avataaars/svg?seed=default"),
 });
 
@@ -126,7 +127,7 @@ export async function getCustomerById(id: string) {
 
 // ─── Create ────────────────────────────────────────────────────────────────
 
-export async function createCustomer(data: CustomerInput) {
+export async function createCustomer(data: CustomerInput, customFieldValues?: Record<string, string | number | boolean | null | undefined>) {
   try {
     const validated = customerSchema.parse(data);
 
@@ -152,6 +153,10 @@ export async function createCustomer(data: CustomerInput) {
       },
     });
 
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("customer", customer.id, customFieldValues);
+    }
+
     revalidatePath("/customer");
     return { success: true, customer };
   } catch (error) {
@@ -172,7 +177,7 @@ export async function createCustomer(data: CustomerInput) {
 
 // ─── Update ────────────────────────────────────────────────────────────────
 
-export async function updateCustomer(id: string, data: Partial<CustomerInput>) {
+export async function updateCustomer(id: string, data: Partial<CustomerInput>, customFieldValues?: Record<string, string | number | boolean | null | undefined>) {
   try {
     const existing = await prisma.customer.findUnique({ where: { id } });
     if (!existing) return { success: false, error: "Customer not found" };
@@ -202,6 +207,10 @@ export async function updateCustomer(id: string, data: Partial<CustomerInput>) {
         ...(data.image !== undefined && { image: data.image }),
       },
     });
+
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("customer", id, customFieldValues);
+    }
 
     revalidatePath("/customer");
     return { success: true, customer };

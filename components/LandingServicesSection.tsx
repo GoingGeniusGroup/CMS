@@ -25,7 +25,7 @@ export function LandingServicesSection({ initialServices }: { initialServices?: 
     if (!initialServices) {
       getPublicServices().then((data) => setServices(data));
     }
-  }, []);
+  }, [initialServices]);
 
   const toggleFlip = (id: string) => {
     setFlippedIds((prev) => {

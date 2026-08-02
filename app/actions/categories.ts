@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
+import { saveCustomFieldValues } from "./custom-fields";
 
 const categorySchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -12,7 +13,7 @@ const categorySchema = z.object({
   banner: z.string().optional(),
   icon: z.string().optional(),
   link: z.string().optional(),
-  status: z.enum(["Active", "Draft", "Inactive"]).default("Active"),
+  status: z.string().min(1, "Status is required"),
 });
 
 export type CategoryInput = z.infer<typeof categorySchema>;
@@ -43,7 +44,7 @@ export async function getCategories(page = 1, pageSize = 10) {
   };
 }
 
-export async function createCategory(data: CategoryInput) {
+export async function createCategory(data: CategoryInput, customFieldValues?: Record<string, string | number | boolean | null | undefined>) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
@@ -54,7 +55,7 @@ export async function createCategory(data: CategoryInput) {
 
   try {
     const { parent, banner, icon, link, ...rest } = result.data;
-    await prisma.category.create({
+    const created = await prisma.category.create({
       data: {
         ...rest,
         parent: parent || null,
@@ -63,6 +64,9 @@ export async function createCategory(data: CategoryInput) {
         link: link || null,
       },
     });
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("category", created.id, customFieldValues);
+    }
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -73,7 +77,7 @@ export async function createCategory(data: CategoryInput) {
   }
 }
 
-export async function updateCategory(id: string, data: CategoryInput) {
+export async function updateCategory(id: string, data: CategoryInput, customFieldValues?: Record<string, string | number | boolean | null | undefined>) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
@@ -94,6 +98,9 @@ export async function updateCategory(id: string, data: CategoryInput) {
         link: link || null,
       },
     });
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("category", id, customFieldValues);
+    }
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {

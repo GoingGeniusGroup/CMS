@@ -7,8 +7,6 @@ import { getPublicJobs, type JobRow } from "@/app/actions/jobs";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const DEPARTMENTS = ["All Departments", "Developer", "Design", "Marketing", "Operations"];
-
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 function HeroSection() {

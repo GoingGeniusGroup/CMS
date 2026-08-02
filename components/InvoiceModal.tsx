@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/Button";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { createInvoice, updateInvoice, type InvoiceInput } from "@/app/actions/invoices";
 
 type SelectOption = { id: string; label: string };
@@ -37,6 +39,9 @@ export function InvoiceModal({
   projects?: SelectOption[];
 }) {
   const isEditing = !!invoice;
+  const invoiceLabel = useEntityLabel("invoice");
+  const invoiceStatusOptions = useStatusOptions("invoice");
+  const defaultStatus = invoiceStatusOptions.find((o) => o.isDefault)?.statusValue ?? "Pending";
 
   const [invoiceNumber, setInvoiceNumber] = useState(invoice?.invoiceNumber ?? "");
   const [customerId, setCustomerId] = useState(invoice?.customerId ?? "");
@@ -46,9 +51,7 @@ export function InvoiceModal({
   );
   const [amount, setAmount] = useState(invoice?.amount?.toString() ?? "");
   const [tax, setTax] = useState(invoice?.tax?.toString() ?? "0");
-  const [status, setStatus] = useState<"Paid" | "Pending" | "Overdue">(
-    (invoice?.status as "Paid" | "Pending" | "Overdue") ?? "Pending"
-  );
+  const [status, setStatus] = useState<string>(invoice?.status ?? defaultStatus);
   const [issuedDate, setIssuedDate] = useState(
     invoice?.issuedDate ? new Date(invoice.issuedDate).toISOString().split("T")[0] : ""
   );
@@ -57,6 +60,7 @@ export function InvoiceModal({
   );
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [customValues, setCustomValues] = useState<CustomValues>({});
 
   if (!open) return null;
 
@@ -87,8 +91,8 @@ export function InvoiceModal({
     };
 
     const result = isEditing
-      ? await updateInvoice(invoice!.id, data)
-      : await createInvoice(data);
+      ? await updateInvoice(invoice!.id, data, customValues)
+      : await createInvoice(data, customValues);
 
     setIsSubmitting(false);
 
@@ -124,7 +128,7 @@ export function InvoiceModal({
 
         <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
           <h2 className="text-xl font-bold text-gray-900">
-            {isEditing ? "Edit Invoice" : "Add Invoice"}
+            {isEditing ? `Edit ${invoiceLabel}` : `Add ${invoiceLabel}`}
           </h2>
         </div>
 
@@ -262,14 +266,20 @@ export function InvoiceModal({
                 </label>
                 <select
                   value={status}
-                  onChange={(e) => setStatus(e.target.value as "Paid" | "Pending" | "Overdue")}
+                  onChange={(e) => setStatus(e.target.value)}
                   className={inputCls}
                 >
-                  <option value="Pending">Pending</option>
-                  <option value="Paid">Paid</option>
-                  <option value="Overdue">Overdue</option>
+                  {invoiceStatusOptions.map((o) => (
+                    <option key={o.statusValue} value={o.statusValue}>{o.label}</option>
+                  ))}
                 </select>
               </div>
+
+              <CustomFieldRenderer
+                moduleKey="invoice"
+                recordId={invoice?.id}
+                onValuesChange={setCustomValues}
+              />
             </div>
           </div>
 
@@ -280,7 +290,7 @@ export function InvoiceModal({
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting
                 ? isEditing ? "Saving…" : "Creating…"
-                : isEditing ? "Save Changes" : "Add Invoice"}
+                : isEditing ? "Save Changes" : `Add ${invoiceLabel}`}
             </Button>
           </div>
         </form>

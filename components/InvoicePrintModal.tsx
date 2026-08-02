@@ -1,6 +1,7 @@
 "use client";
 
 import { Printer, X } from "lucide-react";
+import { useStatusBadge } from "@/components/ConfigProvider";
 
 type Invoice = {
   id: string;
@@ -34,6 +35,10 @@ export function InvoicePrintModal({
   companyEmail?: string;
   companyPhone?: string;
 }) {
+  const statusOption = useStatusBadge("invoice", invoice?.status ?? "");
+  const statusColor = statusOption?.color ?? "#6b7280";
+  const statusLabel = statusOption?.label ?? invoice?.status ?? "";
+
   if (!open || !invoice) return null;
 
   function formatDate(date: Date | null) {
@@ -44,12 +49,6 @@ export function InvoicePrintModal({
       year: "numeric",
     });
   }
-
-  const statusStyles: Record<string, string> = {
-    Paid: "bg-green-100 text-green-700 border-green-300",
-    Pending: "bg-yellow-100 text-yellow-700 border-yellow-300",
-    Overdue: "bg-red-100 text-red-700 border-red-300",
-  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 print:bg-white print:p-0">
@@ -110,8 +109,11 @@ export function InvoicePrintModal({
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-zinc-400">Status:</span>
-                <span className={`inline-block rounded-full border px-2.5 py-0.5 text-xs font-semibold ${statusStyles[invoice.status] || "bg-gray-100 text-gray-700 border-gray-300"}`}>
-                  {invoice.status}
+                <span
+                  className="inline-block rounded-full border px-2.5 py-0.5 text-xs font-semibold"
+                  style={{ backgroundColor: `${statusColor}1a`, color: statusColor, borderColor: `${statusColor}66` }}
+                >
+                  {statusLabel}
                 </span>
               </div>
             </div>

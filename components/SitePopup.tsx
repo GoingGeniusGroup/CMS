@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { X } from "lucide-react";
 import { TiptapRenderer } from "@/components/TiptapRenderer";
 import type { JSONContent } from "@tiptap/react";
@@ -22,7 +22,6 @@ function hashContent(str: string) {
 }
 
 export function SitePopup({ showPopup, content }: SitePopupProps) {
-  const [visible, setVisible] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0);
 
   const slides: Slide[] = Array.isArray((content as { slides?: Slide[] })?.slides) ? (content as { slides: Slide[] }).slides : [];
@@ -34,13 +33,14 @@ export function SitePopup({ showPopup, content }: SitePopupProps) {
   const hasEditorContent = editorContent && Object.keys(editorContent).length > 0;
   const hasSlides = slides.length > 0;
 
-  useEffect(() => {
-    if (!showPopup || (!hasEditorContent && !hasSlides)) return;
-    const dismissed = localStorage.getItem(dismissKey);
-    if (!dismissed) {
-      setVisible(true);
-    }
-  }, [showPopup, hasEditorContent, hasSlides, dismissKey]);
+  // Read localStorage synchronously at mount (client-only component).
+  const [visible, setVisible] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      showPopup &&
+      (hasEditorContent || hasSlides) &&
+      !localStorage.getItem(dismissKey)
+  );
 
   function handleClose() {
     localStorage.setItem(dismissKey, "true");

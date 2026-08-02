@@ -4,6 +4,8 @@ import { useState } from "react";
 import { X, Loader2 } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ImageUploader } from "@/components/ImageUploader";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { createCategory, updateCategory, type CategoryInput } from "@/app/actions/categories";
 
 type Category = {
@@ -34,6 +36,9 @@ export function AddCategoryModal({
   parentOptions = ["Services", "Careers", "Invoices", "Blogs", "Pages"],
 }: AddCategoryModalProps) {
   const isEditing = !!category;
+  const categoryLabel = useEntityLabel("category");
+  const statusOptions = useStatusOptions("category");
+  const statusDefault = statusOptions.find((s) => s.isDefault)?.statusValue ?? statusOptions[0]?.statusValue ?? "Active";
 
   const [name, setName] = useState(category?.name ?? "");
   const [slug, setSlug] = useState(category?.slug ?? "");
@@ -42,9 +47,8 @@ export function AddCategoryModal({
   const [link, setLink] = useState(category?.link ?? "");
   const [banner, setBanner] = useState<string | null>(category?.banner ?? null);
   const [icon, setIcon] = useState<string | null>(category?.icon ?? null);
-  const [status, setStatus] = useState<"Active" | "Draft" | "Inactive">(
-    (category?.status as "Active" | "Draft" | "Inactive") ?? "Active"
-  );
+  const [status, setStatus] = useState<string>(category?.status ?? "");
+  const [customValues, setCustomValues] = useState<CustomValues>({});
 
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,12 +82,12 @@ export function AddCategoryModal({
       banner: banner || undefined,
       icon: icon || undefined,
       link: link || undefined,
-      status,
+      status: status || statusDefault,
     };
 
     const result = isEditing
-      ? await updateCategory(category!.id, data)
-      : await createCategory(data);
+      ? await updateCategory(category!.id, data, customValues)
+      : await createCategory(data, customValues);
 
     setIsSubmitting(false);
 
@@ -111,10 +115,10 @@ export function AddCategoryModal({
 
         <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
           <h2 className="text-xl font-bold text-zinc-900">
-            {isEditing ? "Edit Category" : "Add New Category"}
+            {isEditing ? `Edit ${categoryLabel}` : `Add New ${categoryLabel}`}
           </h2>
           <p className="mt-1 text-sm text-zinc-500">
-            {isEditing ? "Update category details." : "Create a new category to organize your website content."}
+            {isEditing ? `Update ${categoryLabel.toLowerCase()} details.` : `Create a new ${categoryLabel.toLowerCase()} to organize your website content.`}
           </p>
         </div>
 
@@ -183,13 +187,13 @@ export function AddCategoryModal({
                 <div>
                   <label className="mb-0.5 block text-sm font-bold text-zinc-800">Status</label>
                   <select
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value as "Active" | "Draft" | "Inactive")}
+                    value={status || statusDefault}
+                    onChange={(e) => setStatus(e.target.value)}
                     className={inputCls}
                   >
-                    <option value="Active">Active</option>
-                    <option value="Draft">Draft</option>
-                    <option value="Inactive">Inactive</option>
+                    {statusOptions.map((s) => (
+                      <option key={s.statusValue} value={s.statusValue}>{s.label}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -211,6 +215,13 @@ export function AddCategoryModal({
                   className={inputCls}
                 />
               </div>
+
+              {/* Custom Fields */}
+              <CustomFieldRenderer
+                moduleKey="category"
+                recordId={category?.id}
+                onValuesChange={setCustomValues}
+              />
             </div>
           </div>
 
@@ -225,7 +236,7 @@ export function AddCategoryModal({
               className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
-              {isSubmitting ? "Saving..." : isEditing ? "Save Changes" : "Add Category"}
+              {isSubmitting ? "Saving..." : isEditing ? "Save Changes" : `Add ${categoryLabel}`}
             </button>
           </div>
         </form>

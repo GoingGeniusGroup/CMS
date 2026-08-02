@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Sidebar, MobileHeader } from "@/components/Sidebar";
+import { ConfigProvider } from "@/components/ConfigProvider";
 
 export default function AppLayout({
   children,
@@ -46,12 +47,14 @@ export default function AppLayout({
   }, [pathname]);
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      <div ref={scrollRef} className="flex-1 overflow-y-auto bg-[#f5f3f3]">
-        <MobileHeader isOpen={isOpen} onToggle={() => setIsOpen((v) => !v)} />
-        <main className="p-4 pb-8 sm:p-6 sm:pb-10 lg:p-8 lg:pb-10">{children}</main>
+    <ConfigProvider>
+      <div className="flex h-screen overflow-hidden">
+        <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        <div ref={scrollRef} className="flex-1 overflow-y-auto bg-[#f5f3f3]">
+          <MobileHeader isOpen={isOpen} onToggle={() => setIsOpen((v) => !v)} />
+          <main className="p-4 pb-8 sm:p-6 sm:pb-10 lg:p-8 lg:pb-10">{children}</main>
+        </div>
       </div>
-    </div>
+    </ConfigProvider>
   );
 }

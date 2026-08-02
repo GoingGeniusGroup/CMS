@@ -4,6 +4,8 @@ import { X, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { createCustomer } from "@/app/actions/customers";
 import { ImageUploader } from "@/components/ImageUploader";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 
 interface Service {
   id: string;
@@ -20,6 +22,9 @@ interface AddCustomerModalProps {
 export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCustomerModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const customerLabel = useEntityLabel("customer");
+  const statusOptions = useStatusOptions("customer");
+  const [customValues, setCustomValues] = useState<CustomValues>({});
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -28,9 +33,10 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCu
     email: "",
     services: "",
     companyName: "",
-    status: "Active" as "Active" | "Inactive",
+    status: "",
     image: "",
   });
+  const statusDefault = statusOptions.find((s) => s.isDefault)?.statusValue ?? statusOptions[0]?.statusValue ?? "Active";
 
   const [phoneError, setPhoneError] = useState<string | null>(null);
 
@@ -67,10 +73,10 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCu
       address: formData.address,
       servicesId: formData.services,
       companyName: formData.companyName,
-      status: formData.status,
+      status: formData.status || statusDefault,
       image: formData.image ||
         `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.firstName}`,
-    });
+    }, customValues);
 
     setIsSubmitting(false);
 
@@ -82,8 +88,9 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCu
     // Reset form
     setFormData({
       firstName: "", lastName: "", phoneNumber: "", address: "",
-      email: "", services: "", companyName: "", status: "Active", image: "",
+      email: "", services: "", companyName: "", status: "", image: "",
     });
+    setCustomValues({});
     onSuccess?.();
     onClose();
   };
@@ -103,7 +110,7 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCu
         </button>
 
         <div className="shrink-0 border-b border-gray-200 px-6 py-4 sm:px-8 sm:py-5">
-          <h2 className="text-lg font-bold text-gray-900">Add New Customer</h2>
+          <h2 className="text-lg font-bold text-gray-900">Add New {customerLabel}</h2>
         </div>
 
         <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
@@ -117,7 +124,7 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCu
 
             {/* Photo Upload via Uploadcare */}
             <ImageUploader
-              label="Customer Photo"
+              label={`${customerLabel} Photo`}
               value={formData.image || null}
               onChange={(url) => setFormData((prev) => ({ ...prev, image: url || "" }))}
             />
@@ -203,18 +210,26 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCu
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">Status <span className="text-red-500">*</span></label>
                   <div className="flex items-center gap-6 h-[42px]">
-                    {(["Active", "Inactive"] as const).map((s) => (
-                      <label key={s} className="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="status" value={s}
-                          checked={formData.status === s} onChange={handleChange}
-                          className="w-4 h-4 text-blue-600" />
-                        <span className="text-sm text-gray-700">{s}</span>
-                      </label>
-                    ))}
+                    <select
+                      name="status"
+                      value={formData.status || statusDefault}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-gray-400 outline-none transition-colors text-sm"
+                    >
+                      {statusOptions.map((s) => (
+                        <option key={s.statusValue} value={s.statusValue}>{s.label}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Custom Fields */}
+            <CustomFieldRenderer
+              moduleKey="customer"
+              onValuesChange={setCustomValues}
+            />
           </div>
 
           {/* Buttons - always visible */}

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ShieldCheck, Loader2 } from "lucide-react";
 import { Card } from "@/components/Card";
-import { saveEmailSettings, type EmailSettingInput } from "@/app/actions/email-settings";
+import { saveEmailSettings } from "@/app/actions/email-settings";
 
 type EmailData = {
   smtpHost: string;

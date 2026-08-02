@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
+import { saveCustomFieldValues } from "./custom-fields";
 
 const invoiceSchema = z.object({
   customerId: z.string().optional(),
@@ -12,12 +13,13 @@ const invoiceSchema = z.object({
   amount: z.number().min(0),
   tax: z.number().min(0).default(0),
   total: z.number().min(0),
-  status: z.enum(["Paid", "Pending", "Overdue"]).default("Pending"),
+  status: z.string().min(1, "Status is required").default("Pending"),
   issuedDate: z.string().optional(),
   dueDate: z.string().optional(),
 });
 
 export type InvoiceInput = z.infer<typeof invoiceSchema>;
+export type InvoiceCustomValues = Record<string, string | number | boolean | null | undefined>;
 
 export async function getInvoices(page = 1, pageSize = 10) {
   const session = await auth();
@@ -48,7 +50,7 @@ export async function getInvoices(page = 1, pageSize = 10) {
   };
 }
 
-export async function createInvoice(data: InvoiceInput) {
+export async function createInvoice(data: InvoiceInput, customFieldValues?: InvoiceCustomValues) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
@@ -59,7 +61,7 @@ export async function createInvoice(data: InvoiceInput) {
 
   try {
     const { issuedDate, dueDate, projectIds, ...rest } = result.data;
-    await prisma.invoice.create({
+    const created = await prisma.invoice.create({
       data: {
         ...rest,
         customerId: rest.customerId || null,
@@ -71,6 +73,11 @@ export async function createInvoice(data: InvoiceInput) {
           : undefined,
       },
     });
+
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("invoice", created.id, customFieldValues);
+    }
+
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -81,7 +88,7 @@ export async function createInvoice(data: InvoiceInput) {
   }
 }
 
-export async function updateInvoice(id: string, data: InvoiceInput) {
+export async function updateInvoice(id: string, data: InvoiceInput, customFieldValues?: InvoiceCustomValues) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
@@ -113,6 +120,11 @@ export async function updateInvoice(id: string, data: InvoiceInput) {
         dueDate: dueDate ? new Date(dueDate) : null,
       },
     });
+
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("invoice", id, customFieldValues);
+    }
+
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {

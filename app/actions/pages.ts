@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
+import { saveCustomFieldValues } from "./custom-fields";
 
 const pageSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
@@ -13,7 +14,7 @@ const pageSchema = z.object({
   metaDesc: z.string().optional(),
   keywords: z.string().optional(),
   metaImage: z.string().optional(),
-  status: z.enum(["Published", "Draft"]).default("Draft"),
+  status: z.string().min(1, "Status is required"),
 });
 
 export type PageInput = z.infer<typeof pageSchema>;
@@ -67,7 +68,7 @@ function buildData(data: PageInput) {
   };
 }
 
-export async function createPage(data: PageInput) {
+export async function createPage(data: PageInput, customFieldValues?: Record<string, string | number | boolean | null | undefined>) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
@@ -77,7 +78,10 @@ export async function createPage(data: PageInput) {
   }
 
   try {
-    await prisma.page.create({ data: buildData(result.data) });
+    const created = await prisma.page.create({ data: buildData(result.data) });
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("page", created.id, customFieldValues);
+    }
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -88,7 +92,7 @@ export async function createPage(data: PageInput) {
   }
 }
 
-export async function updatePage(id: string, data: PageInput) {
+export async function updatePage(id: string, data: PageInput, customFieldValues?: Record<string, string | number | boolean | null | undefined>) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
@@ -99,6 +103,9 @@ export async function updatePage(id: string, data: PageInput) {
 
   try {
     await prisma.page.update({ where: { id }, data: buildData(result.data) });
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("page", id, customFieldValues);
+    }
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {

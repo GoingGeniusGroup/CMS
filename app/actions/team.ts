@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
 import { unstable_cache, updateTag } from "next/cache";
+import { saveCustomFieldValues } from "./custom-fields";
 
 const teamMemberSchema = z.object({
   fullName: z.string().min(2, "Name must be at least 2 characters"),
@@ -12,7 +13,7 @@ const teamMemberSchema = z.object({
   image: z.string().optional(),
   role: z.string().optional(),
   department: z.string().optional(),
-  status: z.enum(["Active", "Inactive"]).default("Active"),
+  status: z.string().min(1, "Status is required"),
   bio: z.string().optional(),
   location: z.string().optional(),
   experience: z.string().optional(),
@@ -107,7 +108,7 @@ export async function deleteDepartment(id: string) {
   }
 }
 
-export async function createTeamMember(data: TeamMemberInput) {
+export async function createTeamMember(data: TeamMemberInput, customFieldValues?: Record<string, string | number | boolean | null | undefined>) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
@@ -117,7 +118,10 @@ export async function createTeamMember(data: TeamMemberInput) {
   }
 
   try {
-    await prisma.team.create({ data: result.data });
+    const created = await prisma.team.create({ data: result.data });
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("team", created.id, customFieldValues);
+    }
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -128,7 +132,7 @@ export async function createTeamMember(data: TeamMemberInput) {
   }
 }
 
-export async function updateTeamMember(id: string, data: TeamMemberInput) {
+export async function updateTeamMember(id: string, data: TeamMemberInput, customFieldValues?: Record<string, string | number | boolean | null | undefined>) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
@@ -142,6 +146,9 @@ export async function updateTeamMember(id: string, data: TeamMemberInput) {
       where: { id },
       data: result.data,
     });
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("team", id, customFieldValues);
+    }
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {

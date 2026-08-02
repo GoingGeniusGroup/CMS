@@ -5,6 +5,8 @@ import { X } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ImageUploader } from "@/components/ImageUploader";
 import { TiptapEditor } from "@/components/TiptapEditor";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { createBlog, updateBlog, type BlogInput } from "@/app/actions/blogs";
 import type { JSONContent } from "@tiptap/react";
 
@@ -42,6 +44,9 @@ export function BlogModal({
   authors: Author[];
 }) {
   const isEditing = !!blog;
+  const blogLabel = useEntityLabel("blog");
+  const blogStatusOptions = useStatusOptions("blog");
+  const defaultStatus = blogStatusOptions.find((o) => o.isDefault)?.statusValue ?? "Draft";
 
   const [title, setTitle] = useState(blog?.title ?? "");
   const [slug, setSlug] = useState(blog?.slug ?? "");
@@ -54,11 +59,10 @@ export function BlogModal({
   const [readTime, setReadTime] = useState(blog?.readTime ?? "");
   const [authorId, setAuthorId] = useState(blog?.authorId ?? "");
   const [thumbnail, setThumbnail] = useState(blog?.thumbnail ?? "");
-  const [status, setStatus] = useState<"Published" | "Draft">(
-    (blog?.status as "Published" | "Draft") ?? "Draft"
-  );
+  const [status, setStatus] = useState<string>(blog?.status ?? defaultStatus);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [customValues, setCustomValues] = useState<CustomValues>({});
 
   if (!open) return null;
 
@@ -97,8 +101,8 @@ export function BlogModal({
     };
 
     const result = isEditing
-      ? await updateBlog(blog!.id, data)
-      : await createBlog(data);
+      ? await updateBlog(blog!.id, data, customValues)
+      : await createBlog(data, customValues);
 
     setIsSubmitting(false);
 
@@ -131,7 +135,7 @@ export function BlogModal({
 
         <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
           <h2 className="text-xl font-bold text-gray-900">
-            {isEditing ? "Edit Blog" : "Add Blog"}
+            {isEditing ? `Edit ${blogLabel}` : `Add ${blogLabel}`}
           </h2>
         </div>
 
@@ -255,13 +259,21 @@ export function BlogModal({
                 </label>
                 <select
                   value={status}
-                  onChange={(e) => setStatus(e.target.value as "Published" | "Draft")}
+                  onChange={(e) => setStatus(e.target.value)}
                   className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
                 >
-                  <option value="Draft">Draft</option>
-                  <option value="Published">Published</option>
+                  {blogStatusOptions.map((o) => (
+                    <option key={o.statusValue} value={o.statusValue}>{o.label}</option>
+                  ))}
                 </select>
               </div>
+
+              {/* Custom Fields */}
+              <CustomFieldRenderer
+                moduleKey="blog"
+                recordId={blog?.id}
+                onValuesChange={setCustomValues}
+              />
             </div>
           </div>
 
@@ -273,7 +285,7 @@ export function BlogModal({
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting
                 ? isEditing ? "Saving..." : "Creating..."
-                : isEditing ? "Save Changes" : "Add Blog"}
+                : isEditing ? "Save Changes" : `Add ${blogLabel}`}
             </Button>
           </div>
         </form>

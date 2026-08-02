@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { createElement } from "react";
 import {
   ArrowRight,
   Briefcase,
@@ -77,7 +78,7 @@ function FlipCardSmall({ service }: { service: ServiceData }) {
             </div>
           ) : (
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50">
-              <Icon className="h-5 w-5 text-indigo-500" strokeWidth={1.5} />
+              {createElement(Icon, { className: "h-5 w-5 text-indigo-500", strokeWidth: 1.5 })}
             </div>
           )}
           <h3 className="text-sm font-bold text-zinc-900 line-clamp-1">
@@ -94,7 +95,7 @@ function FlipCardSmall({ service }: { service: ServiceData }) {
         {/* ── Back ── */}
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-indigo-600 p-6 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
           <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/20">
-            <Icon className="h-5 w-5 text-white" strokeWidth={1.5} />
+            {createElement(Icon, { className: "h-5 w-5 text-white", strokeWidth: 1.5 })}
           </div>
           <h3 className="text-sm font-bold text-white">{service.serviceName}</h3>
           <p className="text-xs leading-relaxed text-indigo-100 line-clamp-4">{desc}</p>
@@ -130,7 +131,7 @@ function FlipCardLarge({ service }: { service: ServiceData }) {
             </div>
           ) : (
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
-              <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
+              {createElement(Icon, { className: "h-6 w-6 text-indigo-500", strokeWidth: 1.5 })}
             </div>
           )}
           <h3 className="text-base font-bold text-zinc-900">
@@ -148,7 +149,7 @@ function FlipCardLarge({ service }: { service: ServiceData }) {
         {/* ── Back ── */}
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-2xl bg-indigo-600 p-8 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20">
-            <Icon className="h-7 w-7 text-white" strokeWidth={1.5} />
+            {createElement(Icon, { className: "h-7 w-7 text-white", strokeWidth: 1.5 })}
           </div>
           <h3 className="text-base font-bold text-white">{service.serviceName}</h3>
           <p className="text-sm leading-relaxed text-indigo-100 line-clamp-5">{desc}</p>

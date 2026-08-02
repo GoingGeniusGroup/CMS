@@ -13,6 +13,8 @@ import { AddCustomerModal } from "@/components/AddcostumerModal";
 import { EditCustomerModal, type CustomerRow } from "@/components/EditCustomerModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { ViewDetailModal } from "@/components/ViewDetailModal";
+import { StatusBadge } from "@/components/StatusBadge";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { getCustomers, deleteCustomer } from "@/app/actions/customers";
 
 type SelectOption = { id: string; label: string };
@@ -60,6 +62,10 @@ export function CustomersClient({
   const [statusFilter, setStatusFilter] = useState("all");
   const [serviceFilter, setServiceFilter] = useState("all");
   const filterRef = useRef<HTMLDivElement>(null);
+
+  const customerLabel = useEntityLabel("customer");
+  const customerLabelPlural = useEntityLabel("customer", { plural: true });
+  const statusOptions = useStatusOptions("customer");
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -135,8 +141,8 @@ export function CustomersClient({
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader
-          title="Customers"
-          description="Manage your customers."
+          title={customerLabelPlural}
+          description={`Manage your ${customerLabelPlural.toLowerCase()}.`}
         />
         <div className="flex items-center gap-3">
           <div className="relative" ref={filterRef}>
@@ -147,10 +153,10 @@ export function CustomersClient({
             {filterOpen && (
               <div className="absolute max-md:left-0 max-md:right-auto md:right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
                 <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
-                {["all", "Active", "Inactive"].map((s) => (
-                  <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
-                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
-                    {s === "all" ? "All Statuses" : s}
+                {[{ value: "all", label: "All Statuses" }, ...statusOptions.map((s) => ({ value: s.statusValue, label: s.label }))].map((s) => (
+                  <button key={s.value} type="button" onClick={() => { setStatusFilter(s.value); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s.value ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {s.label}
                   </button>
                 ))}
                 <div className="my-2 border-t border-gray-100" />
@@ -165,7 +171,7 @@ export function CustomersClient({
             )}
           </div>
           <Button onClick={() => setAddOpen(true)}>
-            Add Customer
+            Add {customerLabel}
             <Plus className="h-4 w-4" />
           </Button>
         </div>
@@ -173,14 +179,14 @@ export function CustomersClient({
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-        <StatCard icon={Users} label="Total Customers" value={data.total} />
+        <StatCard icon={Users} label={`Total ${customerLabelPlural}`} value={data.total} />
         <StatCard icon={UserCheck} label="Active" value={data.active} />
         <StatCard icon={UserX} label="Inactive" value={data.inactive} />
       </div>
 
       {/* Search + View Toggle */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-bold text-black">Customers</h2>
+        <h2 className="text-lg font-bold text-black">{customerLabelPlural}</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
           <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
@@ -230,7 +236,7 @@ export function CustomersClient({
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <Users className="h-10 w-10 text-zinc-300" />
             <p className="text-sm text-zinc-500">
-              {search ? "No customers match your search" : "No customers yet. Add your first customer!"}
+              {search ? `No ${customerLabelPlural.toLowerCase()} match your search` : `No ${customerLabelPlural.toLowerCase()} yet. Add your first ${customerLabel.toLowerCase()}!`}
             </p>
           </div>
         </Card>
@@ -243,7 +249,7 @@ export function CustomersClient({
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left p-4 text-sm font-semibold text-gray-700 w-16">#</th>
-                  <th className="text-left p-4 text-sm font-semibold text-gray-700">Customer</th>
+                  <th className="text-left p-4 text-sm font-semibold text-gray-700">{customerLabel}</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Email</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Phone</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Service</th>
@@ -271,13 +277,7 @@ export function CustomersClient({
                     <td className="p-4 text-sm text-gray-600">{customer.phoneNumber || "—"}</td>
                     <td className="p-4 text-sm text-gray-600">{customer.service?.serviceName || "—"}</td>
                     <td className="p-4">
-                      <span className={`px-4 py-1.5 rounded-full text-xs font-medium ${
-                        customer.status === "Active"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}>
-                        {customer.status}
-                      </span>
+                      <StatusBadge moduleKey="customer" value={customer.status} />
                     </td>
                     <td className="p-4">
                       <RowActions
@@ -317,13 +317,7 @@ export function CustomersClient({
                       <h3 className="font-semibold text-sm text-gray-900">{customer.fullName}</h3>
                     </div>
                     <p className="text-xs text-gray-600 mb-1">{customer.email}</p>
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                      customer.status === "Active"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
-                    }`}>
-                      {customer.status}
-                    </span>
+                    <StatusBadge moduleKey="customer" value={customer.status} />
                   </div>
                 </div>
                 <RowActions
@@ -367,13 +361,9 @@ export function CustomersClient({
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-bold text-gray-900 truncate">{customer.fullName}</h3>
                   {customer.companyName && <p className="text-xs text-gray-400 truncate">{customer.companyName}</p>}
-                  <span className={`inline-block mt-1 px-3 py-0.5 rounded-full text-[11px] font-medium ${
-                    customer.status === "Active"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-red-100 text-red-700"
-                  }`}>
-                    {customer.status}
-                  </span>
+                  <div className="mt-1">
+                    <StatusBadge moduleKey="customer" value={customer.status} />
+                  </div>
                 </div>
               </div>
 
@@ -433,6 +423,7 @@ export function CustomersClient({
 
       {/* Edit Customer Modal */}
       <EditCustomerModal
+        key={editCustomer?.id ?? "none"}
         isOpen={!!editCustomer}
         customer={editCustomer}
         services={services.map((s) => ({ id: s.id, serviceName: s.label }))}
@@ -443,8 +434,8 @@ export function CustomersClient({
       {/* Delete Confirmation */}
       <DeleteConfirmModal
         isOpen={!!deleteId}
-        title="Delete Customer"
-        description="Are you sure you want to delete this customer? This action cannot be undone."
+        title={`Delete ${customerLabel}`}
+        description={`Are you sure you want to delete this ${customerLabel.toLowerCase()}? This action cannot be undone.`}
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
       />

@@ -26,6 +26,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Topbar } from "@/components/Topbar";
 import { Card } from "@/components/Card";
 import { StatCard } from "@/components/StatCard";
+import { useEntityLabel } from "@/components/ConfigProvider";
 import { getDashboardStats, type DashboardStats } from "@/app/actions/dashboard";
 
 const PERIODS = [
@@ -44,6 +45,8 @@ const statusColors: Record<string, string> = {
 };
 
 export default function DashboardPage() {
+  const projectLabel = useEntityLabel("project", { plural: true });
+  const customerLabel = useEntityLabel("customer", { plural: true });
   const [periodLabel, setPeriodLabel] = useState("This Year");
   const [periodOpen, setPeriodOpen] = useState(false);
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -53,7 +56,7 @@ export default function DashboardPage() {
     if (!period) return;
     const now = new Date();
     let start: string | undefined;
-    let end: string | undefined;
+    const end = now.toISOString();
     if (period.months === -1) {
       start = new Date(2020, 0, 1).toISOString();
     } else if (period.months > 0) {
@@ -61,7 +64,6 @@ export default function DashboardPage() {
     } else {
       start = new Date(now.getFullYear(), 0, 1).toISOString();
     }
-    end = now.toISOString();
     const data = await getDashboardStats(start, end);
     setStats(data);
   }, []);
@@ -121,14 +123,14 @@ export default function DashboardPage() {
             <StatCard
               icon={FolderClosed}
               value={String(stats.activeProjects)}
-              label="Active Projects"
+              label={`Active ${projectLabel}`}
               delta={`${stats.statsDelta.activeProjects.value}% (30 days)`}
               up={stats.statsDelta.activeProjects.up}
             />
             <StatCard
               icon={Users}
               value={String(stats.totalClients)}
-              label="Total Clients"
+              label={`Total ${customerLabel}`}
               delta={`${stats.statsDelta.totalClients.value}% (30 days)`}
               up={stats.statsDelta.totalClients.up}
             />

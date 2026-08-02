@@ -30,7 +30,7 @@ export function LandingTeamSection({ initialMembers }: { initialMembers?: TeamMe
     if (!initialMembers) {
       getPublicTeamMembers().then((data) => setMembers(data));
     }
-  }, []);
+  }, [initialMembers]);
 
   const scroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;

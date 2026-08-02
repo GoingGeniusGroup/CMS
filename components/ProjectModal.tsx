@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { X, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ImageUploader } from "@/components/ImageUploader";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { createProject, updateProject, type ProjectInput } from "@/app/actions/projects";
 
 type SelectOption = { id: string; label: string };
@@ -58,6 +60,10 @@ export function ProjectModal({
   services?: SelectOption[];
 }) {
   const isEditing = !!project;
+  const projectLabel = useEntityLabel("project");
+  const projectStatusOptions = useStatusOptions("project");
+  const defaultStatus =
+    projectStatusOptions.find((o) => o.isDefault)?.statusValue ?? "Draft";
 
   // Basic fields
   const [title, setTitle] = useState(project?.title ?? "");
@@ -68,9 +74,7 @@ export function ProjectModal({
   const [liveUrl, setLiveUrl] = useState(project?.liveUrl ?? "");
   const [customerId, setCustomerId] = useState(project?.customerId ?? "");
   const [serviceId, setServiceId] = useState(project?.serviceId ?? "");
-  const [status, setStatus] = useState<"Published" | "Draft">(
-    (project?.status as "Published" | "Draft") ?? "Draft"
-  );
+  const [status, setStatus] = useState<string>(project?.status ?? defaultStatus);
   const [startDate, setStartDate] = useState(
     project?.startDate ? new Date(project.startDate).toISOString().split("T")[0] : ""
   );
@@ -89,6 +93,7 @@ export function ProjectModal({
 
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [customValues, setCustomValues] = useState<CustomValues>({});
 
   if (!open) return null;
 
@@ -126,8 +131,8 @@ export function ProjectModal({
     };
 
     const result = isEditing
-      ? await updateProject(project!.id, data)
-      : await createProject(data);
+      ? await updateProject(project!.id, data, customValues)
+      : await createProject(data, customValues);
 
     setIsSubmitting(false);
 
@@ -163,7 +168,7 @@ export function ProjectModal({
 
         <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
           <h2 className="text-xl font-bold text-gray-900">
-            {isEditing ? "Edit Project" : "Add Project"}
+            {isEditing ? `Edit ${projectLabel}` : `Add ${projectLabel}`}
           </h2>
         </div>
 
@@ -212,9 +217,10 @@ export function ProjectModal({
                   </div>
                   <div>
                     <label className={labelCls}>Status <span className="text-red-500">*</span></label>
-                    <select value={status} onChange={(e) => setStatus(e.target.value as "Published" | "Draft")} className={inputCls}>
-                      <option value="Draft">Draft</option>
-                      <option value="Published">Published</option>
+                    <select value={status} onChange={(e) => setStatus(e.target.value)} className={inputCls}>
+                      {projectStatusOptions.map((o) => (
+                        <option key={o.statusValue} value={o.statusValue}>{o.label}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -269,6 +275,13 @@ export function ProjectModal({
                 <legend className="px-2 text-sm font-bold text-zinc-700">Gallery Images</legend>
                 <GalleryEditor images={gallery} onChange={setGallery} />
               </fieldset>
+
+              {/* ─── Custom Fields ─── */}
+              <CustomFieldRenderer
+                moduleKey="project"
+                recordId={project?.id}
+                onValuesChange={setCustomValues}
+              />
             </div>
           </div>
 
@@ -276,7 +289,7 @@ export function ProjectModal({
           <div className="flex shrink-0 items-center justify-end gap-3 border-t border-zinc-200 px-6 py-4 sm:px-8">
             <Button variant="secondary" onClick={onClose} type="button">Cancel</Button>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (isEditing ? "Saving..." : "Creating...") : (isEditing ? "Save Changes" : "Add Project")}
+              {isSubmitting ? (isEditing ? "Saving..." : "Creating...") : (isEditing ? "Save Changes" : `Add ${projectLabel}`)}
             </Button>
           </div>
         </form>

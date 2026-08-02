@@ -1,10 +1,12 @@
 "use client";
 
 import { X, Loader2, Star } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ImageUploader } from "@/components/ImageUploader";
 import { TiptapEditor } from "@/components/TiptapEditor";
 import type { JSONContent } from "@tiptap/react";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { updateService } from "@/app/actions/services";
 
 export interface ServiceRow {
@@ -29,11 +31,14 @@ export function EditServiceModal({
   onClose,
   onSuccess,
 }: EditServiceModalProps) {
-  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
-  const [fileName, setFileName] = useState<string | null>(null);
-  const [isFeatured, setIsFeatured] = useState(false);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(service?.thumbnailUrl ?? null);
+  const [isFeatured, setIsFeatured] = useState(service?.isFeatured ?? false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const serviceLabel = useEntityLabel("service");
+  const statusOptions = useStatusOptions("service");
+  const [statusValue, setStatusValue] = useState(service?.isActive ? "Active" : "Inactive");
+  const [customValues, setCustomValues] = useState<CustomValues>({});
 
   const [form, setForm] = useState({
     serviceName: service?.serviceName ?? "",
@@ -44,25 +49,6 @@ export function EditServiceModal({
     if (!service?.description) return null;
     try { return JSON.parse(service.description); } catch { return null; }
   });
-
-  // Sync when service prop changes (safety net for key-based remount)
-  useEffect(() => {
-    if (service) {
-      setForm({
-        serviceName: service.serviceName,
-        isActive: service.isActive,
-      });
-      setThumbnailUrl(service.thumbnailUrl ?? null);
-      setIsFeatured(service.isFeatured ?? false);
-      setFileName(null);
-      setError(null);
-      try {
-        setDescriptionContent(service.description ? JSON.parse(service.description) : null);
-      } catch {
-        setDescriptionContent(null);
-      }
-    }
-  }, [service]);
 
   if (!open || !service) return null;
 
@@ -90,10 +76,10 @@ export function EditServiceModal({
     const result = await updateService(service.id, {
       serviceName: form.serviceName,
       description: descriptionContent ? JSON.stringify(descriptionContent) : undefined,
-      isActive: form.isActive,
+      isActive: statusValue !== "Inactive",
       isFeatured,
       thumbnailUrl: thumbnailUrl || undefined,
-    });
+    }, customValues);
 
     setIsLoading(false);
 
@@ -125,7 +111,7 @@ export function EditServiceModal({
         </button>
 
         <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
-          <h2 className="text-xl font-bold text-zinc-900">Edit Service</h2>
+          <h2 className="text-xl font-bold text-zinc-900">Edit {serviceLabel}</h2>
         </div>
 
         <form className="flex min-h-0 flex-1 flex-col" onSubmit={handleSubmit}>
@@ -168,22 +154,16 @@ export function EditServiceModal({
               {/* Status */}
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-zinc-800">Status</label>
-                <div className="flex items-center gap-6">
-                  {([true, false] as const).map((val) => (
-                    <label key={String(val)} className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="isActive"
-                        checked={form.isActive === val}
-                        onChange={() => setForm((prev) => ({ ...prev, isActive: val }))}
-                        className="h-4 w-4 text-indigo-600"
-                      />
-                      <span className="text-sm text-zinc-700">
-                        {val ? "Active" : "Inactive"}
-                      </span>
-                    </label>
+                <select
+                  name="status"
+                  value={statusValue}
+                  onChange={(e) => setStatusValue(e.target.value)}
+                  className="h-12 w-full rounded-xl border border-black/15 bg-white px-4 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-indigo-200"
+                >
+                  {statusOptions.map((s) => (
+                    <option key={s.statusValue} value={s.statusValue}>{s.label}</option>
                   ))}
-                </div>
+                </select>
               </div>
 
               {/* Thumbnail — ImageUploader */}
@@ -192,7 +172,6 @@ export function EditServiceModal({
                 value={thumbnailUrl}
                 onChange={(url) => {
                   setThumbnailUrl(url);
-                  setFileName(url ? "Uploaded Image" : null);
                 }}
               />
 
@@ -214,6 +193,15 @@ export function EditServiceModal({
                   />
                 </button>
               </div>
+            </div>
+
+            {/* Custom Fields */}
+            <div className="mt-5">
+              <CustomFieldRenderer
+                moduleKey="service"
+                recordId={service?.id}
+                onValuesChange={setCustomValues}
+              />
             </div>
           </div>
 

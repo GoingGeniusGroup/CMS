@@ -153,9 +153,9 @@ function Products() {
             <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">Products</p>
             <h2 className="mt-2 text-2xl font-extrabold text-zinc-900">Products and Solutions</h2>
           </div>
-          <a href="/contact" className="text-sm font-semibold text-indigo-600 hover:underline">
+          <Link href="/contact" className="text-sm font-semibold text-indigo-600 hover:underline">
             Contact Sales
-          </a>
+          </Link>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-3">

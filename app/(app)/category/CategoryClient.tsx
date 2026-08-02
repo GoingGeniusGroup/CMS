@@ -12,6 +12,8 @@ import { RowActions } from "@/components/RowActions";
 import { AddCategoryModal } from "@/components/AddCategoryModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { ViewDetailModal } from "@/components/ViewDetailModal";
+import { StatusBadge } from "@/components/StatusBadge";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { getCategories, deleteCategory } from "@/app/actions/categories";
 
 type Category = {
@@ -40,12 +42,6 @@ type CategoriesData = {
 
 const PAGE_SIZE = 10;
 
-const statusStyle: Record<string, string> = {
-  Active: "bg-emerald-100 text-emerald-700",
-  Draft: "bg-amber-100 text-amber-700",
-  Inactive: "bg-red-100 text-red-600",
-};
-
 function formatDate(date: Date) {
   return new Date(date).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 }
@@ -59,6 +55,10 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
   const [filterOpen, setFilterOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
   const filterRef = useRef<HTMLDivElement>(null);
+
+  const categoryLabel = useEntityLabel("category");
+  const categoryLabelPlural = useEntityLabel("category", { plural: true });
+  const statusOptions = useStatusOptions("category");
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -126,7 +126,7 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
 
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-        <PageHeader title="Category" description="Manage all your categories." />
+        <PageHeader title={categoryLabelPlural} description={`Manage all your ${categoryLabelPlural.toLowerCase()}.`} />
         <div className="flex items-center gap-3">
           <div className="relative" ref={filterRef}>
             <Button variant="secondary" onClick={() => setFilterOpen((v) => !v)}>
@@ -136,17 +136,17 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
             {filterOpen && (
               <div className="absolute max-md:left-0 max-md:right-auto md:right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
                 <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
-                {["all", "Active", "Draft", "Inactive"].map((s) => (
-                  <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
-                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
-                    {s === "all" ? "All Statuses" : s}
+                {[{ value: "all", label: "All Statuses" }, ...statusOptions.map((s) => ({ value: s.statusValue, label: s.label }))].map((s) => (
+                  <button key={s.value} type="button" onClick={() => { setStatusFilter(s.value); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s.value ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {s.label}
                   </button>
                 ))}
               </div>
             )}
           </div>
           <Button onClick={handleAdd}>
-            Add Category
+            Add {categoryLabel}
             <Plus className="h-4 w-4" />
           </Button>
         </div>
@@ -154,14 +154,14 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
 
       {/* Stat cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-        <StatCard icon={Tag} label="Total Categories" value={data.total} />
+        <StatCard icon={Tag} label={`Total ${categoryLabelPlural}`} value={data.total} />
         <StatCard icon={CheckCircle2} label="Active" value={data.active} />
         <StatCard icon={XCircle} label="Inactive" value={data.inactive} />
       </div>
 
       {/* Search + View Toggle */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-bold text-black">Categories List</h2>
+        <h2 className="text-lg font-bold text-black">{categoryLabelPlural} List</h2>
         <div className="flex items-center gap-3">
           <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
             <button
@@ -204,7 +204,7 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <Tag className="h-10 w-10 text-zinc-300" />
             <p className="text-sm text-zinc-500">
-              {search ? "No categories match your search" : "No categories yet. Add your first category!"}
+              {search ? `No ${categoryLabelPlural.toLowerCase()} match your search` : `No ${categoryLabelPlural.toLowerCase()} yet. Add your first ${categoryLabel.toLowerCase()}!`}
             </p>
           </div>
         </Card>
@@ -242,9 +242,7 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
                     <td className="p-4 text-zinc-500">{c.parent || "—"}</td>
                     <td className="p-4 text-zinc-500">/{c.slug}</td>
                     <td className="p-4">
-                      <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[c.status] || statusStyle.Active}`}>
-                        {c.status}
-                      </span>
+                      <StatusBadge moduleKey="category" value={c.status} />
                     </td>
                     <td className="p-4 text-zinc-500">{formatDate(c.updatedAt)}</td>
                     <td className="p-4">
@@ -267,9 +265,7 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm text-gray-900 mb-1">{c.name}</h3>
                     <p className="text-xs text-gray-600 mb-1">Parent: {c.parent || "—"} · /{c.slug}</p>
-                    <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${statusStyle[c.status] || statusStyle.Active}`}>
-                      {c.status}
-                    </span>
+                    <StatusBadge moduleKey="category" value={c.status} />
                   </div>
                 </div>
                 <RowActions variant="buttons" onView={() => setViewItem(c)} onEdit={() => handleEdit(c)} onDelete={() => setDeleteId(c.id)} />
@@ -300,9 +296,9 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
               )}
               <div className="mb-3 flex items-start justify-between gap-2">
                 <h3 className="text-sm font-bold text-gray-900 line-clamp-1">{c.name}</h3>
-                <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-semibold ${statusStyle[c.status] || statusStyle.Active}`}>
-                  {c.status}
-                </span>
+                <div className="shrink-0">
+                  <StatusBadge moduleKey="category" value={c.status} />
+                </div>
               </div>
               <div className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
                 <span>Parent: <span className="text-gray-700">{c.parent || "—"}</span></span>
@@ -336,8 +332,8 @@ export function CategoryClient({ initialData }: { initialData: CategoriesData })
       {/* Delete Confirmation */}
       <DeleteConfirmModal
         isOpen={!!deleteId}
-        title="Delete Category"
-        description="Are you sure you want to delete this category? This action cannot be undone."
+        title={`Delete ${categoryLabel}`}
+        description={`Are you sure you want to delete this ${categoryLabel.toLowerCase()}? This action cannot be undone.`}
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
       />

@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { unstable_cache, updateTag } from "next/cache";
+import { saveCustomFieldValues } from "./custom-fields";
 
 export type JobRow = {
   id: string;
@@ -153,12 +154,12 @@ export async function getJobById(id: string): Promise<JobRow | null> {
   return job ? toJobRow(job) : null;
 }
 
-export async function createJob(data: JobInput) {
+export async function createJob(data: JobInput, customFieldValues?: Record<string, string | number | boolean | null | undefined>) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" as const };
 
   try {
-    await prisma.job.create({
+    const created = await prisma.job.create({
       data: {
         title: data.title,
         department: data.department,
@@ -178,6 +179,9 @@ export async function createJob(data: JobInput) {
         thumbnailUrl: data.thumbnailUrl,
       },
     });
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("job", created.id, customFieldValues);
+    }
     updateTag("jobs");
     return { success: true };
   } catch (error) {
@@ -186,7 +190,7 @@ export async function createJob(data: JobInput) {
   }
 }
 
-export async function updateJob(id: string, data: JobInput) {
+export async function updateJob(id: string, data: JobInput, customFieldValues?: Record<string, string | number | boolean | null | undefined>) {
   const session = await auth();
   if (!session?.user) return { success: false, error: "Unauthorized" as const };
 
@@ -212,6 +216,9 @@ export async function updateJob(id: string, data: JobInput) {
         thumbnailUrl: data.thumbnailUrl,
       },
     });
+    if (customFieldValues && Object.keys(customFieldValues).length > 0) {
+      await saveCustomFieldValues("job", id, customFieldValues);
+    }
     updateTag("jobs");
     return { success: true };
   } catch (error) {

@@ -1,14 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { HelpCircle, Plus, Trash2, Loader2, ChevronDown, ChevronUp } from "lucide-react";
 import { Card } from "@/components/Card";
+import { StatusBadge } from "@/components/StatusBadge";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { getFaqs, createFaq, updateFaq, deleteFaq } from "@/app/actions/faq";
 import type { FaqData } from "@/app/actions/faq";
 
 const CATEGORY_OPTIONS = ["General", "Services", "Pricing", "Support"];
 
 export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
+  const faqLabel = useEntityLabel("faq");
+  const statusOptions = useStatusOptions("faq");
   const [faqs, setFaqs] = useState<FaqData[]>(initialFaqs);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -18,18 +23,27 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
   const [newQuestion, setNewQuestion] = useState("");
   const [newAnswer, setNewAnswer] = useState("");
   const [newCategory, setNewCategory] = useState("General");
+  const [newStatus, setNewStatus] = useState("");
+  const [newCustomValues, setNewCustomValues] = useState<CustomValues>({});
+
+  const statusDefault = statusOptions.find((s) => s.isDefault)?.statusValue ?? statusOptions[0]?.statusValue ?? "Active";
 
   function resetNewForm() {
     setNewQuestion("");
     setNewAnswer("");
     setNewCategory("General");
+    setNewStatus("");
+    setNewCustomValues({});
   }
 
   async function handleAdd() {
     if (!newQuestion.trim()) return;
     setIsSubmitting(true);
     setMessage(null);
-    const result = await createFaq({ question: newQuestion, answer: newAnswer, category: newCategory });
+    const result = await createFaq(
+      { question: newQuestion, answer: newAnswer, category: newCategory, status: newStatus || statusDefault },
+      newCustomValues
+    );
     setIsSubmitting(false);
     if (result.success) {
       setMessage({ type: "success", text: "FAQ added!" });
@@ -64,7 +78,7 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
       <div className="sticky top-0 z-10 -mx-6 -mt-5 mb-6 border-b border-zinc-200 bg-white px-6 py-4 sm:-mx-8 sm:-mt-6 sm:px-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-zinc-900">FAQ</h1>
+            <h1 className="text-xl font-bold text-zinc-900">{faqLabel}</h1>
             <p className="text-sm text-zinc-500">Manage frequently asked questions displayed on the website.</p>
           </div>
         </div>
@@ -78,7 +92,7 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
 
       {/* Add New FAQ */}
       <Card>
-        <h2 className="text-base font-bold text-zinc-900">Add New FAQ</h2>
+        <h2 className="text-base font-bold text-zinc-900">Add New {faqLabel}</h2>
         <div className="mt-4 space-y-4">
           <div>
             <label className="mb-1 block text-sm font-bold text-zinc-800">Question</label>
@@ -88,16 +102,27 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
             <label className="mb-1 block text-sm font-bold text-zinc-800">Answer</label>
             <textarea rows={3} value={newAnswer} onChange={(e) => setNewAnswer(e.target.value)} placeholder="Write the answer here..." className="w-full resize-none rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:border-indigo-400 focus:bg-white" />
           </div>
-          <div>
-            <label className="mb-1 block text-sm font-bold text-zinc-800">Category</label>
-            <select value={newCategory} onChange={(e) => setNewCategory(e.target.value)} className={inputCls}>
-              {CATEGORY_OPTIONS.map((c) => <option key={c} value={c}>{c}</option>)}
-            </select>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="mb-1 block text-sm font-bold text-zinc-800">Category</label>
+              <select value={newCategory} onChange={(e) => setNewCategory(e.target.value)} className={inputCls}>
+                {CATEGORY_OPTIONS.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-bold text-zinc-800">Status</label>
+              <select value={newStatus || statusDefault} onChange={(e) => setNewStatus(e.target.value)} className={inputCls}>
+                {statusOptions.map((s) => (
+                  <option key={s.statusValue} value={s.statusValue}>{s.label}</option>
+                ))}
+              </select>
+            </div>
           </div>
+          <CustomFieldRenderer moduleKey="faq" onValuesChange={setNewCustomValues} />
           <button type="button" onClick={handleAdd} disabled={isSubmitting || !newQuestion.trim()}
             className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
             {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
-            <Plus className="h-4 w-4" /> Add FAQ
+            <Plus className="h-4 w-4" /> Add {faqLabel}
           </button>
         </div>
       </Card>
@@ -105,13 +130,13 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
       {/* FAQ List */}
       <Card noPadding className="mt-6 overflow-hidden">
         <div className="border-b border-gray-100 px-6 py-4">
-          <h3 className="text-lg font-bold text-black">All FAQs ({faqs.length})</h3>
+          <h3 className="text-lg font-bold text-black">All {faqLabel}s ({faqs.length})</h3>
         </div>
 
         {faqs.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <HelpCircle className="h-10 w-10 text-zinc-300" />
-            <p className="text-sm text-zinc-500">No FAQs yet. Add one above.</p>
+            <p className="text-sm text-zinc-500">No {faqLabel.toLowerCase()}s yet. Add one above.</p>
           </div>
         ) : (
           <div className="divide-y divide-zinc-100">
@@ -129,6 +154,7 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
                     </p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0 ml-4">
+                    <StatusBadge moduleKey="faq" value={faq.status} />
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleDelete(faq.id); }}
@@ -155,26 +181,25 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
 }
 
 function EditableFaq({ faq, onUpdated }: { faq: FaqData; onUpdated: (faq: FaqData) => void }) {
+  const statusOptions = useStatusOptions("faq");
   const [question, setQuestion] = useState(faq.question);
   const [answer, setAnswer] = useState(faq.answer);
   const [category, setCategory] = useState(faq.category || "General");
+  const [status, setStatus] = useState(faq.status);
+  const [customValues, setCustomValues] = useState<CustomValues>({});
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  useEffect(() => {
-    setQuestion(faq.question);
-    setAnswer(faq.answer);
-    setCategory(faq.category || "General");
-  }, [faq.id, faq.question, faq.answer, faq.category]);
+  const statusDefault = statusOptions.find((s) => s.isDefault)?.statusValue ?? statusOptions[0]?.statusValue ?? "Active";
 
   async function handleSave() {
     if (!question.trim()) return;
     setIsSaving(true);
     setSaved(false);
-    const result = await updateFaq(faq.id, { question, answer, category });
+    const result = await updateFaq(faq.id, { question, answer, category, status: status || statusDefault }, customValues);
     setIsSaving(false);
     if (result.success) {
-      onUpdated({ ...faq, question, answer, category });
+      onUpdated({ ...faq, question, answer, category, status: status || statusDefault });
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     }
@@ -200,6 +225,14 @@ function EditableFaq({ faq, onUpdated }: { faq: FaqData; onUpdated: (faq: FaqDat
               {CATEGORY_OPTIONS.map((c) => <option key={c} value={c}>{c}</option>)}
             </select>
           </div>
+          <div className="w-48">
+            <label className="mb-1 block text-xs font-bold text-zinc-700">Status</label>
+            <select value={status || statusDefault} onChange={(e) => setStatus(e.target.value)} className={inputCls}>
+              {statusOptions.map((s) => (
+                <option key={s.statusValue} value={s.statusValue}>{s.label}</option>
+              ))}
+            </select>
+          </div>
           <div className="mt-5 flex items-center gap-3">
             {saved && <span className="text-xs font-medium text-green-600">Saved!</span>}
             <button type="button" onClick={handleSave} disabled={isSaving || !question.trim()}
@@ -209,6 +242,7 @@ function EditableFaq({ faq, onUpdated }: { faq: FaqData; onUpdated: (faq: FaqDat
             </button>
           </div>
         </div>
+        <CustomFieldRenderer moduleKey="faq" recordId={faq.id} onValuesChange={setCustomValues} />
       </div>
     </div>
   );

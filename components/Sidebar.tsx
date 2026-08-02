@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { UserProfile } from "@/components/UserProfile";
 import { signOut } from "next-auth/react";
+import { useConfig } from "@/components/ConfigProvider";
 
 import {
   Home,
@@ -34,24 +35,25 @@ import {
 } from "lucide-react";
 
 type NavItem = {
-  label: string;
+  label?: string;
+  labelKey?: string;
   href: string;
   icon: LucideIcon;
-  children?: { label: string; href: string; icon: LucideIcon }[];
+  children?: { label?: string; labelKey?: string; href: string; icon: LucideIcon }[];
 };
 
 export const navItems: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: Home },
-  { label: "Customer", href: "/customer", icon: UserSquare2 },
-  { label: "Projects", href: "/projects", icon: Folder },
-  { label: "Team", href: "/team", icon: Contact },
-  { label: "Services", href: "/services", icon: Layers },
-  { label: "Careers", href: "/careers", icon: Briefcase },
+  { labelKey: "customer", href: "/customer", icon: UserSquare2 },
+  { labelKey: "project", href: "/projects", icon: Folder },
+  { labelKey: "team", href: "/team", icon: Contact },
+  { labelKey: "service", href: "/services", icon: Layers },
+  { labelKey: "job", href: "/careers", icon: Briefcase },
   { label: "Analytics", href: "/analytics", icon: BarChart2 },
-  { label: "Invoices", href: "/invoices", icon: FileText },
-  { label: "Blog", href: "/blog", icon: Newspaper },
-  { label: "Pages", href: "/pages", icon: FilePlus2 },
-  { label: "Category", href: "/category", icon: Tag },
+  { labelKey: "invoice", href: "/invoices", icon: FileText },
+  { labelKey: "blog", href: "/blog", icon: Newspaper },
+  { labelKey: "page", href: "/pages", icon: FilePlus2 },
+  { labelKey: "category", href: "/category", icon: Tag },
   {
     label: "Website Setup",
     href: "/website-setup",
@@ -61,7 +63,7 @@ export const navItems: NavItem[] = [
       { label: "Footer Widgets", href: "/website-setup/footer-widgets", icon: LayoutPanelTop },
       { label: "Our Partners", href: "/website-setup/partners", icon: Handshake },
       { label: "Technologies", href: "/website-setup/technologies", icon: Cpu },
-      { label: "FAQ", href: "/website-setup/faq", icon: HelpCircle },
+      { labelKey: "faq", href: "/website-setup/faq", icon: HelpCircle },
       { label: "Add New Page", href: "/website-setup/add-newpage", icon: FilePlus2 },
     ],
   },
@@ -164,12 +166,22 @@ export function Sidebar({
   onClose: () => void;
 }) {
   const pathname = usePathname();
+  const { labels } = useConfig();
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const mainItems = navItems.slice(0, -1);
   const settingsItem = navItems[navItems.length - 1];
+
+  const resolveLabel = (item: { label?: string; labelKey?: string }) => {
+    if (item.labelKey) {
+      const entry = labels[item.labelKey];
+      if (entry) return entry.plural ?? entry.singular;
+      return item.labelKey;
+    }
+    return item.label ?? "";
+  };
 
   const toggleMenu = (href: string) => {
     setOpenMenus((prev) => ({ ...prev, [href]: !prev[href] }));
@@ -265,7 +277,7 @@ export function Sidebar({
                           strokeWidth={2}
                           className={childActive ? "text-[#e8821a]" : "text-white"}
                         />
-                        {item.label}
+                        {resolveLabel(item)}
                       </span>
                       <ChevronDown
                         size={16}
@@ -309,7 +321,7 @@ export function Sidebar({
                                   strokeWidth={2}
                                   className={active ? "text-[#e8821a]" : "text-zinc-400"}
                                 />
-                                {child.label}
+                                {resolveLabel(child)}
                               </Link>
                             );
                           })}
@@ -339,7 +351,7 @@ export function Sidebar({
                     strokeWidth={2}
                     className={active ? "text-[#e8821a]" : "text-white"}
                   />
-                  {item.label}
+                  {resolveLabel(item)}
                 </Link>
               );
             })}

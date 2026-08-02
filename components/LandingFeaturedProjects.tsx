@@ -29,7 +29,7 @@ export function LandingFeaturedProjects({ initialProjects }: { initialProjects?:
         setProjects(JSON.parse(JSON.stringify(data)))
       );
     }
-  }, []);
+  }, [initialProjects]);
 
   const toggleFlip = (id: string) => {
     setFlippedIds((prev) => {

@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { X, Users, Mail, Phone, FileText, ExternalLink, Search, CheckCircle, Clock, XCircle, ChevronDown, UserCheck } from "lucide-react";
+import { X, Users, Mail, Phone, FileText, ExternalLink, Search } from "lucide-react";
 import type { JobVacancyRow } from "./EditVacancyModal";
+import { StatusBadge } from "@/components/StatusBadge";
+import { useStatusOptions } from "@/components/ConfigProvider";
 
 export type Applicant = {
   id: string;
@@ -15,7 +17,7 @@ export type Applicant = {
   currentCompany?: string;
   portfolioUrl?: string;
   resumeName: string;
-  status: "Submitted" | "Reviewing" | "Shortlisted" | "Interviewed" | "Offered" | "Rejected";
+  status: string;
   appliedDate: string;
   coverNote?: string;
 };
@@ -25,7 +27,7 @@ interface ViewApplicantsModalProps {
   applicants: Applicant[];
   isOpen: boolean;
   onClose: () => void;
-  onUpdateStatus: (applicantId: string, newStatus: Applicant["status"]) => void;
+  onUpdateStatus: (applicantId: string, newStatus: string) => void;
 }
 
 export function ViewApplicantsModal({
@@ -37,6 +39,7 @@ export function ViewApplicantsModal({
 }: ViewApplicantsModalProps) {
   const [search, setSearch] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<string>("All");
+  const statusOptions = useStatusOptions("applicant");
 
   if (!isOpen || !vacancy) return null;
 
@@ -47,29 +50,10 @@ export function ViewApplicantsModal({
       applicant.candidateName.toLowerCase().includes(search.toLowerCase()) ||
       applicant.email.toLowerCase().includes(search.toLowerCase()) ||
       (applicant.currentCompany && applicant.currentCompany.toLowerCase().includes(search.toLowerCase()));
-    
+
     const matchesStatus = selectedStatus === "All" || applicant.status === selectedStatus;
     return matchesSearch && matchesStatus;
   });
-
-  const getStatusBadge = (status: Applicant["status"]) => {
-    switch (status) {
-      case "Submitted":
-        return <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-700">Submitted</span>;
-      case "Reviewing":
-        return <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-700">Reviewing</span>;
-      case "Shortlisted":
-        return <span className="rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-semibold text-purple-700">Shortlisted</span>;
-      case "Interviewed":
-        return <span className="rounded-full bg-indigo-100 px-2.5 py-0.5 text-xs font-semibold text-indigo-700">Interviewed</span>;
-      case "Offered":
-        return <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">Offered</span>;
-      case "Rejected":
-        return <span className="rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-semibold text-rose-700">Rejected</span>;
-      default:
-        return null;
-    }
-  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm animate-in fade-in duration-200">
@@ -123,12 +107,9 @@ export function ViewApplicantsModal({
               className="rounded-xl border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs text-gray-800 font-medium focus:outline-none focus:border-indigo-500"
             >
               <option value="All">All Statuses</option>
-              <option value="Submitted">Submitted</option>
-              <option value="Reviewing">Reviewing</option>
-              <option value="Shortlisted">Shortlisted</option>
-              <option value="Interviewed">Interviewed</option>
-              <option value="Offered">Offered</option>
-              <option value="Rejected">Rejected</option>
+              {statusOptions.map((s) => (
+                <option key={s.statusValue} value={s.statusValue}>{s.label}</option>
+              ))}
             </select>
           </div>
         </div>
@@ -156,18 +137,15 @@ export function ViewApplicantsModal({
                   </div>
 
                   <div className="flex items-center gap-2">
-                    {getStatusBadge(applicant.status)}
+                    <StatusBadge moduleKey="applicant" value={applicant.status} />
                     <select
                       value={applicant.status}
-                      onChange={(e) => onUpdateStatus(applicant.id, e.target.value as Applicant["status"])}
+                      onChange={(e) => onUpdateStatus(applicant.id, e.target.value)}
                       className="rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs text-gray-700 font-semibold focus:outline-none focus:ring-1 focus:ring-indigo-500 cursor-pointer"
                     >
-                      <option value="Submitted">Mark Submitted</option>
-                      <option value="Reviewing">Mark Reviewing</option>
-                      <option value="Shortlisted">Mark Shortlisted</option>
-                      <option value="Interviewed">Mark Interviewed</option>
-                      <option value="Offered">Mark Offered</option>
-                      <option value="Rejected">Mark Rejected</option>
+                      {statusOptions.map((s) => (
+                        <option key={s.statusValue} value={s.statusValue}>Mark {s.label}</option>
+                      ))}
                     </select>
                   </div>
                 </div>

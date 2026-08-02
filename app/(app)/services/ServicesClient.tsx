@@ -13,6 +13,8 @@ import { AddServiceModal } from "@/components/AddServiceModal";
 import { EditServiceModal, type ServiceRow } from "@/components/EditServiceModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { ViewDetailModal } from "@/components/ViewDetailModal";
+import { StatusBadge } from "@/components/StatusBadge";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { getServicesPaginated, deleteService } from "@/app/actions/services";
 
 type Service = {
@@ -77,6 +79,10 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
   const [featuredFilter, setFeaturedFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const filterRef = useRef<HTMLDivElement>(null);
+
+  const serviceLabel = useEntityLabel("service");
+  const serviceLabelPlural = useEntityLabel("service", { plural: true });
+  const statusOptions = useStatusOptions("service");
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -144,8 +150,8 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader
-          title="Services"
-          description="Manage all your services."
+          title={serviceLabelPlural}
+          description={`Manage all your ${serviceLabelPlural.toLowerCase()}.`}
         />
         <div className="flex items-center gap-3">
           <div className="relative" ref={filterRef}>
@@ -156,10 +162,10 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
             {filterOpen && (
               <div className="absolute max-md:left-0 max-md:right-auto md:right-0 top-full z-20 mt-2 w-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
                 <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
-                {["all", "Active", "Inactive"].map((s) => (
-                  <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
-                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
-                    {s === "all" ? "All Statuses" : s}
+                {[{ value: "all", label: "All Statuses" }, ...statusOptions.map((s) => ({ value: s.statusValue, label: s.label }))].map((s) => (
+                  <button key={s.value} type="button" onClick={() => { setStatusFilter(s.value); setFilterOpen(false); }}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s.value ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
+                    {s.label}
                   </button>
                 ))}
                 <div className="my-2 border-t border-gray-100" />
@@ -182,7 +188,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
             )}
           </div>
           <Button onClick={() => setAddOpen(true)}>
-            Add Service
+            Add {serviceLabel}
             <Plus className="h-4 w-4" />
           </Button>
         </div>
@@ -190,14 +196,14 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-        <StatCard icon={Layers} label="Total Services" value={data.total} />
+        <StatCard icon={Layers} label={`Total ${serviceLabelPlural}`} value={data.total} />
         <StatCard icon={CheckCircle2} label="Active" value={data.active} />
         <StatCard icon={XCircle} label="Inactive" value={data.inactive} />
       </div>
 
       {/* Search + View Toggle */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-bold text-black">Services</h2>
+        <h2 className="text-lg font-bold text-black">{serviceLabelPlural}</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
           <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
@@ -247,7 +253,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <Layers className="h-10 w-10 text-zinc-300" />
             <p className="text-sm text-zinc-500">
-              {search ? "No services match your search" : "No services yet. Add your first service!"}
+              {search ? `No ${serviceLabelPlural.toLowerCase()} match your search` : `No ${serviceLabelPlural.toLowerCase()} yet. Add your first ${serviceLabel.toLowerCase()}!`}
             </p>
           </div>
         </Card>
@@ -283,13 +289,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
                     <td className="p-4 text-sm font-medium text-gray-900">{service.serviceName}</td>
                     <td className="p-4 text-sm text-gray-600 max-w-xs truncate">{extractPreview(service.description) || "—"}</td>
                     <td className="p-4">
-                      <span className={`px-4 py-1.5 rounded-full text-xs font-medium ${
-                        service.isActive
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}>
-                        {service.isActive ? "Active" : "Inactive"}
-                      </span>
+                      <StatusBadge moduleKey="service" value={service.isActive ? "Active" : "Inactive"} />
                     </td>
                     <td className="p-4">
                       <RowActions
@@ -321,11 +321,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm text-gray-900 mb-1">{service.serviceName}</h3>
                     <p className="text-xs text-gray-600 mb-2 line-clamp-2">{extractPreview(service.description) || "—"}</p>
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                      service.isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                    }`}>
-                      {service.isActive ? "Active" : "Inactive"}
-                    </span>
+                    <StatusBadge moduleKey="service" value={service.isActive ? "Active" : "Inactive"} />
                   </div>
                 </div>
                 <RowActions variant="buttons" onView={() => setViewItem(service)} onEdit={() => setEditTarget(service as unknown as ServiceRow)} onDelete={() => handleDelete(service.id)} />
@@ -354,11 +350,9 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
               {/* Title & Status */}
               <div className="mb-3 flex items-start justify-between gap-2">
                 <h3 className="text-sm font-bold text-gray-900 line-clamp-2">{service.serviceName}</h3>
-                <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-medium ${
-                  service.isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                }`}>
-                  {service.isActive ? "Active" : "Inactive"}
-                </span>
+                <div className="shrink-0">
+                  <StatusBadge moduleKey="service" value={service.isActive ? "Active" : "Inactive"} />
+                </div>
               </div>
 
               {/* Description */}
@@ -417,8 +411,8 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
       {/* Delete Confirmation */}
       <DeleteConfirmModal
         isOpen={!!deleteId}
-        title="Delete Service"
-        description="Are you sure you want to delete this service? This action cannot be undone."
+        title={`Delete ${serviceLabel}`}
+        description={`Are you sure you want to delete this ${serviceLabel.toLowerCase()}? This action cannot be undone.`}
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
       />
@@ -433,7 +427,7 @@ export function ServicesClient({ initialData }: { initialData: ServicesData }) {
           { label: "Name", value: viewItem?.serviceName },
           { label: "Category", value: viewItem?.category },
           { label: "Base Price", value: viewItem?.basePrice },
-          { label: "Status", value: viewItem?.isActive ? "Active" : "Inactive" },
+          { label: "Status", value: viewItem ? (viewItem.isActive ? "Active" : "Inactive") : undefined },
           { label: "Featured", value: viewItem?.isFeatured ? "Yes" : "No" },
           { label: "Description", value: extractPreview(viewItem?.description ?? null) },
         ]}

@@ -12,6 +12,8 @@ import { Pagination } from "@/components/Pagination";
 import { ProjectModal } from "@/components/ProjectModal";
 import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { ViewDetailModal } from "@/components/ViewDetailModal";
+import { StatusBadge } from "@/components/StatusBadge";
+import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { getProjects, deleteProject } from "@/app/actions/projects";
 
 type SelectOption = { id: string; label: string };
@@ -61,12 +63,10 @@ const PAGE_SIZE = 10;
 export function ProjectsClient({
   initialData,
   customers = [],
-  teams = [],
   services = [],
 }: {
   initialData: ProjectsData;
   customers?: SelectOption[];
-  teams?: SelectOption[];
   services?: SelectOption[];
 }) {
   const [data, setData] = useState(initialData);
@@ -80,6 +80,13 @@ export function ProjectsClient({
   const [customerFilter, setCustomerFilter] = useState("all");
   const [servicePFilter, setServicePFilter] = useState("all");
   const filterRef = useRef<HTMLDivElement>(null);
+
+  const projectLabel = useEntityLabel("project");
+  const projectLabelPlural = useEntityLabel("project", { plural: true });
+  const customerLabel = useEntityLabel("customer");
+  const customerLabelPlural = useEntityLabel("customer", { plural: true });
+  const serviceLabelPlural = useEntityLabel("service", { plural: true });
+  const projectStatusOptions = useStatusOptions("project");
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -160,7 +167,7 @@ export function ProjectsClient({
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader
-          title="Projects / Portfolio"
+          title={`${projectLabelPlural} / Portfolio`}
           description="Manage your Portfolio Projects."
         />
         <div className="flex items-center gap-3">
@@ -172,10 +179,10 @@ export function ProjectsClient({
             {filterOpen && (
               <div className="absolute max-md:left-0 max-md:right-auto md:right-0 top-full z-20 mt-2 max-h-80 w-56 overflow-y-auto rounded-xl border border-gray-200 bg-white py-2 shadow-lg">
                 <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</p>
-                {["all", "Published", "Draft"].map((s) => (
+                {["all", ...projectStatusOptions.map((o) => o.statusValue)].map((s) => (
                   <button key={s} type="button" onClick={() => { setStatusFilter(s); setFilterOpen(false); }}
                     className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${statusFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>
-                    {s === "all" ? "All Statuses" : s}
+                    {s === "all" ? "All Statuses" : (projectStatusOptions.find((o) => o.statusValue === s)?.label ?? s)}
                   </button>
                 ))}
                 <div className="my-2 border-t border-gray-100" />
@@ -189,7 +196,7 @@ export function ProjectsClient({
                 <div className="my-2 border-t border-gray-100" />
                 <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Customer</p>
                 <button type="button" onClick={() => { setCustomerFilter("all"); setFilterOpen(false); }}
-                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${customerFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>All Customers</button>
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${customerFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>All {customerLabelPlural}</button>
                 {projectCustomers.map((c) => (
                   <button key={c} type="button" onClick={() => { setCustomerFilter(c); setFilterOpen(false); }}
                     className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${customerFilter === c ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>{c}</button>
@@ -197,7 +204,7 @@ export function ProjectsClient({
                 <div className="my-2 border-t border-gray-100" />
                 <p className="px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Service</p>
                 <button type="button" onClick={() => { setServicePFilter("all"); setFilterOpen(false); }}
-                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${servicePFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>All Services</button>
+                  className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${servicePFilter === "all" ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>All {serviceLabelPlural}</button>
                 {projectServices.map((s) => (
                   <button key={s} type="button" onClick={() => { setServicePFilter(s); setFilterOpen(false); }}
                     className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-zinc-100 hover:text-zinc-900 ${servicePFilter === s ? "bg-zinc-100 font-semibold text-zinc-900" : "text-zinc-600"}`}>{s}</button>
@@ -206,7 +213,7 @@ export function ProjectsClient({
             )}
           </div>
           <Button onClick={handleAdd}>
-            Add Project
+            Add {projectLabel}
             <Plus className="h-4 w-4" />
           </Button>
         </div>
@@ -214,14 +221,14 @@ export function ProjectsClient({
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-        <StatCard icon={Folder} label="Total Projects" value={data.total} />
+        <StatCard icon={Folder} label={`Total ${projectLabelPlural}`} value={data.total} />
         <StatCard icon={FileText} label="Published" value={data.published} />
         <StatCard icon={FileEdit} label="Drafts" value={data.drafts} />
       </div>
 
       {/* Search + View Toggle */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-lg font-bold text-black">Projects</h2>
+        <h2 className="text-lg font-bold text-black">{projectLabelPlural}</h2>
         <div className="flex items-center gap-3">
           {/* View Toggle */}
           <div className="flex items-center rounded-lg border border-gray-200 bg-white p-1">
@@ -256,7 +263,7 @@ export function ProjectsClient({
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
             <input
               type="search"
-              placeholder="Search projects..."
+              placeholder={`Search ${projectLabelPlural.toLowerCase()}...`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-10 pr-4 text-sm text-zinc-700 shadow-sm outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-sky-200"
@@ -271,7 +278,7 @@ export function ProjectsClient({
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <Folder className="h-10 w-10 text-zinc-300" />
             <p className="text-sm text-zinc-500">
-              {search ? "No projects match your search" : "No projects yet. Add your first project!"}
+              {search ? `No ${projectLabelPlural.toLowerCase()} match your search` : `No ${projectLabelPlural.toLowerCase()} yet. Add your first ${projectLabel.toLowerCase()}!`}
             </p>
           </div>
         </Card>
@@ -286,7 +293,7 @@ export function ProjectsClient({
                   <th className="text-left p-4 text-sm font-semibold text-gray-700 w-16">#</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700 w-20">Thumbnail</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Title</th>
-                  <th className="text-left p-4 text-sm font-semibold text-gray-700">Customer</th>
+                  <th className="text-left p-4 text-sm font-semibold text-gray-700">{customerLabel}</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Service</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Status</th>
                   <th className="text-left p-4 text-sm font-semibold text-gray-700">Actions</th>
@@ -312,15 +319,7 @@ export function ProjectsClient({
                     <td className="p-4 text-sm text-gray-600">{project.customer?.fullName || "—"}</td>
                     <td className="p-4 text-sm text-gray-600">{project.service?.serviceName || "—"}</td>
                     <td className="p-4">
-                      <span
-                        className={`px-4 py-1.5 rounded-full text-xs font-medium ${
-                          project.status === "Published"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-700"
-                        }`}
-                      >
-                        {project.status}
-                      </span>
+                      <StatusBadge moduleKey="project" value={project.status} />
                     </td>
                     <td className="p-4">
                       <RowActions
@@ -354,15 +353,7 @@ export function ProjectsClient({
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm text-gray-900 mb-1">{project.title}</h3>
                     <p className="text-xs text-gray-600 mb-2">{project.service?.serviceName || "No service"}</p>
-                    <span
-                      className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                        project.status === "Published"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
-                    >
-                      {project.status}
-                    </span>
+                    <StatusBadge moduleKey="project" value={project.status} />
                   </div>
                 </div>
                 <RowActions variant="buttons" onView={() => setViewItem(project)} onEdit={() => handleEdit(project)} onDelete={() => handleDelete(project.id)} />
@@ -397,15 +388,7 @@ export function ProjectsClient({
                 <h3 className="text-sm font-bold text-gray-900 line-clamp-2">
                   {project.title}
                 </h3>
-                <span
-                  className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-medium ${
-                    project.status === "Published"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-red-100 text-red-700"
-                  }`}
-                >
-                  {project.status}
-                </span>
+                <StatusBadge moduleKey="project" value={project.status} className="shrink-0 px-3 py-1 text-[11px]" />
               </div>
 
               {/* Description */}
@@ -464,8 +447,8 @@ export function ProjectsClient({
       {/* Delete Confirmation */}
       <DeleteConfirmModal
         isOpen={!!deleteId}
-        title="Delete Project"
-        description="Are you sure you want to delete this project? This action cannot be undone."
+        title={`Delete ${projectLabel}`}
+        description={`Are you sure you want to delete this ${projectLabel.toLowerCase()}? This action cannot be undone.`}
         onClose={() => setDeleteId(null)}
         onConfirm={handleDeleteConfirm}
       />
@@ -480,7 +463,7 @@ export function ProjectsClient({
           { label: "Title", value: viewItem?.title },
           { label: "Category", value: viewItem?.category },
           { label: "Status", value: viewItem?.status },
-          { label: "Customer", value: viewItem?.customer?.fullName },
+          { label: customerLabel, value: viewItem?.customer?.fullName },
           { label: "Service", value: viewItem?.service?.serviceName },
           { label: "Budget", value: viewItem?.budget },
           { label: "Start Date", value: viewItem?.startDate ? new Date(viewItem.startDate).toLocaleDateString() : null },

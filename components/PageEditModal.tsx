@@ -7,6 +7,8 @@ import { ImageUploader } from "@/components/ImageUploader";
 import { TiptapEditor } from "@/components/TiptapEditor";
 import { updatePage, type PageInput } from "@/app/actions/pages";
 import type { JSONContent } from "@tiptap/react";
+import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
+import { useStatusOptions } from "@/components/ConfigProvider";
 
 type Page = {
   id: string;
@@ -38,9 +40,9 @@ export function PageEditModal({
     (page?.content as JSONContent) ?? null
   );
   const [thumbnail, setThumbnail] = useState<string | null>(page?.thumbnail ?? null);
-  const [status, setStatus] = useState<"Published" | "Draft">(
-    (page?.status as "Published" | "Draft") ?? "Draft"
-  );
+  const statusOptions = useStatusOptions("page");
+  const [status, setStatus] = useState<string>(page?.status ?? "");
+  const [customValues, setCustomValues] = useState<CustomValues>({});
   const [metaTitle, setMetaTitle] = useState(page?.metaTitle ?? "");
   const [metaDesc, setMetaDesc] = useState(page?.metaDesc ?? "");
   const [keywords, setKeywords] = useState(page?.keywords ?? "");
@@ -68,7 +70,7 @@ export function PageEditModal({
       status,
     };
 
-    const result = await updatePage(page!.id, data);
+    const result = await updatePage(page!.id, data, customValues);
     setIsSubmitting(false);
 
     if (!result.success) {
@@ -147,10 +149,11 @@ export function PageEditModal({
               {/* Status */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">Status</label>
-                <select value={status} onChange={(e) => setStatus(e.target.value as "Published" | "Draft")}
+                <select value={status} onChange={(e) => setStatus(e.target.value)}
                   className={inputCls}>
-                  <option value="Draft">Draft</option>
-                  <option value="Published">Published</option>
+                  {statusOptions.map((s) => (
+                    <option key={s.statusValue} value={s.statusValue}>{s.label}</option>
+                  ))}
                 </select>
               </div>
 
@@ -176,6 +179,13 @@ export function PageEditModal({
                   <ImageUploader label="Meta Image" value={metaImage} onChange={(url) => setMetaImage(url)} />
                 </div>
               </div>
+
+              {/* Custom Fields */}
+              <CustomFieldRenderer
+                moduleKey="page"
+                recordId={page?.id}
+                onValuesChange={setCustomValues}
+              />
             </div>
           </div>
 
