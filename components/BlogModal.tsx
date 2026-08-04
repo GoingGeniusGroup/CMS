@@ -15,6 +15,11 @@ type Author = {
   fullName: string;
 };
 
+type CategoryOption = {
+  id: string;
+  name: string;
+};
+
 type Blog = {
   id: string;
   title: string;
@@ -36,12 +41,14 @@ export function BlogModal({
   onSuccess,
   blog,
   authors,
+  categories = [],
 }: {
   open: boolean;
   onClose: () => void;
   onSuccess: () => void;
   blog?: Blog | null;
   authors: Author[];
+  categories?: CategoryOption[];
 }) {
   const isEditing = !!blog;
   const blogLabel = useEntityLabel("blog");
@@ -194,7 +201,20 @@ export function BlogModal({
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Category</label>
-                  <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="e.g. Technology" className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40" />
+                  {categories.length > 0 ? (
+                    <select
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40"
+                    >
+                      <option value="">Select category</option>
+                      {categories.map((c) => (
+                        <option key={c.id} value={c.name}>{c.name}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="e.g. Technology" className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400/40" />
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Author</label>

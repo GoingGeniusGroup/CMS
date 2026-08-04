@@ -1,10 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { Search, Users } from "lucide-react";
-import { getPublicTeamMembers } from "@/app/actions/team";
+import { getPublicTeamMembers, getDepartments } from "@/app/actions/team";
+import { getSection, type SiteContentSection } from "@/app/actions/site-content";
+import { SECTION_REGISTRY } from "@/lib/content/schemas";
 import TeamMemberModal from "@/components/TeamMemberModal";
+import { TeamRoster, getTeamPortraitLayoutId, type RosterMember } from "@/components/TeamRoster";
+import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
+import { PageHero } from "@/components/content/PageHero";
+import { usePublicLabel } from "@/components/content/PublicLabelProvider";
 
 type TeamMember = {
   id: string;
@@ -25,76 +31,43 @@ type TeamMember = {
   website?: string | null;
 };
 
-
-
-/* ─── Team Section with Grid ─────────────────────────────── */
-function TeamSection({
-  title,
-  members,
-  onMemberClick,
-}: {
-  title: string;
-  members: TeamMember[];
-  onMemberClick: (member: TeamMember) => void;
-}) {
-  if (members.length === 0) return null;
-
-  return (
-    <div className="mb-12">
-      <h2 className="text-xl font-bold text-gray-900 mb-6">{title}</h2>
-
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-        {members.map((member) => (
-          <div
-            key={member.id}
-            onClick={() => onMemberClick(member)}
-            className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition group"
-          >
-            <div className="relative aspect-square w-full bg-gradient-to-br from-indigo-50 to-purple-50 overflow-hidden">
-              {member.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={member.image}
-                  alt={member.fullName}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center">
-                  <span className="text-4xl font-extrabold text-indigo-200">{member.fullName.charAt(0)}</span>
-                </div>
-              )}
-            </div>
-            <div className="p-4 text-center">
-              <p className="text-sm font-bold text-gray-900">{member.fullName}</p>
-              <p className="text-xs text-gray-500">{member.role || "Team Member"}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+const NAMESPACE = "teams-page";
+const UNASSIGNED_GROUP = "Other";
 
 /* ─── Page ───────────────────────────────────────────────── */
 export default function TeamsPage() {
+  // DEFAULT_ENTITY_LABELS["team"].singular is "Team" (plural: "Team Members"),
+  // so the search placeholder is built from the singular label rather than
+  // just interpolating the raw entity label directly.
+  const teamSingular = usePublicLabel("team", { fallback: "Team" });
   const [allMembers, setAllMembers] = useState<TeamMember[]>([]);
+  const [departmentOrder, setDepartmentOrder] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [heroSection, setHeroSection] = useState<SiteContentSection<"teams.hero">>({
+    sectionKey: "teams.hero",
+    pageKey: "teams",
+    variant: "default",
+    isVisible: true,
+    order: SECTION_REGISTRY["teams.hero"].defaultOrder,
+    data: SECTION_REGISTRY["teams.hero"].defaultData,
+  });
 
   useEffect(() => {
     getPublicTeamMembers().then((data) => setAllMembers(data as TeamMember[]));
+    // Department is a curated list managed in Settings; drives both the
+    // grouping and its display order, independent of each member's free-text value.
+    getDepartments().then((depts) => setDepartmentOrder(depts.map((d) => d.name)));
+    getSection("teams", "teams.hero").then((section) => setHeroSection(section));
   }, []);
 
-  const handleMemberClick = (member: TeamMember) => {
-    setSelectedMember(member);
+  function handleSelect(member: RosterMember) {
+    const full = allMembers.find((m) => m.id === member.id);
+    if (!full) return;
+    setSelectedMember(full);
     setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedMember(null);
-  };
+  }
 
   // Filter by search
   const filtered = searchQuery.trim()
@@ -105,34 +78,37 @@ export default function TeamsPage() {
       )
     : allMembers;
 
+  // Group members by configured Department; anything with no match (a member
+  // whose department was renamed/removed, or left blank) falls into "Other".
+  // Empty departments are simply never rendered, since we only iterate groups
+  // that end up with members.
+  const grouped = useMemo(() => {
+    const byDept = new Map<string, TeamMember[]>();
+    for (const member of filtered) {
+      const key =
+        member.department && departmentOrder.includes(member.department)
+          ? member.department
+          : UNASSIGNED_GROUP;
+      const list = byDept.get(key) ?? [];
+      list.push(member);
+      byDept.set(key, list);
+    }
+    const orderedKeys = [...departmentOrder, UNASSIGNED_GROUP].filter((key) => byDept.has(key));
+    return orderedKeys.map((key) => ({ label: key, members: byDept.get(key)! }));
+  }, [filtered, departmentOrder]);
+
   return (
     <div className="min-h-screen bg-white">
-      {/* ── Hero ─────────────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-6xl px-4 pt-10 pb-6 sm:px-6 lg:px-8">
-        <div className="rounded-2xl border border-gray-200 bg-white px-6 py-10 text-center relative">
-          <div className="flex flex-col items-center">
-            <span className="inline-block rounded-full bg-indigo-50 px-4 py-1 text-[11px] font-bold uppercase tracking-widest text-indigo-600 mb-3">
-              Our Team
-            </span>
-            <h1 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
-              Meet Our Amazing Team
-            </h1>
-            <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-gray-500">
-              A diverse group of passionate professionals working together to create
-              extraordinary digital solutions.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero data={heroSection.data} />
 
       {/* ── Search ──────────────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-6xl px-4 pb-6 sm:px-6 lg:px-8">
+      <section className="mx-auto w-full max-w-5xl px-4 pb-6 sm:px-6 lg:px-8">
         <div className="flex justify-end">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Search team member..."
+              placeholder={`Search ${teamSingular.toLowerCase()} member...`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="rounded-full border border-gray-300 bg-white py-1.5 pl-8 pr-4 text-xs text-gray-700 placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600 w-48"
@@ -141,9 +117,18 @@ export default function TeamsPage() {
         </div>
       </section>
 
-      {/* ── Team Grid ────────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-6xl px-4 pb-10 sm:px-6 lg:px-8">
-        <TeamSection title="Our Team" members={filtered} onMemberClick={handleMemberClick} />
+      {/* ── Team Roster, grouped by department ────────────── */}
+      <section className="mx-auto w-full max-w-5xl px-4 pb-14 sm:px-6 lg:px-8">
+        {grouped.map((group) => (
+          <RevealOnScroll key={group.label} className="mb-12">
+            <TeamRoster
+              members={group.members}
+              onSelect={handleSelect}
+              groupLabel={group.label}
+              namespace={`${NAMESPACE}-${group.label}`}
+            />
+          </RevealOnScroll>
+        ))}
 
         {filtered.length === 0 && (
           <div className="text-center py-12">
@@ -154,8 +139,8 @@ export default function TeamsPage() {
       </section>
 
       {/* ── Join CTA ─────────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-gray-200 bg-gray-50/80 px-6 py-5">
+      <section className="mx-auto w-full max-w-5xl px-4 pb-16 sm:px-6 lg:px-8">
+        <RevealOnScroll className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-gray-200 bg-gray-50/80 px-6 py-5">
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-50">
               <Users className="h-5 w-5 text-indigo-600" />
@@ -175,14 +160,29 @@ export default function TeamsPage() {
               Send Your CV
             </Link>
           </div>
-        </div>
+        </RevealOnScroll>
       </section>
 
       {/* ── Team Member Modal ────────────────────────────── */}
       <TeamMemberModal
         member={selectedMember}
         isOpen={isModalOpen}
-        onClose={handleCloseModal}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedMember(null);
+        }}
+        portraitLayoutId={
+          selectedMember
+            ? getTeamPortraitLayoutId(
+                `${NAMESPACE}-${
+                  selectedMember.department && departmentOrder.includes(selectedMember.department)
+                    ? selectedMember.department
+                    : UNASSIGNED_GROUP
+                }`,
+                selectedMember.id
+              )
+            : undefined
+        }
       />
     </div>
   );

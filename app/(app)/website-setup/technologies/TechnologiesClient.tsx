@@ -60,7 +60,7 @@ export function TechnologiesClient({ initialTechnologies }: { initialTechnologie
       <Topbar showSearch={false} />
 
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-        <PageHeader title="Technologies Used" description="Manage technology logos displayed on the website." />
+        <PageHeader title="Logo Showcase / Certifications" description="Manage partner, technology, or certification logos displayed on the website." />
       </div>
 
       {message && (
@@ -71,7 +71,7 @@ export function TechnologiesClient({ initialTechnologies }: { initialTechnologie
 
       {/* Upload Section */}
       <Card className="p-6">
-        <h3 className="mb-4 text-sm font-bold text-zinc-800">Upload Technology Logo</h3>
+        <h3 className="mb-4 text-sm font-bold text-zinc-800">Upload Logo</h3>
         {editingIndex !== null ? (
           <div className="space-y-3">
             <p className="text-xs font-medium text-amber-700">
@@ -97,7 +97,7 @@ export function TechnologiesClient({ initialTechnologies }: { initialTechnologie
         ) : (
           <div className="max-w-sm">
             <ImageUploader
-              label="Technology Logo"
+              label="Logo"
               required
               value={null}
               multiple
@@ -116,12 +116,12 @@ export function TechnologiesClient({ initialTechnologies }: { initialTechnologie
       {/* List */}
       <Card noPadding className="overflow-hidden">
         <div className="border-b border-gray-100 px-6 py-4">
-          <h3 className="text-lg font-bold text-black">Added Technologies ({technologies.length})</h3>
+          <h3 className="text-lg font-bold text-black">Added Logos ({technologies.length})</h3>
         </div>
         {technologies.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-2 p-12 text-center">
             <Cpu className="h-10 w-10 text-zinc-300" />
-            <p className="text-sm text-zinc-500">No technologies added yet. Upload a logo above.</p>
+            <p className="text-sm text-zinc-500">No logos added yet. Upload one above.</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-4 p-6 sm:grid-cols-3 lg:grid-cols-4">

@@ -1,10 +1,12 @@
 "use client";
 
 import { X, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { updateCustomer } from "@/app/actions/customers";
 import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
 import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
+import { getProfileConfig } from "@/lib/config/industry-profiles";
+import { getActiveProfile } from "@/app/actions/labels";
 
 export interface CustomerRow {
   id: string;
@@ -35,6 +37,7 @@ export function EditCustomerModal({ isOpen, customer, services = [], onClose, on
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [phoneError, setPhoneError] = useState<string | null>(null);
+  const [showCompanyName, setShowCompanyName] = useState(true);
   const customerLabel = useEntityLabel("customer");
   const statusOptions = useStatusOptions("customer");
   const [customValues, setCustomValues] = useState<CustomValues>({});
@@ -48,6 +51,27 @@ export function EditCustomerModal({ isOpen, customer, services = [], onClose, on
     companyName: customer?.companyName ?? "",
     status: customer?.status ?? "",
   });
+
+  // Load field visibility based on industry profile
+  useEffect(() => {
+    async function loadFieldVisibility() {
+      const profileKey = await getActiveProfile();
+      const profile = getProfileConfig(profileKey);
+      
+      const customerFields = profile.fieldVisibility?.customer;
+      
+      if (customerFields) {
+        setShowCompanyName(customerFields.includes('companyName'));
+      } else {
+        const profilesWithoutCompany = ['Healthcare', 'Café & Restaurant', 'Hospitality', 'Education'];
+        setShowCompanyName(!profilesWithoutCompany.includes(profileKey));
+      }
+    }
+    
+    if (isOpen) {
+      loadFieldVisibility();
+    }
+  }, [isOpen]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -146,11 +170,13 @@ export function EditCustomerModal({ isOpen, customer, services = [], onClose, on
                     <p className="text-xs text-amber-600 mt-1">{phoneError}</p>
                   )}
                 </div>
-                <div>
-                  <label className={labelCls}>Company Name</label>
-                  <input name="companyName" value={formData.companyName} onChange={handleChange}
-                    placeholder="Enter company name" className={inputCls} />
-                </div>
+                {showCompanyName && (
+                  <div>
+                    <label className={labelCls}>Company Name</label>
+                    <input name="companyName" value={formData.companyName} onChange={handleChange}
+                      placeholder="Enter company name" className={inputCls} />
+                  </div>
+                )}
                 <div className="md:col-span-2">
                   <label className={labelCls}>Address</label>
                   <input name="address" value={formData.address} onChange={handleChange}

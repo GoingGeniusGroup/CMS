@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { updateTag } from "next/cache";
 import { getProfileConfig, isCustomProfile } from "@/lib/config/industry-profiles";
 
 export type GeneralSettingInput = {
@@ -14,6 +15,10 @@ export type GeneralSettingInput = {
   themeTextColor: string;
   baseColorEnabled: boolean;
   industryProfile: string;
+  currency?: string;
+  currencySymbol?: string;
+  dateFormat?: string;
+  numberFormat?: string;
 };
 
 export async function getGeneralSettings() {
@@ -33,6 +38,10 @@ export async function getGeneralSettings() {
       themeTextColor: "#ffffff",
       baseColorEnabled: true,
       industryProfile: "Generic",
+      currency: "NPR",
+      currencySymbol: "Rs.",
+      dateFormat: "DD/MM/YYYY",
+      numberFormat: "en-US",
     };
   }
   return {
@@ -46,6 +55,10 @@ export async function getGeneralSettings() {
     themeTextColor: setting.themeTextColor,
     baseColorEnabled: setting.baseColorEnabled,
     industryProfile: setting.industryProfile || "Generic",
+    currency: setting.currency,
+    currencySymbol: setting.currencySymbol,
+    dateFormat: setting.dateFormat,
+    numberFormat: setting.numberFormat,
   };
 }
 
@@ -125,8 +138,13 @@ export async function saveGeneralSettings(data: GeneralSettingInput) {
     // Apply the preset only when the profile actually changes.
     if (nextProfile !== previousProfile) {
       await applyIndustryProfile(nextProfile);
+      // Switching profile seeds new label overrides, so the public label cache
+      // must be invalidated too.
+      updateTag("entity-labels");
     }
 
+    // Invalidate the public site-settings Data Cache (site name, logo, theme, etc.).
+    updateTag("site-settings");
     return { success: true };
   } catch (err) {
     console.error("saveGeneralSettings error:", err);

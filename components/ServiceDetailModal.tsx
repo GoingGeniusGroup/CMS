@@ -3,6 +3,8 @@
 import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { TiptapRenderer } from "@/components/TiptapRenderer";
+import { parseTiptapContent } from "@/lib/tiptap-text";
 
 interface ServiceDetailModalProps {
   open: boolean;
@@ -12,11 +14,17 @@ interface ServiceDetailModalProps {
     category: string | null;
     thumbnailUrl: string | null;
   } | null;
+  /** Path to the service detail page — used for the "Get Started" CTA. */
+  serviceHref?: string;
   onClose: () => void;
 }
 
-export function ServiceDetailModal({ open, service, onClose }: ServiceDetailModalProps) {
+export function ServiceDetailModal({ open, service, serviceHref, onClose }: ServiceDetailModalProps) {
   if (!open || !service) return null;
+
+  // Descriptions are stored as Tiptap JSON (see AddServiceModal). Render them as
+  // formatted rich text; fall back to plain text for older/plain records.
+  const richContent = parseTiptapContent(service.description);
 
   return (
     <div
@@ -24,11 +32,10 @@ export function ServiceDetailModal({ open, service, onClose }: ServiceDetailModa
       onClick={onClose}
     >
       <div
-        className="relative max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-0 shadow-2xl"
+        className="relative flex max-h-[85vh] w-full max-w-lg flex-col rounded-2xl bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
-        
         <button
           type="button"
           onClick={onClose}
@@ -38,45 +45,62 @@ export function ServiceDetailModal({ open, service, onClose }: ServiceDetailModa
           <X className="h-4 w-4" />
         </button>
 
-        {/* Thumbnail */}
-        {service.thumbnailUrl && (
-          <div className="relative h-56 w-full overflow-hidden rounded-t-2xl">
-            <Image
-              src={service.thumbnailUrl}
-              alt={service.serviceName}
-              fill
-              sizes="(max-width: 768px) 100vw, 500px"
-              className="object-cover"
-            />
-          </div>
-        )}
-
-        {/* Content */}
-        <div className="p-6 sm:p-8">
-          {/* Category badge */}
-          {service.category && (
-            <span className="inline-block rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600">
-              {service.category}
-            </span>
+        {/* Scrollable content area */}
+        <div className="min-h-0 flex-1 overflow-y-auto rounded-t-2xl">
+          {/* Thumbnail */}
+          {service.thumbnailUrl && (
+            <div className="relative h-56 w-full overflow-hidden rounded-t-2xl">
+              <Image
+                src={service.thumbnailUrl}
+                alt={service.serviceName}
+                fill
+                sizes="(max-width: 768px) 100vw, 500px"
+                className="object-cover"
+              />
+            </div>
           )}
 
-          {/* Title */}
-          <h2 className="mt-3 text-xl font-extrabold text-zinc-900 sm:text-2xl">
-            {service.serviceName}
-          </h2>
+          {/* Content */}
+          <div className="p-6 sm:p-8">
+            {/* Category badge */}
+            {service.category && (
+              <span className="inline-block rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600">
+                {service.category}
+              </span>
+            )}
 
-          {/* Description */}
-          <p className="mt-4 text-sm leading-relaxed text-zinc-600 whitespace-pre-line">
-            {service.description || "No additional details available for this service."}
-          </p>
+            {/* Title */}
+            <h2 className="mt-3 text-xl font-extrabold text-zinc-900 sm:text-2xl">
+              {service.serviceName}
+            </h2>
 
-          {/* CTA */}
-          <div className="mt-6">
+            {/* Description */}
+            {richContent ? (
+              <div className="mt-4 text-zinc-600">
+                <TiptapRenderer content={richContent} />
+              </div>
+            ) : (
+              <p className="mt-4 text-sm leading-relaxed text-zinc-600 whitespace-pre-line">
+                {service.description || "No additional details available for this service."}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Sticky CTA footer — always visible regardless of scroll position */}
+        <div className="flex-shrink-0 rounded-b-2xl border-t border-zinc-100 bg-white px-6 py-4">
+          <div className="flex flex-wrap gap-3">
             <Link
-              href="/home#contact"
-              className="inline-flex items-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
+              href={serviceHref || "/our-services"}
+              className="flex-1 inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
             >
               Get Started
+            </Link>
+            <Link
+              href="/contact"
+              className="flex-1 inline-flex items-center justify-center rounded-lg border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-indigo-400 hover:text-indigo-600"
+            >
+              Contact Us
             </Link>
           </div>
         </div>

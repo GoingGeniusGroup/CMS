@@ -2,9 +2,15 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getPublicTeamMembers } from "@/app/actions/team";
 import TeamMemberModal from "@/components/TeamMemberModal";
+import { getTeamPortraitLayoutId } from "@/components/TeamRoster";
+import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
+import { StaggerGrid, StaggerItem } from "@/components/motion/StaggerGrid";
+import { MotionCard } from "@/components/motion/MotionCard";
+import { SECTION_REGISTRY, type SectionHeaderData } from "@/lib/content/schemas";
 
 type TeamMember = {
   id: string;
@@ -20,11 +26,21 @@ type TeamMember = {
   phone: string | null;
 };
 
-export function LandingTeamSection({ initialMembers }: { initialMembers?: TeamMember[] }) {
+const NAMESPACE = "landing";
+
+export function LandingTeamSection({
+  initialMembers,
+  headerData,
+}: {
+  initialMembers?: TeamMember[];
+  /** From the "shared.team" section — also shown on /company and /contact. */
+  headerData?: SectionHeaderData;
+}) {
   const [members, setMembers] = useState<TeamMember[]>(initialMembers ?? []);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const header = headerData ?? SECTION_REGISTRY["shared.team"].defaultData;
 
   useEffect(() => {
     if (!initialMembers) {
@@ -55,14 +71,14 @@ export function LandingTeamSection({ initialMembers }: { initialMembers?: TeamMe
   return (
     <section id="company" className="bg-white px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-10">
+        <RevealOnScroll className="mb-10">
           <div className="text-center">
-            <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">
-              Our Team
-            </p>
-            <h2 className="mt-2 text-2xl font-extrabold text-zinc-900">
-              Meet the Geniuses
-            </h2>
+            {header.eyebrow && (
+              <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">
+                {header.eyebrow}
+              </p>
+            )}
+            <h2 className="mt-2 text-2xl font-extrabold text-zinc-900">{header.heading}</h2>
           </div>
           <div className="mt-4 flex items-center justify-end gap-2">
             <button
@@ -80,43 +96,49 @@ export function LandingTeamSection({ initialMembers }: { initialMembers?: TeamMe
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
-        </div>
+        </RevealOnScroll>
 
-        <div
+        <StaggerGrid
           ref={scrollRef}
           className="flex gap-5 overflow-x-auto pb-4"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          stagger={0.06}
         >
           {members.map((member) => (
-            <div
-              key={member.id}
-              onClick={() => handleMemberClick(member)}
-              className="min-w-[200px] max-w-[200px] flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
-            >
-              <div className="relative aspect-square w-full bg-zinc-50">
-                {member.image ? (
-                  <Image
-                    src={member.image}
-                    alt={member.fullName}
-                    fill
-                    sizes="200px"
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-100">
-                    <span className="text-3xl font-extrabold text-indigo-300">
-                      {member.fullName.charAt(0)}
-                    </span>
+            <StaggerItem key={member.id} className="min-w-[200px] max-w-[200px] flex-shrink-0">
+              <MotionCard className="h-full rounded-2xl" onClick={() => handleMemberClick(member)}>
+                <div className="cursor-pointer overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+                  <motion.div
+                    layoutId={getTeamPortraitLayoutId(NAMESPACE, member.id)}
+                    className="relative aspect-square w-full bg-zinc-50"
+                  >
+                    {member.image ? (
+                      <Image
+                        src={member.image}
+                        alt={member.fullName}
+                        fill
+                        sizes="200px"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-100">
+                        <span className="text-3xl font-extrabold text-indigo-300">
+                          {member.fullName.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+                  </motion.div>
+                  <div className="p-4 text-center">
+                    <p className="text-sm font-bold text-zinc-900">{member.fullName}</p>
+                    <p className="text-xs text-zinc-500">
+                      {member.role || member.department || "Team Member"}
+                    </p>
                   </div>
-                )}
-              </div>
-              <div className="p-4 text-center">
-                <p className="text-sm font-bold text-zinc-900">{member.fullName}</p>
-                <p className="text-xs text-zinc-500">{member.role || member.department || "Team Member"}</p>
-              </div>
-            </div>
+                </div>
+              </MotionCard>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGrid>
       </div>
 
       {/* Team Member Modal */}
@@ -124,6 +146,9 @@ export function LandingTeamSection({ initialMembers }: { initialMembers?: TeamMe
         member={selectedMember}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
+        portraitLayoutId={
+          selectedMember ? getTeamPortraitLayoutId(NAMESPACE, selectedMember.id) : undefined
+        }
       />
     </section>
   );

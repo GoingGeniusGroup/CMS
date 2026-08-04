@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { cache } from "react";
+import { unstable_cache, updateTag } from "next/cache";
 
 export type SeoData = {
   metaTitle: string;
@@ -36,18 +36,29 @@ export async function saveSeoSettings(data: SeoData) {
   } else {
     await prisma.seoSetting.create({ data });
   }
+  updateTag("seo-settings");
   return { success: true };
 }
 
-// Public access - no auth required (for user-facing meta tags)
-export const getPublicSeoSettings = cache(async (): Promise<SeoData> => {
-  const setting = await prisma.seoSetting.findFirst();
-  return (
-    setting ?? {
-      metaTitle: "",
-      metaDescription: "",
-      metaKeywords: "",
-      metaImage: "",
-    }
-  );
-});
+// Public access - no auth required (for user-facing meta tags). Cross-request
+// cached — read in app/(user)/layout.tsx's generateMetadata on every public
+// page; invalidated via the "seo-settings" tag on save.
+const getPublicSeoSettingsCached = unstable_cache(
+  async (): Promise<SeoData> => {
+    const setting = await prisma.seoSetting.findFirst();
+    return (
+      setting ?? {
+        metaTitle: "",
+        metaDescription: "",
+        metaKeywords: "",
+        metaImage: "",
+      }
+    );
+  },
+  ["public-seo-settings"],
+  { revalidate: 60, tags: ["seo-settings"] }
+);
+
+export async function getPublicSeoSettings(): Promise<SeoData> {
+  return getPublicSeoSettingsCached();
+}

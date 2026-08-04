@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { cache } from "react";
+import { unstable_cache, updateTag } from "next/cache";
 
 export type SocialEntry = { platform: string; url: string };
 export type LinkColumn = { title: string; links: { label: string; href: string }[] };
@@ -33,21 +33,32 @@ const DEFAULTS: FooterSettingData = {
 
 // ─── Public (no auth) ────────────────────────────────────────────────────────
 
-export const getPublicFooterSettings = cache(async (): Promise<FooterSettingData> => {
-  const row = await prisma.footerSetting.findFirst();
-  if (!row) return DEFAULTS;
-  return {
-    footerLogoUrl: row.footerLogoUrl || "",
-    brandText: row.brandText || "Going Genius Group of Companies",
-    aboutDesc: row.aboutDesc || "",
-    copyrightText: row.copyrightText || "",
-    playStoreLink: row.playStoreLink || "",
-    appStoreLink: row.appStoreLink || "",
-    paymentLogos: (row.paymentLogos as string[]) ?? [],
-    socials: (row.socials as SocialEntry[]) ?? [],
-    linkColumns: (row.linkColumns as LinkColumn[]) ?? [],
-  };
-});
+// Cross-request Data Cache read — footer renders on every public page via the
+// layout and changes only on admin save (invalidated via the "footer-settings"
+// tag). Removes one cross-region round trip per public request.
+const getPublicFooterSettingsCached = unstable_cache(
+  async (): Promise<FooterSettingData> => {
+    const row = await prisma.footerSetting.findFirst();
+    if (!row) return DEFAULTS;
+    return {
+      footerLogoUrl: row.footerLogoUrl || "",
+      brandText: row.brandText || "Going Genius Group of Companies",
+      aboutDesc: row.aboutDesc || "",
+      copyrightText: row.copyrightText || "",
+      playStoreLink: row.playStoreLink || "",
+      appStoreLink: row.appStoreLink || "",
+      paymentLogos: (row.paymentLogos as string[]) ?? [],
+      socials: (row.socials as SocialEntry[]) ?? [],
+      linkColumns: (row.linkColumns as LinkColumn[]) ?? [],
+    };
+  },
+  ["public-footer-settings"],
+  { revalidate: 60, tags: ["footer-settings"] }
+);
+
+export async function getPublicFooterSettings(): Promise<FooterSettingData> {
+  return getPublicFooterSettingsCached();
+}
 
 // ─── Admin (auth required) ───────────────────────────────────────────────────
 
@@ -93,6 +104,7 @@ export async function saveFooterSettings(data: FooterSettingData) {
     } else {
       await prisma.footerSetting.create({ data: payload });
     }
+    updateTag("footer-settings");
     return { success: true };
   } catch (error) {
     console.error("saveFooterSettings error:", error);

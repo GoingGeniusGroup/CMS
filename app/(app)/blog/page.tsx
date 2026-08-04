@@ -6,7 +6,7 @@ export default async function BlogPage() {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
 
-  const [blogs, total, published, drafts, authors] = await Promise.all([
+  const [blogs, total, published, drafts, authors, categories] = await Promise.all([
     prisma.blog.findMany({
       orderBy: { createdAt: "desc" },
       skip: 0,
@@ -20,6 +20,11 @@ export default async function BlogPage() {
       select: { id: true, fullName: true },
       orderBy: { fullName: "asc" },
     }),
+    prisma.category.findMany({
+      where: { status: "Active" },
+      select: { id: true, name: true },
+      orderBy: { order: "asc" },
+    }),
   ]);
 
   const data = {
@@ -32,5 +37,5 @@ export default async function BlogPage() {
     pageCount: Math.ceil(total / 10),
   };
 
-  return <BlogsClient initialData={data} authors={authors} />;
+  return <BlogsClient initialData={data} authors={authors} categories={categories} />;
 }

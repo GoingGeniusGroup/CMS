@@ -260,14 +260,28 @@ export function ProjectModal({
                 <ImageUploader label="Thumbnail" value={thumbnail} onChange={(url) => setThumbnail(url || "")} />
               </fieldset>
 
-              {/* ─── Project Details ─── */}
+              {/* ─── Project Details (Optional Case Study Section) ─── */}
               <fieldset className="space-y-4 rounded-xl border border-zinc-200 p-4">
-                <legend className="px-2 text-sm font-bold text-zinc-700">Project Details</legend>
+                <legend className="px-2 text-sm font-bold text-zinc-700">
+                  Project Details 
+                  <span className="ml-2 text-xs font-normal text-zinc-500">(Optional - for portfolio/case studies)</span>
+                </legend>
 
                 <ListEditor label="Highlights" items={highlights} onChange={setHighlights} placeholder="e.g. Modern UI/UX design" />
                 <ListEditor label="Key Challenges" items={challenges} onChange={setChallenges} placeholder="e.g. Handling high traffic" />
                 <ListEditor label="Solutions" items={solutions} onChange={setSolutions} placeholder="e.g. Auto-scaling infrastructure" />
-                <ListEditor label="Technologies" items={technologies} onChange={setTechnologies} placeholder="e.g. React, Node.js" />
+              </fieldset>
+
+              {/* ─── Tags / Technologies ─── */}
+              <fieldset className="space-y-4 rounded-xl border border-zinc-200 p-4">
+                <legend className="px-2 text-sm font-bold text-zinc-700">Tags / Technologies</legend>
+                <ListEditor 
+                  label="Tags" 
+                  items={technologies} 
+                  onChange={setTechnologies} 
+                  placeholder="e.g. React, Node.js, Healthcare, Mobile-Friendly" 
+                />
+                <p className="text-xs text-zinc-500">Add relevant tags, technologies, or attributes for this project</p>
               </fieldset>
 
               {/* ─── Gallery ─── */}

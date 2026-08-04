@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { cache } from "react";
+import { unstable_cache, updateTag } from "next/cache";
 
 /**
  * The `content` column is stored as a serialized JSON string (TEXT column).
@@ -57,6 +57,7 @@ export async function savePopupSettings(data: { showPopup: boolean; content: unk
       });
     }
 
+    updateTag("popup-settings");
     return { success: true };
   } catch (err) {
     console.error("savePopupSettings error:", err);
@@ -64,11 +65,21 @@ export async function savePopupSettings(data: { showPopup: boolean; content: unk
   }
 }
 
-// Public access - no auth required (for user-facing popup)
-export const getPublicPopupSettings = cache(async () => {
-  const setting = await prisma.popupSetting.findFirst();
-  if (!setting) {
-    return { showPopup: true, content: {} };
-  }
-  return { showPopup: setting.showPopup, content: parseContent(setting.content) };
-});
+// Public access - no auth required (for user-facing popup). Cross-request cached
+// (renders on every public page via the layout); invalidated via the
+// "popup-settings" tag on save.
+const getPublicPopupSettingsCached = unstable_cache(
+  async () => {
+    const setting = await prisma.popupSetting.findFirst();
+    if (!setting) {
+      return { showPopup: true, content: {} };
+    }
+    return { showPopup: setting.showPopup, content: parseContent(setting.content) };
+  },
+  ["public-popup-settings"],
+  { revalidate: 60, tags: ["popup-settings"] }
+);
+
+export async function getPublicPopupSettings() {
+  return getPublicPopupSettingsCached();
+}

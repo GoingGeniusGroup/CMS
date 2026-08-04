@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/Card";
 import { CUSTOM_FIELD_TYPES } from "@/lib/config/custom-field-types";
+import { useConfig } from "@/components/ConfigProvider";
 import {
   saveCustomField,
   deleteCustomField,
@@ -66,6 +67,17 @@ export default function CustomFieldsClient({
   });
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const { entityLabel } = useConfig();
+
+  // Modules with a dynamic entity label (adapts to the active industry profile);
+  // modules not in this list (e.g. "applicant", "faq") fall back to MODULE_LABELS.
+  function moduleDisplayName(moduleKey: string): string {
+    const dynamicKeys = ["customer", "project", "service", "team", "invoice", "blog", "job", "category", "page"];
+    if (dynamicKeys.includes(moduleKey)) {
+      return entityLabel(moduleKey, { plural: true, fallback: MODULE_LABELS[moduleKey] ?? moduleKey });
+    }
+    return MODULE_LABELS[moduleKey] ?? moduleKey;
+  }
 
   function notify(res: { success: boolean; error?: string; added?: number }, ok: string) {
     setMessage(
@@ -169,7 +181,7 @@ export default function CustomFieldsClient({
           <Card key={moduleKey}>
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-100 px-5 py-4">
               <h2 className="text-base font-bold text-zinc-800">
-                {MODULE_LABELS[moduleKey] ?? moduleKey}
+                {moduleDisplayName(moduleKey)}
                 <span className="ml-2 rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-500">
                   {moduleFields.length}
                 </span>
@@ -294,6 +306,11 @@ function FieldEditorModal({
   onSaved: (field: FieldRow) => void;
 }) {
   const editing = editor.editing;
+  const { entityLabel } = useConfig();
+  const dynamicKeys = ["customer", "project", "service", "team", "invoice", "blog", "job", "category", "page"];
+  const moduleName = dynamicKeys.includes(editor.moduleKey)
+    ? entityLabel(editor.moduleKey, { plural: true, fallback: MODULE_LABELS[editor.moduleKey] ?? editor.moduleKey })
+    : MODULE_LABELS[editor.moduleKey] ?? editor.moduleKey;
   const [label, setLabel] = useState(editing?.label ?? "");
   const [fieldKey, setFieldKey] = useState(editing?.fieldKey ?? "");
   const [type, setType] = useState(editing?.type ?? "text");
@@ -345,7 +362,7 @@ function FieldEditorModal({
         <h3 className="text-lg font-bold text-gray-900">
           {editing ? "Edit Custom Field" : "Add Custom Field"}
         </h3>
-        <p className="mt-1 text-sm capitalize text-gray-500">Module: {editor.moduleKey}</p>
+        <p className="mt-1 text-sm text-gray-500">Module: {moduleName}</p>
 
         <div className="mt-4 space-y-4">
           <div>

@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { unstable_cache, updateTag } from "next/cache";
 import { saveCustomFieldValues } from "./custom-fields";
 
 export type BlogInput = {
@@ -83,6 +84,7 @@ export async function createBlog(data: BlogInput, customFieldValues?: BlogCustom
       await saveCustomFieldValues("blog", created.id, customFieldValues);
     }
 
+    updateTag("blogs");
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -130,6 +132,7 @@ export async function updateBlog(id: string, data: BlogInput, customFieldValues?
       await saveCustomFieldValues("blog", id, customFieldValues);
     }
 
+    updateTag("blogs");
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -146,6 +149,7 @@ export async function deleteBlog(id: string) {
 
   try {
     await prisma.blog.delete({ where: { id } });
+    updateTag("blogs");
     return { success: true };
   } catch (error) {
     console.error("Delete blog error:", error);
@@ -155,24 +159,33 @@ export async function deleteBlog(id: string) {
 
 // ─── Public blog queries (no auth required) ──────────────────────────────────
 
+// Cross-request cached — read on the home page and the blogs listing page;
+// changes only via admin CRUD, invalidated via the "blogs" tag in the mutations.
+const getPublicBlogsCached = unstable_cache(
+  async () =>
+    prisma.blog.findMany({
+      where: { status: "Published" },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        excerpt: true,
+        category: true,
+        tags: true,
+        readTime: true,
+        thumbnail: true,
+        publishedAt: true,
+        createdAt: true,
+        author: { select: { fullName: true, image: true } },
+      },
+      orderBy: { publishedAt: "desc" },
+    }),
+  ["public-blogs"],
+  { revalidate: 60, tags: ["blogs"] }
+);
+
 export async function getPublicBlogs() {
-  return await prisma.blog.findMany({
-    where: { status: "Published" },
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      excerpt: true,
-      category: true,
-      tags: true,
-      readTime: true,
-      thumbnail: true,
-      publishedAt: true,
-      createdAt: true,
-      author: { select: { fullName: true, image: true } },
-    },
-    orderBy: { publishedAt: "desc" },
-  });
+  return getPublicBlogsCached();
 }
 
 export async function getPublicBlogBySlug(slug: string) {

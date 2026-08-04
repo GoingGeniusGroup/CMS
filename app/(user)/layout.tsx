@@ -12,7 +12,9 @@ import { getPublicSeoSettings } from "@/app/actions/seo";
 import { getPublicCookieSettings } from "@/app/actions/cookie-settings";
 import { getPublicPopupSettings } from "@/app/actions/popup";
 import { getPublicAppearanceSettings } from "@/app/actions/appearance";
+import { getPublicEntityLabels } from "@/app/actions/labels";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { PublicLabelProvider } from "@/components/content/PublicLabelProvider";
 
 export const dynamic = "force-dynamic";
 
@@ -59,6 +61,7 @@ export default async function UserLayout({
     cookieSettings,
     popupSettings,
     appearance,
+    entityLabels,
   ] = await Promise.all([
     getSiteSettings(),
     getPublicContactSettings(),
@@ -67,11 +70,13 @@ export default async function UserLayout({
     getPublicCookieSettings(),
     getPublicPopupSettings(),
     getPublicAppearanceSettings(),
+    getPublicEntityLabels(),
   ]);
 
   const hasBanner = !!headerSettings.bannerImageUrl;
 
   return (
+    <PublicLabelProvider initialLabels={entityLabels}>
     <div className="min-h-screen bg-white flex flex-col">
       {/* Theme is applied to the client-facing site ONLY (not the admin panel) */}
       <ThemeProvider
@@ -127,5 +132,6 @@ export default async function UserLayout({
         content={popupSettings.content}
       />
     </div>
+    </PublicLabelProvider>
   );
 }

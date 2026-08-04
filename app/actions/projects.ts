@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
+import { unstable_cache, updateTag } from "next/cache";
 import { saveCustomFieldValues } from "./custom-fields";
 
 const projectSchema = z.object({
@@ -59,24 +60,33 @@ export async function getProjects(page = 1, pageSize = 10) {
   };
 }
 
-// Get published projects for public/user-facing pages (no auth required)
+// Get published projects for public/user-facing pages (no auth required).
+// Cross-request cached — read on the home page and portfolio/projects pages;
+// changes only via admin CRUD, invalidated below via the "projects" tag.
+const getPublicProjectsCached = unstable_cache(
+  async () =>
+    prisma.project.findMany({
+      where: { status: "Published" },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        description: true,
+        category: true,
+        thumbnail: true,
+        budget: true,
+        startDate: true,
+        endDate: true,
+        createdAt: true,
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+  ["public-projects"],
+  { revalidate: 60, tags: ["projects"] }
+);
+
 export async function getPublicProjects() {
-  return await prisma.project.findMany({
-    where: { status: "Published" },
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      description: true,
-      category: true,
-      thumbnail: true,
-      budget: true,
-      startDate: true,
-      endDate: true,
-      createdAt: true,
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  return getPublicProjectsCached();
 }
 
 export async function createProject(data: ProjectInput, customFieldValues?: CustomValuesMap) {
@@ -117,6 +127,7 @@ export async function createProject(data: ProjectInput, customFieldValues?: Cust
       await saveCustomFieldValues("project", created.id, customFieldValues);
     }
 
+    updateTag("projects");
     return { success: true };
   } catch (error) {
     console.error("Create project error:", error);
@@ -163,6 +174,7 @@ export async function updateProject(id: string, data: ProjectInput, customFieldV
       await saveCustomFieldValues("project", id, customFieldValues);
     }
 
+    updateTag("projects");
     return { success: true };
   } catch (error) {
     console.error("Update project error:", error);
@@ -176,6 +188,7 @@ export async function deleteProject(id: string) {
 
   try {
     await prisma.project.delete({ where: { id } });
+    updateTag("projects");
     return { success: true };
   } catch (error) {
     console.error("Delete project error:", error);

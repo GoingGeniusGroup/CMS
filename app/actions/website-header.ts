@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { cache } from "react";
+import { unstable_cache, updateTag } from "next/cache";
 
 export type SubMenuItem = { label: string; path: string };
 export type MenuItem = { label: string; path: string; children?: SubMenuItem[] };
@@ -33,17 +33,30 @@ const DEFAULTS: WebsiteHeaderData = {
 
 // ─── Public (no auth) — for client-side pages ────────────────────────────────
 
-export const getPublicWebsiteHeader = cache(async (): Promise<WebsiteHeaderData> => {
-  const row = await prisma.websiteHeader.findFirst();
-  if (!row) return DEFAULTS;
-  return {
-    stickyHeader: row.stickyHeader,
-    bannerImageUrl: row.bannerImageUrl || "",
-    bannerLink: row.bannerLink || "",
-    helpNumber: row.helpNumber || "",
-    menuItems: (row.menuItems as MenuItem[]) ?? [],
-  };
-});
+// Cross-request Data Cache read. The header renders in app/(user)/layout.tsx on
+// EVERY public page, and changes only when an admin saves — so caching it (and
+// invalidating via the "website-header" tag on save) removes one cross-region
+// DB round trip per public request. TTL is a safety net; writes invalidate
+// immediately.
+const getPublicWebsiteHeaderCached = unstable_cache(
+  async (): Promise<WebsiteHeaderData> => {
+    const row = await prisma.websiteHeader.findFirst();
+    if (!row) return DEFAULTS;
+    return {
+      stickyHeader: row.stickyHeader,
+      bannerImageUrl: row.bannerImageUrl || "",
+      bannerLink: row.bannerLink || "",
+      helpNumber: row.helpNumber || "",
+      menuItems: (row.menuItems as MenuItem[]) ?? [],
+    };
+  },
+  ["public-website-header"],
+  { revalidate: 60, tags: ["website-header"] }
+);
+
+export async function getPublicWebsiteHeader(): Promise<WebsiteHeaderData> {
+  return getPublicWebsiteHeaderCached();
+}
 
 // ─── Admin (auth required) ───────────────────────────────────────────────────
 
@@ -81,6 +94,7 @@ export async function saveWebsiteHeader(data: WebsiteHeaderInput) {
     } else {
       await prisma.websiteHeader.create({ data: payload });
     }
+    updateTag("website-header");
     return { success: true };
   } catch (error) {
     console.error("saveWebsiteHeader error:", error);

@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, unstable_cache, updateTag } from "next/cache";
 import { saveCustomFieldValues } from "./custom-fields";
 
 export type FaqData = {
@@ -45,6 +45,7 @@ export async function createFaq(
       await saveCustomFieldValues("faq", created.id, customFieldValues);
     }
     revalidatePath("/website-setup/faq");
+    updateTag("faqs");
     return { success: true };
   } catch (error) {
     console.error("Create FAQ error:", error);
@@ -66,6 +67,7 @@ export async function updateFaq(
       await saveCustomFieldValues("faq", id, customFieldValues);
     }
     revalidatePath("/website-setup/faq");
+    updateTag("faqs");
     return { success: true };
   } catch (error) {
     console.error("Update FAQ error:", error);
@@ -73,15 +75,25 @@ export async function updateFaq(
   }
 }
 
-/** Public — no auth required, returns only active FAQs ordered by category and order. */
-export async function getPublicFaqs(): Promise<{ question: string; answer: string; category: string }[]> {
-  try {
+/** Public — no auth required, returns only active FAQs ordered by category and order.
+ * Cross-request cached (read on the home page); invalidated via the "faqs" tag on
+ * every FAQ mutation. */
+const getPublicFaqsCached = unstable_cache(
+  async (): Promise<{ question: string; answer: string; category: string }[]> => {
     const faqs = await prisma.faq.findMany({
       where: { status: "Active" },
       orderBy: [{ category: "asc" }, { order: "asc" }],
       select: { question: true, answer: true, category: true },
     });
     return faqs;
+  },
+  ["public-faqs"],
+  { revalidate: 60, tags: ["faqs"] }
+);
+
+export async function getPublicFaqs(): Promise<{ question: string; answer: string; category: string }[]> {
+  try {
+    return await getPublicFaqsCached();
   } catch {
     return [];
   }
@@ -94,6 +106,7 @@ export async function deleteFaq(id: string) {
   try {
     await prisma.faq.delete({ where: { id } });
     revalidatePath("/website-setup/faq");
+    updateTag("faqs");
     return { success: true };
   } catch (error) {
     console.error("Delete FAQ error:", error);

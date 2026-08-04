@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "eslint",
     "seed-admin": "tsx scripts/seed-admin.ts",
-    "seed-config": "tsx prisma/seed-config.ts"
+    "seed-config": "tsx prisma/seed-config.ts",
+    "seed-site-content": "tsx prisma/seed-site-content.ts",
+    "test": "vitest run"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
@@ -61,6 +63,7 @@
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
     "tsx": "^4.22.4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.10"
   }
 }

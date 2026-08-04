@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { unstable_cache, updateTag } from "next/cache";
 
 export async function getSetting(key: string) {
   const session = await auth();
@@ -24,6 +25,9 @@ export async function saveSetting(key: string, value: unknown) {
       update: { value: cleanValue },
       create: { key, value: cleanValue },
     });
+    // Invalidate any public Data Cache keyed by this setting's key (e.g. the
+    // "partners-logos" / "technologies-logos" caches read on the home page).
+    updateTag(key);
     return { success: true };
   } catch (error) {
     console.error(`Save setting "${key}" error:`, error);
@@ -59,10 +63,18 @@ export async function getPublicHeaderSettings() {
  * Returns the array of partner logo URLs saved by the admin.
  * No authentication required — safe to call from public pages.
  */
+const getPublicPartnersCached = unstable_cache(
+  async (): Promise<string[]> => {
+    const setting = await prisma.setting.findUnique({
+      where: { key: "partners-logos" },
+    });
+    const data = (setting?.value as { partners?: string[] }) ?? {};
+    return Array.isArray(data.partners) ? data.partners : [];
+  },
+  ["public-partners"],
+  { revalidate: 60, tags: ["partners-logos"] }
+);
+
 export async function getPublicPartners(): Promise<string[]> {
-  const setting = await prisma.setting.findUnique({
-    where: { key: "partners-logos" },
-  });
-  const data = (setting?.value as { partners?: string[] }) ?? {};
-  return Array.isArray(data.partners) ? data.partners : [];
+  return getPublicPartnersCached();
 }

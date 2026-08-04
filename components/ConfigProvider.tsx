@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { getEntityLabels } from "@/app/actions/labels";
+import { getEntityLabelsArray } from "@/app/actions/labels";
 import { getStatusOptionsClient } from "@/app/actions/status-options";
 import { DEFAULT_ENTITY_LABELS } from "@/lib/config/entity-labels";
 import { DEFAULT_STATUS_OPTIONS } from "@/lib/config/status-options";
@@ -54,7 +54,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const loadConfig = useCallback(async () => {
     try {
       const [labelRows, statusMap] = await Promise.all([
-        getEntityLabels(),
+        getEntityLabelsArray(),
         getStatusOptionsClient(),
       ]);
 

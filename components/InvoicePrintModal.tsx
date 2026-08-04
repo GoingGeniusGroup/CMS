@@ -2,6 +2,8 @@
 
 import { Printer, X } from "lucide-react";
 import { useStatusBadge } from "@/components/ConfigProvider";
+import { useState, useEffect } from "react";
+import { getGeneralSettings } from "@/app/actions/general-settings";
 
 type Invoice = {
   id: string;
@@ -38,6 +40,20 @@ export function InvoicePrintModal({
   const statusOption = useStatusBadge("invoice", invoice?.status ?? "");
   const statusColor = statusOption?.color ?? "#6b7280";
   const statusLabel = statusOption?.label ?? invoice?.status ?? "";
+  const [currencySymbol, setCurrencySymbol] = useState("Rs.");
+
+  // Load currency from settings
+  useEffect(() => {
+    async function loadCurrency() {
+      const settings = await getGeneralSettings();
+      if (settings && settings.currencySymbol) {
+        setCurrencySymbol(settings.currencySymbol);
+      }
+    }
+    if (open) {
+      loadCurrency();
+    }
+  }, [open]);
 
   if (!open || !invoice) return null;
 
@@ -135,7 +151,7 @@ export function InvoicePrintModal({
                     <td className="py-3 pr-4 text-sm text-zinc-400">{i + 1}</td>
                     <td className="py-3 pr-4 text-sm font-medium text-zinc-900">{p.project.title}</td>
                     <td className="py-3 pr-4 text-right text-sm text-zinc-900">
-                      Rs. {(invoice.amount / invoice.projects.length).toLocaleString()}
+                      {currencySymbol} {(invoice.amount / invoice.projects.length).toLocaleString()}
                     </td>
                   </tr>
                 ))
@@ -143,7 +159,7 @@ export function InvoicePrintModal({
                 <tr>
                   <td className="py-3 pr-4 text-sm text-zinc-400">1</td>
                   <td className="py-3 pr-4 text-sm text-zinc-900">General Service</td>
-                  <td className="py-3 pr-4 text-right text-sm text-zinc-900">Rs. {invoice.amount.toLocaleString()}</td>
+                  <td className="py-3 pr-4 text-right text-sm text-zinc-900">{currencySymbol} {invoice.amount.toLocaleString()}</td>
                 </tr>
               )}
             </tbody>
@@ -153,15 +169,15 @@ export function InvoicePrintModal({
           <div className="mb-8 ml-auto w-full max-w-xs space-y-1.5 border-t-2 border-zinc-300 pt-3">
             <div className="flex justify-between text-sm">
               <span className="text-zinc-500">Subtotal</span>
-              <span className="text-zinc-900">Rs. {invoice.amount.toLocaleString()}</span>
+              <span className="text-zinc-900">{currencySymbol} {invoice.amount.toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-zinc-500">Tax</span>
-              <span className="text-zinc-900">Rs. {invoice.tax.toLocaleString()}</span>
+              <span className="text-zinc-900">{currencySymbol} {invoice.tax.toLocaleString()}</span>
             </div>
             <div className="flex justify-between border-t border-zinc-200 pt-1.5 text-base font-bold">
               <span className="text-zinc-900">Total</span>
-              <span className="text-zinc-900">Rs. {invoice.total.toLocaleString()}</span>
+              <span className="text-zinc-900">{currencySymbol} {invoice.total.toLocaleString()}</span>
             </div>
           </div>
 

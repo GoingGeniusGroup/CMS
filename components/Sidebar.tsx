@@ -31,6 +31,7 @@ import {
   Handshake,
   Cpu,
   HelpCircle,
+  LayoutTemplate,
   type LucideIcon,
 } from "lucide-react";
 
@@ -59,10 +60,11 @@ export const navItems: NavItem[] = [
     href: "/website-setup",
     icon: Globe,
     children: [
+      { label: "Landing Page", href: "/website-setup/landing-page", icon: LayoutTemplate },
       { label: "Website Header", href: "/website-setup/header", icon: Globe },
       { label: "Footer Widgets", href: "/website-setup/footer-widgets", icon: LayoutPanelTop },
       { label: "Our Partners", href: "/website-setup/partners", icon: Handshake },
-      { label: "Technologies", href: "/website-setup/technologies", icon: Cpu },
+      { label: "Logo Showcase", href: "/website-setup/technologies", icon: Cpu },
       { labelKey: "faq", href: "/website-setup/faq", icon: HelpCircle },
       { label: "Add New Page", href: "/website-setup/add-newpage", icon: FilePlus2 },
     ],

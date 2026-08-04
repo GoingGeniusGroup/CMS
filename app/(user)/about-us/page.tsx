@@ -13,77 +13,23 @@ import {
   Star,
   TrendingUp,
   Users,
-  Zap,
 } from "lucide-react";
+import type { Metadata } from "next";
+import { getSection } from "@/app/actions/site-content";
+import { resolveTokensOnServer } from "@/lib/content/resolve-tokens-server";
+import { PageHero } from "@/components/content/PageHero";
 
-// ─── Section 1: Hero ──────────────────────────────────────────────────────────
+// ─── Metadata (Task 24, Phase 19) ───────────────────────────────────────────
 
-function HeroSection() {
-  return (
-    <section className="bg-white px-4 py-16 sm:px-6 lg:px-16">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          {/* Left */}
-          <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1">
-              <span className="h-1.5 w-1.5 rounded-full bg-indigo-500" />
-              <span className="text-xs font-semibold text-indigo-600 uppercase tracking-widest">
-                About Going Genius
-              </span>
-            </div>
-            <h1 className="text-4xl font-extrabold leading-tight text-zinc-900 sm:text-5xl">
-              We Build Digital
-              <br />
-              Solutions That
-              <br />
-              Drive{" "}
-              <span className="text-indigo-600">Real Impact</span>
-            </h1>
-            <p className="mt-5 max-w-md text-sm leading-relaxed text-zinc-500">
-              Going Genius is a creative technology company helping businesses
-              grow with innovative digital solutions. We combine design,
-              technology and strategy to build products people love.
-            </p>
-            <div className="mt-7 flex flex-wrap items-center gap-3">
-              <Link
-                href="#our-story"
-                className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
-              >
-                Our Story
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center rounded-lg border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-zinc-400"
-              >
-                Contact Us
-              </Link>
-            </div>
-            <p className="mt-4 flex items-center gap-1.5 text-xs text-zinc-400">
-              <Zap className="h-3.5 w-3.5 text-amber-400" />
-              24-hour response promise
-            </p>
-          </div>
-
-          {/* Right — career3.png with stat badge */}
-          <div className="relative">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-zinc-100 bg-zinc-50">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/career3.png"
-                alt="Going Genius team"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            {/* Floating stat */}
-            <div className="absolute bottom-4 left-4 rounded-2xl bg-white px-4 py-3 shadow-lg">
-              <p className="text-2xl font-extrabold text-zinc-900">5+</p>
-              <p className="text-xs text-zinc-500">Years of Excellence</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+export async function generateMetadata(): Promise<Metadata> {
+  // Title intentionally omitted — the tab title stays the site name from
+  // Settings > General (default title set in app/(user)/layout.tsx). Only the
+  // description is derived from hero content.
+  const heroSection = await getSection("about-us", "about-us.hero");
+  const description = heroSection.data.subheading
+    ? await resolveTokensOnServer(heroSection.data.subheading)
+    : undefined;
+  return { description };
 }
 
 // ─── Section 2: Stats ─────────────────────────────────────────────────────────
@@ -315,10 +261,12 @@ function WhyWorkSection() {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function AboutUsPage() {
+export default async function AboutUsPage() {
+  const heroSection = await getSection("about-us", "about-us.hero");
+
   return (
     <>
-      <HeroSection />
+      <PageHero data={heroSection.data} />
       <StatsSection />
       <OurStorySection />
       <MissionVisionSection />

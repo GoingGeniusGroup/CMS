@@ -2,9 +2,19 @@
 
 import { useState, useEffect } from "react";
 import { getPublicTechnologies } from "@/app/actions/public-settings";
+import { Marquee } from "@/components/motion/Marquee";
+import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
+import { SECTION_REGISTRY, type SectionHeaderData } from "@/lib/content/schemas";
 
-export function LandingTechSection({ initialTechnologies }: { initialTechnologies?: string[] }) {
+export function LandingTechSection({
+  initialTechnologies,
+  headerData,
+}: {
+  initialTechnologies?: string[];
+  headerData?: SectionHeaderData;
+}) {
   const [technologies, setTechnologies] = useState<string[]>(initialTechnologies ?? []);
+  const header = headerData ?? SECTION_REGISTRY["home.tech"].defaultData;
 
   useEffect(() => {
     if (!initialTechnologies) {
@@ -14,6 +24,7 @@ export function LandingTechSection({ initialTechnologies }: { initialTechnologie
 
   if (technologies.length === 0) return null;
 
+  // Pad out to a minimum count so a short list still fills the track width.
   const displayTechs = [...technologies];
   while (displayTechs.length < 12) {
     displayTechs.push(...technologies);
@@ -22,48 +33,22 @@ export function LandingTechSection({ initialTechnologies }: { initialTechnologie
   return (
     <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl text-center">
-        <p className="mb-8 text-3xl font-bold text-zinc-900">Technologies We Use</p>
-        <div className="overflow-hidden">
-          <div className="flex w-max tech-scroll">
-            <div className="flex gap-x-20 sm:gap-x-28 pr-20 sm:pr-28">
-              {displayTechs.map((url, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={i}
-                  src={url}
-                  alt={`Technology ${i + 1}`}
-                  className="h-7 w-auto max-w-[100px] object-contain flex-shrink-0 sm:h-9 sm:max-w-[120px]"
-                />
-              ))}
-            </div>
-            <div className="flex gap-x-20 sm:gap-x-28 pr-20 sm:pr-28" aria-hidden="true">
-              {displayTechs.map((url, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={i}
-                  src={url}
-                  alt={`Technology ${i + 1}`}
-                  className="h-7 w-auto max-w-[100px] object-contain flex-shrink-0 sm:h-9 sm:max-w-[120px]"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+        <RevealOnScroll>
+          <p className="mb-8 text-3xl font-bold text-zinc-900">{header.heading}</p>
+        </RevealOnScroll>
 
-      <style>{`
-        .tech-scroll {
-          animation: tech-scroll-right ${displayTechs.length * 2.5}s linear infinite;
-          will-change: transform;
-        }
-        .tech-scroll:hover {
-          animation-play-state: paused;
-        }
-        @keyframes tech-scroll-right {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
-        }
-      `}</style>
+        <Marquee duration={displayTechs.length * 2.5} direction="right">
+          {displayTechs.map((url, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={i}
+              src={url}
+              alt={`Logo ${i + 1}`}
+              className="h-7 w-auto max-w-[100px] flex-shrink-0 object-contain sm:h-9 sm:max-w-[120px]"
+            />
+          ))}
+        </Marquee>
+      </div>
     </section>
   );
 }

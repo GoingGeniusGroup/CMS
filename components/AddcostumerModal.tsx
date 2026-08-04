@@ -1,11 +1,13 @@
 "use client";
 
 import { X, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createCustomer } from "@/app/actions/customers";
 import { ImageUploader } from "@/components/ImageUploader";
 import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
-import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
+import { useEntityLabel, useStatusOptions, useConfig } from "@/components/ConfigProvider";
+import { getProfileConfig } from "@/lib/config/industry-profiles";
+import { getActiveProfile } from "@/app/actions/labels";
 
 interface Service {
   id: string;
@@ -22,6 +24,7 @@ interface AddCustomerModalProps {
 export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCustomerModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showCompanyName, setShowCompanyName] = useState(true);
   const customerLabel = useEntityLabel("customer");
   const statusOptions = useStatusOptions("customer");
   const [customValues, setCustomValues] = useState<CustomValues>({});
@@ -39,6 +42,31 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCu
   const statusDefault = statusOptions.find((s) => s.isDefault)?.statusValue ?? statusOptions[0]?.statusValue ?? "Active";
 
   const [phoneError, setPhoneError] = useState<string | null>(null);
+
+  // Load field visibility based on industry profile
+  useEffect(() => {
+    async function loadFieldVisibility() {
+      const profileKey = await getActiveProfile();
+      const profile = getProfileConfig(profileKey);
+      
+      // Check if customer module has fieldVisibility config
+      const customerFields = profile.fieldVisibility?.customer;
+      
+      // If fieldVisibility is defined and doesn't include 'companyName', hide it
+      if (customerFields) {
+        setShowCompanyName(customerFields.includes('companyName'));
+      } else {
+        // Default behavior: show company name for most profiles
+        // Hide for profiles that typically don't need it
+        const profilesWithoutCompany = ['Healthcare', 'Café & Restaurant', 'Hospitality', 'Education'];
+        setShowCompanyName(!profilesWithoutCompany.includes(profileKey));
+      }
+    }
+    
+    if (isOpen) {
+      loadFieldVisibility();
+    }
+  }, [isOpen]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -160,14 +188,16 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCu
                     <p className="text-xs text-amber-600 mt-1">{phoneError}</p>
                   )}
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Company Name
-                  </label>
-                  <input name="companyName" value={formData.companyName} onChange={handleChange}
-                    placeholder="Enter company name"
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-gray-400 outline-none transition-colors text-sm" />
-                </div>
+                {showCompanyName && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      Company Name
+                    </label>
+                    <input name="companyName" value={formData.companyName} onChange={handleChange}
+                      placeholder="Enter company name"
+                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:border-gray-400 outline-none transition-colors text-sm" />
+                  </div>
+                )}
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">Address</label>
                   <input name="address" value={formData.address} onChange={handleChange}
@@ -241,7 +271,7 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCu
             <button type="submit" disabled={isSubmitting}
               className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-blue-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-950 disabled:opacity-60">
               {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-              {isSubmitting ? "Adding..." : "Add Client"}
+              {isSubmitting ? "Adding..." : `Add ${customerLabel}`}
             </button>
           </div>
         </form>

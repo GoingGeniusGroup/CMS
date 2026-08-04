@@ -5,7 +5,7 @@ import { X, Loader2 } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ImageUploader } from "@/components/ImageUploader";
 import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
-import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
+import { useEntityLabel, useStatusOptions, useConfig } from "@/components/ConfigProvider";
 import { createCategory, updateCategory, type CategoryInput } from "@/app/actions/categories";
 
 type Category = {
@@ -25,19 +25,38 @@ interface AddCategoryModalProps {
   onClose: () => void;
   onSuccess?: () => void;
   category?: Category | null;
+  /** Optional explicit override. When omitted, parent options are derived from
+   *  the modules that support categorization, using their current dynamic labels. */
   parentOptions?: string[];
 }
+
+// Modules that can be categorized. Keyed by entity label key -> used to build
+// dynamic, profile-aware parent category options (e.g. "Services" -> "Menu").
+const CATEGORIZABLE_MODULE_KEYS: Array<{ key: string; fallback: string }> = [
+  { key: "service", fallback: "Services" },
+  { key: "job", fallback: "Careers" },
+  { key: "invoice", fallback: "Invoices" },
+  { key: "blog", fallback: "Blogs" },
+  { key: "page", fallback: "Pages" },
+];
 
 export function AddCategoryModal({
   open,
   onClose,
   onSuccess,
   category,
-  parentOptions = ["Services", "Careers", "Invoices", "Blogs", "Pages"],
+  parentOptions,
 }: AddCategoryModalProps) {
   const isEditing = !!category;
   const categoryLabel = useEntityLabel("category");
   const statusOptions = useStatusOptions("category");
+  const { entityLabel } = useConfig();
+
+  const resolvedParentOptions =
+    parentOptions ??
+    CATEGORIZABLE_MODULE_KEYS.map(({ key, fallback }) =>
+      entityLabel(key, { plural: true, fallback })
+    );
   const statusDefault = statusOptions.find((s) => s.isDefault)?.statusValue ?? statusOptions[0]?.statusValue ?? "Active";
 
   const [name, setName] = useState(category?.name ?? "");
@@ -166,7 +185,7 @@ export function AddCategoryModal({
                 <label className="mb-0.5 block text-sm font-bold text-zinc-800">Parent Category</label>
                 <select value={parent} onChange={(e) => setParent(e.target.value)} className={inputCls}>
                   <option value="">None (Top Level)</option>
-                  {parentOptions.map((p) => (
+                  {resolvedParentOptions.map((p) => (
                     <option key={p} value={p}>{p}</option>
                   ))}
                 </select>

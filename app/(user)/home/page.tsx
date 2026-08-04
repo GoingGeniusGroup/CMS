@@ -1,5 +1,7 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { images } from "@/lib/images";
+import { resolveTokensOnServer } from "@/lib/content/resolve-tokens-server";
 import { LandingServicesSection } from "@/components/LandingServicesSection";
 import { LandingFeaturedProjects } from "@/components/LandingFeaturedProjects";
 import { LandingBlogSection } from "@/components/LandingBlogSection";
@@ -7,6 +9,11 @@ import { LandingTeamSection } from "@/components/LandingTeamSection";
 import { LandingPartnersSection } from "@/components/LandingPartnersSection";
 import { LandingTechSection } from "@/components/LandingTechSection";
 import { FaqSection } from "@/components/FaqSection";
+import { StaggerGrid, StaggerItem } from "@/components/motion/StaggerGrid";
+import { MotionCard } from "@/components/motion/MotionCard";
+import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
+import { PageHero } from "@/components/content/PageHero";
+import type { CardsData } from "@/lib/content/schemas";
 import { getPublicPartners } from "@/app/actions/settings";
 import { getPublicTechnologies } from "@/app/actions/public-settings";
 import { getPublicServices } from "@/app/actions/services";
@@ -14,109 +21,79 @@ import { getPublicProjects } from "@/app/actions/projects";
 import { getPublicBlogs } from "@/app/actions/blogs";
 import { getPublicTeamMembers } from "@/app/actions/team";
 import { getPublicFaqs } from "@/app/actions/faq";
+import { getSection } from "@/app/actions/site-content";
 
-// ΓöÇΓöÇΓöÇ Hero ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
-
-function Hero() {
+/**
+ * The "Our Top Products" logo strip that used to live inside the hero's left
+ * column. Not part of `heroSchema` (it's a static brand asset, not editable
+ * text/CTA content), so it's kept as its own tiny block directly below the
+ * hero rather than forced into the shared schema — this does shift it from
+ * "inside the hero card" to "its own strip right after it", a small,
+ * deliberate layout change rather than a silent one.
+ */
+function ProductsTopStrip() {
   return (
-    <section id="home" className="border-b border-zinc-100 bg-[#f6f4f3] px-4 py-16 sm:px-6 lg:px-8">
+    <div className="border-b border-zinc-100 bg-[#f6f4f3] px-4 pb-10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="grid items-center gap-10 rounded-3xl border-2 border-indigo-500/70 bg-white p-8 sm:p-12 lg:grid-cols-2">
-          <div>
-            <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-zinc-900 sm:text-5xl">
-              Think Bigger,
-              <br />
-              <span className="text-indigo-600">Build Smarter</span>,
-              <br />
-              Scale Faster
-            </h1>
-            <p className="mt-5 max-w-md text-sm leading-relaxed text-zinc-500">
-              Going Genius turns your ideas into something bigger, smarter, and
-              more impactful. Let&apos;s connect and bring your vision to life ΓÇö
-              better than you imagined.
-            </p>
-
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a
-                href="#contact"
-                className="rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
-              >
-                Get Started.
-              </a>
-              <a
-                href="#services"
-                className="rounded-lg border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-zinc-400"
-              >
-                Learn More
-              </a>
-            </div>
-
-            <div className="mt-8">
-              <p className="mb-2 text-xs font-semibold text-zinc-500">Our Top Products</p>
-              <Image
-                src={images.frame1}
-                alt="Our top products"
-                width={300}
-                height={60}
-                className="h-12 w-auto"
-                style={{ width: "auto" }}
-              />
-            </div>
-          </div>
-
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-            <Image
-              src={images.picture1}
-              alt="Developer building a digital product"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-              priority
-            />
-          </div>
-        </div>
+        <p className="mb-2 text-xs font-semibold text-zinc-500">Our Top Products</p>
+        <Image
+          src={images.frame1}
+          alt="Our top products"
+          width={300}
+          height={60}
+          className="h-12 w-auto"
+          style={{ width: "auto" }}
+        />
       </div>
-    </section>
+    </div>
   );
 }
 
 // ─── Featured Works ───────────────────────────────────────────────────────────
 
-function Products() {
+function Products({ data }: { data: CardsData }) {
+  if (data.items.length === 0) return null;
+
   return (
     <section id="products" className="bg-[#f6f4f3] px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex items-center justify-between">
+        <RevealOnScroll className="mb-8 flex items-center justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">Products</p>
-            <h2 className="mt-2 text-2xl font-extrabold text-zinc-900">Products and Solutions</h2>
+            {data.eyebrow && (
+              <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">
+                {data.eyebrow}
+              </p>
+            )}
+            {data.heading && (
+              <h2 className="mt-2 text-2xl font-extrabold text-zinc-900">{data.heading}</h2>
+            )}
           </div>
-          <a href="#contact" className="text-sm font-semibold text-indigo-600 hover:underline">
-            Contact Sales
-          </a>
-        </div>
+          {data.ctaLabel && (
+            <a
+              href={data.ctaHref || "#contact"}
+              className="text-sm font-semibold text-indigo-600 hover:underline"
+            >
+              {data.ctaLabel}
+            </a>
+          )}
+        </RevealOnScroll>
 
-        <div className="grid gap-6 sm:grid-cols-3">
-          {[
-            {
-              title: "Growth Analytics",
-              desc: "Live dashboards and reporting for business performance and customer insights.",
-            },
-            {
-              title: "Campaign Automation",
-              desc: "Automated workflows that convert leads and keep customers engaged.",
-            },
-            {
-              title: "Customer Portal",
-              desc: "Secure, branded portals for customers to manage accounts and requests.",
-            },
-          ].map((product) => (
-            <div key={product.title} className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-              <h3 className="text-base font-bold text-zinc-900">{product.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-500">{product.desc}</p>
-            </div>
+        <StaggerGrid className="grid gap-6 sm:grid-cols-3">
+          {data.items.map((product) => (
+            <StaggerItem key={product.id}>
+              <MotionCard className="h-full rounded-2xl">
+                <div className="h-full rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+                  <h3 className="text-base font-bold text-zinc-900">{product.title}</h3>
+                  {product.description && (
+                    <p className="mt-3 text-sm leading-relaxed text-zinc-500">
+                      {product.description}
+                    </p>
+                  )}
+                </div>
+              </MotionCard>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGrid>
       </div>
     </section>
   );
@@ -126,10 +103,43 @@ function Products() {
 // ─── FAQ ───────────────────────────────────────────────────────────────────
 // (dynamic content from database — see FaqSection component)
 
-// ΓöÇΓöÇΓöÇ Page ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+// ─── Metadata (Task 24, Phase 19) ───────────────────────────────────────────
+// Derived from the hero's own heading/subheading, so the browser tab and any
+// share preview reflect whatever an admin has actually configured for the
+// homepage hero — rather than a static string unrelated to the visible page.
+
+export async function generateMetadata(): Promise<Metadata> {
+  // Title intentionally omitted — the tab title stays the site name from
+  // Settings > General (default title set in app/(user)/layout.tsx). Only the
+  // description is derived from hero content.
+  const heroSection = await getSection("home", "home.hero");
+  const description = heroSection.data.subheading
+    ? await resolveTokensOnServer(heroSection.data.subheading)
+    : undefined;
+  return { description };
+}
+
+// ─── Page ────────────────────────────────────────────────────────────────────
 
 export default async function Page() {
-  const [rawPartners, rawTechnologies, rawServices, rawProjects, rawBlogs, rawTeam, rawFaqs] = await Promise.all([
+  const [
+    rawPartners,
+    rawTechnologies,
+    rawServices,
+    rawProjects,
+    rawBlogs,
+    rawTeam,
+    rawFaqs,
+    heroSection,
+    productsSection,
+    partnersHeader,
+    techHeader,
+    servicesHeader,
+    projectsHeader,
+    blogHeader,
+    teamHeader,
+    faqHeader,
+  ] = await Promise.all([
     getPublicPartners(),
     getPublicTechnologies(),
     getPublicServices(),
@@ -137,6 +147,15 @@ export default async function Page() {
     getPublicBlogs(),
     getPublicTeamMembers(),
     getPublicFaqs(),
+    getSection("home", "home.hero"),
+    getSection("home", "home.products"),
+    getSection("home", "home.partners"),
+    getSection("home", "home.tech"),
+    getSection("home", "home.services"),
+    getSection("home", "home.projects"),
+    getSection("home", "home.blog"),
+    getSection("shared", "shared.team"),
+    getSection("shared", "shared.faq"),
   ]);
 
   // Serialize Date objects to strings for client component props
@@ -150,15 +169,16 @@ export default async function Page() {
 
   return (
     <>
-      <Hero />
-      <LandingPartnersSection initialPartners={partners} />
-      <LandingTechSection initialTechnologies={technologies} />
-      <LandingServicesSection initialServices={services} />
-      <Products />
-      <LandingFeaturedProjects initialProjects={projects} />
-      <LandingBlogSection initialBlogs={blogs} />
-      <LandingTeamSection initialMembers={team} />
-      <FaqSection initialFaqs={faqs} />
+      <PageHero data={heroSection.data} />
+      <ProductsTopStrip />
+      <LandingPartnersSection initialPartners={partners} headerData={partnersHeader.data} />
+      <LandingTechSection initialTechnologies={technologies} headerData={techHeader.data} />
+      <LandingServicesSection initialServices={services} headerData={servicesHeader.data} />
+      <Products data={productsSection.data} />
+      <LandingFeaturedProjects initialProjects={projects} headerData={projectsHeader.data} />
+      <LandingBlogSection initialBlogs={blogs} headerData={blogHeader.data} />
+      <LandingTeamSection initialMembers={team} headerData={teamHeader.data} />
+      <FaqSection initialFaqs={faqs} headerData={faqHeader.data} />
     </>
   );
 }

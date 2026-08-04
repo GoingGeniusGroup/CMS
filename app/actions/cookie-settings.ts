@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { cache } from "react";
+import { unstable_cache, updateTag } from "next/cache";
 
 export type CookieSettingInput = {
   cookiesAgreement: boolean;
@@ -29,6 +29,7 @@ export async function saveCookieSettings(data: CookieSettingInput) {
     } else {
       await prisma.cookieSetting.create({ data });
     }
+    updateTag("cookie-settings");
     return { success: true };
   } catch (error) {
     console.error("Save cookie settings error:", error);
@@ -36,8 +37,18 @@ export async function saveCookieSettings(data: CookieSettingInput) {
   }
 }
 
-// Public access - no auth required (for user-facing cookie banner)
-export const getPublicCookieSettings = cache(async () => {
-  const data = await prisma.cookieSetting.findFirst();
-  return data ?? { cookiesAgreement: true, showCookiesAgreement: true, cookiesAgreementText: "" };
-});
+// Public access - no auth required (for user-facing cookie banner). Cross-request
+// cached (renders on every public page via the layout); invalidated via the
+// "cookie-settings" tag on save.
+const getPublicCookieSettingsCached = unstable_cache(
+  async () => {
+    const data = await prisma.cookieSetting.findFirst();
+    return data ?? { cookiesAgreement: true, showCookiesAgreement: true, cookiesAgreementText: "" };
+  },
+  ["public-cookie-settings"],
+  { revalidate: 60, tags: ["cookie-settings"] }
+);
+
+export async function getPublicCookieSettings() {
+  return getPublicCookieSettingsCached();
+}

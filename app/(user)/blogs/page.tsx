@@ -1,10 +1,29 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock, Mail, Search, BookOpen } from "lucide-react";
 import { getPublicBlogs } from "@/app/actions/blogs";
+import { getSection } from "@/app/actions/site-content";
+import { resolveTokensOnServer } from "@/lib/content/resolve-tokens-server";
+import { PageHero } from "@/components/content/PageHero";
+
+export async function generateMetadata(): Promise<Metadata> {
+  // Title is intentionally NOT set here — the browser tab title should stay
+  // the site name configured in Settings > General (applied as the default
+  // title in app/(user)/layout.tsx). Only the description is derived from the
+  // hero content, for SEO/share-preview purposes.
+  const heroSection = await getSection("blogs", "blogs.hero");
+  const description = heroSection.data.subheading
+    ? await resolveTokensOnServer(heroSection.data.subheading)
+    : undefined;
+  return { description };
+}
 
 export default async function BlogListingPage() {
-  const blogs = await getPublicBlogs();
+  const [blogs, heroSection] = await Promise.all([
+    getPublicBlogs(),
+    getSection("blogs", "blogs.hero"),
+  ]);
 
   const featured = blogs[0] ?? null;
   const trending = blogs.slice(1, 3);
@@ -22,43 +41,7 @@ export default async function BlogListingPage() {
 
   return (
     <div className="bg-white">
-      {/* ── Hero ─────────────────────────────────────────── */}
-      <section className="px-4 pt-14 pb-10 sm:px-6 lg:px-8 border-b border-zinc-100">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid items-center gap-10 lg:grid-cols-2">
-            <div>
-              <h1 className="text-3xl font-extrabold leading-tight text-zinc-900 sm:text-4xl">
-                Stay Ahead with
-                <br />
-                Insights That
-                <br />
-                Drive Innovation
-              </h1>
-              <p className="mt-5 max-w-md text-sm leading-relaxed text-zinc-500">
-                Explore in-depth articles, tutorials, case studies, and industry
-                trends to help you build better products and grow your business.
-              </p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <a
-                  href="#articles"
-                  className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
-                >
-                  Browse Articles <ArrowRight className="h-4 w-4" />
-                </a>
-                <a
-                  href="#subscribe"
-                  className="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-zinc-300 hover:bg-zinc-50"
-                >
-                  <Mail className="h-4 w-4" /> Subscribe
-                </a>
-              </div>
-            </div>
-            <div className="relative aspect-[16/10] overflow-hidden rounded-xl">
-              <Image src="/blog1.png" alt="Blog" fill sizes="100vw" className="object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero data={heroSection.data} />
 
       {/* ── Main Content: Featured + Trending + Latest WITH Sidebar ── */}
       <section className="px-4 py-10 sm:px-6 lg:px-8">

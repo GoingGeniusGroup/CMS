@@ -122,6 +122,7 @@ export async function createTeamMember(data: TeamMemberInput, customFieldValues?
     if (customFieldValues && Object.keys(customFieldValues).length > 0) {
       await saveCustomFieldValues("team", created.id, customFieldValues);
     }
+    updateTag("team-members");
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -149,6 +150,7 @@ export async function updateTeamMember(id: string, data: TeamMemberInput, custom
     if (customFieldValues && Object.keys(customFieldValues).length > 0) {
       await saveCustomFieldValues("team", id, customFieldValues);
     }
+    updateTag("team-members");
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -159,30 +161,39 @@ export async function updateTeamMember(id: string, data: TeamMemberInput, custom
   }
 }
 
-// Get active team members for public/user-facing pages (no auth required)
+// Get active team members for public/user-facing pages (no auth required).
+// Cross-request cached — read on the home page and teams page; changes only via
+// admin CRUD, invalidated via the "team-members" tag in the mutations below.
+const getPublicTeamMembersCached = unstable_cache(
+  async () =>
+    prisma.team.findMany({
+      where: { status: "Active" },
+      select: {
+        id: true,
+        fullName: true,
+        role: true,
+        department: true,
+        image: true,
+        bio: true,
+        location: true,
+        experience: true,
+        skills: true,
+        email: true,
+        phone: true,
+        facebook: true,
+        twitter: true,
+        instagram: true,
+        linkedin: true,
+        website: true,
+      },
+      orderBy: { joinedAt: "asc" },
+    }),
+  ["public-team-members"],
+  { revalidate: 60, tags: ["team-members"] }
+);
+
 export async function getPublicTeamMembers() {
-  return await prisma.team.findMany({
-    where: { status: "Active" },
-    select: {
-      id: true,
-      fullName: true,
-      role: true,
-      department: true,
-      image: true,
-      bio: true,
-      location: true,
-      experience: true,
-      skills: true,
-      email: true,
-      phone: true,
-      facebook: true,
-      twitter: true,
-      instagram: true,
-      linkedin: true,
-      website: true,
-    },
-    orderBy: { joinedAt: "asc" },
-  });
+  return getPublicTeamMembersCached();
 }
 
 export async function deleteTeamMember(id: string) {
@@ -191,6 +202,7 @@ export async function deleteTeamMember(id: string) {
 
   try {
     await prisma.team.delete({ where: { id } });
+    updateTag("team-members");
     return { success: true };
   } catch (error) {
     console.error("Delete team member error:", error);

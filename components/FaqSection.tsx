@@ -3,13 +3,22 @@
 import { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { getPublicFaqs } from "@/app/actions/faq";
+import { SECTION_REGISTRY, type SectionHeaderData } from "@/lib/content/schemas";
 
 type FaqItem = { question: string; answer: string; category: string };
 
-export function FaqSection({ initialFaqs }: { initialFaqs?: FaqItem[] }) {
+export function FaqSection({
+  initialFaqs,
+  headerData,
+}: {
+  initialFaqs?: FaqItem[];
+  /** From the "shared.faq" section — also shown on /home and /company. */
+  headerData?: SectionHeaderData;
+}) {
   const [faqs, setFaqs] = useState<FaqItem[]>(initialFaqs ?? []);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [open, setOpen] = useState<string | null>(null);
+  const header = headerData ?? SECTION_REGISTRY["shared.faq"].defaultData;
 
   useEffect(() => {
     if (!initialFaqs) {
@@ -33,8 +42,12 @@ export function FaqSection({ initialFaqs }: { initialFaqs?: FaqItem[] }) {
   return (
     <section className="bg-[#f6f4f3] px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-3xl">
-        <p className="text-center text-xs font-bold uppercase tracking-widest text-indigo-600">Support</p>
-        <h2 className="mt-2 text-center text-3xl font-extrabold text-zinc-900">Frequently Asked Questions</h2>
+        {header.eyebrow && (
+          <p className="text-center text-xs font-bold uppercase tracking-widest text-indigo-600">
+            {header.eyebrow}
+          </p>
+        )}
+        <h2 className="mt-2 text-center text-3xl font-extrabold text-zinc-900">{header.heading}</h2>
 
         {/* Category filter pills */}
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">

@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
-import { cache } from "react";
+import { unstable_cache, updateTag } from "next/cache";
 
 // Phone: allow digits, +, spaces, dashes, parentheses. Empty is allowed for optional fields.
 const phoneRegex = /^[0-9+\-\s()]*$/;
@@ -38,11 +38,21 @@ const contactSettingsSchema = z.object({
 
 export type ContactSettingInput = z.infer<typeof contactSettingsSchema>;
 
-// Get contact settings for public/user-facing pages (no auth required)
-export const getPublicContactSettings = cache(async () => {
-  const data = await prisma.contactSetting.findFirst();
-  return data;
-});
+// Get contact settings for public/user-facing pages (no auth required).
+// Cross-request cached — used by the footer (every public page) and the contact
+// page; invalidated via the "contact-settings" tag on save.
+const getPublicContactSettingsCached = unstable_cache(
+  async () => {
+    const data = await prisma.contactSetting.findFirst();
+    return data;
+  },
+  ["public-contact-settings"],
+  { revalidate: 60, tags: ["contact-settings"] }
+);
+
+export async function getPublicContactSettings() {
+  return getPublicContactSettingsCached();
+}
 
 export async function saveContactSettings(data: ContactSettingInput) {
   const session = await auth();
@@ -73,6 +83,7 @@ export async function saveContactSettings(data: ContactSettingInput) {
       await prisma.contactSetting.create({ data: result.data });
     }
 
+    updateTag("contact-settings");
     return { success: true };
   } catch (error) {
     console.error("Save contact settings error:", error);

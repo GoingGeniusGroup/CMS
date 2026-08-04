@@ -4,38 +4,11 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Bookmark, Briefcase, ChevronDown, Clock, MapPin } from "lucide-react";
 import { getPublicJobs, type JobRow } from "@/app/actions/jobs";
+import { getSection, type SiteContentSection } from "@/app/actions/site-content";
+import { PageHero } from "@/components/content/PageHero";
+import { SECTION_REGISTRY } from "@/lib/content/schemas";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-
-// ─── Hero ─────────────────────────────────────────────────────────────────────
-
-function HeroSection() {
-  return (
-    <div className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="relative aspect-[21/9] overflow-hidden rounded-2xl bg-zinc-900">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/career-new.png"
-          alt="Careers at Going Genius"
-          className="w-full h-full object-contain"
-          style={{ display: "block" }}
-        />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%)" }} />
-        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 20px", zIndex: 1 }}>
-          <span style={{ marginBottom: 10, border: "1px solid rgba(255,255,255,0.5)", borderRadius: 999, background: "rgba(255,255,255,0.15)", padding: "3px 14px", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "#fff" }}>
-            CAREERS AT GOING GENIUS
-          </span>
-          <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 800, lineHeight: 1.2, color: "#fff", margin: 0, textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
-            Build Your Career With<br />Going Genius
-          </h1>
-          <p style={{ marginTop: 12, maxWidth: 560, fontSize: 15, lineHeight: 1.65, color: "rgba(240,240,240,0.95)", textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
-            Join a team of visionaries, engineers, and designers dedicated to building the future of corporate intelligence and efficient modern systems.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ─── Job Card ─────────────────────────────────────────────────────────────────
 
@@ -185,14 +158,27 @@ function LifeSection() {
 
 export default function CareerPage() {
   const [jobs, setJobs] = useState<JobRow[]>([]);
+  const [heroSection, setHeroSection] = useState<SiteContentSection<"career.hero">>({
+    sectionKey: "career.hero",
+    pageKey: "career",
+    variant: "default",
+    isVisible: true,
+    order: SECTION_REGISTRY["career.hero"].defaultOrder,
+    data: SECTION_REGISTRY["career.hero"].defaultData,
+  });
 
   useEffect(() => {
     getPublicJobs().then((data) => setJobs(data));
+    // Client-side fetch (not a server-rendered prop) because this whole page
+    // is already "use client" for its interactive job filtering — matching
+    // the existing getPublicJobs pattern rather than splitting the page into
+    // a server wrapper + client sub-component for one section.
+    getSection("career", "career.hero").then((section) => setHeroSection(section));
   }, []);
 
   return (
     <>
-      <HeroSection />
+      <PageHero data={heroSection.data} />
       <OpenPositions jobs={jobs} />
       <LifeSection />
     </>

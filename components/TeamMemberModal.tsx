@@ -17,6 +17,8 @@ import {
   FaLinkedinIn,
   FaGlobe,
 } from "react-icons/fa";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { EASE_OUT } from "@/lib/motion/variants";
 
 type TeamMember = {
   id: string;
@@ -41,20 +43,39 @@ type TeamMemberModalProps = {
   member: TeamMember | null;
   isOpen: boolean;
   onClose: () => void;
+  /**
+   * Shared-element `layoutId` matching the one used for this member in
+   * `TeamRoster` (see `getTeamPortraitLayoutId`), so the portrait morphs from
+   * roster into modal rather than popping in. Omit to fall back to a plain fade.
+   */
+  portraitLayoutId?: string;
 };
 
-export default function TeamMemberModal({ member, isOpen, onClose }: TeamMemberModalProps) {
-  if (!isOpen || !member) return null;
-
-  const firstName = member.fullName.split(" ")[0];
+export default function TeamMemberModal({ member, isOpen, onClose, portraitLayoutId }: TeamMemberModalProps) {
+  const reduced = useReducedMotion() ?? false;
+  const firstName = member?.fullName.split(" ")[0] ?? "";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+    <AnimatePresence>
+      {isOpen && member && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
-      {/* Modal */}
-      <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl">
+          {/* Modal */}
+          <motion.div
+            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl"
+            initial={reduced ? undefined : { opacity: 0, y: 16, scale: 0.98 }}
+            animate={reduced ? undefined : { opacity: 1, y: 0, scale: 1 }}
+            exit={reduced ? undefined : { opacity: 0, y: 16, scale: 0.98 }}
+            transition={EASE_OUT}
+          >
         {/* Close button */}
         <button
           onClick={onClose}
@@ -71,7 +92,10 @@ export default function TeamMemberModal({ member, isOpen, onClose }: TeamMemberM
             <div className="relative mb-6">
               {/* Decorative ring */}
               <div className="absolute -inset-2 rounded-2xl bg-gradient-to-br from-indigo-400 to-purple-500 opacity-20 blur-sm" />
-              <div className="relative w-52 h-52 rounded-2xl overflow-hidden border-4 border-white shadow-xl">
+              <motion.div
+                layoutId={portraitLayoutId}
+                className="relative w-52 h-52 rounded-2xl overflow-hidden border-4 border-white shadow-xl"
+              >
                 {member.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -86,7 +110,7 @@ export default function TeamMemberModal({ member, isOpen, onClose }: TeamMemberM
                     </span>
                   </div>
                 )}
-              </div>
+              </motion.div>
               {/* Status dot */}
               <div className="absolute bottom-1 right-1 h-5 w-5 rounded-full bg-emerald-400 border-3 border-white shadow-sm" />
             </div>
@@ -320,7 +344,9 @@ export default function TeamMemberModal({ member, isOpen, onClose }: TeamMemberM
             </div>
           </div>
         </div>
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

@@ -51,12 +51,16 @@ type BlogsData = {
 
 const PAGE_SIZE = 10;
 
+type CategoryOption = { id: string; name: string };
+
 export function BlogsClient({
   initialData,
   authors,
+  categories = [],
 }: {
   initialData: BlogsData;
   authors: Author[];
+  categories?: CategoryOption[];
 }) {
   const [data, setData] = useState(initialData);
   const [currentPage, setCurrentPage] = useState(initialData.page);
@@ -407,6 +411,7 @@ export function BlogsClient({
         onSuccess={() => { setModalOpen(false); refresh(); }}
         blog={editingBlog}
         authors={authors}
+        categories={categories}
       />
 
       {/* Delete Confirmation */}

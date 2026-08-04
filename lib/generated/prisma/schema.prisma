@@ -253,7 +253,11 @@ model GeneralSetting {
   themeColor       String   @default("#6366f1")
   themeTextColor   String   @default("#ffffff")
   baseColorEnabled Boolean  @default(true)
-  industryProfile  String   @default("Generic")
+  industryProfile  String   @default("generic")
+  currency         String   @default("NPR")
+  currencySymbol   String   @default("Rs.")
+  dateFormat       String   @default("DD/MM/YYYY")
+  numberFormat     String   @default("en-US")
   updatedAt        DateTime @updatedAt
 
   @@map("general_settings")
@@ -491,4 +495,24 @@ model StatusOption {
   @@unique([moduleKey, statusValue])
   @@index([moduleKey, isActive, sortOrder])
   @@map("status_options")
+}
+
+// Structured, editable public-site content — one row per named section on a
+// public page (e.g. pageKey "home", sectionKey "services-header"). `data` shape
+// is validated against a per-sectionKey zod schema in lib/content/schemas.ts
+// (SECTION_REGISTRY), never enforced at the DB level, so new section types
+// don't require a migration. See Phase 16 of ORGANIZATION_AGNOSTIC_PLAN_V2.md.
+model SiteContent {
+  id         String   @id @default(cuid())
+  pageKey    String
+  sectionKey String
+  variant    String   @default("default")
+  isVisible  Boolean  @default(true)
+  order      Int      @default(0)
+  data       Json
+  updatedAt  DateTime @updatedAt
+
+  @@unique([pageKey, sectionKey])
+  @@index([pageKey, isVisible, order])
+  @@map("site_content")
 }

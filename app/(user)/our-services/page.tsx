@@ -1,16 +1,11 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  CheckCircle,
-  BookOpen,
-  Code2,
-  Layers,
-  Pencil,
-  Search,
-  Send,
-} from "lucide-react";
+import { BookOpen, Code2, CheckCircle, Pencil, Search, Send } from "lucide-react";
 import { getPublicServices } from "@/app/actions/services";
+import { getSection } from "@/app/actions/site-content";
+import { resolveTokensOnServer } from "@/lib/content/resolve-tokens-server";
+import { PageHero } from "@/components/content/PageHero";
 import { ServicesGrid } from "@/components/ServicesGrid";
 import { FeaturedServicesGrid } from "@/components/FeaturedServicesGrid";
 
@@ -24,79 +19,6 @@ const PROCESS_STEPS = [
   { num: "05", icon: CheckCircle, label: "Testing" },
   { num: "06", icon: Send, label: "Delivery" },
 ];
-
-// ─── Section: Hero ───────────────────────────────────────────────────────────
-
-function HeroSection({ serviceCount }: { serviceCount: number }) {
-  const stats = [
-    { icon: Layers, value: `${serviceCount}+`, label: "TOTAL SERVICES" },
-    { icon: CheckCircle, value: "150+", label: "PROJECTS COMPLETED" },
-    { icon: Layers, value: "80+", label: "HAPPY CLIENTS" },
-    { icon: BookOpen, value: "6+", label: "YEARS EXPERIENCE" },
-  ];
-
-  return (
-    <section className="bg-white px-4 py-16 sm:px-6 lg:px-16">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <div>
-            <h1 className="text-4xl font-extrabold leading-tight text-zinc-900 sm:text-5xl lg:text-6xl">
-              Digital Solutions
-              <br />
-              <span className="text-indigo-600">For Your Business</span>
-            </h1>
-            <p className="mt-5 max-w-md text-sm leading-relaxed text-zinc-500">
-              Transforming ideas into powerful digital solutions that inspire
-              growth, innovation, and lasting business success.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="#services-we-provide"
-                className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
-              >
-                Explore Services
-                <ArrowRight className="h-4 w-4" />
-              </a>
-              <Link
-                href="/contact"
-                className="inline-flex items-center rounded-lg border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-zinc-400"
-              >
-                Contact Us
-              </Link>
-            </div>
-          </div>
-
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-            <Image
-              src="/TechOffice.png"
-              alt="Digital globe on monitor"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-              priority
-            />
-          </div>
-        </div>
-
-        {/* Stats strip */}
-        <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {stats.map(({ icon: Icon, value, label }) => (
-            <div
-              key={label}
-              className="flex flex-col items-center gap-2 rounded-2xl border border-zinc-100 bg-white p-6 shadow-sm"
-            >
-              <Icon className="h-7 w-7 text-indigo-500" strokeWidth={1.5} />
-              <p className="text-3xl font-extrabold text-zinc-900">{value}</p>
-              <p className="text-[11px] font-bold uppercase tracking-widest text-zinc-400">
-                {label}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ─── Section: Development Process ────────────────────────────────────────────
 
@@ -180,14 +102,42 @@ function CTASection() {
   );
 }
 
+// ─── Metadata (Task 24, Phase 19) ───────────────────────────────────────────
+
+export async function generateMetadata(): Promise<Metadata> {
+  // Title intentionally omitted — the tab title stays the site name from
+  // Settings > General (default title set in app/(user)/layout.tsx). Only the
+  // description is derived from hero content.
+  const heroSection = await getSection("our-services", "our-services.hero");
+  const description = heroSection.data.subheading
+    ? await resolveTokensOnServer(heroSection.data.subheading)
+    : undefined;
+  return { description };
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function ServicesPublicPage() {
-  const services = await getPublicServices();
+  const [services, heroSection] = await Promise.all([
+    getPublicServices(),
+    getSection("our-services", "our-services.hero"),
+  ]);
+
+  // "Total Services" is the one stat that must reflect live data rather than
+  // admin-authored content, so it's computed here and prepended in front of
+  // whatever stats are configured in the CMS, rather than being part of the
+  // editable schema itself.
+  const heroData = {
+    ...heroSection.data,
+    stats: [
+      { value: `${services.length}+`, label: "TOTAL {{service.plural}}", iconName: "layers" },
+      ...(heroSection.data.stats ?? []),
+    ],
+  };
 
   return (
     <>
-      <HeroSection serviceCount={services.length} />
+      <PageHero data={heroData} />
       <FeaturedServicesGrid services={services} />
       <ServicesGrid services={services} />
       <DevelopmentProcess />

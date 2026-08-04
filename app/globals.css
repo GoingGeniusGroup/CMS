@@ -36,6 +36,43 @@ body {
   animation: spin-slow 2.5s linear infinite;
 }
 
+/* ─── Marquee (Phase 14 motion primitive) ────────────────────────────────
+   Moved out of `components/motion/Marquee.tsx`'s `<style jsx>` block: in this
+   Next 16 setup, styled-jsx's per-component <style> tag was not being
+   injected into the SSR output at all (confirmed by inspecting the rendered
+   HTML — only one unrelated global <style> tag existed, no `@keyframes
+   marquee-scroll` anywhere), so the Partners/Tech logo strips silently lost
+   their scrolling animation. Plain global CSS + a `--marquee-duration` CSS
+   variable (set inline per instance) has no such runtime dependency. */
+.marquee-track {
+  animation: marquee-scroll var(--marquee-duration, 30s) linear infinite;
+}
+/* Reverses playback direction of the exact same keyframes rather than a
+   second, mirrored `@keyframes` block. Because the track's content is
+   duplicated and translated by exactly -50%, the reverse direction's loop
+   point (-50% → back to -50%) looks identical to the forward direction's
+   (0% → back to 0%) — so this is just as seamless, no separate keyframes
+   needed for the opposite direction. */
+.marquee-reverse {
+  animation-direction: reverse;
+}
+.marquee-pausable:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
 /* Hide scrollbar for horizontally scrolling containers */
 .scrollbar-hide {
   -ms-overflow-style: none;

@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
+import { unstable_cache, updateTag } from "next/cache";
 import { saveCustomFieldValues } from "./custom-fields";
 
 const serviceSchema = z.object({
@@ -30,20 +31,29 @@ export async function getServices() {
   });
 }
 
-// Get active services for public/user-facing pages (no auth required)
+// Get active services for public/user-facing pages (no auth required).
+// Cross-request cached — read on the home page and the services page; changes
+// only via admin CRUD, invalidated below via the "services" tag.
+const getPublicServicesCached = unstable_cache(
+  async () =>
+    prisma.service.findMany({
+      where: { isActive: true },
+      select: {
+        id: true,
+        serviceName: true,
+        description: true,
+        category: true,
+        thumbnailUrl: true,
+        isFeatured: true,
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+  ["public-services"],
+  { revalidate: 60, tags: ["services"] }
+);
+
 export async function getPublicServices() {
-  return await prisma.service.findMany({
-    where: { isActive: true },
-    select: {
-      id: true,
-      serviceName: true,
-      description: true,
-      category: true,
-      thumbnailUrl: true,
-      isFeatured: true,
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  return getPublicServicesCached();
 }
 
 // Get paginated services with stats
@@ -102,6 +112,7 @@ export async function createService(data: ServiceInput, customFieldValues?: Reco
     if (customFieldValues && Object.keys(customFieldValues).length > 0) {
       await saveCustomFieldValues("service", created.id, customFieldValues);
     }
+    updateTag("services");
     return { success: true };
   } catch (error) {
     console.error("Create service error:", error);
@@ -124,6 +135,7 @@ export async function updateService(id: string, data: ServiceInput, customFieldV
     if (customFieldValues && Object.keys(customFieldValues).length > 0) {
       await saveCustomFieldValues("service", id, customFieldValues);
     }
+    updateTag("services");
     return { success: true };
   } catch (error) {
     console.error("Update service error:", error);
@@ -138,6 +150,7 @@ export async function deleteService(id: string) {
 
   try {
     await prisma.service.delete({ where: { id } });
+    updateTag("services");
     return { success: true };
   } catch (error) {
     console.error("Delete service error:", error);
