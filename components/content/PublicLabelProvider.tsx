@@ -45,10 +45,23 @@ export function PublicLabelProvider({
   return <PublicLabelContext.Provider value={value}>{children}</PublicLabelContext.Provider>;
 }
 
+/** Passthrough fallback used when `PageHero` (or any other consumer) renders
+ * outside `PublicLabelProvider` — e.g. in the admin panel's landing page
+ * editor preview. Tokens are left unresolved (returned as-is), which is
+ * correct: the admin is looking at the raw `{{service.plural}}` token they
+ * typed, and the public site resolves it at render time anyway. */
+const FALLBACK_CONTEXT: PublicLabelContextValue = {
+  labels: DEFAULT_ENTITY_LABELS as LabelsMap,
+  label: (key, opts) => {
+    const entry = (DEFAULT_ENTITY_LABELS as LabelsMap)[key];
+    if (entry) return opts?.plural ? entry.plural : entry.singular;
+    return opts?.fallback ?? key;
+  },
+  resolveTokens: (text) => text,
+};
+
 function usePublicLabelContext(): PublicLabelContextValue {
-  const ctx = useContext(PublicLabelContext);
-  if (!ctx) throw new Error("usePublicLabel must be used within a PublicLabelProvider");
-  return ctx;
+  return useContext(PublicLabelContext) ?? FALLBACK_CONTEXT;
 }
 
 /** Resolve a single entity label — e.g. `usePublicLabel("service", { plural: true })` → "Services" (or "Menu" on a Café profile). */
