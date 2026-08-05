@@ -70,6 +70,7 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
             width={120}
             height={40}
             className="h-10 w-auto max-w-[120px] object-contain"
+            style={{ width: "auto" }}
             unoptimized
           />
           <span className="text-sm font-bold text-zinc-900">{siteName}</span>

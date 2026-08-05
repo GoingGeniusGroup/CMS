@@ -5,9 +5,8 @@ import Link from "next/link";
 import { ArrowRight, Zap } from "lucide-react";
 import type { HeroData } from "@/lib/content/schemas";
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
-import { StaggerGrid, StaggerItem } from "@/components/motion/StaggerGrid";
+import { StatsCards } from "@/components/content/StatsCards";
 import { splitHighlight } from "@/lib/content/hero-text";
-import { getHeroStatIcon } from "@/lib/content/hero-icons";
 import { usePublicLabelResolver } from "@/components/content/PublicLabelProvider";
 
 /**
@@ -84,6 +83,17 @@ export function PageHero({ data }: { data: HeroData }) {
       <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <RevealOnScroll>
+            {data.logoUrl && (
+              <div className="mb-4 flex justify-center">
+                <Image
+                  src={data.logoUrl}
+                  alt=""
+                  width={96}
+                  height={96}
+                  className="h-24 w-24 rounded-full object-contain"
+                />
+              </div>
+            )}
             {eyebrow && <HeroEyebrow center>{eyebrow}</HeroEyebrow>}
             {heading}
             {subheading && <HeroSubheading center>{subheading}</HeroSubheading>}
@@ -95,6 +105,63 @@ export function PageHero({ data }: { data: HeroData }) {
   }
 
   // "split" and "stats" share the same two-column layout; "stats" adds the row below.
+  if (data.darkCardStyle) {
+    return (
+      <section className="border-b border-zinc-100 bg-[#f6f4f3] px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="rounded-3xl bg-[#2d2d3f] p-8 sm:p-12 lg:p-16">
+            <div className="grid items-center gap-8 lg:grid-cols-2">
+              <RevealOnScroll>
+                {eyebrow && (
+                  <p className="mb-3 text-xs font-bold uppercase tracking-widest text-indigo-400">
+                    {eyebrow}
+                  </p>
+                )}
+                <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl">
+                  {data.headingLines.map((line, i) => {
+                    const label = resolveLabel(line);
+                    return (
+                      <span key={i}>
+                        {i > 0 && <br />}
+                        <DarkHighlightedLine
+                          label={label}
+                          highlight={highlightForLine(data, label)}
+                        />
+                      </span>
+                    );
+                  })}
+                </h1>
+                {subheading && (
+                  <p className="mt-5 max-w-md text-sm leading-relaxed text-zinc-300">{subheading}</p>
+                )}
+                {ctas && <div className="mt-8 flex flex-wrap gap-3">{ctas}</div>}
+                {microcopy && (
+                  <p className="mt-4 flex items-center gap-1.5 text-xs text-zinc-400">
+                    <Zap className="h-3.5 w-3.5 text-amber-400" />
+                    {microcopy}
+                  </p>
+                )}
+              </RevealOnScroll>
+
+              {data.imageUrl && (
+                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                  <Image
+                    src={data.imageUrl}
+                    alt={data.imageAlt || ""}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover object-center"
+                    priority
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   const columns = (
     <div className="grid items-center gap-10 lg:grid-cols-2">
       <RevealOnScroll>
@@ -134,22 +201,9 @@ export function PageHero({ data }: { data: HeroData }) {
   );
 
   const statsRow = data.layout === "stats" && data.stats && data.stats.length > 0 && (
-    <StaggerGrid className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
-      {data.stats.map((stat) => {
-        const Icon = getHeroStatIcon(stat.iconName);
-        return (
-          <StaggerItem key={stat.label}>
-            <div className="flex flex-col items-center gap-2 rounded-2xl border border-zinc-100 bg-white p-6 text-center shadow-sm">
-              {Icon && <Icon className="h-7 w-7 text-indigo-500" strokeWidth={1.5} />}
-              <p className="text-3xl font-extrabold text-zinc-900">{stat.value}</p>
-              <p className="text-[11px] font-bold uppercase tracking-widest text-zinc-400">
-                {resolveLabel(stat.label)}
-              </p>
-            </div>
-          </StaggerItem>
-        );
-      })}
-    </StaggerGrid>
+    <div className="mt-14">
+      <StatsCards data={{ items: data.stats }} />
+    </div>
   );
 
   if (data.cardStyle) {
@@ -214,13 +268,40 @@ function HeroHeading({
 
   return (
     <h1 className={`font-extrabold leading-tight tracking-tight text-zinc-900 ${sizeClass} ${alignClass}`}>
-      {data.headingLines.map((line, i) => (
-        <span key={i}>
-          {i > 0 && <br />}
-          {highlightLine(resolveLabel(line), data.highlightedWord)}
-        </span>
-      ))}
+      {data.headingLines.map((line, i) => {
+        const label = resolveLabel(line);
+        return (
+          <span key={i}>
+            {i > 0 && <br />}
+            {highlightLine(label, highlightForLine(data, label))}
+          </span>
+        );
+      })}
     </h1>
+  );
+}
+
+/** Per-line highlight: each entry of `highlightedWords` is matched against the
+ * line that contains it (not by position), then falls back to the single
+ * `highlightedWord` — so several heading lines can each carry an accent. */
+function highlightForLine(data: HeroData, lineLabel: string): string | undefined {
+  if (data.highlightedWords && data.highlightedWords.length > 0) {
+    const word = data.highlightedWords.find((w) => w && lineLabel.includes(w));
+    if (word) return word;
+  }
+  return data.highlightedWord;
+}
+
+/** Italic accent-color highlight for the dark hero variant. */
+function DarkHighlightedLine({ label, highlight }: { label: string; highlight?: string }) {
+  const parts = splitHighlight(label, highlight);
+  if (!parts) return <>{label}</>;
+  return (
+    <>
+      {parts.before}
+      <span className="italic text-indigo-400">{parts.match}</span>
+      {parts.after}
+    </>
   );
 }
 
@@ -249,12 +330,19 @@ function HeroCtas({
   return (
     <>
       {data.primaryCtaLabel && (
-        <HeroCtaLink href={data.primaryCtaHref} primary showArrow={data.primaryCtaShowArrow}>
+        <HeroCtaLink
+          href={data.primaryCtaHref}
+          primary
+          showArrow={data.primaryCtaShowArrow}
+          dark={data.darkCardStyle}
+        >
           {resolveLabel(data.primaryCtaLabel)}
         </HeroCtaLink>
       )}
       {data.secondaryCtaLabel && (
-        <HeroCtaLink href={data.secondaryCtaHref}>{resolveLabel(data.secondaryCtaLabel)}</HeroCtaLink>
+        <HeroCtaLink href={data.secondaryCtaHref} dark={data.darkCardStyle}>
+          {resolveLabel(data.secondaryCtaLabel)}
+        </HeroCtaLink>
       )}
     </>
   );
@@ -264,17 +352,21 @@ function HeroCtaLink({
   href,
   primary = false,
   showArrow = false,
+  dark = false,
   children,
 }: {
   href?: string;
   primary?: boolean;
   showArrow?: boolean;
+  dark?: boolean;
   children: React.ReactNode;
 }) {
   const resolvedHref = href || "#";
   const className = primary
     ? "inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
-    : "inline-flex items-center rounded-lg border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-zinc-400";
+    : dark
+      ? "inline-flex items-center rounded-lg border border-zinc-500 px-5 py-2.5 text-sm font-semibold text-zinc-200 transition-colors hover:border-zinc-300 hover:text-white"
+      : "inline-flex items-center rounded-lg border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-zinc-400";
 
   const content =
     primary && showArrow ? (

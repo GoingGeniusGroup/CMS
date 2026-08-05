@@ -240,7 +240,10 @@ function summarize(row: SectionRow): string {
   if (typeof data.heading === "string") return data.heading;
   if (Array.isArray(data.headingLines)) return (data.headingLines as string[]).join(" ");
   if (Array.isArray((data as { items?: unknown[] }).items)) {
-    return `${(data as { items: unknown[] }).items.length} card(s)`;
+    const count = (data as { items: unknown[] }).items.length;
+    return SECTION_REGISTRY[row.sectionKey].kind === "stats"
+      ? `${count} stat(s)`
+      : `${count} card(s)`;
   }
   return "";
 }

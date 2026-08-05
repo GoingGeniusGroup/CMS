@@ -2,29 +2,27 @@
 
 import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
-import type { HeroData } from "@/lib/content/schemas";
+import type { CtaData } from "@/lib/content/schemas";
 import { ImageUploader } from "@/components/ImageUploader";
 
 const inputCls =
   "w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm text-zinc-700 outline-none focus:border-indigo-400 focus:bg-white";
 
 /**
- * Form for the "hero" kind (Task 14). `headingLines` is an ordered array of
- * up to 4 short lines (matching how the current home hero renders "Think
- * Bigger," / "Build Smarter," / "Scale Faster" as separate <br/>-separated
- * lines) rather than one free-text heading, so line breaks stay predictable
- * instead of depending on manual wrapping.
+ * Form for the "cta" kind: variant toggle (split image block / centered text)
+ * plus heading lines, highlighted word, subheading, two optional buttons and
+ * the side image.
  */
-export function HeroForm({
+export function CtaForm({
   data,
   onChange,
 }: {
-  data: HeroData;
-  onChange: (data: HeroData) => void;
+  data: CtaData;
+  onChange: (data: CtaData) => void;
 }) {
-  const [form, setForm] = useState<HeroData>(data);
+  const [form, setForm] = useState<CtaData>(data);
 
-  function update<K extends keyof HeroData>(key: K, value: HeroData[K]) {
+  function update<K extends keyof CtaData>(key: K, value: CtaData[K]) {
     const next = { ...form, [key]: value };
     setForm(next);
     onChange(next);
@@ -52,6 +50,42 @@ export function HeroForm({
   return (
     <div className="space-y-4">
       <div>
+        <label className="mb-1 block text-sm font-bold text-zinc-800">Layout</label>
+        <div className="flex gap-2">
+          {(
+            [
+              { value: "split", label: "Text + image" },
+              { value: "centered", label: "Centered text" },
+            ] as const
+          ).map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => update("variant", option.value)}
+              className={`rounded-lg px-3 py-2 text-xs font-semibold transition-colors ${
+                form.variant === option.value
+                  ? "bg-indigo-600 text-white"
+                  : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
+              }`}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+        {form.variant === "split" && (
+          <label className="mt-2 flex cursor-pointer items-center gap-2 text-sm text-zinc-600">
+            <input
+              type="checkbox"
+              checked={form.cardStyle}
+              onChange={(e) => update("cardStyle", e.target.checked)}
+              className="h-4 w-4 rounded border-zinc-300 text-indigo-600"
+            />
+            Tinted card style (used by the Projects page CTA)
+          </label>
+        )}
+      </div>
+
+      <div>
         <label className="mb-1 block text-sm font-bold text-zinc-800">Eyebrow</label>
         <input
           type="text"
@@ -63,23 +97,12 @@ export function HeroForm({
       </div>
 
       <div>
-        <ImageUploader
-          label="Hero Logo (centered layout only)"
-          value={form.logoUrl ?? null}
-          onChange={(url) => update("logoUrl", url ?? undefined)}
-        />
-        <p className="mt-1 text-xs text-zinc-400">
-          A small circular logo rendered above the heading when the layout is &quot;Centered&quot; (e.g. the company hero).
-        </p>
-      </div>
-
-      <div>
         <label className="mb-1 block text-sm font-bold text-zinc-800">
           Heading Lines <span className="text-red-500">*</span>
         </label>
         <p className="mb-2 text-xs text-zinc-400">
-          Each line renders on its own row, up to 4 lines — e.g. &quot;Think Bigger,&quot;
-          then &quot;Build Smarter,&quot; then &quot;Scale Faster&quot;.
+          Each line renders on its own row, up to 4 lines — e.g. &quot;Ready to
+          Start&quot; then &quot;Your Project?&quot;.
         </p>
         <div className="space-y-2">
           {form.headingLines.map((line, i) => (
@@ -121,49 +144,12 @@ export function HeroForm({
           type="text"
           value={form.highlightedWord ?? ""}
           onChange={(e) => update("highlightedWord", e.target.value)}
-          placeholder="e.g. Build Smarter"
+          placeholder="e.g. Ready to Start"
           className={inputCls}
         />
         <p className="mt-1 text-xs text-zinc-400">
-          Must exactly match text inside one of the heading lines above to be highlighted in the accent color.
+          Must exactly match text inside one of the heading lines above to be highlighted in the amber accent color.
         </p>
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm font-bold text-zinc-800">
-          Additional Highlighted Words (optional)
-        </label>
-        <textarea
-          rows={4}
-          value={form.highlightedWords?.join("\n") ?? ""}
-          onChange={(e) =>
-            update(
-              "highlightedWords",
-              e.target.value
-                .split("\n")
-                .map((w) => w.trim())
-                .filter(Boolean)
-            )
-          }
-          placeholder={"One phrase per line, each matched against any heading line:\nReal\nImpact"}
-          className={`${inputCls} resize-none`}
-        />
-        <p className="mt-1 text-xs text-zinc-400">
-          When set, overrides the single &quot;Highlighted Word&quot; above so multiple lines can each carry an accent.
-        </p>
-      </div>
-
-      <div>
-        <label className="mb-1 block text-sm font-bold text-zinc-800">Dark card style</label>
-        <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-600">
-          <input
-            type="checkbox"
-            checked={form.darkCardStyle}
-            onChange={(e) => update("darkCardStyle", e.target.checked)}
-            className="h-4 w-4 rounded border-zinc-300 text-indigo-600"
-          />
-          Render the two columns inside a dark rounded card (used by the Projects hero)
-        </label>
       </div>
 
       <div>
@@ -178,7 +164,7 @@ export function HeroForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-sm font-bold text-zinc-800">Primary CTA Label</label>
+          <label className="mb-1 block text-sm font-bold text-zinc-800">Primary Button Label</label>
           <input
             type="text"
             value={form.primaryCtaLabel ?? ""}
@@ -187,17 +173,28 @@ export function HeroForm({
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-bold text-zinc-800">Primary CTA Link</label>
+          <label className="mb-1 block text-sm font-bold text-zinc-800">Primary Button Link</label>
           <input
             type="text"
             value={form.primaryCtaHref ?? ""}
             onChange={(e) => update("primaryCtaHref", e.target.value)}
-            placeholder="#contact"
+            placeholder="/contact"
             className={inputCls}
           />
         </div>
+        <div className="sm:col-span-2">
+          <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-600">
+            <input
+              type="checkbox"
+              checked={form.primaryCtaShowArrow}
+              onChange={(e) => update("primaryCtaShowArrow", e.target.checked)}
+              className="h-4 w-4 rounded border-zinc-300 text-indigo-600"
+            />
+            Show arrow on the primary button
+          </label>
+        </div>
         <div>
-          <label className="mb-1 block text-sm font-bold text-zinc-800">Secondary CTA Label</label>
+          <label className="mb-1 block text-sm font-bold text-zinc-800">Secondary Button Label</label>
           <input
             type="text"
             value={form.secondaryCtaLabel ?? ""}
@@ -206,27 +203,29 @@ export function HeroForm({
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-bold text-zinc-800">Secondary CTA Link</label>
+          <label className="mb-1 block text-sm font-bold text-zinc-800">Secondary Button Link</label>
           <input
             type="text"
             value={form.secondaryCtaHref ?? ""}
             onChange={(e) => update("secondaryCtaHref", e.target.value)}
-            placeholder="#services"
+            placeholder="/contact"
             className={inputCls}
           />
         </div>
       </div>
 
-      <div>
-        <ImageUploader
-          label="Hero Image"
-          value={form.imageUrl ?? null}
-          onChange={(url) => update("imageUrl", url ?? undefined)}
-        />
-        <p className="mt-1 text-xs text-zinc-400">
-          Leave empty to keep the current default illustration.
-        </p>
-      </div>
+      {form.variant === "split" && (
+        <div>
+          <ImageUploader
+            label="Side Image"
+            value={form.imageUrl ?? null}
+            onChange={(url) => update("imageUrl", url ?? undefined)}
+          />
+          <p className="mt-1 text-xs text-zinc-400">
+            Shown next to the text in the split layout. Leave empty to hide it.
+          </p>
+        </div>
+      )}
 
       <div>
         <label className="mb-1 block text-sm font-bold text-zinc-800">Image Alt Text</label>
@@ -234,7 +233,7 @@ export function HeroForm({
           type="text"
           value={form.imageAlt ?? ""}
           onChange={(e) => update("imageAlt", e.target.value)}
-          placeholder="Describes the hero image for screen readers"
+          placeholder="Describes the image for screen readers"
           className={inputCls}
         />
       </div>

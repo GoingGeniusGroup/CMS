@@ -70,6 +70,12 @@ export const heroSchema = z.object({
   /** Full-bleed background image behind a "centered" hero (e.g. career page). */
   backdropImageUrl: z.string().max(500).optional(),
   /**
+   * "centered" layout only: a small logo mark rendered above the eyebrow
+   * (e.g. the circular GeniusMark on the company hero). Optional/backward-
+   * compatible; absent on every existing hero.
+   */
+  logoUrl: z.string().max(500).optional(),
+  /**
    * "split" layout only: wraps the two columns in a bordered card on a tinted
    * section background (the original home hero's look) instead of a plain
    * white section. Kept as a flag rather than a fifth layout value, since
@@ -77,6 +83,19 @@ export const heroSchema = z.object({
    * plain white version.
    */
   cardStyle: z.boolean().default(false),
+  /**
+   * "split" layout only: renders the two columns inside a dark rounded card
+   * (bg-#2d2d3f, white heading/text) instead of the plain white section — the
+   * bespoke our-projects hero's look. Distinct from `cardStyle` (white card on
+   * a tinted background).
+   */
+  darkCardStyle: z.boolean().default(false),
+  /**
+   * Optional per-line highlight phrases; when present they take precedence
+   * over `highlightedWord` so several heading lines can each carry an accent
+   * (the our-projects hero highlights "Real" and "Impact" on separate lines).
+   */
+  highlightedWords: z.array(z.string().max(40)).max(4).optional(),
   /** Only rendered by the "stats" layout, as a row of cards below the fold. */
   stats: z.array(heroStatSchema).max(6).optional(),
   /**
@@ -109,13 +128,119 @@ export const cardItemSchema = z.object({
 export const cardsSchema = z.object({
   eyebrow: z.string().max(80).optional(),
   heading: z.string().max(200).optional(),
+  subheading: z.string().max(400).optional(),
   ctaLabel: z.string().max(60).optional(),
   ctaHref: z.string().max(300).optional(),
+  /**
+   * Presentation style: "grid" = centered icon-card grid on a tinted band
+   * (about-us Core Values), "list" = left-aligned icon list inside a bordered
+   * container (about-us Why Work With Us). Defaults to "grid" — the original
+   * homepage Products look — so existing rows behave as before.
+   */
+  variant: z.enum(["grid", "list"]).default("grid"),
   items: z.array(cardItemSchema).max(24),
 });
 
 export type CardsData = z.infer<typeof cardsSchema>;
 export type CardItem = z.infer<typeof cardItemSchema>;
+
+// ─── Timeline schema ──────────────────────────────────────────────────────────
+// The about-us "Our Story" block: heading + copy + image on the left, a
+// vertical list of dated milestones on the right.
+
+export const timelineItemSchema = z.object({
+  year: z.string().max(20),
+  title: z.string().min(1, "Title is required").max(120),
+  description: z.string().max(400).optional(),
+});
+
+export const timelineSectionSchema = z.object({
+  heading: z.string().min(1, "Heading is required").max(200),
+  copy: z.string().max(600).optional(),
+  imageUrl: z.string().max(500).optional(),
+  imageAlt: z.string().max(200).optional(),
+  items: z.array(timelineItemSchema).min(1, "Add at least one event").max(12),
+});
+
+export type TimelineData = z.infer<typeof timelineSectionSchema>;
+export type TimelineItem = z.infer<typeof timelineItemSchema>;
+
+// ─── Two-column schema ───────────────────────────────────────────────────────
+// Two side-by-side icon cards (about-us Mission & Vision). Header fields and
+// the button are optional so a section can be just the two cards, or carry a
+// full header + button when a future page needs it.
+
+export const twoColumnItemSchema = z.object({
+  iconName: z.string().max(60).optional(),
+  title: z.string().min(1, "Title is required").max(120),
+  description: z.string().max(400).optional(),
+});
+
+export const twoColumnSectionSchema = z.object({
+  eyebrow: z.string().max(80).optional(),
+  heading: z.string().max(200).optional(),
+  copy: z.string().max(600).optional(),
+  buttonLabel: z.string().max(60).optional(),
+  buttonHref: z.string().max(300).optional(),
+  items: z.array(twoColumnItemSchema).min(1, "Add at least one column").max(4),
+});
+
+export type TwoColumnData = z.infer<typeof twoColumnSectionSchema>;
+export type TwoColumnItem = z.infer<typeof twoColumnItemSchema>;
+
+// ─── Stats schema ────────────────────────────────────────────────────────────
+// A standalone stats-card row (our-services has the same cards inside its hero
+// stats layout; these sections render the same shared StatsCards component as
+// their own editable, toggleable section below a hero).
+
+export const statItemSchema = z.object({
+  value: z.string().min(1, "Value is required").max(20),
+  label: z.string().min(1, "Label is required").max(60),
+  /** Name from `lib/content/hero-icons.ts`'s registry; omit for no icon. */
+  iconName: z.string().max(40).optional(),
+});
+
+export const statsSchema = z.object({
+  eyebrow: z.string().max(80).optional(),
+  heading: z.string().max(200).optional(),
+  items: z.array(statItemSchema).min(1, "Add at least one stat").max(6),
+});
+
+export type StatsData = z.infer<typeof statsSchema>;
+export type StatItem = z.infer<typeof statItemSchema>;
+
+// ─── CTA schema ──────────────────────────────────────────────────────────────
+// A call-to-action banner. `variant` mirrors hero layouts: "split" is the
+// heading-left/image-right block (our-services, contact), "centered" the
+// text-only centered block (about-us final CTA card, company contact CTA).
+
+const ctaHrefRefine = z
+  .string()
+  .max(300)
+  .optional()
+  .refine((v) => !v || v.startsWith("/") || v.startsWith("#") || v.startsWith("http"), {
+    message: "Link must be a path (/...), an anchor (#...), or a full URL",
+  });
+
+export const ctaSchema = z.object({
+  variant: z.enum(["split", "centered"]).default("split"),
+  /** "split" only: wrap the two columns in a tinted rounded card (bg-#f0eef9) on a tinted section — the our-projects CTA's look. */
+  cardStyle: z.boolean().default(false),
+  eyebrow: z.string().max(80).optional(),
+  headingLines: z.array(z.string().max(80)).min(1).max(4),
+  highlightedWord: z.string().max(40).optional(),
+  subheading: z.string().max(400).optional(),
+  primaryCtaLabel: z.string().max(60).optional(),
+  primaryCtaHref: ctaHrefRefine,
+  /** Some CTAs show an arrow icon after the primary button, some don't. */
+  primaryCtaShowArrow: z.boolean().default(false),
+  secondaryCtaLabel: z.string().max(60).optional(),
+  secondaryCtaHref: ctaHrefRefine,
+  imageUrl: z.string().max(500).optional(),
+  imageAlt: z.string().max(200).optional(),
+});
+
+export type CtaData = z.infer<typeof ctaSchema>;
 
 // ─── Section registry ─────────────────────────────────────────────────────────
 
@@ -125,7 +250,7 @@ export type CardItem = z.infer<typeof cardItemSchema>;
  * reference-equality, so the editor's form-selection logic can't silently
  * break if a schema is ever refactored/wrapped.
  */
-export type SectionKind = "hero" | "sectionHeader" | "cards";
+export type SectionKind = "hero" | "sectionHeader" | "cards" | "stats" | "cta" | "timeline" | "twoColumn";
 
 type SectionRegistryEntry<T> = {
   pageKey: string;
@@ -283,6 +408,68 @@ export const SECTION_REGISTRY = {
     },
   }),
 
+  "our-projects.hero": defineSection<HeroData>({
+    pageKey: "our-projects",
+    label: "Hero",
+    kind: "hero",
+    schema: heroSchema,
+    defaultOrder: 0,
+    defaultData: {
+      layout: "split",
+      darkCardStyle: true,
+      headingLines: ["Building Digital", "Products", "That Drive Real", "Impact"],
+      highlightedWords: ["Real", "Impact"],
+      subheading:
+        "We design and develop innovative digital experiences that help brands grow, engage users, and achieve measurable business results through cutting-edge technology and precision engineering.",
+      primaryCtaLabel: "Explore Projects",
+      primaryCtaHref: "#projects",
+      primaryCtaShowArrow: true,
+      secondaryCtaLabel: "Start a Project",
+      secondaryCtaHref: "/contact",
+      imageUrl: "/ProjectHero.png",
+      imageAlt: "Web Development",
+    },
+  }),
+
+  "our-projects.stats": defineSection<StatsData>({
+    pageKey: "our-projects",
+    label: "Stats cards",
+    kind: "stats",
+    schema: statsSchema,
+    defaultOrder: 1,
+    defaultData: {
+      items: [
+        { value: "4+", label: "PROJECTS COMPLETED", iconName: "rocket" },
+        { value: "120+", label: "HAPPY CLIENTS", iconName: "smile" },
+        { value: "6+", label: "YEARS EXPERIENCE", iconName: "award" },
+        { value: "20+", label: "INDUSTRIES SERVED", iconName: "building2" },
+      ],
+    },
+  }),
+
+  "our-projects.cta": defineSection<CtaData>({
+    pageKey: "our-projects",
+    label: "CTA section",
+    kind: "cta",
+    schema: ctaSchema,
+    defaultOrder: 2,
+    defaultData: {
+      variant: "split",
+      cardStyle: true,
+      eyebrow: "START YOUR PROJECT",
+      headingLines: ["Have an Idea?", "Let's Build It Together"],
+      subheading:
+        "Whether you need a website, mobile app, or a complete digital transformation — we're ready to turn your vision into reality.",
+      primaryCtaLabel: "Get a Free Quote",
+      primaryCtaHref: "/contact",
+      primaryCtaShowArrow: true,
+      secondaryCtaLabel: "Our Services",
+      secondaryCtaHref: "/our-services",
+      imageUrl: "/Rectangle.png",
+      imageAlt: "Start a project",
+    },
+  }),
+
   "our-services.hero": defineSection<HeroData>({
     pageKey: "our-services",
     label: "Hero",
@@ -290,7 +477,7 @@ export const SECTION_REGISTRY = {
     schema: heroSchema,
     defaultOrder: 0,
     defaultData: {
-      layout: "stats",
+      layout: "split",
       headingLines: ["Digital Solutions", "For Your Business"],
       highlightedWord: "For Your Business",
       subheading:
@@ -302,14 +489,45 @@ export const SECTION_REGISTRY = {
       secondaryCtaHref: "/contact",
       imageUrl: "/TechOffice.png",
       imageAlt: "Digital globe on monitor",
-      // "TOTAL SERVICES" is intentionally excluded from this static seed — the
-      // live page computes it from the actual service count (`${services.length}+`)
-      // and that dynamic behavior is preserved separately; see Task 17 notes.
-      stats: [
+    },
+  }),
+
+  // All four stats are regular, admin-editable cards — no live injection, so
+  // the admin panel and the public page always show the same cards.
+  "our-services.stats": defineSection<StatsData>({
+    pageKey: "our-services",
+    label: "Stats cards",
+    kind: "stats",
+    schema: statsSchema,
+    defaultOrder: 1,
+    defaultData: {
+      items: [
         { value: "150+", label: "PROJECTS COMPLETED", iconName: "check-circle" },
         { value: "80+", label: "HAPPY CLIENTS", iconName: "layers" },
         { value: "6+", label: "YEARS EXPERIENCE", iconName: "book-open" },
+        { value: "7+", label: "SERVICES", iconName: "book-open" },
       ],
+    },
+  }),
+
+  "our-services.cta": defineSection<CtaData>({
+    pageKey: "our-services",
+    label: "CTA section",
+    kind: "cta",
+    schema: ctaSchema,
+    defaultOrder: 2,
+    defaultData: {
+      variant: "split",
+      headingLines: ["Ready to Start", "Your Project?"],
+      highlightedWord: "Ready to Start",
+      subheading:
+        "Let's build something amazing together. Get in touch with our team today.",
+      primaryCtaLabel: "Get a Free Quote",
+      primaryCtaHref: "/contact",
+      secondaryCtaLabel: "Contact Us",
+      secondaryCtaHref: "/contact",
+      imageUrl: "/Rectangle.png",
+      imageAlt: "Web development",
     },
   }),
 
@@ -352,6 +570,182 @@ export const SECTION_REGISTRY = {
       imageAlt: "Going Genius team",
       imageBadge: { value: "5+", label: "Years of Excellence" },
       microcopy: "24-hour response promise",
+    },
+  }),
+
+  "about-us.stats": defineSection<StatsData>({
+    pageKey: "about-us",
+    label: "Stats cards",
+    kind: "stats",
+    schema: statsSchema,
+    defaultOrder: 1,
+    defaultData: {
+      items: [
+        { value: "250+", label: "Projects Completed", iconName: "rocket" },
+        { value: "120+", label: "Happy Clients", iconName: "heart" },
+        { value: "8+", label: "Years Experience", iconName: "book-open" },
+        { value: "40+", label: "Team Members", iconName: "users" },
+      ],
+    },
+  }),
+
+  "about-us.story": defineSection<TimelineData>({
+    pageKey: "about-us",
+    label: "Our Story (timeline)",
+    kind: "timeline",
+    schema: timelineSectionSchema,
+    defaultOrder: 2,
+    defaultData: {
+      heading: "Our Story",
+      copy:
+        "Founded in 2021, Going Genius started with a simple idea — help businesses grow the right way. Today, we are a team of passionate designers, developers and strategists delivering world-class digital experiences.",
+      imageUrl: "/career3.png",
+      imageAlt: "Going Genius team",
+      items: [
+        {
+          year: "2021",
+          title: "Company Founded",
+          description: "Started with a small office and a big vision to redefine digital solutions.",
+        },
+        {
+          year: "2022",
+          title: "Expanded Our Services",
+          description: "Grew our capabilities to include mobile app development and UI/UX design.",
+        },
+        {
+          year: "2023",
+          title: "Crossed 100+ Projects",
+          description: "Successfully delivered over 100 high-impact projects for global clients.",
+        },
+        {
+          year: "2024",
+          title: "Growing Stronger Together",
+          description: "Expanding our global footprint with 40+ dedicated geniuses on board.",
+        },
+      ],
+    },
+  }),
+
+  "about-us.missionVision": defineSection<TwoColumnData>({
+    pageKey: "about-us",
+    label: "Mission & Vision",
+    kind: "twoColumn",
+    schema: twoColumnSectionSchema,
+    defaultOrder: 3,
+    defaultData: {
+      items: [
+        {
+          iconName: "globe",
+          title: "Our Mission",
+          description:
+            "To empower businesses with innovative and reliable digital solutions that solve real problems and create lasting value in an ever-evolving tech landscape.",
+        },
+        {
+          iconName: "star",
+          title: "Our Vision",
+          description:
+            "To be a leading digital transformation partner known for excellence, creativity and customer success worldwide, setting new standards for innovation.",
+        },
+      ],
+    },
+  }),
+
+  "about-us.values": defineSection<CardsData>({
+    pageKey: "about-us",
+    label: "Core Values cards",
+    kind: "cards",
+    schema: cardsSchema,
+    defaultOrder: 4,
+    defaultData: {
+      variant: "grid",
+      heading: "Our Core Values",
+      subheading: "The principles that guide every decision we make and every project we undertake.",
+      items: [
+        {
+          id: "innovation",
+          title: "Innovation",
+          description: "We embrace new ideas and technologies.",
+          iconName: "lightbulb",
+        },
+        {
+          id: "integrity",
+          title: "Integrity",
+          description: "We believe in honesty and transparency.",
+          iconName: "shield",
+        },
+        {
+          id: "excellence",
+          title: "Excellence",
+          description: "We never settle for anything less.",
+          iconName: "star",
+        },
+        {
+          id: "collaboration",
+          title: "Collaboration",
+          description: "We grow together as a team.",
+          iconName: "users",
+        },
+        {
+          id: "customer-first",
+          title: "Customer First",
+          description: "Your success is our success.",
+          iconName: "heart",
+        },
+      ],
+    },
+  }),
+
+  "about-us.whyUs": defineSection<CardsData>({
+    pageKey: "about-us",
+    label: "Why Work With Us",
+    kind: "cards",
+    schema: cardsSchema,
+    defaultOrder: 5,
+    defaultData: {
+      variant: "list",
+      heading: "Why work with us?",
+      items: [
+        {
+          id: "growth-learning",
+          title: "Growth & Learning",
+          description: "Continuous learning and professional development opportunities.",
+          iconName: "trending-up",
+        },
+        {
+          id: "great-culture",
+          title: "Great Culture",
+          description: "Friendly and supportive work environment that values people.",
+          iconName: "heart",
+        },
+        {
+          id: "exciting-projects",
+          title: "Exciting Projects",
+          description: "Work on impactful and innovative projects for global clients.",
+          iconName: "bar-chart-2",
+        },
+        {
+          id: "work-life-balance",
+          title: "Work-Life Balance",
+          description: "We value your time and well-being outside of work.",
+          iconName: "scale",
+        },
+      ],
+    },
+  }),
+
+  "about-us.cta": defineSection<CtaData>({
+    pageKey: "about-us",
+    label: "CTA section",
+    kind: "cta",
+    schema: ctaSchema,
+    defaultOrder: 6,
+    defaultData: {
+      variant: "centered",
+      headingLines: ["Let's build something amazing together"],
+      subheading:
+        "Have a project in mind? We would love to hear from you and discuss how we can help you achieve your goals.",
+      primaryCtaLabel: "Get In Touch",
+      primaryCtaHref: "/contact",
     },
   }),
 

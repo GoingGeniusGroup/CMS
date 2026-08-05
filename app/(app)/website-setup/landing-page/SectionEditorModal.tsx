@@ -8,6 +8,10 @@ import { PageHero } from "@/components/content/PageHero";
 import { SectionHeaderForm } from "./forms/SectionHeaderForm";
 import { HeroForm } from "./forms/HeroForm";
 import { CardsForm } from "./forms/CardsForm";
+import { StatsForm } from "./forms/StatsForm";
+import { CtaForm } from "./forms/CtaForm";
+import { TimelineForm } from "./forms/TimelineForm";
+import { TwoColumnForm } from "./forms/TwoColumnForm";
 
 const SHARED_PAGE_NOTE =
   "This section is also shown, unchanged, on the Company and Contact pages — editing it here updates all three.";
@@ -98,6 +102,18 @@ export function SectionEditorModal({
             )}
             {entry.kind === "cards" && (
               <CardsForm data={currentData as never} onChange={(d) => setDraft(d)} />
+            )}
+            {entry.kind === "stats" && (
+              <StatsForm data={currentData as never} onChange={(d) => setDraft(d)} />
+            )}
+            {entry.kind === "cta" && (
+              <CtaForm data={currentData as never} onChange={(d) => setDraft(d)} />
+            )}
+            {entry.kind === "timeline" && (
+              <TimelineForm data={currentData as never} onChange={(d) => setDraft(d)} />
+            )}
+            {entry.kind === "twoColumn" && (
+              <TwoColumnForm data={currentData as never} onChange={(d) => setDraft(d)} />
             )}
           </div>
 

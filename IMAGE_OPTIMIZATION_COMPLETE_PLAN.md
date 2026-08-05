@@ -22,7 +22,7 @@ This plan addresses image display issues across the entire CMS:
 ## Current Implementation Status
 
 ### ✅ What's Working
-- Blog pages using proper `aspect-[16/9]` and `object-cover`
+- Blog pages using proper `aspect-video` and `object-cover`
 - Career page has one image with `object-center` applied
 - No raw `<img>` tags in client pages (all using Next.js Image)
 - ImageUploader shows preview (though too small)
@@ -118,7 +118,7 @@ This plan addresses image display issues across the entire CMS:
 
 # Replace fixed height with aspect ratio (line ~43)
 - const surfaceClasses = `group relative block w-full ${heightClassName} overflow-hidden...`
-+ const surfaceClasses = `group relative block w-full aspect-[3/2] overflow-hidden...`
++ const surfaceClasses = `group relative block w-full aspect-3/2 overflow-hidden...`
 
 # Add object-center to Image (line ~53)
 - className="object-cover transition-transform duration-500..."
@@ -151,12 +151,12 @@ This plan addresses image display issues across the entire CMS:
 
 ```diff
 - <div className="mb-4 aspect-square w-full relative bg-zinc-50 border border-zinc-100 rounded-xl overflow-hidden flex items-center justify-center">
-+ <div className="mb-4 aspect-[16/9] w-full relative bg-zinc-100 rounded-xl overflow-hidden">
++ <div className="mb-4 aspect-video w-full relative bg-zinc-100 rounded-xl overflow-hidden">
     {service.thumbnailUrl ? (
 -     <img src={service.thumbnailUrl} alt={service.serviceName} className="h-full w-full object-contain" />
 +     <img src={service.thumbnailUrl} alt={service.serviceName} className="h-full w-full object-cover object-center" />
     ) : (
-      <div className="h-full w-full bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+      <div className="h-full w-full bg-linear-to-br from-sky-400 via-indigo-500 to-purple-600" />
     )}
   </div>
 ```
@@ -167,12 +167,12 @@ This plan addresses image display issues across the entire CMS:
 
 ```diff
 - <div className="mb-4 aspect-square w-full relative bg-zinc-50 border border-zinc-100 rounded-xl overflow-hidden flex items-center justify-center">
-+ <div className="mb-4 aspect-[16/9] w-full relative bg-zinc-100 rounded-xl overflow-hidden">
++ <div className="mb-4 aspect-video w-full relative bg-zinc-100 rounded-xl overflow-hidden">
     {project.thumbnail ? (
 -     <img src={project.thumbnail} alt={project.title} className="h-full w-full object-contain" />
 +     <img src={project.thumbnail} alt={project.title} className="h-full w-full object-cover object-center" />
     ) : (
-      <div className="h-full w-full bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+      <div className="h-full w-full bg-linear-to-br from-sky-400 via-indigo-500 to-purple-600" />
     )}
   </div>
 ```
@@ -227,8 +227,8 @@ This plan addresses image display issues across the entire CMS:
 
 ```diff
   {project.thumbnail && (
--   <div className="relative aspect-[3/2] overflow-hidden bg-zinc-100">
-+   <div className="relative aspect-[16/9] overflow-hidden bg-zinc-100">
+-   <div className="relative aspect-3/2 overflow-hidden bg-zinc-100">
++   <div className="relative aspect-video overflow-hidden bg-zinc-100">
       <Image
         src={project.thumbnail}
         alt={project.title}
@@ -307,7 +307,7 @@ This plan addresses image display issues across the entire CMS:
 ```diff
   {imageUrl && (
 -   <div className="mt-4 overflow-hidden rounded-xl">
-+   <div className="mt-4 aspect-[16/9] relative overflow-hidden rounded-xl bg-zinc-100">
++   <div className="mt-4 aspect-video relative overflow-hidden rounded-xl bg-zinc-100">
       {/* eslint-disable-next-line @next/next/no-img-element */}
 -     <img src={imageUrl} alt={title} className="h-48 w-full object-cover" />
 +     <img src={imageUrl} alt={title} className="h-full w-full object-cover object-center" />
@@ -332,7 +332,7 @@ This plan addresses image display issues across the entire CMS:
   {value && (
     <div className="flex flex-wrap items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50/50">
 -     <img src={value} alt="Preview" className="h-16 w-16 rounded-lg object-cover border border-gray-200 shadow-sm" />
-+     <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg border border-gray-200 bg-zinc-100 shadow-sm">
++     <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-gray-200 bg-zinc-100 shadow-sm">
 +       {/* eslint-disable-next-line @next/next/no-img-element */}
 +       <img src={value} alt="Preview" className="h-full w-full object-cover object-center" />
 +     </div>
@@ -362,7 +362,7 @@ This plan addresses image display issues across the entire CMS:
 <div className="h-10 w-14 rounded-md overflow-hidden bg-zinc-100 border border-zinc-200 shrink-0">
   {url
     ? <img src={url} className="h-full w-full object-cover" />
-    : <div className="h-full w-full bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+    : <div className="h-full w-full bg-linear-to-br from-sky-400 via-indigo-500 to-purple-600" />
   }
 </div>
 ```
@@ -415,13 +415,13 @@ This plan addresses image display issues across the entire CMS:
 **File**: `app/(app)/blog/BlogsClient.tsx` (line ~355-362)
 
 
-**Verify current implementation** (should already be `aspect-[3/2]`):
+**Verify current implementation** (should already be `aspect-3/2`):
 ```tsx
-<div className="aspect-[3/2] w-full relative bg-zinc-50 border-b border-zinc-100 overflow-hidden">
+<div className="aspect-3/2 w-full relative bg-zinc-50 border-b border-zinc-100 overflow-hidden">
   {blog.thumbnail ? (
     <img src={blog.thumbnail} alt={blog.title} className="h-full w-full object-cover" />
   ) : (
-    <div className="h-full w-full bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
+    <div className="h-full w-full bg-linear-to-br from-sky-400 via-indigo-500 to-purple-600" />
   )}
 </div>
 ```
@@ -445,7 +445,7 @@ This plan addresses image display issues across the entire CMS:
 |------|--------|-----------|----------------|
 | `home/HomeClient.tsx` | 1 | ~107 | Add `object-center` to hero Image |
 | `our-projects/page.tsx` | 1, 4 | ~63, ~148 | Add `object-center` to hero & CTA images |
-| `our-projects/ProjectsGrid.tsx` | 4 | ~29-37 | Change to `aspect-[16/9]`, add `object-center` |
+| `our-projects/ProjectsGrid.tsx` | 4 | ~29-37 | Change to `aspect-video`, add `object-center` |
 | `career/page.tsx` | 5 | ~119-147 | Convert to Next.js Image, fix career3 distortion |
 | `blogs/[slug]/page.tsx` | 9 | ~121-125, ~178-181 | Fix thumbnail sizes, optimize `sizes` prop |
 
@@ -453,8 +453,8 @@ This plan addresses image display issues across the entire CMS:
 
 | File | Phase | Line Range | Change Summary |
 |------|-------|-----------|----------------|
-| `ShowcaseCard.tsx` | 2 | ~29, ~41, ~43, ~53 | Remove heightClassName, use aspect-[3/2], add object-center |
-| `ViewDetailModal.tsx` | 6 | ~41-46 | Use aspect-[16/9], add object-center |
+| `ShowcaseCard.tsx` | 2 | ~29, ~41, ~43, ~53 | Remove heightClassName, use aspect-3/2, add object-center |
+| `ViewDetailModal.tsx` | 6 | ~41-46 | Use aspect-video, add object-center |
 | `ImageUploader.tsx` | 7 | ~50-56 | Full-width preview instead of tiny square |
 
 
@@ -462,8 +462,8 @@ This plan addresses image display issues across the entire CMS:
 
 | File | Phase | Line Range | Change Summary |
 |------|-------|-----------|----------------|
-| `services/ServicesClient.tsx` | 3A, 8 | ~341-348, ~284 | Card: aspect-[16/9] + object-cover; List: unified container |
-| `projects/ProjectsClient.tsx` | 3B, 8 | ~373-383, ~310 | Card: aspect-[16/9] + object-cover; List: unified container |
+| `services/ServicesClient.tsx` | 3A, 8 | ~341-348, ~284 | Card: aspect-video + object-cover; List: unified container |
+| `projects/ProjectsClient.tsx` | 3B, 8 | ~373-383, ~310 | Card: aspect-video + object-cover; List: unified container |
 | `team/TeamClient.tsx` | 3C | ~431-437 | Card: object-cover + object-top for portraits |
 | `customer/CustomersClient.tsx` | 3D | ~352-360 | Card: object-cover + object-top for portraits |
 | `blog/BlogsClient.tsx` | 10 | ~355-362 | Verify object-center present |
@@ -588,7 +588,7 @@ className="object-cover object-center"
 
 **For card images**:
 ```tsx
-<div className="relative aspect-[3/2] overflow-hidden bg-zinc-100">
+<div className="relative aspect-3/2 overflow-hidden bg-zinc-100">
   <Image ... className="object-cover object-center" />
 </div>
 ```
@@ -602,7 +602,7 @@ className="object-cover object-center"
 
 **For admin widescreen cards**:
 ```tsx
-<div className="relative aspect-[16/9] overflow-hidden bg-zinc-100">
+<div className="relative aspect-video overflow-hidden bg-zinc-100">
   <img ... className="object-cover object-center" />
 </div>
 ```
@@ -660,12 +660,12 @@ className="object-cover object-center"
 
 ### ShowcaseCard
 **Before**: Fixed `h-[340px]` + no object-position
-**After**: `aspect-[3/2]` + `object-center`
+**After**: `aspect-3/2` + `object-center`
 **Impact**: Uniform card heights, responsive scaling, centered images
 
 ### Admin Services Card
 **Before**: `aspect-square` + `object-contain` + `bg-zinc-50`
-**After**: `aspect-[16/9]` + `object-cover object-center` + `bg-zinc-100`
+**After**: `aspect-video` + `object-cover object-center` + `bg-zinc-100`
 **Impact**: Images always visible, better showcase format
 
 ### Career Page career3

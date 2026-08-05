@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { Cookie, X } from "lucide-react";
 
 type CookieBannerProps = {
@@ -18,29 +18,38 @@ function hashContent(str: string) {
   return String(hash);
 }
 
+/**
+ * Reads consent from localStorage without a hydration mismatch: the server
+ * snapshot always returns false, and React re-runs the client snapshot after
+ * mount without erroring (useSyncExternalStore's contract).
+ */
+function useConsentGiven(consentKey: string): boolean {
+  return useSyncExternalStore(
+    (onStoreChange) => {
+      window.addEventListener("storage", onStoreChange);
+      return () => window.removeEventListener("storage", onStoreChange);
+    },
+    () => localStorage.getItem(consentKey) === "true",
+    () => false
+  );
+}
+
 export function CookieBanner({ showCookiesAgreement, cookiesAgreementText }: CookieBannerProps) {
   const consentKey = `cookies-accepted:${hashContent(cookiesAgreementText || "")}`;
+  const consentGiven = useConsentGiven(consentKey);
+  const [dismissed, setDismissed] = useState(false);
 
-  // Only show if settings say to show AND user hasn't already responded to THIS text.
-  // Read synchronously at mount (client-only component) so no effect is needed.
-  const [visible, setVisible] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      showCookiesAgreement &&
-      !localStorage.getItem(consentKey)
-  );
+  if (!showCookiesAgreement || consentGiven || dismissed) return null;
 
   function handleAccept() {
     localStorage.setItem(consentKey, "true");
-    setVisible(false);
+    setDismissed(true);
   }
 
   function handleDecline() {
     localStorage.setItem(consentKey, "false");
-    setVisible(false);
+    setDismissed(true);
   }
-
-  if (!visible) return null;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 p-4">

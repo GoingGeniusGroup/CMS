@@ -14,6 +14,7 @@ const PAGE_LABELS: Record<string, string> = {
   home: "Homepage",
   shared: "Shared (Home, Company, Contact)",
   "our-services": "Services Page",
+  "our-projects": "Projects Page",
   contact: "Contact Page",
   "about-us": "About Us Page",
   career: "Careers Page",

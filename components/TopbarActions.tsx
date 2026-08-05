@@ -69,13 +69,15 @@ export function TopbarActions() {
           Hello,{" "}
           <span className="font-semibold text-zinc-900">Admin</span>
         </p>
-        <Image
-          src="/logo.png"
-          alt="Logo"
-          width={55}
-          height={55}
-          className="h-10 w-10 rounded-full object-cover sm:h-[55px] sm:w-[55px]"
-        />
+        <span className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-full sm:h-[55px] sm:w-[55px]">
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            fill
+            sizes="55px"
+            className="object-cover"
+          />
+        </span>
       </div>
 
       {/* Toast */}

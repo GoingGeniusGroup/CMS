@@ -62,6 +62,34 @@ export function CardsForm({
   return (
     <div className="space-y-5">
       <div>
+        <label className="mb-1 block text-sm font-bold text-zinc-800">Layout</label>
+        <div className="flex gap-2">
+          {(
+            [
+              { value: "grid", label: "Centered card grid" },
+              { value: "list", label: "Left-aligned list" },
+            ] as const
+          ).map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => update("variant", option.value)}
+              className={`rounded-lg px-3 py-2 text-xs font-semibold transition-colors ${
+                form.variant === option.value
+                  ? "bg-indigo-600 text-white"
+                  : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
+              }`}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+        <p className="mt-1 text-xs text-zinc-400">
+          Grid = icon cards on a tinted band (Core Values). List = icon rows in a bordered box (Why Work With Us).
+        </p>
+      </div>
+
+      <div>
         <label className="mb-1 block text-sm font-bold text-zinc-800">Eyebrow</label>
         <input
           type="text"
@@ -78,6 +106,17 @@ export function CardsForm({
           value={form.heading ?? ""}
           onChange={(e) => update("heading", e.target.value)}
           className={inputCls}
+        />
+      </div>
+
+      <div>
+        <label className="mb-1 block text-sm font-bold text-zinc-800">Subheading</label>
+        <textarea
+          rows={2}
+          value={form.subheading ?? ""}
+          onChange={(e) => update("subheading", e.target.value)}
+          placeholder="Small line under the heading"
+          className={`${inputCls} resize-none`}
         />
       </div>
 
@@ -221,6 +260,19 @@ function CardItemEditor({
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <label className="mb-1 block text-xs font-bold text-zinc-700">Icon</label>
+            <input
+              type="text"
+              value={item.iconName ?? ""}
+              onChange={(e) => onChange({ iconName: e.target.value })}
+              placeholder="lightbulb, shield, star, users, heart"
+              className={inputCls}
+            />
+            <p className="mt-1 text-[11px] text-zinc-400">
+              Optional named icon shown on the card. Leave empty for none.
+            </p>
+          </div>
           <div>
             <label className="mb-1 block text-xs font-bold text-zinc-700">Link (optional)</label>
             <input
