@@ -11,6 +11,8 @@ interface ImageUploaderProps {
   label?: string;
   required?: boolean;
   multiple?: boolean;
+  /** Small square preview instead of the full-width landscape one (logos/favicons). */
+  compact?: boolean;
 }
 
 export function ImageUploader({
@@ -19,6 +21,7 @@ export function ImageUploader({
   label = "Image",
   required = false,
   multiple = false,
+  compact = false,
 }: ImageUploaderProps) {
   const uploaderRef = useRef<UploadCtxProvider | null>(null);
 
@@ -47,13 +50,20 @@ export function ImageUploader({
       )}
 
       {value && (
-        <div className="p-3 rounded-xl border border-gray-200 bg-gray-50/50">
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg border border-gray-200 bg-zinc-100 shadow-sm">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={value} alt="Preview" className="h-full w-full object-cover object-center" />
-          </div>
+        <div className="p-3 flex flex-wrap items-start gap-3 rounded-xl border border-gray-200 bg-gray-50/50">
+          {compact ? (
+            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm flex items-center justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={value} alt="Preview" className="h-12 w-12 object-contain" />
+            </div>
+          ) : (
+            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg border border-gray-200 bg-zinc-100 shadow-sm">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={value} alt="Preview" className="h-full w-full object-cover object-center" />
+            </div>
+          )}
 
-          <div className="mt-3 flex flex-wrap items-center gap-2">
+          <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
             <button
               type="button"
               onClick={handleTriggerUpload}

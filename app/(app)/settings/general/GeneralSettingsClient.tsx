@@ -190,6 +190,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
             value={form.logoUrl || null}
             onChange={(url) => set("logoUrl", url ?? "")}
             label="Site Logo"
+            compact
           />
         </div>
         <div>
@@ -198,6 +199,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
             value={form.faviconUrl || null}
             onChange={(url) => set("faviconUrl", url ?? "")}
             label="Favicon"
+            compact
           />
         </div>
       </div>
