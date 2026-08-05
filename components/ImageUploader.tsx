@@ -47,15 +47,13 @@ export function ImageUploader({
       )}
 
       {value && (
-        <div className="flex flex-wrap items-center gap-3 p-3 rounded-xl border border-gray-200 bg-gray-50/50">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={value}
-            alt="Preview"
-            className="h-16 w-16 rounded-lg object-cover border border-gray-200 shadow-sm"
-          />
+        <div className="p-3 rounded-xl border border-gray-200 bg-gray-50/50">
+          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg border border-gray-200 bg-zinc-100 shadow-sm">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={value} alt="Preview" className="h-full w-full object-cover object-center" />
+          </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="mt-3 flex flex-wrap items-center gap-2">
             <button
               type="button"
               onClick={handleTriggerUpload}

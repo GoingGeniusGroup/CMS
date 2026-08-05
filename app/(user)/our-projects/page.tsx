@@ -60,7 +60,7 @@ function HeroSection() {
               alt="Web Development"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
+              className="object-cover object-center"
               loading="eager"
               priority
             />
@@ -146,7 +146,7 @@ function CTASection() {
               alt="Start a project"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
+              className="object-cover object-center"
             />
           </div>
         </div>

@@ -39,9 +39,9 @@ export function ViewDetailModal({ open, onClose, title, fields, imageUrl }: View
 
         <div className="flex-1 overflow-y-auto px-6 sm:px-8">
           {imageUrl && (
-            <div className="mt-4 overflow-hidden rounded-xl">
+            <div className="mt-4 aspect-[16/9] relative overflow-hidden rounded-xl bg-zinc-100">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={imageUrl} alt={title} className="h-48 w-full object-cover" />
+              <img src={imageUrl} alt={title} className="h-full w-full object-cover object-center" />
             </div>
           )}
 

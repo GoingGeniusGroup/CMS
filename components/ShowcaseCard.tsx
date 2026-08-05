@@ -26,7 +26,6 @@ export function ShowcaseCard({
   onClick,
   href,
   fallback,
-  heightClassName = "h-[340px]",
 }: {
   title: string;
   description: string;
@@ -38,9 +37,8 @@ export function ShowcaseCard({
   href?: string;
   /** Rendered in place of the image when `imageUrl` is null. */
   fallback?: ReactNode;
-  heightClassName?: string;
 }) {
-  const surfaceClasses = `group relative block w-full ${heightClassName} overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-900 text-left shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2`;
+  const surfaceClasses = `group relative block w-full aspect-[3/2] overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-900 text-left shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2`;
 
   const inner = (
     <>
@@ -50,7 +48,7 @@ export function ShowcaseCard({
             alt={title}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.06]"
+            className="object-cover object-center transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.06]"
           />
         ) : (
           fallback ?? (

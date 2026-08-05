@@ -428,10 +428,10 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((m) => (
             <Card key={m.id} className="flex flex-col gap-4 p-5">
-              <div className="w-full aspect-square relative bg-zinc-50 border border-zinc-100 rounded-xl overflow-hidden mb-1 flex items-center justify-center">
+              <div className="w-full aspect-square relative bg-zinc-100 rounded-xl overflow-hidden mb-1">
                 {m.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={m.image} alt={m.fullName} className="w-full h-full object-contain" />
+                  <img src={m.image} alt={m.fullName} className="w-full h-full object-cover object-top" />
                 ) : (
                   <User className="h-12 w-12 text-zinc-300" />
                 )}

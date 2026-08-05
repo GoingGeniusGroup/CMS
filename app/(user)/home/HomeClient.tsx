@@ -98,13 +98,13 @@ function Hero() {
             </div>
           </div>
 
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-100">
             <Image
               src={images.picture1}
               alt="Developer building a digital product"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
+              className="object-contain"
               priority
             />
           </div>

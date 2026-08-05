@@ -291,10 +291,10 @@ export function BlogsClient({
                       {String((currentPage - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}
                     </td>
                     <td className="p-4">
-                      <div className="h-10 w-10 overflow-hidden rounded-lg bg-zinc-100 border border-zinc-200">
+                      <div className="h-10 w-14 rounded-md overflow-hidden bg-zinc-100 border border-zinc-200 shrink-0">
                         {blog.thumbnail ? (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={blog.thumbnail} alt="" className="h-full w-full object-cover" />
+                          <img src={blog.thumbnail} alt="" className="h-full w-full object-cover object-center" />
                         ) : (
                           <div className="h-full w-full bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />
                         )}
@@ -352,13 +352,13 @@ export function BlogsClient({
               className="group rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 overflow-hidden"
             >
               {/* Thumbnail */}
-              <div className="aspect-[3/2] w-full relative bg-zinc-50 border-b border-zinc-100 overflow-hidden">
+              <div className="aspect-[3/2] w-full relative bg-zinc-100 border-b border-zinc-100 overflow-hidden">
                 {blog.thumbnail ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={blog.thumbnail}
                     alt={blog.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (
                   <div className="h-full w-full bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600" />

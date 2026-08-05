@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { ArrowRight, Bookmark, Briefcase, ChevronDown, Clock, MapPin } from "lucide-react";
 import { getPublicJobs, type JobRow } from "@/app/actions/jobs";
 import { getSection, type SiteContentSection } from "@/app/actions/site-content";
@@ -119,34 +120,37 @@ function LifeSection() {
 
           {/* career2 — large left, spans 2 rows, object-cover with label */}
           <div className="relative overflow-hidden rounded-2xl shadow-sm" style={{ gridRow: "1 / 3" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="/career2.png"
               alt="Collaborative Environment"
-              className="h-full w-full object-cover object-center"
+              fill
+              sizes="66vw"
+              className="object-cover object-center"
             />
             <span className="absolute bottom-4 left-4 text-sm font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
               Collaborative Environment
             </span>
           </div>
 
-          {/* career3 — top right, full image, no border, no gap */}
-          <div className="overflow-hidden rounded-2xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+          {/* career3 — top right, no border, no gap */}
+          <div className="relative overflow-hidden rounded-2xl">
+            <Image
               src="/career3.png"
               alt="Team"
-              style={{ width: "100%", height: "100%", objectFit: "fill", display: "block" }}
+              fill
+              sizes="33vw"
+              className="object-cover object-center"
             />
           </div>
 
           {/* career4 — bottom right, dark scene, object-cover */}
-          <div className="overflow-hidden rounded-2xl shadow-sm">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+          <div className="relative overflow-hidden rounded-2xl shadow-sm">
+            <Image
               src="/career4.png"
               alt="Night Coding"
-              className="h-full w-full object-cover"
+              fill
+              sizes="33vw"
+              className="object-cover object-center"
             />
           </div>
 

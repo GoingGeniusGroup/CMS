@@ -49,7 +49,7 @@ export function PageHero({ data }: { data: HeroData }) {
               alt={data.imageAlt || ""}
               fill
               sizes="100vw"
-              className="object-cover"
+              className="object-contain"
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/60" />
@@ -112,13 +112,13 @@ export function PageHero({ data }: { data: HeroData }) {
 
       {data.imageUrl && (
         <RevealOnScroll delay={0.1} className="relative">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-100">
             <Image
               src={data.imageUrl}
               alt={data.imageAlt || ""}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
+              className="object-contain"
               priority
             />
           </div>

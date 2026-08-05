@@ -349,10 +349,10 @@ export function CustomersClient({
               className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
             >
               {/* Avatar + Name */}
-              <div className="w-full aspect-square relative bg-zinc-50 border border-zinc-100 rounded-xl overflow-hidden mb-3 flex items-center justify-center">
+              <div className="w-full aspect-square relative bg-zinc-100 rounded-xl overflow-hidden mb-3">
                 {customer.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={customer.image} alt={customer.fullName} className="w-full h-full object-contain" />
+                  <img src={customer.image} alt={customer.fullName} className="w-full h-full object-cover object-top" />
                 ) : (
                   <Users className="h-12 w-12 text-zinc-300" />
                 )}
