@@ -21,6 +21,7 @@ import {
 import { LandingTeamSection } from "@/components/LandingTeamSection";
 import { FaqSection } from "@/components/FaqSection";
 import { getPublicJobs, type JobRow } from "@/app/actions/jobs";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
 
 /* ─── Data ───────────────────────────────────────────────── */
 const stats = [
@@ -52,6 +53,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 
 /* ─── Page ───────────────────────────────────────────────── */
 export default function CompanyPage() {
+  const jobModuleHidden = useModuleDisabled("job");
   const [jobs, setJobs] = useState<JobRow[]>([]);
 
   useEffect(() => {
@@ -147,6 +149,7 @@ export default function CompanyPage() {
       <LandingTeamSection />
 
       {/* ── Careers ──────────────────────────────────────── */}
+      {!jobModuleHidden && (
       <section className="border-t border-gray-100 bg-gray-50/60">
         <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <Eyebrow>Careers</Eyebrow>
@@ -205,6 +208,7 @@ export default function CompanyPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ── FAQ ──────────────────────────────────────────── */}
       <FaqSection />

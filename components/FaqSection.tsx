@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { getPublicFaqs } from "@/app/actions/faq";
 import { SECTION_REGISTRY, type SectionHeaderData } from "@/lib/content/schemas";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
 
 type FaqItem = { question: string; answer: string; category: string };
 
@@ -15,6 +16,7 @@ export function FaqSection({
   /** From the "shared.faq" section — also shown on /home and /company. */
   headerData?: SectionHeaderData;
 }) {
+  const moduleHidden = useModuleDisabled("faq");
   const [faqs, setFaqs] = useState<FaqItem[]>(initialFaqs ?? []);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [open, setOpen] = useState<string | null>(null);
@@ -26,7 +28,7 @@ export function FaqSection({
     }
   }, [initialFaqs]);
 
-  if (faqs.length === 0) return null;
+  if (moduleHidden || faqs.length === 0) return null;
 
   const grouped = faqs.reduce<Record<string, FaqItem[]>>((acc, faq) => {
     const cat = faq.category || "General";

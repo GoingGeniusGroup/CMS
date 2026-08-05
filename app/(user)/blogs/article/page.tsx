@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Search, ArrowRight, Mail, Calendar, Clock, BookOpen, Monitor, BarChart3, Users, Shield, ChevronLeft, ChevronRight } from "lucide-react";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import { getPublicBlogs } from "@/app/actions/blogs";
+import { isModuleDisabled } from "@/lib/module-visibility";
+import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 
 const popularArticles = [
   { title: "How AI is Transforming the IT Industry", date: "MAY 12, 2024", image: "/blog2.png" },
@@ -29,6 +31,7 @@ const benefits = [
 ];
 
 export default async function BlogArticlePage() {
+  if (await isModuleDisabled("blog")) return <ModuleDisabledPage moduleLabel="Blog" />;
   const blogs = await getPublicBlogs();
 
   return (

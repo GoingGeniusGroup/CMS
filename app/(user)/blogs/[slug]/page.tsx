@@ -5,12 +5,15 @@ import { ArrowLeft, ArrowRight, Calendar, Clock, Mail, Search } from "lucide-rea
 import { getPublicBlogBySlug, getPublicBlogs } from "@/app/actions/blogs";
 import { TiptapRenderer } from "@/components/TiptapRenderer";
 import type { JSONContent } from "@tiptap/react";
+import { isModuleDisabled } from "@/lib/module-visibility";
+import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 
 export default async function BlogArticlePage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  if (await isModuleDisabled("blog")) return <ModuleDisabledPage moduleLabel="Blog" />;
   const { slug } = await params;
   const blog = await getPublicBlogBySlug(slug);
 

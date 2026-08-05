@@ -4,8 +4,17 @@ import Link from "next/link";
 import { ArrowRight, Calendar, Clock, Mail, Search, BookOpen } from "lucide-react";
 import { getPublicBlogs } from "@/app/actions/blogs";
 import { getSection } from "@/app/actions/site-content";
+import { isModuleDisabled } from "@/lib/module-visibility";
+import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 import { resolveTokensOnServer } from "@/lib/content/resolve-tokens-server";
 import { PageHero } from "@/components/content/PageHero";
+
+function dateOf(value?: string | Date | null, fallback?: string | Date | null): Date {
+  const candidate = value ?? fallback;
+  if (candidate instanceof Date && !isNaN(candidate.getTime())) return candidate;
+  const parsed = new Date(candidate ?? Date.now());
+  return isNaN(parsed.getTime()) ? new Date() : parsed;
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   // Title is intentionally NOT set here — the browser tab title should stay
@@ -20,6 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogListingPage() {
+  if (await isModuleDisabled("blog")) return <ModuleDisabledPage moduleLabel="Blog" />;
   const [blogs, heroSection] = await Promise.all([
     getPublicBlogs(),
     getSection("blogs", "blogs.hero"),
@@ -96,7 +106,7 @@ export default async function BlogListingPage() {
                               <p className="text-[11px] font-semibold text-white leading-tight">{featured.author.fullName}</p>
                             )}
                             <p className="text-[10px] text-white/60 leading-tight">
-                              {(featured.publishedAt || featured.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                              {dateOf(featured.publishedAt, featured.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
                             </p>
                           </div>
                         </div>
@@ -164,7 +174,7 @@ export default async function BlogListingPage() {
                           <div className="mb-1.5 flex items-center gap-3 text-[10px] text-zinc-400">
                             <span className="flex items-center gap-1">
                               <Calendar className="h-3 w-3" />
-                              {(blog.publishedAt || blog.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+{(blog.publishedAt || blog.createdAt) && dateOf(blog.publishedAt, blog.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                             </span>
                             {blog.readTime && (
                               <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{blog.readTime}</span>
@@ -217,7 +227,7 @@ export default async function BlogListingPage() {
                           {blog.title}
                         </p>
                         <p className="mt-1 text-[11px] text-zinc-400">
-                          {(blog.publishedAt || blog.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                          {(blog.publishedAt || blog.createdAt) && dateOf(blog.publishedAt, blog.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                         </p>
                       </div>
                     </Link>

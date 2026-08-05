@@ -2,8 +2,9 @@
 
 import { useSession } from "next-auth/react";
 import { User, Crown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export function UserProfile() {
+export function UserProfile({ collapsed = false }: { collapsed?: boolean }) {
   const { data: session } = useSession();
 
   if (!session?.user) {
@@ -13,16 +14,26 @@ export function UserProfile() {
   const isAdmin = session.user.role === "admin";
 
   return (
-    <div className="mb-6 rounded-lg border border-white/10 bg-white/5 p-3">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e8821a]/20">
+    <div
+      className={cn(
+        "mb-6 rounded-lg border border-white/10 bg-white/5 p-3",
+        collapsed && "p-2"
+      )}
+    >
+      <div className={cn("flex items-center gap-3", collapsed && "justify-center md:gap-0")}>
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#e8821a]/20">
           {isAdmin ? (
             <Crown className="h-5 w-5 text-[#f0b90b]" />
           ) : (
             <User className="h-5 w-5 text-white" />
           )}
         </div>
-        <div className="flex-1 overflow-hidden">
+        <div
+          className={cn(
+            "flex-1 overflow-hidden transition-[max-width,opacity] duration-300 ease-in-out",
+            collapsed ? "md:max-w-0 md:opacity-0" : "max-w-[200px] opacity-100"
+          )}
+        >
           <p className="truncate text-sm font-semibold text-white">
             {session.user.name || "User"}
           </p>

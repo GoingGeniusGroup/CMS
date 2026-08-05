@@ -18,6 +18,8 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { getJobById, type JobRow } from "@/app/actions/jobs";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
+import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 
 /* ─── Loading skeleton ───────────────────────────────────── */
 function Skeleton() {
@@ -51,6 +53,7 @@ function NotFound() {
 
 /* ─── Page ───────────────────────────────────────────────── */
 export default function ApplyPage() {
+  const moduleHidden = useModuleDisabled("job");
   const searchParams = useSearchParams();
   const jobId = searchParams.get("jobId");
 
@@ -64,6 +67,7 @@ export default function ApplyPage() {
     getJobById(jobId).then(setJob);
   }, [jobId]);
 
+  if (moduleHidden) return <ModuleDisabledPage moduleLabel="Careers" />;
   if (!jobId) return <NotFound />;
   if (job === undefined) return <Skeleton />;
   if (job === null) return <NotFound />;

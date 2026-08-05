@@ -14,6 +14,8 @@ import {
   FileCode2,
 } from "lucide-react";
 import { images } from "@/lib/images";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
+import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -455,6 +457,7 @@ function CTASection() {
 // ─── Page Export ──────────────────────────────────────────────────────────────
 
 export default function PortfolioPage() {
+  if (useModuleDisabled("project")) return <ModuleDisabledPage moduleLabel="Projects" />;
   return (
     <>
       <HeroSection />

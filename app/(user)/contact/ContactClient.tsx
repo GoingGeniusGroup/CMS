@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
+  Building2,
   Clock,
   Headphones,
+  Loader2,
   Mail,
   MapPin,
   Phone,
@@ -15,6 +17,7 @@ import {
   Zap,
 } from "lucide-react";
 import { FaqSection } from "@/components/FaqSection";
+import { submitContactLead } from "@/app/actions/leads";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -29,6 +32,15 @@ type ContactSettings = {
   googleMapEmbed: string;
 };
 
+const BUDGET_OPTIONS = [
+  "Under $5k",
+  "$5k – $10k",
+  "$10k – $25k",
+  "$25k – $50k",
+  "$50k+",
+  "Not sure",
+];
+
 // ─── FAQ Data ────────────────────────────────────────────────────────────────
 
 const FEATURES = [
@@ -40,24 +52,55 @@ const FEATURES = [
 
 // ─── Section: Contact Form + Info ─────────────────────────────────────────────
 
-function ContactSection({ settings }: { settings: ContactSettings }) {
+function ContactSection({
+  settings,
+  services,
+}: {
+  settings: ContactSettings;
+  services: string[];
+}) {
   const router = useRouter();
   const [form, setForm] = useState({
     name: "",
     email: "",
+    phone: "",
+    company: "",
     subject: "",
     message: "",
+    serviceInterest: "",
+    budget: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    router.push("/contact/thank-you");
+    setSubmitError(null);
+    setIsSubmitting(true);
+
+    const res = await submitContactLead({
+      fullName: form.name,
+      email: form.email,
+      phone: form.phone,
+      company: form.company,
+      subject: form.subject,
+      message: form.message,
+      serviceInterest: form.serviceInterest,
+      budget: form.budget,
+    });
+
+    setIsSubmitting(false);
+    if (res.success) {
+      router.push("/contact/thank-you");
+    } else {
+      setSubmitError(res.error ?? "Failed to send your message. Please try again.");
+    }
   }
 
   return (
@@ -114,6 +157,82 @@ function ContactSection({ settings }: { settings: ContactSettings }) {
                 </div>
               </div>
 
+              {/* Phone + Company */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-zinc-700">
+                    Phone Number
+                  </label>
+                  <div className="flex h-11 items-center gap-2 rounded-lg border border-zinc-200 px-3">
+                    <Phone className="h-4 w-4 shrink-0 text-zinc-400" />
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={form.phone}
+                      onChange={handleChange}
+                      placeholder="Enter your phone"
+                      className="flex-1 bg-transparent text-sm text-zinc-700 outline-none placeholder:text-zinc-400"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-zinc-700">
+                    Company Name
+                  </label>
+                  <div className="flex h-11 items-center gap-2 rounded-lg border border-zinc-200 px-3">
+                    <Building2 className="h-4 w-4 shrink-0 text-zinc-400" />
+                    <input
+                      type="text"
+                      name="company"
+                      value={form.company}
+                      onChange={handleChange}
+                      placeholder="Your company"
+                      className="flex-1 bg-transparent text-sm text-zinc-700 outline-none placeholder:text-zinc-400"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Service of interest + Budget */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-zinc-700">
+                    Service of Interest
+                  </label>
+                  <select
+                    name="serviceInterest"
+                    value={form.serviceInterest}
+                    onChange={handleChange}
+                    className="h-11 rounded-lg border border-zinc-200 bg-white px-3 text-sm text-zinc-700 outline-none focus:border-indigo-400"
+                  >
+                    <option value="">Select a service (optional)</option>
+                    {services.map((service) => (
+                      <option key={service} value={service}>
+                        {service}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-zinc-700">
+                    Budget Range
+                  </label>
+                  <select
+                    name="budget"
+                    value={form.budget}
+                    onChange={handleChange}
+                    className="h-11 rounded-lg border border-zinc-200 bg-white px-3 text-sm text-zinc-700 outline-none focus:border-indigo-400"
+                  >
+                    <option value="">Select budget (optional)</option>
+                    {BUDGET_OPTIONS.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
               {/* Subject */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold text-zinc-700">
@@ -151,12 +270,28 @@ function ContactSection({ settings }: { settings: ContactSettings }) {
                 </div>
               </div>
 
+              {submitError && (
+                <p className="rounded-lg bg-rose-50 px-4 py-2 text-sm font-medium text-rose-700">
+                  {submitError}
+                </p>
+              )}
+
               <button
                 type="submit"
-                className="inline-flex w-fit items-center gap-2 rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
+                disabled={isSubmitting}
+                className="inline-flex w-fit items-center gap-2 rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Send Message
-                <Send className="h-4 w-4" />
+                {isSubmitting ? (
+                  <>
+                    Sending...
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <Send className="h-4 w-4" />
+                  </>
+                )}
               </button>
             </form>
           </div>
@@ -354,10 +489,16 @@ function WorkTogetherSection() {
 
 // ─── Main Client Export ───────────────────────────────────────────────────────
 
-export function ContactClient({ settings }: { settings: ContactSettings }) {
+export function ContactClient({
+  settings,
+  services,
+}: {
+  settings: ContactSettings;
+  services: string[];
+}) {
   return (
     <>
-      <ContactSection settings={settings} />
+      <ContactSection settings={settings} services={services} />
       <FeaturesSection />
       <MapSection settings={settings} />
       <FaqSection />

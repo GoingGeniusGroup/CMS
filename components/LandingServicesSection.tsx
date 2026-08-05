@@ -8,6 +8,7 @@ import { ShowcaseCard } from "@/components/ShowcaseCard";
 import { SectionHeader, SectionCta } from "@/components/content/SectionHeader";
 import { SECTION_REGISTRY, type SectionHeaderData } from "@/lib/content/schemas";
 import { tiptapToPlainText } from "@/lib/tiptap-text";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
 
 type ServiceData = {
   id: string;
@@ -30,6 +31,7 @@ export function LandingServicesSection({
   /** Falls back to the registry default (today's hardcoded copy) if omitted. */
   headerData?: SectionHeaderData;
 }) {
+  const moduleHidden = useModuleDisabled("service");
   const [services, setServices] = useState<ServiceData[]>(initialServices ?? []);
   const [selectedService, setSelectedService] = useState<ServiceData | null>(null);
   const header = headerData ?? SECTION_REGISTRY["home.services"].defaultData;
@@ -40,7 +42,7 @@ export function LandingServicesSection({
     }
   }, [initialServices]);
 
-  if (services.length === 0) return null;
+  if (moduleHidden || services.length === 0) return null;
 
   return (
     <>

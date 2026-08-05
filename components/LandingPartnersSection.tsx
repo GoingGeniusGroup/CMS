@@ -5,6 +5,7 @@ import { getPublicPartners } from "@/app/actions/settings";
 import { Marquee } from "@/components/motion/Marquee";
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 import { SECTION_REGISTRY, type SectionHeaderData } from "@/lib/content/schemas";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
 
 export function LandingPartnersSection({
   initialPartners,
@@ -13,6 +14,7 @@ export function LandingPartnersSection({
   initialPartners?: string[];
   headerData?: SectionHeaderData;
 }) {
+  const moduleHidden = useModuleDisabled("partners");
   const [partners, setPartners] = useState<string[]>(initialPartners ?? []);
   const header = headerData ?? SECTION_REGISTRY["home.partners"].defaultData;
 
@@ -22,7 +24,7 @@ export function LandingPartnersSection({
     }
   }, [initialPartners]);
 
-  if (partners.length === 0) return null;
+  if (moduleHidden || partners.length === 0) return null;
 
   // Pad out to a minimum count so a short list still fills the track width.
   const displayPartners = [...partners];

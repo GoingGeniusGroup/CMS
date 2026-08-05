@@ -5,6 +5,7 @@ import { getPublicTechnologies } from "@/app/actions/public-settings";
 import { Marquee } from "@/components/motion/Marquee";
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 import { SECTION_REGISTRY, type SectionHeaderData } from "@/lib/content/schemas";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
 
 export function LandingTechSection({
   initialTechnologies,
@@ -13,6 +14,7 @@ export function LandingTechSection({
   initialTechnologies?: string[];
   headerData?: SectionHeaderData;
 }) {
+  const moduleHidden = useModuleDisabled("technologies");
   const [technologies, setTechnologies] = useState<string[]>(initialTechnologies ?? []);
   const header = headerData ?? SECTION_REGISTRY["home.tech"].defaultData;
 
@@ -22,7 +24,7 @@ export function LandingTechSection({
     }
   }, [initialTechnologies]);
 
-  if (technologies.length === 0) return null;
+  if (moduleHidden || technologies.length === 0) return null;
 
   // Pad out to a minimum count so a short list still fills the track width.
   const displayTechs = [...technologies];

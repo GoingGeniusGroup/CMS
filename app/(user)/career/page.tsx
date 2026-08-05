@@ -7,6 +7,8 @@ import { getPublicJobs, type JobRow } from "@/app/actions/jobs";
 import { getSection, type SiteContentSection } from "@/app/actions/site-content";
 import { PageHero } from "@/components/content/PageHero";
 import { SECTION_REGISTRY } from "@/lib/content/schemas";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
+import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -157,6 +159,7 @@ function LifeSection() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function CareerPage() {
+  const moduleHidden = useModuleDisabled("job");
   const [jobs, setJobs] = useState<JobRow[]>([]);
   const [heroSection, setHeroSection] = useState<SiteContentSection<"career.hero">>({
     sectionKey: "career.hero",
@@ -175,6 +178,8 @@ export default function CareerPage() {
     // a server wrapper + client sub-component for one section.
     getSection("career", "career.hero").then((section) => setHeroSection(section));
   }, []);
+
+  if (moduleHidden) return <ModuleDisabledPage moduleLabel="Careers" />;
 
   return (
     <>

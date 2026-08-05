@@ -10,6 +10,7 @@ export const ENTITY_KEYS = [
   "category",
   "page",
   "faq",
+  "lead",
 ] as const;
 
 export type EntityKey = (typeof ENTITY_KEYS)[number];
@@ -28,4 +29,5 @@ export const DEFAULT_ENTITY_LABELS: Record<EntityKey, EntityLabels> = {
   category: { singular: "Category", plural: "Categories" },
   page: { singular: "Page", plural: "Pages" },
   faq: { singular: "FAQ", plural: "FAQs" },
+  lead: { singular: "Lead", plural: "Leads" },
 };

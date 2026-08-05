@@ -11,6 +11,7 @@ import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 import { StaggerGrid, StaggerItem } from "@/components/motion/StaggerGrid";
 import { MotionCard } from "@/components/motion/MotionCard";
 import { SECTION_REGISTRY, type SectionHeaderData } from "@/lib/content/schemas";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
 
 type TeamMember = {
   id: string;
@@ -36,6 +37,7 @@ export function LandingTeamSection({
   /** From the "shared.team" section — also shown on /company and /contact. */
   headerData?: SectionHeaderData;
 }) {
+  const moduleHidden = useModuleDisabled("team");
   const [members, setMembers] = useState<TeamMember[]>(initialMembers ?? []);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,7 +68,7 @@ export function LandingTeamSection({
     setSelectedMember(null);
   };
 
-  if (members.length === 0) return null;
+  if (moduleHidden || members.length === 0) return null;
 
   return (
     <section id="company" className="bg-white px-4 py-20 sm:px-6 lg:px-8">

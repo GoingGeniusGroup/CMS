@@ -15,6 +15,8 @@ import { getPublicAppearanceSettings } from "@/app/actions/appearance";
 import { getPublicEntityLabels } from "@/app/actions/labels";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { PublicLabelProvider } from "@/components/content/PublicLabelProvider";
+import { PublicModuleVisibilityProvider } from "@/components/content/PublicModuleVisibilityProvider";
+import { getDisabledModules } from "@/lib/module-visibility";
 
 export const dynamic = "force-dynamic";
 
@@ -62,6 +64,7 @@ export default async function UserLayout({
     popupSettings,
     appearance,
     entityLabels,
+    disabledModules,
   ] = await Promise.all([
     getSiteSettings(),
     getPublicContactSettings(),
@@ -71,11 +74,13 @@ export default async function UserLayout({
     getPublicPopupSettings(),
     getPublicAppearanceSettings(),
     getPublicEntityLabels(),
+    getDisabledModules(),
   ]);
 
   const hasBanner = !!headerSettings.bannerImageUrl;
 
   return (
+    <PublicModuleVisibilityProvider initialDisabled={disabledModules}>
     <PublicLabelProvider initialLabels={entityLabels}>
     <div className="min-h-screen bg-white flex flex-col">
       {/* Theme is applied to the client-facing site ONLY (not the admin panel) */}
@@ -133,5 +138,6 @@ export default async function UserLayout({
       />
     </div>
     </PublicLabelProvider>
+    </PublicModuleVisibilityProvider>
   );
 }

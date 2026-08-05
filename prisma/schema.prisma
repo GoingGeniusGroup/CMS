@@ -516,3 +516,26 @@ model SiteContent {
   @@index([pageKey, isVisible, order])
   @@map("site_content")
 }
+
+// Public contact-form submissions — one row per "Send Message" on the website.
+// Captured by the public submitContactLead action; managed by the admin Leads
+// module. status is a free-form String driven by the configurable StatusOption
+// table ("New" by default, matching the seeded "lead" status workflow).
+model Lead {
+  id              String   @id @default(cuid())
+  fullName        String
+  email           String
+  phone           String   @default("")
+  company         String   @default("")
+  subject         String   @default("")
+  message         String   @default("")
+  serviceInterest String   @default("")
+  budget          String   @default("")
+  status          String   @default("New")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([createdAt])
+  @@index([status])
+  @@map("leads")
+}

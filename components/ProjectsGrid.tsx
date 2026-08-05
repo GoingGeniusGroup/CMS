@@ -35,7 +35,7 @@ export function ProjectsGrid({ projects }: { projects: ProjectData[] }) {
         </RevealOnScroll>
 
         {projects.length > 0 ? (
-          <StaggerGrid className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <StaggerGrid className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((project) => (
               <StaggerItem key={project.id}>
                 <ShowcaseCard
@@ -44,7 +44,6 @@ export function ProjectsGrid({ projects }: { projects: ProjectData[] }) {
                   imageUrl={project.thumbnail}
                   actionLabel="View Project"
                   href={`/our-projects/${project.id}`}
-                  heightClassName="h-[400px]"
                   fallback={
                     <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
                       <Layers className="h-12 w-12 text-white/40" strokeWidth={1.5} />

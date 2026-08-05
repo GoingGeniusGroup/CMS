@@ -32,41 +32,47 @@ import {
   Cpu,
   HelpCircle,
   LayoutTemplate,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Inbox,
   type LucideIcon,
 } from "lucide-react";
 
 type NavItem = {
+  id?: string;
   label?: string;
   labelKey?: string;
   href: string;
   icon: LucideIcon;
-  children?: { label?: string; labelKey?: string; href: string; icon: LucideIcon }[];
+  children?: { id?: string; label?: string; labelKey?: string; href: string; icon: LucideIcon }[];
 };
 
 export const navItems: NavItem[] = [
-  { label: "Dashboard", href: "/dashboard", icon: Home },
+  { id: "dashboard", label: "Dashboard", href: "/dashboard", icon: Home },
   { labelKey: "customer", href: "/customer", icon: UserSquare2 },
   { labelKey: "project", href: "/projects", icon: Folder },
+  { labelKey: "lead", href: "/leads", icon: Inbox },
   { labelKey: "team", href: "/team", icon: Contact },
   { labelKey: "service", href: "/services", icon: Layers },
   { labelKey: "job", href: "/careers", icon: Briefcase },
-  { label: "Analytics", href: "/analytics", icon: BarChart2 },
+  { id: "analytics", label: "Analytics", href: "/analytics", icon: BarChart2 },
   { labelKey: "invoice", href: "/invoices", icon: FileText },
   { labelKey: "blog", href: "/blog", icon: Newspaper },
   { labelKey: "page", href: "/pages", icon: FilePlus2 },
   { labelKey: "category", href: "/category", icon: Tag },
   {
+    id: "website-setup",
     label: "Website Setup",
     href: "/website-setup",
     icon: Globe,
     children: [
-      { label: "Landing Page", href: "/website-setup/landing-page", icon: LayoutTemplate },
-      { label: "Website Header", href: "/website-setup/header", icon: Globe },
-      { label: "Footer Widgets", href: "/website-setup/footer-widgets", icon: LayoutPanelTop },
-      { label: "Our Partners", href: "/website-setup/partners", icon: Handshake },
-      { label: "Logo Showcase", href: "/website-setup/technologies", icon: Cpu },
+      { id: "landing-page", label: "Landing Page", href: "/website-setup/landing-page", icon: LayoutTemplate },
+      { id: "website-header", label: "Website Header", href: "/website-setup/header", icon: Globe },
+      { id: "footer-widgets", label: "Footer Widgets", href: "/website-setup/footer-widgets", icon: LayoutPanelTop },
+      { id: "partners", label: "Our Partners", href: "/website-setup/partners", icon: Handshake },
+      { id: "technologies", label: "Logo Showcase", href: "/website-setup/technologies", icon: Cpu },
       { labelKey: "faq", href: "/website-setup/faq", icon: HelpCircle },
-      { label: "Add New Page", href: "/website-setup/add-newpage", icon: FilePlus2 },
+      { id: "add-new-page", label: "Add New Page", href: "/website-setup/add-newpage", icon: FilePlus2 },
     ],
   },
   { label: "Settings", href: "/settings", icon: Settings },
@@ -163,18 +169,27 @@ function LogoutConfirmModal({
 export function Sidebar({
   isOpen,
   onClose,
+  collapsed = false,
+  onToggleCollapsed,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  collapsed?: boolean;
+  onToggleCollapsed?: () => void;
 }) {
   const pathname = usePathname();
-  const { labels } = useConfig();
+  const { labels, disabledNavIds } = useConfig();
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const mainItems = navItems.slice(0, -1);
   const settingsItem = navItems[navItems.length - 1];
+
+  const navItemId = (item: { id?: string; labelKey?: string; href: string }) =>
+    item.id ?? item.labelKey ?? item.href;
+  const isNavEnabled = (item: { id?: string; labelKey?: string; href: string }) =>
+    !disabledNavIds.includes(navItemId(item));
 
   const resolveLabel = (item: { label?: string; labelKey?: string }) => {
     if (item.labelKey) {
@@ -217,46 +232,72 @@ export function Sidebar({
         id="primary-sidebar"
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex h-screen w-72 max-w-[85vw] shrink-0 flex-col justify-between overflow-y-auto bg-[#0a0a0b] px-5 py-6 transition-transform duration-300 ease-in-out",
-          "md:static md:z-auto md:h-screen md:w-64 md:max-w-none md:translate-x-0",
+          "md:static md:z-auto md:h-screen md:max-w-none md:translate-x-0 md:transition-[width,transform] md:duration-300 md:ease-in-out",
+          collapsed ? "md:w-[4.75rem] md:px-2" : "md:w-64",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div>
-          {/* Logo — desktop only */}
+          {/* Logo + collapse toggle — desktop only */}
           <div className="hidden items-center gap-3 px-1 md:flex">
-            <Image
-              src="/logo2.png"
-              alt="Going Genius logo"
-              width={40}
-              height={44}
-              className="h-11 w-10 object-contain"
-              priority
-            />
-            <div className="leading-tight">
-              <p className="text-[15px] font-bold text-white">
-                Going <span className="text-[#f0b90b]">Genius</span>
-              </p>
-              <p className="text-[11px] font-medium text-white">
-                Group of <span className="text-[#f0b90b]">Companies</span>
-              </p>
-            </div>
+            {!collapsed && (
+              <>
+                <Image
+                  src="/logo2.png"
+                  alt="Going Genius logo"
+                  width={40}
+                  height={44}
+                  className="h-11 w-10 shrink-0 object-contain"
+                  priority
+                />
+                <div className="min-w-0 flex-1 leading-tight">
+                  <p className="truncate text-[15px] font-bold text-white">
+                    Going <span className="text-[#f0b90b]">Genius</span>
+                  </p>
+                  <p className="truncate text-[11px] font-medium text-white">
+                    Group of <span className="text-[#f0b90b]">Companies</span>
+                  </p>
+                </div>
+              </>
+            )}
+            <button
+              type="button"
+              onClick={onToggleCollapsed}
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              className={cn(
+                "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
+                collapsed ? "mx-auto" : "ml-auto"
+              )}
+            >
+              {collapsed ? (
+                <PanelLeftOpen size={18} />
+              ) : (
+                <PanelLeftClose size={18} />
+              )}
+            </button>
           </div>
 
           {/* User Profile */}
           <div className="mt-4 md:mt-5">
-            <UserProfile />
+            <UserProfile collapsed={collapsed} />
           </div>
 
           {/* Nav */}
           <nav className="mt-2 flex flex-col gap-1" aria-label="Primary">
             {mainItems.map((item) => {
-              const Icon = item.icon;
+              if (!isNavEnabled(item)) return null;
 
               if (item.children && item.children.length > 0) {
-                const childActive = item.children.some(
+                const visibleChildren = item.children.filter(isNavEnabled);
+                if (visibleChildren.length === 0) return null;
+
+                const childActive = visibleChildren.some(
                   (child) => pathname === child.href
                 );
                 const isMenuOpen = openMenus[item.href] ?? childActive;
+                const Icon = item.icon;
+                const groupLabel = resolveLabel(item);
 
                 return (
                   <div
@@ -264,85 +305,105 @@ export function Sidebar({
                   >
                     <button
                       type="button"
-                      onClick={() => toggleMenu(item.href)}
+                      onClick={() => {
+                        if (collapsed) onToggleCollapsed?.();
+                        toggleMenu(item.href);
+                      }}
                       aria-expanded={isMenuOpen}
+                      title={collapsed ? groupLabel : undefined}
                       className={cn(
                         "flex w-full items-center justify-between gap-4 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
+                        collapsed && "md:justify-center md:px-2",
                         childActive
                           ? "font-semibold text-[#e8821a]"
                           : "text-white hover:text-[#e8821a]/80"
                       )}
                     >
-                      <span className="flex items-center gap-4">
+                      <span className={cn("flex items-center gap-4", collapsed && "md:gap-0")}>
                         <Icon
                           size={19}
                           strokeWidth={2}
                           className={childActive ? "text-[#e8821a]" : "text-white"}
                         />
-                        {resolveLabel(item)}
+                        <span
+                          className={cn(
+                            "whitespace-nowrap overflow-hidden transition-[max-width,opacity] duration-300 ease-in-out",
+                            collapsed ? "md:max-w-0 md:opacity-0" : "max-w-56 opacity-100"
+                          )}
+                        >
+                          {groupLabel}
+                        </span>
                       </span>
-                      <ChevronDown
-                        size={16}
-                        strokeWidth={2}
-                        className={cn(
-                          "shrink-0 transition-transform duration-200",
-                          isMenuOpen ? "rotate-180" : "rotate-0",
-                          childActive ? "text-[#e8821a]" : "text-white"
-                        )}
-                      />
+                      {!collapsed && (
+                        <ChevronDown
+                          size={16}
+                          strokeWidth={2}
+                          className={cn(
+                            "shrink-0 transition-transform duration-200",
+                            isMenuOpen ? "rotate-180" : "rotate-0",
+                            childActive ? "text-[#e8821a]" : "text-white"
+                          )}
+                        />
+                      )}
                     </button>
 
-                    <div
-                      className={cn(
-                        "grid overflow-hidden transition-all duration-200 ease-in-out",
-                        isMenuOpen
-                          ? "grid-rows-[1fr] opacity-100"
-                          : "grid-rows-[0fr] opacity-0"
-                      )}
-                    >
-                      <div className="min-h-0">
-                        <div className="ml-4 mt-1 flex flex-col gap-1 border-l border-white/10 pl-4">
-                          {item.children.map((child) => {
-                            const active = pathname === child.href;
-                            const ChildIcon = child.icon;
-                            return (
-                              <Link
-                                key={child.href}
-                                href={child.href}
-                                onClick={onClose}
-                                aria-current={active ? "page" : undefined}
-                                className={cn(
-                                  "flex items-center gap-3 rounded-lg px-3 py-2 text-[14px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
-                                  active
-                                    ? "font-semibold text-[#e8821a]"
-                                    : "text-zinc-400 hover:text-white"
-                                )}
-                              >
-                                <ChildIcon
-                                  size={16}
-                                  strokeWidth={2}
-                                  className={active ? "text-[#e8821a]" : "text-zinc-400"}
-                                />
-                                {resolveLabel(child)}
-                              </Link>
-                            );
-                          })}
+                    {!collapsed && (
+                      <div
+                        className={cn(
+                          "grid overflow-hidden transition-all duration-200 ease-in-out",
+                          isMenuOpen
+                            ? "grid-rows-[1fr] opacity-100"
+                            : "grid-rows-[0fr] opacity-0"
+                        )}
+                      >
+                        <div className="min-h-0">
+                          <div className="ml-4 mt-1 flex flex-col gap-1 border-l border-white/10 pl-4">
+                            {visibleChildren.map((child) => {
+                              const active = pathname === child.href;
+                              const ChildIcon = child.icon;
+                              return (
+                                <Link
+                                  key={child.href}
+                                  href={child.href}
+                                  onClick={onClose}
+                                  aria-current={active ? "page" : undefined}
+                                  className={cn(
+                                    "flex items-center gap-3 rounded-lg px-3 py-2 text-[14px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
+                                    active
+                                      ? "font-semibold text-[#e8821a]"
+                                      : "text-zinc-400 hover:text-white"
+                                  )}
+                                >
+                                  <ChildIcon
+                                    size={16}
+                                    strokeWidth={2}
+                                    className={active ? "text-[#e8821a]" : "text-zinc-400"}
+                                  />
+                                  {resolveLabel(child)}
+                                </Link>
+                              );
+                            })}
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 );
               }
 
               const active = pathname === item.href;
+              const Icon = item.icon;
+              const linkLabel = resolveLabel(item);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={onClose}
+                  title={collapsed ? linkLabel : undefined}
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex items-center gap-4 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-color,#e8821a)]",
+                    collapsed && "md:justify-center md:px-2",
                     active
                       ? "font-semibold text-[#e8821a]"
                       : "text-white hover:text-[#e8821a]/80"
@@ -353,7 +414,14 @@ export function Sidebar({
                     strokeWidth={2}
                     className={active ? "text-[#e8821a]" : "text-white"}
                   />
-                  {resolveLabel(item)}
+                  <span
+                    className={cn(
+                      "whitespace-nowrap overflow-hidden transition-[max-width,opacity] duration-300 ease-in-out",
+                      collapsed ? "md:max-w-0 md:opacity-0" : "max-w-56 opacity-100"
+                    )}
+                  >
+                    {linkLabel}
+                  </span>
                 </Link>
               );
             })}
@@ -366,24 +434,44 @@ export function Sidebar({
             href={settingsItem.href}
             onClick={onClose}
             aria-current={pathname === settingsItem.href ? "page" : undefined}
+            title={collapsed ? "Settings" : undefined}
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
+              collapsed && "md:justify-center md:px-2",
               pathname === settingsItem.href
                 ? "text-[#e8821a]"
                 : "text-zinc-400 hover:text-white"
             )}
           >
             <Settings size={18} />
-            Settings
+            <span
+              className={cn(
+                "whitespace-nowrap overflow-hidden transition-[max-width,opacity] duration-300 ease-in-out",
+                collapsed ? "md:max-w-0 md:opacity-0" : "max-w-40 opacity-100"
+              )}
+            >
+              Settings
+            </span>
           </Link>
 
           <button
             type="button"
             onClick={() => setShowLogoutConfirm(true)}
-            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium text-red-400 transition-colors hover:text-red-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+            title={collapsed ? "Logout" : undefined}
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium text-red-400 transition-colors hover:text-red-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500",
+              collapsed && "md:justify-center md:px-2"
+            )}
           >
             <LogOut size={18} />
-            Logout
+            <span
+              className={cn(
+                "whitespace-nowrap overflow-hidden transition-[max-width,opacity] duration-300 ease-in-out",
+                collapsed ? "md:max-w-0 md:opacity-0" : "max-w-40 opacity-100"
+              )}
+            >
+              Logout
+            </span>
           </button>
         </div>
       </aside>

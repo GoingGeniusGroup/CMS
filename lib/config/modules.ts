@@ -10,6 +10,7 @@ export const MODULE_KEYS = [
   "category",
   "page",
   "faq",
+  "lead",
 ] as const;
 
 export type ModuleKey = (typeof MODULE_KEYS)[number];

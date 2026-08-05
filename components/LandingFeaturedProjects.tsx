@@ -8,6 +8,7 @@ import { StaggerGrid, StaggerItem } from "@/components/motion/StaggerGrid";
 import { ShowcaseCard } from "@/components/ShowcaseCard";
 import { SectionHeader, SectionCta } from "@/components/content/SectionHeader";
 import { SECTION_REGISTRY, type SectionHeaderData } from "@/lib/content/schemas";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
 
 type ProjectData = {
   id: string;
@@ -28,6 +29,7 @@ export function LandingFeaturedProjects({
   initialProjects?: ProjectData[];
   headerData?: SectionHeaderData;
 }) {
+  const moduleHidden = useModuleDisabled("project");
   const [projects, setProjects] = useState<ProjectData[]>(initialProjects ?? []);
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
   const header = headerData ?? SECTION_REGISTRY["home.projects"].defaultData;
@@ -40,7 +42,7 @@ export function LandingFeaturedProjects({
     }
   }, [initialProjects]);
 
-  if (projects.length === 0) return null;
+  if (moduleHidden || projects.length === 0) return null;
 
   return (
     <>

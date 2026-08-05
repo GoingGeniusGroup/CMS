@@ -4,6 +4,8 @@ import Link from "next/link";
 import { BookOpen, Code2, CheckCircle, Pencil, Search, Send } from "lucide-react";
 import { getPublicServices } from "@/app/actions/services";
 import { getSection } from "@/app/actions/site-content";
+import { isModuleDisabled } from "@/lib/module-visibility";
+import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 import { resolveTokensOnServer } from "@/lib/content/resolve-tokens-server";
 import { PageHero } from "@/components/content/PageHero";
 import { ServicesGrid } from "@/components/ServicesGrid";
@@ -118,6 +120,7 @@ export async function generateMetadata(): Promise<Metadata> {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function ServicesPublicPage() {
+  if (await isModuleDisabled("service")) return <ModuleDisabledPage moduleLabel="Services" />;
   const [services, heroSection] = await Promise.all([
     getPublicServices(),
     getSection("our-services", "our-services.hero"),

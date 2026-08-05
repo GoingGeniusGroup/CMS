@@ -29,6 +29,8 @@ import {
   Rocket,
 } from "lucide-react";
 import { images } from "@/lib/images";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
+import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 
 // ─── Static Data (replace with dynamic data later) ───────────────────────────
 
@@ -560,7 +562,10 @@ function RelatedProjectsSection() {
 // ─── Page Export ──────────────────────────────────────────────────────────────
 
 export default function ProjectDetailsPage() {
+  const moduleHidden = useModuleDisabled("project");
   const [activeTab, setActiveTab] = useState("Overview");
+
+  if (moduleHidden) return <ModuleDisabledPage moduleLabel="Projects" />;
 
   return (
     <div className="bg-white">

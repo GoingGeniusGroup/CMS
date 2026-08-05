@@ -13,6 +13,17 @@ export default function AppLayout({
   const pathname = usePathname();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  // Read the persisted preference directly in the initializer (client-only
+  // component, so "window" is safe — same pattern as CookieBanner/SitePopup).
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.localStorage.getItem("gg-sidebar-collapsed") === "1";
+  });
+
+  // Persist the preference.
+  useEffect(() => {
+    window.localStorage.setItem("gg-sidebar-collapsed", collapsed ? "1" : "0");
+  }, [collapsed]);
 
   // Lock html/body scroll — the app uses its own internal scroll container
   useEffect(() => {
@@ -49,7 +60,12 @@ export default function AppLayout({
   return (
     <ConfigProvider>
       <div className="flex h-screen overflow-hidden">
-        <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        <Sidebar
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          collapsed={collapsed}
+          onToggleCollapsed={() => setCollapsed((v) => !v)}
+        />
         <div ref={scrollRef} className="flex-1 overflow-y-auto bg-[#f5f3f3]">
           <MobileHeader isOpen={isOpen} onToggle={() => setIsOpen((v) => !v)} />
           <main className="p-4 pb-8 sm:p-6 sm:pb-10 lg:p-8 lg:pb-10">{children}</main>

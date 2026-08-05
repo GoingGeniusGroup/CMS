@@ -11,6 +11,7 @@ import {
 } from "react";
 import { getEntityLabelsArray } from "@/app/actions/labels";
 import { getStatusOptionsClient } from "@/app/actions/status-options";
+import { getSidebarModuleConfig } from "@/app/actions/sidebar-nav";
 import { DEFAULT_ENTITY_LABELS } from "@/lib/config/entity-labels";
 import { DEFAULT_STATUS_OPTIONS } from "@/lib/config/status-options";
 import type { StatusOptionDto } from "@/lib/status-options";
@@ -20,6 +21,7 @@ type LabelsMap = Record<string, { singular: string; plural: string }>;
 type ConfigContextValue = {
   labels: LabelsMap;
   statusOptions: Record<string, StatusOptionDto[]>;
+  disabledNavIds: string[];
   entityLabel: (key: string, opts?: { plural?: boolean; fallback?: string }) => string;
   statusOptionsFor: (moduleKey: string) => StatusOptionDto[];
   statusBadge: (moduleKey: string, value: string) => StatusOptionDto | undefined;
@@ -50,12 +52,14 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [statusOptions, setStatusOptions] = useState<Record<string, StatusOptionDto[]>>(() =>
     fallbackStatusOptions()
   );
+  const [disabledNavIds, setDisabledNavIds] = useState<string[]>([]);
 
   const loadConfig = useCallback(async () => {
     try {
-      const [labelRows, statusMap] = await Promise.all([
+      const [labelRows, statusMap, sidebarNav] = await Promise.all([
         getEntityLabelsArray(),
         getStatusOptionsClient(),
+        getSidebarModuleConfig(),
       ]);
 
       const nextLabels: LabelsMap = { ...DEFAULT_ENTITY_LABELS };
@@ -67,6 +71,8 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
       if (statusMap && Object.keys(statusMap).length > 0) {
         setStatusOptions(statusMap);
       }
+
+      setDisabledNavIds(sidebarNav.disabled);
     } catch {
       // Keep current values — the admin panel stays fully functional without config.
     }
@@ -107,8 +113,16 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   );
 
   const value = useMemo(
-    () => ({ labels, statusOptions, entityLabel, statusOptionsFor, statusBadge, refreshConfig: loadConfig }),
-    [labels, statusOptions, entityLabel, statusOptionsFor, statusBadge, loadConfig]
+    () => ({
+      labels,
+      statusOptions,
+      disabledNavIds,
+      entityLabel,
+      statusOptionsFor,
+      statusBadge,
+      refreshConfig: loadConfig,
+    }),
+    [labels, statusOptions, disabledNavIds, entityLabel, statusOptionsFor, statusBadge, loadConfig]
   );
 
   return <ConfigContext.Provider value={value}>{children}</ConfigContext.Provider>;

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { isModuleDisabled } from "@/lib/module-visibility";
+import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 import {
   ArrowLeft,
   ArrowRight,
@@ -91,6 +93,7 @@ export default async function ProjectDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  if (await isModuleDisabled("project")) return <ModuleDisabledPage moduleLabel="Projects" />;
   const { id } = await params;
   const project = await getProjectById(id);
 

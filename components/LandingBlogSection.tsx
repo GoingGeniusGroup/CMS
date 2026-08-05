@@ -8,6 +8,7 @@ import { StaggerGrid, StaggerItem } from "@/components/motion/StaggerGrid";
 import { ShowcaseCard } from "@/components/ShowcaseCard";
 import { SectionHeader, SectionCta } from "@/components/content/SectionHeader";
 import { SECTION_REGISTRY, type SectionHeaderData } from "@/lib/content/schemas";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
 
 type BlogData = {
   id: string;
@@ -28,6 +29,7 @@ export function LandingBlogSection({
   initialBlogs?: BlogData[];
   headerData?: SectionHeaderData;
 }) {
+  const moduleHidden = useModuleDisabled("blog");
   const [blogs, setBlogs] = useState<BlogData[]>(initialBlogs ?? []);
   const [selectedBlog, setSelectedBlog] = useState<BlogData | null>(null);
   const header = headerData ?? SECTION_REGISTRY["home.blog"].defaultData;
@@ -38,7 +40,7 @@ export function LandingBlogSection({
     }
   }, [initialBlogs]);
 
-  if (blogs.length === 0) return null;
+  if (moduleHidden || blogs.length === 0) return null;
 
   return (
     <>

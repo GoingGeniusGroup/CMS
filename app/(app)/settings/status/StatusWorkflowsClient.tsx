@@ -46,6 +46,7 @@ const MODULE_LABELS: Record<string, string> = {
   job: "Vacancies",
   applicant: "Applicants",
   faq: "FAQs",
+  lead: "Leads",
 };
 
 export default function StatusWorkflowsClient({

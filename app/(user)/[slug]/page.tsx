@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { isModuleDisabled } from "@/lib/module-visibility";
+import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 import type { JSONContent } from "@tiptap/react";
 import { getPublicPageBySlug } from "@/app/actions/pages";
 import { DynamicPageView } from "@/components/DynamicPageView";
@@ -32,6 +34,7 @@ export default async function DynamicPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  if (await isModuleDisabled("page")) return <ModuleDisabledPage moduleLabel="Page" />;
   const { slug } = await params;
   const page = await getPublicPageBySlug(slug);
 

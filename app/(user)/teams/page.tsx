@@ -11,6 +11,8 @@ import { TeamRoster, getTeamPortraitLayoutId, type RosterMember } from "@/compon
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 import { PageHero } from "@/components/content/PageHero";
 import { usePublicLabel } from "@/components/content/PublicLabelProvider";
+import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
+import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 
 type TeamMember = {
   id: string;
@@ -36,6 +38,7 @@ const UNASSIGNED_GROUP = "Other";
 
 /* ─── Page ───────────────────────────────────────────────── */
 export default function TeamsPage() {
+  const moduleHidden = useModuleDisabled("team");
   // DEFAULT_ENTITY_LABELS["team"].singular is "Team" (plural: "Team Members"),
   // so the search placeholder is built from the singular label rather than
   // just interpolating the raw entity label directly.
@@ -96,6 +99,8 @@ export default function TeamsPage() {
     const orderedKeys = [...departmentOrder, UNASSIGNED_GROUP].filter((key) => byDept.has(key));
     return orderedKeys.map((key) => ({ label: key, members: byDept.get(key)! }));
   }, [filtered, departmentOrder]);
+
+  if (moduleHidden) return <ModuleDisabledPage moduleLabel="Team" />;
 
   return (
     <div className="min-h-screen bg-white">

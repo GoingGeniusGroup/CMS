@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { isModuleDisabled } from "@/lib/module-visibility";
+import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 import { createElement } from "react";
 import {
   ArrowRight,
@@ -96,6 +98,7 @@ export async function generateStaticParams() {
 }
 
 export default async function ServiceDetailPage({ params }: Props) {
+  if (await isModuleDisabled("service")) return <ModuleDisabledPage moduleLabel="Services" />;
   const { slug } = await params;
   const service = await getServiceBySlug(slug);
   if (!service) notFound();

@@ -17,6 +17,7 @@ export const STATUS_MODULES = [
   "job",
   "applicant",
   "faq",
+  "lead",
 ] as const;
 
 /**
@@ -74,5 +75,12 @@ export const DEFAULT_STATUS_OPTIONS: Record<string, StatusOptionSeed[]> = {
   ],
   faq: [
     { statusValue: "Active", color: "#16a34a", isDefault: true },
+  ],
+  lead: [
+    { statusValue: "New", color: "#2563eb", isDefault: true },
+    { statusValue: "Contacted", color: "#d97706" },
+    { statusValue: "Qualified", color: "#9333ea" },
+    { statusValue: "Won", color: "#16a34a" },
+    { statusValue: "Lost", color: "#dc2626" },
   ],
 };

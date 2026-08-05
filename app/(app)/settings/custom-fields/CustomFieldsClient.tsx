@@ -50,6 +50,7 @@ const MODULE_LABELS: Record<string, string> = {
   category: "Categories",
   page: "Pages",
   faq: "FAQs",
+  lead: "Leads",
 };
 
 export default function CustomFieldsClient({
@@ -72,7 +73,7 @@ export default function CustomFieldsClient({
   // Modules with a dynamic entity label (adapts to the active industry profile);
   // modules not in this list (e.g. "applicant", "faq") fall back to MODULE_LABELS.
   function moduleDisplayName(moduleKey: string): string {
-    const dynamicKeys = ["customer", "project", "service", "team", "invoice", "blog", "job", "category", "page"];
+    const dynamicKeys = ["customer", "project", "service", "team", "invoice", "blog", "job", "category", "page", "lead"];
     if (dynamicKeys.includes(moduleKey)) {
       return entityLabel(moduleKey, { plural: true, fallback: MODULE_LABELS[moduleKey] ?? moduleKey });
     }
@@ -307,7 +308,7 @@ function FieldEditorModal({
 }) {
   const editing = editor.editing;
   const { entityLabel } = useConfig();
-  const dynamicKeys = ["customer", "project", "service", "team", "invoice", "blog", "job", "category", "page"];
+  const dynamicKeys = ["customer", "project", "service", "team", "invoice", "blog", "job", "category", "page", "lead"];
   const moduleName = dynamicKeys.includes(editor.moduleKey)
     ? entityLabel(editor.moduleKey, { plural: true, fallback: MODULE_LABELS[editor.moduleKey] ?? editor.moduleKey })
     : MODULE_LABELS[editor.moduleKey] ?? editor.moduleKey;

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getPublicContactSettings } from "@/app/actions/contact-settings";
+import { getPublicServices } from "@/app/actions/services";
 import { getSection } from "@/app/actions/site-content";
 import { resolveTokensOnServer } from "@/lib/content/resolve-tokens-server";
 import { PageHero } from "@/components/content/PageHero";
@@ -21,9 +22,10 @@ export async function generateMetadata(): Promise<Metadata> {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function ContactPage() {
-  const [data, heroSection] = await Promise.all([
+  const [data, heroSection, services] = await Promise.all([
     getPublicContactSettings(),
     getSection("contact", "contact.hero"),
+    getPublicServices(),
   ]);
 
   const settings = {
@@ -37,10 +39,12 @@ export default async function ContactPage() {
     googleMapEmbed: data?.googleMapEmbed ?? "",
   };
 
+  const serviceNames = services.map((s) => s.serviceName);
+
   return (
     <>
       <PageHero data={heroSection.data} />
-      <ContactClient settings={settings} />
+      <ContactClient settings={settings} services={serviceNames} />
     </>
   );
 }
