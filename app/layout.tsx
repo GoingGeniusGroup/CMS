@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AuthProvider } from "@/components/AuthProvider";
+import { EnvProvider } from "@/components/EnvProvider";
 import { getSiteSettings } from "@/lib/site-settings";
 import "./globals.css";
 
@@ -54,7 +55,9 @@ export default async function RootLayout({
         <link rel="apple-touch-icon" href={settings.faviconUrl || "/favicon.ico"} />
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <AuthProvider>{children}</AuthProvider>
+        <EnvProvider siteUrl={process.env.AUTH_URL || "/"}>
+          <AuthProvider>{children}</AuthProvider>
+        </EnvProvider>
       </body>
     </html>
   );

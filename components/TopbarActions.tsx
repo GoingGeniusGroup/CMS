@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Bell, MessageSquare, Settings } from "lucide-react";
+import { Bell, Globe, Settings } from "lucide-react";
 import Image from "next/image";
+import { useSiteUrl } from "@/components/EnvProvider";
 
 function IconButton({
   children,
@@ -37,6 +38,7 @@ function IconButton({
 }
 
 export function TopbarActions() {
+  const siteUrl = useSiteUrl();
   const router = useRouter();
   const [toast, setToast] = useState<string | null>(null);
 
@@ -53,8 +55,8 @@ export function TopbarActions() {
         <IconButton badge={20} onClick={() => setToast("Coming soon")}>
           <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
         </IconButton>
-        <IconButton badge={40} onClick={() => setToast("Coming soon")}>
-          <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5" />
+        <IconButton onClick={() => window.open(siteUrl, "_blank", "noopener,noreferrer")}>
+          <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
         </IconButton>
         <IconButton variant="accent" onClick={() => router.push("/settings/general")}>
           <Settings className="h-4 w-4 sm:h-5 sm:w-5" />

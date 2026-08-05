@@ -1,6 +1,6 @@
 "use client";
 
-import { X, ArrowRight } from "lucide-react";
+import { X, ArrowRight, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,6 +12,7 @@ interface ProjectDetailModalProps {
     description: string | null;
     category: string | null;
     thumbnail: string | null;
+    liveUrl: string | null;
   } | null;
   onClose: () => void;
 }
@@ -72,6 +73,17 @@ export function ProjectDetailModal({ open, project, onClose }: ProjectDetailModa
         {/* Sticky CTA footer */}
         <div className="flex-shrink-0 rounded-b-2xl border-t border-zinc-100 bg-white px-6 py-4">
           <div className="flex flex-wrap gap-3">
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-zinc-700"
+              >
+                Live Demo
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            )}
             <Link
               href={`/our-projects/${project.id}`}
               className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"

@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { images } from "@/lib/images";
 import { resolveTokensOnServer } from "@/lib/content/resolve-tokens-server";
 import { LandingServicesSection } from "@/components/LandingServicesSection";
 import { LandingFeaturedProjects } from "@/components/LandingFeaturedProjects";
@@ -22,32 +20,6 @@ import { getPublicBlogs } from "@/app/actions/blogs";
 import { getPublicTeamMembers } from "@/app/actions/team";
 import { getPublicFaqs } from "@/app/actions/faq";
 import { getSection } from "@/app/actions/site-content";
-
-/**
- * The "Our Top Products" logo strip that used to live inside the hero's left
- * column. Not part of `heroSchema` (it's a static brand asset, not editable
- * text/CTA content), so it's kept as its own tiny block directly below the
- * hero rather than forced into the shared schema — this does shift it from
- * "inside the hero card" to "its own strip right after it", a small,
- * deliberate layout change rather than a silent one.
- */
-function ProductsTopStrip() {
-  return (
-    <div className="border-b border-zinc-100 bg-[#f6f4f3] px-4 pb-10 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <p className="mb-2 text-xs font-semibold text-zinc-500">Our Top Products</p>
-        <Image
-          src={images.frame1}
-          alt="Our top products"
-          width={300}
-          height={60}
-          className="h-12 w-auto"
-          style={{ width: "auto" }}
-        />
-      </div>
-    </div>
-  );
-}
 
 // ─── Featured Works ───────────────────────────────────────────────────────────
 
@@ -170,7 +142,6 @@ export default async function Page() {
   return (
     <>
       <PageHero data={heroSection.data} />
-      <ProductsTopStrip />
       <LandingPartnersSection initialPartners={partners} headerData={partnersHeader.data} />
       <LandingTechSection initialTechnologies={technologies} headerData={techHeader.data} />
       <LandingServicesSection initialServices={services} headerData={servicesHeader.data} />

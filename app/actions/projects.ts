@@ -75,6 +75,7 @@ const getPublicProjectsCached = unstable_cache(
         category: true,
         thumbnail: true,
         budget: true,
+        liveUrl: true,
         startDate: true,
         endDate: true,
         createdAt: true,

@@ -38,7 +38,7 @@ export function ShowcaseCard({
   /** Rendered in place of the image when `imageUrl` is null. */
   fallback?: ReactNode;
 }) {
-  const surfaceClasses = `group relative block w-full aspect-[3/2] overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-900 text-left shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2`;
+  const surfaceClasses = `group relative block w-full aspect-[3/2] overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 text-left shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2`;
 
   const inner = (
     <>

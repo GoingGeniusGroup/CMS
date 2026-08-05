@@ -17,6 +17,7 @@ type ProjectData = {
   category: string | null;
   thumbnail: string | null;
   budget: number | null;
+  liveUrl: string | null;
   startDate: string | null;
   endDate: string | null;
   createdAt: string;

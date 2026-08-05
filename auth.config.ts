@@ -38,20 +38,31 @@ export const authConfig: NextAuthConfig = {
       // Block register
       if (pathname.startsWith("/register")) return false;
 
-      // Public pages — always accessible
-      if (
-        pathname === "/" ||
-        pathname.startsWith("/home") ||
-        pathname.startsWith("/company") ||
-        pathname.startsWith("/teams") ||
-        pathname.startsWith("/career") ||
-        pathname.startsWith("/blogs") ||
-        pathname.startsWith("/contact") ||
-        pathname.startsWith("/our-services") ||
-        pathname.startsWith("/our-projects") ||
-        pathname.startsWith("/servicedetail") ||
-        pathname.startsWith("/api/auth")
-      ) return true;
+      // Admin-only route prefixes. Everything else — the whole client website,
+      // including custom pages under /[slug] — stays public.
+      const adminPrefixes = [
+        "/dashboard",
+        "/settings",
+        "/website-setup",
+        "/customer",
+        "/projects",
+        "/team",
+        "/services",
+        "/careers",
+        "/blog",
+        "/category",
+        "/pages",
+        "/leads",
+        "/analytics",
+        "/invoices",
+        "/login",
+        "/onboarding",
+      ];
+      const isAdminRoute = adminPrefixes.some(
+        (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+      );
+
+      if (!isAdminRoute) return true;
 
       const isAuthPage = pathname.startsWith("/login");
       const isOnboardingPage = pathname.startsWith("/onboarding");
@@ -72,7 +83,7 @@ export const authConfig: NextAuthConfig = {
         return true;
       }
 
-      // All other routes require auth + onboarding
+      // Admin routes require auth + onboarding
       if (!isLoggedIn) return false; // Will redirect to login
       if (!isOnboarded) {
         return Response.redirect(new URL("/onboarding", nextUrl));
