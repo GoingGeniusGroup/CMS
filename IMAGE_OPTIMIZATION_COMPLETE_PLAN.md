@@ -143,7 +143,6 @@ This plan addresses image display issues across the entire CMS:
 
 
 ---
-
 ### Phase 3: Admin Panel - Fix White Screen Bug
 **Impact**: Makes images visible in admin card views (critical UX bug)
 
