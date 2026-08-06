@@ -9,9 +9,9 @@ All new sections follow the existing pattern: zod schema + entry in `SECTION_REG
 | our-services | ✅ configurable (PageHero) | ✅ **separate Stats cards section** (Phase 1 — moved out of hero) | **Development Process hardcoded** (to remove), **CTA hardcoded** |
 | our-projects | ✅ configurable (dark-card PageHero) | ✅ **separate Stats cards section** (4+) | **CTA hardcoded** → now configurable (`our-projects.cta`) |
 | about-us | ✅ configurable | ✅ **separate Stats cards section** (250+/120+/8+/40+) | Story/timeline, Mission/Vision, Values, Why-us, CTA all configurable |
-| company | ❌ hardcoded | ❌ hardcoded | About/MV, Careers, Contact CTA hardcoded (email/phone literals, "View All Openings" dead button) |
-| career | ✅ configurable (client-fetch pattern) | — | **"Life at Going Genius" + 3 images hardcoded** |
-| contact | ✅ configurable | — | Features strip + "Let's Work Together" hardcoded; info cards/map already settings-driven |
+| company | ✅ configurable (centered hero + logoUrl) | ✅ **separate Stats cards section** (250+/120+/8+/35+) | About, Careers (button now links to `/career`), Contact CTA (email/phone from ContactSettings) all configurable; shared Team/FAQ headers passed |
+| career | ✅ configurable (client-fetch pattern) | — | **"Life at Going Genius" mosaic configurable** |
+| contact | ✅ configurable | — | Features strip + "Let's Work Together" configurable; info cards/map already settings-driven |
 
 ## Decisions
 
@@ -42,27 +42,31 @@ All new sections follow the existing pattern: zod schema + entry in `SECTION_REG
 - Page: `TimelineSection`/`TwoColumnSection`/`CardsSection` (shared, in `components/content/`) + `StatsSection`; all hardcoded sections replaced; hero's `#our-story` anchor preserved on the timeline section.
 - Verify: seed (6 new rows), tsc, eslint, build, about-us 200 with all copy, home/our-services/our-projects regressions OK.
 
-## Phase 4 — company (client component)
+## Phase 4 — company (client component) (DONE)
 
-- Use career's client-side `getSection` pattern (fetch sections in `useEffect`).
-- Registry: `company.hero` (layout `centered` + `logoUrl: /logo.png` — replaces hardcoded `GeniusMark` inside hero; removes the "deliberately no company.hero" caveat), `company.about` (twoColumn + "More About Our Story"), `company.stats` (250+/120+/8+/35+), `company.careers` (new `careers` kind: heading, copy, cultureItems, button → links to `/career`, **fixing the dead "View All Openings" button**), `company.contactCta` (cta kind; **email/phone rendered from ContactSettings**, replacing the `goingenius2021@gmail.com` / `9845632107` literals).
-- Bonus: pass `shared.team` / `shared.faq` section data so Team/FAQ headers stop falling back to defaults.
+- Used career's client-side `getSection` pattern, generalized into a `useSection(sectionKey)` hook in `app/(user)/company/page.tsx`.
+- Registry: `company.hero` (layout `centered` + `logoUrl: /logo.png` — replaces hardcoded `GeniusMark` inside hero; the "deliberately no company.hero" caveat is removed), `company.about` (twoColumn + "More About Our Story"), `company.stats` (250+/120+/8+/35+), `company.careers` (new `careers` kind: eyebrow/heading/copy/cultureItems/button — button defaults to a working link to `/career`, **fixing the dead "View All Openings" button**), `company.contactCta` (cta kind; bespoke `ContactCtaSection` renders the email/phone from ContactSettings, replacing the `goingenius2021@gmail.com` / `9845632107` literals — settings row now wins).
+- Bonus: `shared.team` / `shared.faq` section data fetched and passed to `LandingTeamSection`/`FaqSection` so their headers stop silently falling back to defaults when an admin has edited them.
+- `HERO_STAT_ICONS` extended (briefcase/clock/user-check/compass/sparkles/gift); new `CareersForm` + `CareersSection`/`ContactCtaSection` components (Open Positions panel stays live jobs data).
+- Verify: seed (5 new rows), tsc, eslint, build, /company 200 with hero/about/stats/careers/CTA content, contact email/phone from settings, button links to /career.
 
-## Phase 5 — career
+## Phase 5 — career (DONE)
 
-- **New kind**: `life` (`lifeSectionSchema`: heading, copy, images[{src, alt, label}]) + form.
-- Registry: `career.life` (defaults = "Life at Going Genius" + career2/3/4.png + labels).
-- Page: replace hardcoded `LifeSection` with client-side `getSection` render.
+- **New kind**: `life` (`lifeSectionSchema`: heading, copy, images[{src, alt, label}]) + `LifeForm`.
+- Registry: `career.life` (defaults = "Life at Going Genius" + career2/3/4.png + labels), order 1 after the hero.
+- Page: hardcoded `LifeSection` replaced with the shared `components/content/LifeSection.tsx` (first image spans both rows on the left with its optional label overlay, images 2–3 fill the right column, extra images render in a row below), fetched client-side via `getSection` alongside the existing hero fetch.
+- Verify: seed (1 new row → 32 total), tsc, eslint (only pre-existing 2), build, /career 200 with mosaic + label, /company regression OK.
 
-## Phase 6 — contact
+## Phase 6 — contact (DONE)
 
-- Registry: `contact.features` (reuses `cards`, 4 defaults), `contact.workTogether` (reuses `cta`, `/contactus.png`).
-- Page: replace `FeaturesSection` + `WorkTogetherSection` hardcodes. (Hero already configurable; info cards/map already settings-driven — nothing else to do here.)
+- Registry: `contact.features` (reuses `cards` grid, 4 defaults: Zap/Headphones/Clock/Users) and `contact.workTogether` (reuses `cta` split, "Let's Work Together" + `/contactus.png`); `HERO_STAT_ICONS` extended (zap/headphones).
+- Page: `FeaturesSection` + `WorkTogetherSection` hardcodes removed from `ContactClient.tsx`; it now renders `CardsSection` + `CtaSection` fed from the section rows (passed from the server `contact/page.tsx`). Form + info cards + map stay settings-driven.
+- Verify: seed (2 new rows), tsc, eslint, build, /contact 200 with features + CTA + form intact.
 
-## Phase 7 — Final verification
+## Phase 7 — Final verification (DONE)
 
-- `npm run seed-site-content` (idempotent upsert — existing rows untouched), `npx tsc --noEmit`, `npm run lint`, `npm run build`.
-- Manual: all 6 public pages render identically to before (defaults = current copy); admin Landing Page editor shows new tabs (our-projects, company) and new rows on existing tabs; edit/save/reorder/toggle works; `revalidatePath` covers all pages.
+- `npm run seed-site-content` (idempotent upsert — 34 rows: 2 home/shared-era + services+projects+about-us+company+career+contact, all existing rows untouched), `npx tsc --noEmit`, `npm run lint` (only the 2 pre-existing issues), `npm run build` all clean.
+- Manual: all 9 public routes (/home, /our-services, /our-projects, /about-us, /company, /career, /contact, /blogs, /teams) return 200 with the new sections rendering; admin Landing Page editor auto-gains tabs (company) and rows (about-us, career, contact) from `SECTION_REGISTRY`; `saveSection`/`toggleSection`/`reorderSections` revalidate `/${pageKey}`, covering all pages.
 
 ## Notes
 

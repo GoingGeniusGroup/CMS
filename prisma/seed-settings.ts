@@ -125,6 +125,15 @@ async function main() {
   });
   console.log("  ✓ Partner logos");
 
+  // ── Site icons (Setting key-value) ─────────────────────────────────────
+  const iconPool = await import("../lib/content/hero-icons");
+  await prisma.setting.upsert({
+    where: { key: "site-icons" },
+    update: { value: { icons: Object.keys(iconPool.HERO_STAT_ICONS) } },
+    create: { key: "site-icons", value: { icons: Object.keys(iconPool.HERO_STAT_ICONS) } },
+  });
+  console.log("  ✓ Site icons");
+
   // ── Technology logos (Setting key-value) ──────────────────────────────
   await prisma.setting.upsert({
     where: { key: "technologies-logos" },

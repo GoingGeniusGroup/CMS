@@ -2,20 +2,19 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import {
   Building2,
   Clock,
-  Headphones,
   Loader2,
   Mail,
   MapPin,
   Phone,
   Send,
-  Users,
   User,
-  Zap,
 } from "lucide-react";
+import type { CardsData, CtaData } from "@/lib/content/schemas";
+import { CardsSection } from "@/components/content/CardsSection";
+import { CtaSection } from "@/components/content/CtaSection";
 import { FaqSection } from "@/components/FaqSection";
 import { submitContactLead } from "@/app/actions/leads";
 
@@ -39,15 +38,6 @@ const BUDGET_OPTIONS = [
   "$25k – $50k",
   "$50k+",
   "Not sure",
-];
-
-// ─── FAQ Data ────────────────────────────────────────────────────────────────
-
-const FEATURES = [
-  { icon: Zap, title: "Quick Response", desc: "We respond to all inquiries within 24 hours." },
-  { icon: Headphones, title: "Expert Support", desc: "Get help from our experienced and friendly team." },
-  { icon: Clock, title: "24/7 Availability", desc: "We are available round the clock for you." },
-  { icon: Users, title: "Trusted by Clients", desc: "Hundreds of businesses trust our services." },
 ];
 
 // ─── Section: Contact Form + Info ─────────────────────────────────────────────
@@ -369,31 +359,6 @@ function ContactSection({
   );
 }
 
-// ─── Section: Features ────────────────────────────────────────────────────────
-
-function FeaturesSection() {
-  return (
-    <section className="bg-[#fdf5f5] px-4 py-12 sm:px-6 lg:px-16">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {FEATURES.map(({ icon: Icon, title, desc }) => (
-            <div
-              key={title}
-              className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-200 bg-white p-6 text-center shadow-sm"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-50">
-                <Icon className="h-5 w-5 text-indigo-500" strokeWidth={1.5} />
-              </div>
-              <p className="text-sm font-bold text-zinc-900">{title}</p>
-              <p className="text-xs leading-relaxed text-zinc-500">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // ─── Section: Map ─────────────────────────────────────────────────────────────
 
 function MapSection({ settings }: { settings: ContactSettings }) {
@@ -448,61 +413,26 @@ function MapSection({ settings }: { settings: ContactSettings }) {
 // ─── Section: FAQ ─────────────────────────────────────────────────────────────
 // (dynamic content from database — see FaqSection component)
 
-// ─── Section: Let's Work Together ────────────────────────────────────────────
-
-function WorkTogetherSection() {
-  return (
-    <section className="bg-white px-4 py-20 sm:px-6 lg:px-16">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <div>
-            <h2 className="text-3xl font-extrabold text-zinc-900 sm:text-4xl">
-              Let&apos;s Work Together
-            </h2>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-zinc-500">
-              We&apos;re ready to help you build amazing digital solutions for
-              your business. Join our ecosystem of high-growth partners today.
-            </p>
-            <a
-              href="#contact-form"
-              className="mt-7 inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
-            >
-              Let&apos;s Talk
-              <Send className="h-4 w-4" />
-            </a>
-          </div>
-
-          <div className="relative aspect-video overflow-hidden rounded-2xl">
-            <Image
-              src="/contactus.png"
-              alt="Contact Us network"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // ─── Main Client Export ───────────────────────────────────────────────────────
 
 export function ContactClient({
   settings,
   services,
+  features,
+  workTogether,
 }: {
   settings: ContactSettings;
   services: string[];
+  features: CardsData;
+  workTogether: CtaData;
 }) {
   return (
     <>
       <ContactSection settings={settings} services={services} />
-      <FeaturesSection />
+      <CardsSection data={features} />
       <MapSection settings={settings} />
       <FaqSection />
-      <WorkTogetherSection />
+      <CtaSection data={workTogether} />
     </>
   );
 }

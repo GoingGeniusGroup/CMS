@@ -22,6 +22,7 @@ import {
   PanelLeft,
   PanelLeftClose,
   PanelLeftOpen,
+  Shapes,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -32,6 +33,7 @@ export const settingsNavItems = [
   { label: "Status Workflows", href: "/settings/status", icon: GitBranch },
   { label: "Sidebar Modules", href: "/settings/navigation", icon: PanelLeft },
   { label: "Departments", href: "/settings/departments", icon: Building2 },
+  { label: "Icons", href: "/settings/icons", icon: Shapes },
   { label: "Import / Export", href: "/settings/import-export", icon: FileJson },
   { label: "Contact", href: "/settings/contact", icon: Phone },
   { label: "Email", href: "/settings/email", icon: Mail },

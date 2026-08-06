@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 import type { CardsData, CardItem } from "@/lib/content/schemas";
 import { ImageUploader } from "@/components/ImageUploader";
+import { IconSelect } from "@/components/content/IconSelect";
 
 const inputCls =
   "w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm text-zinc-700 outline-none focus:border-indigo-400 focus:bg-white";
@@ -262,15 +263,12 @@ function CardItemEditor({
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
             <label className="mb-1 block text-xs font-bold text-zinc-700">Icon</label>
-            <input
-              type="text"
-              value={item.iconName ?? ""}
-              onChange={(e) => onChange({ iconName: e.target.value })}
-              placeholder="lightbulb, shield, star, users, heart"
-              className={inputCls}
+            <IconSelect
+              value={item.iconName ?? null}
+              onChange={(name) => onChange({ iconName: name })}
             />
             <p className="mt-1 text-[11px] text-zinc-400">
-              Optional named icon shown on the card. Leave empty for none.
+              Optional named icon shown on the card. Pick from the dropdown or leave empty for none.
             </p>
           </div>
           <div>

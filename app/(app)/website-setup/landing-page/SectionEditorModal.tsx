@@ -12,6 +12,8 @@ import { StatsForm } from "./forms/StatsForm";
 import { CtaForm } from "./forms/CtaForm";
 import { TimelineForm } from "./forms/TimelineForm";
 import { TwoColumnForm } from "./forms/TwoColumnForm";
+import { CareersForm } from "./forms/CareersForm";
+import { LifeForm } from "./forms/LifeForm";
 
 const SHARED_PAGE_NOTE =
   "This section is also shown, unchanged, on the Company and Contact pages — editing it here updates all three.";
@@ -114,6 +116,12 @@ export function SectionEditorModal({
             )}
             {entry.kind === "twoColumn" && (
               <TwoColumnForm data={currentData as never} onChange={(d) => setDraft(d)} />
+            )}
+            {entry.kind === "careers" && (
+              <CareersForm data={currentData as never} onChange={(d) => setDraft(d)} />
+            )}
+            {entry.kind === "life" && (
+              <LifeForm data={currentData as never} onChange={(d) => setDraft(d)} />
             )}
           </div>
 

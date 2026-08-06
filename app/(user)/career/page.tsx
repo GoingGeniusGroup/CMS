@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { ArrowRight, Bookmark, Briefcase, ChevronDown, Clock, MapPin } from "lucide-react";
 import { getPublicJobs, type JobRow } from "@/app/actions/jobs";
 import { getSection, type SiteContentSection } from "@/app/actions/site-content";
@@ -10,6 +9,7 @@ import { PageHero } from "@/components/content/PageHero";
 import { SECTION_REGISTRY } from "@/lib/content/schemas";
 import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
 import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
+import { LifeSection } from "@/components/content/LifeSection";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -106,65 +106,9 @@ function OpenPositions({ jobs }: { jobs: JobRow[] }) {
   );
 }
 
-// ─── Life at Going Genius ─────────────────────────────────────────────────────
+// ─── Career page ──────────────────────────────────────────────────────────────
 
-function LifeSection() {
-  return (
-    <section className="bg-white px-4 pb-16 sm:px-6 lg:px-16">
-      <div className="mx-auto max-w-7xl">
-        <h2 className="mb-6 text-2xl font-extrabold text-zinc-900 sm:text-3xl">
-          Life at Going Genius
-        </h2>
-
-        <div className="grid gap-4" style={{ gridTemplateColumns: "2fr 1fr", gridTemplateRows: "1fr 1fr", height: 460 }}>
-
-          {/* career2 — large left, spans 2 rows, object-cover with label */}
-          <div className="relative overflow-hidden rounded-2xl shadow-sm" style={{ gridRow: "1 / 3" }}>
-            <Image
-              src="/career2.png"
-              alt="Collaborative Environment"
-              fill
-              sizes="66vw"
-              className="object-cover object-center"
-            />
-            <span className="absolute bottom-4 left-4 text-sm font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
-              Collaborative Environment
-            </span>
-          </div>
-
-          {/* career3 — top right, no border, no gap */}
-          <div className="relative overflow-hidden rounded-2xl">
-            <Image
-              src="/career3.png"
-              alt="Team"
-              fill
-              sizes="33vw"
-              className="object-cover object-center"
-            />
-          </div>
-
-          {/* career4 — bottom right, dark scene, object-cover */}
-          <div className="relative overflow-hidden rounded-2xl shadow-sm">
-            <Image
-              src="/career4.png"
-              alt="Night Coding"
-              fill
-              sizes="33vw"
-              className="object-cover object-center"
-            />
-          </div>
-
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Page ─────────────────────────────────────────────────────────────────────
-
-export default function CareerPage() {
-  const moduleHidden = useModuleDisabled("job");
-  const [jobs, setJobs] = useState<JobRow[]>([]);
+function useCareerHero() {
   const [heroSection, setHeroSection] = useState<SiteContentSection<"career.hero">>({
     sectionKey: "career.hero",
     pageKey: "career",
@@ -173,6 +117,32 @@ export default function CareerPage() {
     order: SECTION_REGISTRY["career.hero"].defaultOrder,
     data: SECTION_REGISTRY["career.hero"].defaultData,
   });
+  useEffect(() => {
+    getSection("career", "career.hero").then(setHeroSection);
+  }, []);
+  return heroSection;
+}
+
+function useLifeSection() {
+  const [lifeSection, setLifeSection] = useState<SiteContentSection<"career.life">>({
+    sectionKey: "career.life",
+    pageKey: "career",
+    variant: "default",
+    isVisible: true,
+    order: SECTION_REGISTRY["career.life"].defaultOrder,
+    data: SECTION_REGISTRY["career.life"].defaultData,
+  });
+  useEffect(() => {
+    getSection("career", "career.life").then(setLifeSection);
+  }, []);
+  return lifeSection;
+}
+
+export default function CareerPage() {
+  const moduleHidden = useModuleDisabled("job");
+  const [jobs, setJobs] = useState<JobRow[]>([]);
+  const heroSection = useCareerHero();
+  const lifeSection = useLifeSection();
 
   useEffect(() => {
     getPublicJobs().then((data) => setJobs(data));
@@ -180,7 +150,6 @@ export default function CareerPage() {
     // is already "use client" for its interactive job filtering — matching
     // the existing getPublicJobs pattern rather than splitting the page into
     // a server wrapper + client sub-component for one section.
-    getSection("career", "career.hero").then((section) => setHeroSection(section));
   }, []);
 
   if (moduleHidden) return <ModuleDisabledPage moduleLabel="Careers" />;
@@ -189,7 +158,7 @@ export default function CareerPage() {
     <>
       <PageHero data={heroSection.data} />
       <OpenPositions jobs={jobs} />
-      <LifeSection />
+      <LifeSection data={lifeSection.data} />
     </>
   );
 }

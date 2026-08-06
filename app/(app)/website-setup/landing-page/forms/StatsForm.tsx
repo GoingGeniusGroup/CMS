@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 import type { StatsData, StatItem } from "@/lib/content/schemas";
+import { IconSelect } from "@/components/content/IconSelect";
 
 const inputCls =
   "w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm text-zinc-700 outline-none focus:border-indigo-400 focus:bg-white";
@@ -149,15 +150,12 @@ export function StatsForm({
                 </div>
                 <div>
                   <label className="mb-1 block text-xs font-bold text-zinc-700">Icon</label>
-                  <input
-                    type="text"
-                    value={item.iconName ?? ""}
-                    onChange={(e) => updateItem(index, { iconName: e.target.value })}
-                    placeholder="layers, check-circle, book-open"
-                    className={inputCls}
+                  <IconSelect
+                    value={item.iconName ?? null}
+                    onChange={(name) => updateItem(index, { iconName: name })}
                   />
                   <p className="mt-1 text-[11px] text-zinc-400">
-                    Optional. Leave empty for no icon.
+                    Optional. Pick an icon from the dropdown, or clear it for no icon.
                   </p>
                 </div>
               </div>

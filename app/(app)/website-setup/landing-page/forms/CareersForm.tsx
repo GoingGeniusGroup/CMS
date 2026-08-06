@@ -2,56 +2,55 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
-import type { TwoColumnData, TwoColumnItem } from "@/lib/content/schemas";
+import type { CareersData, CareersItem } from "@/lib/content/schemas";
 import { IconSelect } from "@/components/content/IconSelect";
 
 const inputCls =
   "w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm text-zinc-700 outline-none focus:border-indigo-400 focus:bg-white";
 
 /**
- * Form for the "twoColumn" kind (Phase 3): optional header (eyebrow/heading/
- * copy) and button, plus the two icon columns themselves (icon, title,
- * description). Used by the about-us Mission & Vision section.
+ * Form for the "careers" kind (Phase 4): eyebrow/heading/copy, an optional
+ * button (defaults to a working link to /career), and the repeatable culture
+ * points (icon, title, description) shown above it.
  */
-export function TwoColumnForm({
+export function CareersForm({
   data,
   onChange,
 }: {
-  data: TwoColumnData;
-  onChange: (data: TwoColumnData) => void;
+  data: CareersData;
+  onChange: (data: CareersData) => void;
 }) {
-  const [form, setForm] = useState<TwoColumnData>(data);
+  const [form, setForm] = useState<CareersData>(data);
 
-  function update<K extends keyof TwoColumnData>(key: K, value: TwoColumnData[K]) {
+  function update<K extends keyof CareersData>(key: K, value: CareersData[K]) {
     const next = { ...form, [key]: value };
     setForm(next);
     onChange(next);
   }
 
-  function updateItem(index: number, patch: Partial<TwoColumnItem>) {
-    const items = form.items.map((item, i) => (i === index ? { ...item, ...patch } : item));
-    update("items", items);
+  function updateItem(index: number, patch: Partial<CareersItem>) {
+    const items = form.cultureItems.map((item, i) => (i === index ? { ...item, ...patch } : item));
+    update("cultureItems", items);
   }
 
   function addItem() {
-    if (form.items.length >= 4) return;
-    update("items", [...form.items, { title: "" }]);
+    if (form.cultureItems.length >= 8) return;
+    update("cultureItems", [...form.cultureItems, { title: "" }]);
   }
 
   function removeItem(index: number) {
-    if (form.items.length <= 1) return; // schema requires at least one
     update(
-      "items",
-      form.items.filter((_, i) => i !== index)
+      "cultureItems",
+      form.cultureItems.filter((_, i) => i !== index)
     );
   }
 
   function moveItem(index: number, direction: "up" | "down") {
     const target = direction === "up" ? index - 1 : index + 1;
-    if (target < 0 || target >= form.items.length) return;
-    const items = [...form.items];
+    if (target < 0 || target >= form.cultureItems.length) return;
+    const items = [...form.cultureItems];
     [items[index], items[target]] = [items[target], items[index]];
-    update("items", items);
+    update("cultureItems", items);
   }
 
   return (
@@ -62,18 +61,20 @@ export function TwoColumnForm({
           type="text"
           value={form.eyebrow ?? ""}
           onChange={(e) => update("eyebrow", e.target.value)}
-          placeholder="Optional small label above the heading"
+          placeholder="e.g. Careers"
           className={inputCls}
         />
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-bold text-zinc-800">Heading</label>
+        <label className="mb-1 block text-sm font-bold text-zinc-800">
+          Heading <span className="text-red-500">*</span>
+        </label>
         <input
           type="text"
-          value={form.heading ?? ""}
+          value={form.heading}
           onChange={(e) => update("heading", e.target.value)}
-          placeholder="Optional heading above the columns"
+          placeholder="e.g. Join Our Team"
           className={inputCls}
         />
       </div>
@@ -95,6 +96,7 @@ export function TwoColumnForm({
             type="text"
             value={form.buttonLabel ?? ""}
             onChange={(e) => update("buttonLabel", e.target.value)}
+            placeholder="e.g. View All Openings"
             className={inputCls}
           />
         </div>
@@ -104,7 +106,7 @@ export function TwoColumnForm({
             type="text"
             value={form.buttonHref ?? ""}
             onChange={(e) => update("buttonHref", e.target.value)}
-            placeholder="/contact"
+            placeholder="/career"
             className={inputCls}
           />
         </div>
@@ -112,14 +114,12 @@ export function TwoColumnForm({
 
       <div>
         <div className="mb-2 flex items-center justify-between">
-          <label className="text-sm font-bold text-zinc-800">
-            Columns <span className="text-red-500">*</span>
-          </label>
-          <span className="text-xs text-zinc-400">{form.items.length} / 4</span>
+          <label className="text-sm font-bold text-zinc-800">Culture Points</label>
+          <span className="text-xs text-zinc-400">{form.cultureItems.length} / 8</span>
         </div>
 
         <div className="space-y-3">
-          {form.items.map((item, index) => (
+          {form.cultureItems.map((item, index) => (
             <div key={index} className="rounded-xl border border-zinc-200 bg-zinc-50/50 p-4">
               <div className="mb-3 flex items-center gap-2">
                 <div className="flex flex-col">
@@ -127,7 +127,7 @@ export function TwoColumnForm({
                     type="button"
                     onClick={() => moveItem(index, "up")}
                     disabled={index === 0}
-                    aria-label="Move column up"
+                    aria-label="Move point up"
                     className="rounded p-0.5 text-zinc-400 hover:text-zinc-700 disabled:opacity-30"
                   >
                     <ChevronUp className="h-3.5 w-3.5" />
@@ -135,22 +135,21 @@ export function TwoColumnForm({
                   <button
                     type="button"
                     onClick={() => moveItem(index, "down")}
-                    disabled={index === form.items.length - 1}
-                    aria-label="Move column down"
+                    disabled={index === form.cultureItems.length - 1}
+                    aria-label="Move point down"
                     className="rounded p-0.5 text-zinc-400 hover:text-zinc-700 disabled:opacity-30"
                   >
                     <ChevronDown className="h-3.5 w-3.5" />
                   </button>
                 </div>
                 <p className="flex-1 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-                  Column {index + 1}
+                  Point {index + 1}
                 </p>
                 <button
                   type="button"
                   onClick={() => removeItem(index)}
-                  disabled={form.items.length <= 1}
-                  aria-label={`Remove column ${index + 1}`}
-                  className="rounded-lg p-1.5 text-zinc-400 hover:bg-red-50 hover:text-red-600 disabled:opacity-30"
+                  aria-label={`Remove point ${index + 1}`}
+                  className="rounded-lg p-1.5 text-zinc-400 hover:bg-red-50 hover:text-red-600"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
@@ -165,17 +164,18 @@ export function TwoColumnForm({
                     type="text"
                     value={item.title}
                     onChange={(e) => updateItem(index, { title: e.target.value })}
-                    placeholder="e.g. Our Mission"
+                    placeholder="e.g. Great Culture"
                     className={inputCls}
                   />
                 </div>
                 <div>
                   <label className="mb-1 block text-xs font-bold text-zinc-700">Description</label>
-                  <textarea
-                    rows={3}
+                  <input
+                    type="text"
                     value={item.description ?? ""}
                     onChange={(e) => updateItem(index, { description: e.target.value })}
-                    className={`${inputCls} resize-none`}
+                    placeholder="One-line description"
+                    className={inputCls}
                   />
                 </div>
                 <div>
@@ -193,14 +193,14 @@ export function TwoColumnForm({
           ))}
         </div>
 
-        {form.items.length < 4 && (
+        {form.cultureItems.length < 8 && (
           <button
             type="button"
             onClick={addItem}
             className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-700"
           >
             <Plus className="h-3.5 w-3.5" />
-            Add column
+            Add point
           </button>
         )}
       </div>

@@ -188,6 +188,50 @@ export const twoColumnSectionSchema = z.object({
 export type TwoColumnData = z.infer<typeof twoColumnSectionSchema>;
 export type TwoColumnItem = z.infer<typeof twoColumnItemSchema>;
 
+// ─── Careers schema ──────────────────────────────────────────────────────────
+// The company page's "Join Our Team" block: header (eyebrow/heading/copy), a
+// small grid of culture points, and a button linking to the careers page —
+// fixing the original hardcoded "View All Openings" button that went nowhere.
+
+export const careersItemSchema = z.object({
+  iconName: z.string().max(60).optional(),
+  title: z.string().min(1, "Title is required").max(120),
+  description: z.string().max(400).optional(),
+});
+
+export const careersSectionSchema = z.object({
+  eyebrow: z.string().max(80).optional(),
+  heading: z.string().min(1, "Heading is required").max(200),
+  copy: z.string().max(600).optional(),
+  buttonLabel: z.string().max(60).optional(),
+  buttonHref: z.string().max(300).optional(),
+  cultureItems: z.array(careersItemSchema).max(8),
+});
+
+export type CareersData = z.infer<typeof careersSectionSchema>;
+export type CareersItem = z.infer<typeof careersItemSchema>;
+
+// ─── Life-at-company schema ───────────────────────────────────────────────────
+// The career page's "Life at Going Genius" photo mosaic: heading + copy + up to
+// 6 images. The first image renders large on the left (spanning both rows, its
+// optional `label` overlaid), the next two fill the right column, and any
+// further ones render in a simple row below.
+
+export const lifeImageSchema = z.object({
+  src: z.string().min(1, "Image URL is required").max(500),
+  alt: z.string().max(200).optional(),
+  label: z.string().max(120).optional(),
+});
+
+export const lifeSectionSchema = z.object({
+  heading: z.string().min(1, "Heading is required").max(200),
+  copy: z.string().max(600).optional(),
+  images: z.array(lifeImageSchema).min(1, "Add at least one image").max(6),
+});
+
+export type LifeData = z.infer<typeof lifeSectionSchema>;
+export type LifeImage = z.infer<typeof lifeImageSchema>;
+
 // ─── Stats schema ────────────────────────────────────────────────────────────
 // A standalone stats-card row (our-services has the same cards inside its hero
 // stats layout; these sections render the same shared StatsCards component as
@@ -250,7 +294,7 @@ export type CtaData = z.infer<typeof ctaSchema>;
  * reference-equality, so the editor's form-selection logic can't silently
  * break if a schema is ever refactored/wrapped.
  */
-export type SectionKind = "hero" | "sectionHeader" | "cards" | "stats" | "cta" | "timeline" | "twoColumn";
+export type SectionKind = "hero" | "sectionHeader" | "cards" | "stats" | "cta" | "timeline" | "twoColumn" | "careers" | "life";
 
 type SectionRegistryEntry<T> = {
   pageKey: string;
@@ -548,6 +592,62 @@ export const SECTION_REGISTRY = {
     },
   }),
 
+  "contact.features": defineSection<CardsData>({
+    pageKey: "contact",
+    label: "Features cards",
+    kind: "cards",
+    schema: cardsSchema,
+    defaultOrder: 1,
+    defaultData: {
+      variant: "grid",
+      items: [
+        {
+          id: "quick-response",
+          title: "Quick Response",
+          description: "We respond to all inquiries within 24 hours.",
+          iconName: "zap",
+        },
+        {
+          id: "expert-support",
+          title: "Expert Support",
+          description: "Get help from our experienced and friendly team.",
+          iconName: "headphones",
+        },
+        {
+          id: "availability",
+          title: "24/7 Availability",
+          description: "We are available round the clock for you.",
+          iconName: "clock",
+        },
+        {
+          id: "trusted-clients",
+          title: "Trusted by Clients",
+          description: "Hundreds of businesses trust our services.",
+          iconName: "users",
+        },
+      ],
+    },
+  }),
+
+  "contact.workTogether": defineSection<CtaData>({
+    pageKey: "contact",
+    label: "Let's Work Together",
+    kind: "cta",
+    schema: ctaSchema,
+    defaultOrder: 2,
+    defaultData: {
+      variant: "split",
+      headingLines: ["Let's Work Together"],
+      subheading:
+        "We're ready to help you build amazing digital solutions for your business. Join our ecosystem of high-growth partners today.",
+      primaryCtaLabel: "Let's Talk",
+      primaryCtaHref: "#contact-form",
+      primaryCtaShowArrow: false,
+      imageUrl: "/contactus.png",
+      imageAlt: "Contact Us network",
+    },
+  }),
+
   "about-us.hero": defineSection<HeroData>({
     pageKey: "about-us",
     label: "Hero",
@@ -767,6 +867,26 @@ export const SECTION_REGISTRY = {
     },
   }),
 
+  "career.life": defineSection<LifeData>({
+    pageKey: "career",
+    label: "Life at Going Genius",
+    kind: "life",
+    schema: lifeSectionSchema,
+    defaultOrder: 1,
+    defaultData: {
+      heading: "Life at Going Genius",
+      images: [
+        {
+          src: "/career2.png",
+          alt: "Collaborative Environment",
+          label: "Collaborative Environment",
+        },
+        { src: "/career3.png", alt: "Team" },
+        { src: "/career4.png", alt: "Night Coding" },
+      ],
+    },
+  }),
+
   "blogs.hero": defineSection<HeroData>({
     pageKey: "blogs",
     label: "Hero",
@@ -804,18 +924,136 @@ export const SECTION_REGISTRY = {
     },
   }),
 
-  // NOTE: no "company.hero" entry — the /company hero uses a circular logo
-  // mark (GeniusMark) as its image side, not a rectangular photo. Forcing it
-  // through heroSchema's 4:3 `object-cover` image treatment would visibly
-  // distort that logo, so this page was deliberately left on its bespoke
-  // markup rather than migrated. See Phase 18 completion notes.
+  "company.hero": defineSection<HeroData>({
+    pageKey: "company",
+    label: "Hero",
+    kind: "hero",
+    schema: heroSchema,
+    defaultOrder: 0,
+    defaultData: {
+      layout: "centered",
+      // The circular logo mark replaces the bespoke GeniusMark that used to
+      // sit in the hero's right column; the centered layout renders it above
+      // the heading (see heroSchema.logoUrl).
+      logoUrl: "/logo.png",
+      headingLines: ["Innovating the Future with Going Genius"],
+      highlightedWord: "Going Genius",
+      subheading:
+        "We are a team of passionate innovators, designers, and developers building digital solutions that help businesses grow, scale, and succeed in an ever-changing world.",
+      primaryCtaLabel: "Explore Our Work",
+      primaryCtaHref: "/our-projects",
+      primaryCtaShowArrow: true,
+      secondaryCtaLabel: "Learn More About Us",
+      secondaryCtaHref: "/about",
+    },
+  }),
 
-  // "shared.*" (not "home.*"): LandingTeamSection and FaqSection are rendered,
-  // unparameterized, on /home, /company, and /contact alike — today they
-  // already show identical copy on all three. Scoping these under "home"
-  // would make a home-only editor silently also control /company and
-  // /contact, which is misleading. "shared" makes that page-spanning nature
-  // explicit instead of pretending these belong to one page.
+  "company.about": defineSection<TwoColumnData>({
+    pageKey: "company",
+    label: "About section",
+    kind: "twoColumn",
+    schema: twoColumnSectionSchema,
+    defaultOrder: 1,
+    defaultData: {
+      eyebrow: "About Us",
+      heading: "Building digital solutions that make a difference.",
+      copy:
+        "For over a decade, Going Genius has been a trusted partner for innovative experiences that solve real problems, delight users, and stay one step ahead of a constantly changing world.",
+      buttonLabel: "More About Our Story",
+      buttonHref: "/blogs",
+      items: [
+        {
+          iconName: "compass",
+          title: "Our Mission",
+          description:
+            "To empower businesses with creative, right-sized digital solutions that grow with them.",
+        },
+        {
+          iconName: "sparkles",
+          title: "Our Vision",
+          description:
+            "To be a studio people know and trust for turning bold ideas into working products.",
+        },
+      ],
+    },
+  }),
+
+  "company.stats": defineSection<StatsData>({
+    pageKey: "company",
+    label: "Stats cards",
+    kind: "stats",
+    schema: statsSchema,
+    defaultOrder: 2,
+    defaultData: {
+      items: [
+        { value: "250+", label: "Projects Completed", iconName: "briefcase" },
+        { value: "120+", label: "Happy Clients", iconName: "users" },
+        { value: "8+", label: "Years of Experience", iconName: "clock" },
+        { value: "35+", label: "Team Members", iconName: "user-check" },
+      ],
+    },
+  }),
+
+  "company.careers": defineSection<CareersData>({
+    pageKey: "company",
+    label: "Careers section",
+    kind: "careers",
+    schema: careersSectionSchema,
+    defaultOrder: 3,
+    defaultData: {
+      eyebrow: "Careers",
+      heading: "Join Our Team",
+      copy:
+        "We're always looking for talented and motivated individuals to pursue an extraordinary journey. Be a part of a team that values creativity, growth and respect.",
+      // Links to /career — the original hardcoded "View All Openings" button
+      // was a dead <button> with no href; the whole point of this section is
+      // that its button is now a real link.
+      buttonLabel: "View All Openings",
+      buttonHref: "/career",
+      cultureItems: [
+        {
+          iconName: "sparkles",
+          title: "Great Culture",
+          description: "Collaborative teammates who genuinely enjoy the work.",
+        },
+        {
+          iconName: "trending-up",
+          title: "Learning & Growth",
+          description: "Ongoing mentorship and room to grow your craft.",
+        },
+        {
+          iconName: "scale",
+          title: "Work Life Balance",
+          description: "Flexible hours that respect your time.",
+        },
+        {
+          iconName: "gift",
+          title: "Competitive Benefits",
+          description: "Health, equity and perks that reward good work.",
+        },
+      ],
+    },
+  }),
+
+  "company.contactCta": defineSection<CtaData>({
+    pageKey: "company",
+    label: "Contact CTA section",
+    kind: "cta",
+    schema: ctaSchema,
+    defaultOrder: 4,
+    defaultData: {
+      variant: "split",
+      headingLines: ["Have Questions?", "Let's Work Together."],
+      subheading:
+        "We'd love to hear about your project and explore how we can help you achieve your goals.",
+      primaryCtaLabel: "Go to Contact Page",
+      primaryCtaHref: "/contact",
+      primaryCtaShowArrow: true,
+      imageUrl: "/rect.png",
+      imageAlt: "Contact us",
+    },
+  }),
+
   "shared.team": defineSection<SectionHeaderData>({
     pageKey: "shared",
     label: "Team section header (shown on Home, Company, Contact)",
