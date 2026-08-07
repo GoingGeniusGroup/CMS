@@ -66,7 +66,7 @@ export default function AppLayout({
           collapsed={collapsed}
           onToggleCollapsed={() => setCollapsed((v) => !v)}
         />
-        <div ref={scrollRef} className="flex-1 overflow-y-auto bg-[#f5f3f3]">
+        <div ref={scrollRef} className="flex-1 overflow-y-auto bg-[var(--color-page)] text-[var(--color-text)]">
           <MobileHeader isOpen={isOpen} onToggle={() => setIsOpen((v) => !v)} />
           <main className="p-4 pb-8 sm:p-6 sm:pb-10 lg:p-8 lg:pb-10">{children}</main>
         </div>

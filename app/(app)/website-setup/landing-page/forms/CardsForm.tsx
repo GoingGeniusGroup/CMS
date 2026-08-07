@@ -114,8 +114,8 @@ export function CardsForm({
         <label className="mb-1 block text-sm font-bold text-zinc-800">Subheading</label>
         <textarea
           rows={2}
-          value={form.subheading ?? ""}
-          onChange={(e) => update("subheading", e.target.value)}
+          value={form.Subheading ?? ""}
+          onChange={(e) => update("Subheading", e.target.value)}
           placeholder="Small line under the heading"
           className={`${inputCls} resize-none`}
         />

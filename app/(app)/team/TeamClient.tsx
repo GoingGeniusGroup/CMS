@@ -141,20 +141,27 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
     const input: TeamMemberInput = {
       fullName: formData.name,
       email: formData.email,
-      phone: formData.phone || undefined,
+      // Note: role/department/status/image intentionally use `|| undefined`
+      // because Prisma's update() treats `undefined` fields as "don't touch
+      // this column" — that's correct here since those fields aren't
+      // user-clearable to empty via this form. The social/contact link
+      // fields below MUST pass through the raw (possibly empty) string so
+      // clearing one to "" actually overwrites the stored value instead of
+      // silently leaving the old link in place.
+      phone: formData.phone,
       image: formData.image || undefined,
       role: formData.designation || undefined,
       department: formData.department || undefined,
       status: formData.status || "Active",
-      bio: formData.description || undefined,
-      location: formData.location || undefined,
-      experience: formData.experience || undefined,
-      skills: formData.skills?.filter(Boolean) || undefined,
-      facebook: formData.facebook || undefined,
-      twitter: formData.twitter || undefined,
-      instagram: formData.instagram || undefined,
-      linkedin: formData.linkedin || undefined,
-      website: formData.website || undefined,
+      bio: formData.description,
+      location: formData.location,
+      experience: formData.experience,
+      skills: formData.skills?.filter(Boolean) || [],
+      facebook: formData.facebook,
+      twitter: formData.twitter,
+      instagram: formData.instagram,
+      linkedin: formData.linkedin,
+      website: formData.website,
     };
 
     // Close modal immediately for snappy feel

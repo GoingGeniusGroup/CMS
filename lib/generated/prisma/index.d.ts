@@ -19854,6 +19854,10 @@ export namespace Prisma {
     metaKeywords: string | null
     themeColor: string | null
     themeTextColor: string | null
+    lightThemeColor: string | null
+    lightThemeTextColor: string | null
+    darkThemeColor: string | null
+    darkThemeTextColor: string | null
     baseColorEnabled: boolean | null
     industryProfile: string | null
     currency: string | null
@@ -19872,6 +19876,10 @@ export namespace Prisma {
     metaKeywords: string | null
     themeColor: string | null
     themeTextColor: string | null
+    lightThemeColor: string | null
+    lightThemeTextColor: string | null
+    darkThemeColor: string | null
+    darkThemeTextColor: string | null
     baseColorEnabled: boolean | null
     industryProfile: string | null
     currency: string | null
@@ -19890,6 +19898,10 @@ export namespace Prisma {
     metaKeywords: number
     themeColor: number
     themeTextColor: number
+    lightThemeColor: number
+    lightThemeTextColor: number
+    darkThemeColor: number
+    darkThemeTextColor: number
     baseColorEnabled: number
     industryProfile: number
     currency: number
@@ -19910,6 +19922,10 @@ export namespace Prisma {
     metaKeywords?: true
     themeColor?: true
     themeTextColor?: true
+    lightThemeColor?: true
+    lightThemeTextColor?: true
+    darkThemeColor?: true
+    darkThemeTextColor?: true
     baseColorEnabled?: true
     industryProfile?: true
     currency?: true
@@ -19928,6 +19944,10 @@ export namespace Prisma {
     metaKeywords?: true
     themeColor?: true
     themeTextColor?: true
+    lightThemeColor?: true
+    lightThemeTextColor?: true
+    darkThemeColor?: true
+    darkThemeTextColor?: true
     baseColorEnabled?: true
     industryProfile?: true
     currency?: true
@@ -19946,6 +19966,10 @@ export namespace Prisma {
     metaKeywords?: true
     themeColor?: true
     themeTextColor?: true
+    lightThemeColor?: true
+    lightThemeTextColor?: true
+    darkThemeColor?: true
+    darkThemeTextColor?: true
     baseColorEnabled?: true
     industryProfile?: true
     currency?: true
@@ -20037,6 +20061,10 @@ export namespace Prisma {
     metaKeywords: string
     themeColor: string
     themeTextColor: string
+    lightThemeColor: string
+    lightThemeTextColor: string
+    darkThemeColor: string
+    darkThemeTextColor: string
     baseColorEnabled: boolean
     industryProfile: string
     currency: string
@@ -20072,6 +20100,10 @@ export namespace Prisma {
     metaKeywords?: boolean
     themeColor?: boolean
     themeTextColor?: boolean
+    lightThemeColor?: boolean
+    lightThemeTextColor?: boolean
+    darkThemeColor?: boolean
+    darkThemeTextColor?: boolean
     baseColorEnabled?: boolean
     industryProfile?: boolean
     currency?: boolean
@@ -20090,6 +20122,10 @@ export namespace Prisma {
     metaKeywords?: boolean
     themeColor?: boolean
     themeTextColor?: boolean
+    lightThemeColor?: boolean
+    lightThemeTextColor?: boolean
+    darkThemeColor?: boolean
+    darkThemeTextColor?: boolean
     baseColorEnabled?: boolean
     industryProfile?: boolean
     currency?: boolean
@@ -20108,6 +20144,10 @@ export namespace Prisma {
     metaKeywords?: boolean
     themeColor?: boolean
     themeTextColor?: boolean
+    lightThemeColor?: boolean
+    lightThemeTextColor?: boolean
+    darkThemeColor?: boolean
+    darkThemeTextColor?: boolean
     baseColorEnabled?: boolean
     industryProfile?: boolean
     currency?: boolean
@@ -20126,6 +20166,10 @@ export namespace Prisma {
     metaKeywords?: boolean
     themeColor?: boolean
     themeTextColor?: boolean
+    lightThemeColor?: boolean
+    lightThemeTextColor?: boolean
+    darkThemeColor?: boolean
+    darkThemeTextColor?: boolean
     baseColorEnabled?: boolean
     industryProfile?: boolean
     currency?: boolean
@@ -20135,7 +20179,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type GeneralSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "description" | "logoUrl" | "faviconUrl" | "metaKeywords" | "themeColor" | "themeTextColor" | "baseColorEnabled" | "industryProfile" | "currency" | "currencySymbol" | "dateFormat" | "numberFormat" | "updatedAt", ExtArgs["result"]["generalSetting"]>
+  export type GeneralSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteName" | "description" | "logoUrl" | "faviconUrl" | "metaKeywords" | "themeColor" | "themeTextColor" | "lightThemeColor" | "lightThemeTextColor" | "darkThemeColor" | "darkThemeTextColor" | "baseColorEnabled" | "industryProfile" | "currency" | "currencySymbol" | "dateFormat" | "numberFormat" | "updatedAt", ExtArgs["result"]["generalSetting"]>
 
   export type $GeneralSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "GeneralSetting"
@@ -20149,6 +20193,10 @@ export namespace Prisma {
       metaKeywords: string
       themeColor: string
       themeTextColor: string
+      lightThemeColor: string
+      lightThemeTextColor: string
+      darkThemeColor: string
+      darkThemeTextColor: string
       baseColorEnabled: boolean
       industryProfile: string
       currency: string
@@ -20587,6 +20635,10 @@ export namespace Prisma {
     readonly metaKeywords: FieldRef<"GeneralSetting", 'String'>
     readonly themeColor: FieldRef<"GeneralSetting", 'String'>
     readonly themeTextColor: FieldRef<"GeneralSetting", 'String'>
+    readonly lightThemeColor: FieldRef<"GeneralSetting", 'String'>
+    readonly lightThemeTextColor: FieldRef<"GeneralSetting", 'String'>
+    readonly darkThemeColor: FieldRef<"GeneralSetting", 'String'>
+    readonly darkThemeTextColor: FieldRef<"GeneralSetting", 'String'>
     readonly baseColorEnabled: FieldRef<"GeneralSetting", 'Boolean'>
     readonly industryProfile: FieldRef<"GeneralSetting", 'String'>
     readonly currency: FieldRef<"GeneralSetting", 'String'>
@@ -40594,6 +40646,10 @@ export namespace Prisma {
     metaKeywords: 'metaKeywords',
     themeColor: 'themeColor',
     themeTextColor: 'themeTextColor',
+    lightThemeColor: 'lightThemeColor',
+    lightThemeTextColor: 'lightThemeTextColor',
+    darkThemeColor: 'darkThemeColor',
+    darkThemeTextColor: 'darkThemeTextColor',
     baseColorEnabled: 'baseColorEnabled',
     industryProfile: 'industryProfile',
     currency: 'currency',
@@ -42159,6 +42215,10 @@ export namespace Prisma {
     metaKeywords?: StringFilter<"GeneralSetting"> | string
     themeColor?: StringFilter<"GeneralSetting"> | string
     themeTextColor?: StringFilter<"GeneralSetting"> | string
+    lightThemeColor?: StringFilter<"GeneralSetting"> | string
+    lightThemeTextColor?: StringFilter<"GeneralSetting"> | string
+    darkThemeColor?: StringFilter<"GeneralSetting"> | string
+    darkThemeTextColor?: StringFilter<"GeneralSetting"> | string
     baseColorEnabled?: BoolFilter<"GeneralSetting"> | boolean
     industryProfile?: StringFilter<"GeneralSetting"> | string
     currency?: StringFilter<"GeneralSetting"> | string
@@ -42177,6 +42237,10 @@ export namespace Prisma {
     metaKeywords?: SortOrder
     themeColor?: SortOrder
     themeTextColor?: SortOrder
+    lightThemeColor?: SortOrder
+    lightThemeTextColor?: SortOrder
+    darkThemeColor?: SortOrder
+    darkThemeTextColor?: SortOrder
     baseColorEnabled?: SortOrder
     industryProfile?: SortOrder
     currency?: SortOrder
@@ -42198,6 +42262,10 @@ export namespace Prisma {
     metaKeywords?: StringFilter<"GeneralSetting"> | string
     themeColor?: StringFilter<"GeneralSetting"> | string
     themeTextColor?: StringFilter<"GeneralSetting"> | string
+    lightThemeColor?: StringFilter<"GeneralSetting"> | string
+    lightThemeTextColor?: StringFilter<"GeneralSetting"> | string
+    darkThemeColor?: StringFilter<"GeneralSetting"> | string
+    darkThemeTextColor?: StringFilter<"GeneralSetting"> | string
     baseColorEnabled?: BoolFilter<"GeneralSetting"> | boolean
     industryProfile?: StringFilter<"GeneralSetting"> | string
     currency?: StringFilter<"GeneralSetting"> | string
@@ -42216,6 +42284,10 @@ export namespace Prisma {
     metaKeywords?: SortOrder
     themeColor?: SortOrder
     themeTextColor?: SortOrder
+    lightThemeColor?: SortOrder
+    lightThemeTextColor?: SortOrder
+    darkThemeColor?: SortOrder
+    darkThemeTextColor?: SortOrder
     baseColorEnabled?: SortOrder
     industryProfile?: SortOrder
     currency?: SortOrder
@@ -42240,6 +42312,10 @@ export namespace Prisma {
     metaKeywords?: StringWithAggregatesFilter<"GeneralSetting"> | string
     themeColor?: StringWithAggregatesFilter<"GeneralSetting"> | string
     themeTextColor?: StringWithAggregatesFilter<"GeneralSetting"> | string
+    lightThemeColor?: StringWithAggregatesFilter<"GeneralSetting"> | string
+    lightThemeTextColor?: StringWithAggregatesFilter<"GeneralSetting"> | string
+    darkThemeColor?: StringWithAggregatesFilter<"GeneralSetting"> | string
+    darkThemeTextColor?: StringWithAggregatesFilter<"GeneralSetting"> | string
     baseColorEnabled?: BoolWithAggregatesFilter<"GeneralSetting"> | boolean
     industryProfile?: StringWithAggregatesFilter<"GeneralSetting"> | string
     currency?: StringWithAggregatesFilter<"GeneralSetting"> | string
@@ -44891,6 +44967,10 @@ export namespace Prisma {
     metaKeywords?: string
     themeColor?: string
     themeTextColor?: string
+    lightThemeColor?: string
+    lightThemeTextColor?: string
+    darkThemeColor?: string
+    darkThemeTextColor?: string
     baseColorEnabled?: boolean
     industryProfile?: string
     currency?: string
@@ -44909,6 +44989,10 @@ export namespace Prisma {
     metaKeywords?: string
     themeColor?: string
     themeTextColor?: string
+    lightThemeColor?: string
+    lightThemeTextColor?: string
+    darkThemeColor?: string
+    darkThemeTextColor?: string
     baseColorEnabled?: boolean
     industryProfile?: string
     currency?: string
@@ -44927,6 +45011,10 @@ export namespace Prisma {
     metaKeywords?: StringFieldUpdateOperationsInput | string
     themeColor?: StringFieldUpdateOperationsInput | string
     themeTextColor?: StringFieldUpdateOperationsInput | string
+    lightThemeColor?: StringFieldUpdateOperationsInput | string
+    lightThemeTextColor?: StringFieldUpdateOperationsInput | string
+    darkThemeColor?: StringFieldUpdateOperationsInput | string
+    darkThemeTextColor?: StringFieldUpdateOperationsInput | string
     baseColorEnabled?: BoolFieldUpdateOperationsInput | boolean
     industryProfile?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
@@ -44945,6 +45033,10 @@ export namespace Prisma {
     metaKeywords?: StringFieldUpdateOperationsInput | string
     themeColor?: StringFieldUpdateOperationsInput | string
     themeTextColor?: StringFieldUpdateOperationsInput | string
+    lightThemeColor?: StringFieldUpdateOperationsInput | string
+    lightThemeTextColor?: StringFieldUpdateOperationsInput | string
+    darkThemeColor?: StringFieldUpdateOperationsInput | string
+    darkThemeTextColor?: StringFieldUpdateOperationsInput | string
     baseColorEnabled?: BoolFieldUpdateOperationsInput | boolean
     industryProfile?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
@@ -44963,6 +45055,10 @@ export namespace Prisma {
     metaKeywords?: string
     themeColor?: string
     themeTextColor?: string
+    lightThemeColor?: string
+    lightThemeTextColor?: string
+    darkThemeColor?: string
+    darkThemeTextColor?: string
     baseColorEnabled?: boolean
     industryProfile?: string
     currency?: string
@@ -44981,6 +45077,10 @@ export namespace Prisma {
     metaKeywords?: StringFieldUpdateOperationsInput | string
     themeColor?: StringFieldUpdateOperationsInput | string
     themeTextColor?: StringFieldUpdateOperationsInput | string
+    lightThemeColor?: StringFieldUpdateOperationsInput | string
+    lightThemeTextColor?: StringFieldUpdateOperationsInput | string
+    darkThemeColor?: StringFieldUpdateOperationsInput | string
+    darkThemeTextColor?: StringFieldUpdateOperationsInput | string
     baseColorEnabled?: BoolFieldUpdateOperationsInput | boolean
     industryProfile?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
@@ -44999,6 +45099,10 @@ export namespace Prisma {
     metaKeywords?: StringFieldUpdateOperationsInput | string
     themeColor?: StringFieldUpdateOperationsInput | string
     themeTextColor?: StringFieldUpdateOperationsInput | string
+    lightThemeColor?: StringFieldUpdateOperationsInput | string
+    lightThemeTextColor?: StringFieldUpdateOperationsInput | string
+    darkThemeColor?: StringFieldUpdateOperationsInput | string
+    darkThemeTextColor?: StringFieldUpdateOperationsInput | string
     baseColorEnabled?: BoolFieldUpdateOperationsInput | boolean
     industryProfile?: StringFieldUpdateOperationsInput | string
     currency?: StringFieldUpdateOperationsInput | string
@@ -47493,6 +47597,10 @@ export namespace Prisma {
     metaKeywords?: SortOrder
     themeColor?: SortOrder
     themeTextColor?: SortOrder
+    lightThemeColor?: SortOrder
+    lightThemeTextColor?: SortOrder
+    darkThemeColor?: SortOrder
+    darkThemeTextColor?: SortOrder
     baseColorEnabled?: SortOrder
     industryProfile?: SortOrder
     currency?: SortOrder
@@ -47511,6 +47619,10 @@ export namespace Prisma {
     metaKeywords?: SortOrder
     themeColor?: SortOrder
     themeTextColor?: SortOrder
+    lightThemeColor?: SortOrder
+    lightThemeTextColor?: SortOrder
+    darkThemeColor?: SortOrder
+    darkThemeTextColor?: SortOrder
     baseColorEnabled?: SortOrder
     industryProfile?: SortOrder
     currency?: SortOrder
@@ -47529,6 +47641,10 @@ export namespace Prisma {
     metaKeywords?: SortOrder
     themeColor?: SortOrder
     themeTextColor?: SortOrder
+    lightThemeColor?: SortOrder
+    lightThemeTextColor?: SortOrder
+    darkThemeColor?: SortOrder
+    darkThemeTextColor?: SortOrder
     baseColorEnabled?: SortOrder
     industryProfile?: SortOrder
     currency?: SortOrder

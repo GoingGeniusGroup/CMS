@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { z } from "zod";
 import { unstable_cache, updateTag } from "next/cache";
 import { saveCustomFieldValues } from "./custom-fields";
+import { serviceSlug } from "@/lib/service-slug";
 
 const serviceSchema = z.object({
   serviceName: z.string().min(2, "Service name must be at least 2 characters"),
@@ -83,18 +84,9 @@ export async function getServicesPaginated(page = 1, pageSize = 10) {
   };
 }
 
-function slugify(text: string) {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .trim();
-}
-
 export async function getServiceBySlug(slug: string) {
   const services = await prisma.service.findMany();
-  return services.find((s) => slugify(s.serviceName) === slug) || null;
+  return services.find((s) => serviceSlug(s.serviceName) === slug) || null;
 }
 
 // Create a service

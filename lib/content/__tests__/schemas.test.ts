@@ -121,7 +121,7 @@ describe("parseSectionData — fallback-on-invalid behavior", () => {
   });
 
   it("falls back to the registry default when data is missing required fields entirely", () => {
-    const result = parseSectionData("home.hero", { subheading: "only this" });
+    const result = parseSectionData("home.hero", { Subheading: "only this" });
     expect(result).toEqual(SECTION_REGISTRY["home.hero"].defaultData);
   });
 });

@@ -17,8 +17,8 @@ export async function generateMetadata(): Promise<Metadata> {
   // Settings > General (default title set in app/(user)/layout.tsx). Only the
   // description is derived from hero content.
   const heroSection = await getSection("our-services", "our-services.hero");
-  const description = heroSection.data.subheading
-    ? await resolveTokensOnServer(heroSection.data.subheading)
+  const description = heroSection.data.Subheading
+    ? await resolveTokensOnServer(heroSection.data.Subheading)
     : undefined;
   return { description };
 }

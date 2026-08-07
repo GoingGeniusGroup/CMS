@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { UserProfile } from "@/components/UserProfile";
 import { signOut } from "next-auth/react";
 import { useConfig } from "@/components/ConfigProvider";
+import { ThemeSelector } from "@/components/ThemeSelector";
 
 import {
   Home,
@@ -89,7 +90,7 @@ export function MobileHeader({
   onToggle: () => void;
 }) {
   return (
-    <header className="flex items-center justify-between border-b border-white/10 bg-[#0a0a0b] px-4 py-3 md:hidden">
+    <header className="flex items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface-raised)] px-4 py-3 md:hidden">
       <div className="flex items-center gap-2">
         <Image
           src="/logo2.png"
@@ -99,20 +100,23 @@ export function MobileHeader({
           className="h-9 w-8 object-contain"
           priority
         />
-        <span className="text-sm font-bold text-white">
+        <span className="text-sm font-bold text-[var(--color-text)]">
           Going <span className="text-[#f0b90b]">Genius</span>
         </span>
       </div>
-      <button
-        type="button"
-        aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-        aria-expanded={isOpen}
-        aria-controls="primary-sidebar"
-        onClick={onToggle}
-        className="rounded-md p-2 text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]"
-      >
-        {isOpen ? <X size={22} /> : <Menu size={22} />}
-      </button>
+      <div className="flex items-center gap-2">
+        <ThemeSelector compact />
+        <button
+          type="button"
+          aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={isOpen}
+          aria-controls="primary-sidebar"
+          onClick={onToggle}
+          className="rounded-md p-2 text-[var(--color-text)] transition-colors hover:bg-[var(--color-surface-sunken)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
+        >
+          {isOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </div>
     </header>
   );
 }

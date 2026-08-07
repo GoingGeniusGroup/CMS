@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  const adminEmail = "admin@goinggenius.com";
+  const adminEmail = "admin1@goinggenius.com";
   const adminPassword = "Admin@123"; // Change this to a secure password
 
   // Check if admin already exists

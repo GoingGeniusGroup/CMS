@@ -22,8 +22,8 @@ export async function generateMetadata(): Promise<Metadata> {
   // title in app/(user)/layout.tsx). Only the description is derived from the
   // hero content, for SEO/share-preview purposes.
   const heroSection = await getSection("blogs", "blogs.hero");
-  const description = heroSection.data.subheading
-    ? await resolveTokensOnServer(heroSection.data.subheading)
+  const description = heroSection.data.Subheading
+    ? await resolveTokensOnServer(heroSection.data.Subheading)
     : undefined;
   return { description };
 }

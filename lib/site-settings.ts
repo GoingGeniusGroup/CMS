@@ -9,6 +9,10 @@ export type SiteSettings = {
   metaKeywords: string;
   themeColor: string;
   themeTextColor: string;
+  lightThemeColor: string;
+  lightThemeTextColor: string;
+  darkThemeColor: string;
+  darkThemeTextColor: string;
   baseColorEnabled: boolean;
 };
 
@@ -20,6 +24,10 @@ const DEFAULTS: SiteSettings = {
   metaKeywords: "",
   themeColor: "#fe9a00",
   themeTextColor: "#ffffff",
+  lightThemeColor: "#fe9a00",
+  lightThemeTextColor: "#000000",
+  darkThemeColor: "#fbbf24",
+  darkThemeTextColor: "#18181b",
   baseColorEnabled: true,
 };
 
@@ -47,6 +55,10 @@ export const getSiteSettings = unstable_cache(
         metaKeywords: row.metaKeywords || DEFAULTS.metaKeywords,
         themeColor: row.themeColor || DEFAULTS.themeColor,
         themeTextColor: row.themeTextColor || DEFAULTS.themeTextColor,
+        lightThemeColor: row.lightThemeColor || row.themeColor || DEFAULTS.lightThemeColor,
+        lightThemeTextColor: row.lightThemeTextColor || row.themeTextColor || DEFAULTS.lightThemeTextColor,
+        darkThemeColor: row.darkThemeColor || DEFAULTS.darkThemeColor,
+        darkThemeTextColor: row.darkThemeTextColor || DEFAULTS.darkThemeTextColor,
         baseColorEnabled: row.baseColorEnabled,
       };
     } catch {
@@ -56,4 +68,3 @@ export const getSiteSettings = unstable_cache(
   ["site-settings"],
   { revalidate: 60, tags: ["site-settings"] }
 );
-  

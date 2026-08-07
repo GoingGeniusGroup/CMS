@@ -55,9 +55,9 @@ export function ContactCtaSection({
                 ))}
               </h2>
             </div>
-            {data.subheading && (
+            {data.Subheading && (
               <p className="mt-4 max-w-sm text-sm leading-relaxed text-gray-400">
-                {resolveLabel(data.subheading)}
+                {resolveLabel(data.Subheading)}
               </p>
             )}
           </div>

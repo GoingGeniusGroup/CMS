@@ -1,10 +1,15 @@
+import { ThemeSelector } from "@/components/ThemeSelector";
+
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-full flex-col items-center justify-center bg-[#f5f3f3] px-4 py-12">
+    <div className="relative flex min-h-full flex-col items-center justify-center bg-[var(--color-page)] px-4 py-12 text-[var(--color-text)]">
+      <div className="absolute right-4 top-4">
+        <ThemeSelector compact />
+      </div>
       <div className="mb-8 text-center">
         <h1 className="text-2xl font-bold text-gray-900">
           Going <span className="text-[#f0b90b]">Genius</span>

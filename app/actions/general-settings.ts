@@ -2,8 +2,9 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { updateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { getProfileConfig, isCustomProfile } from "@/lib/config/industry-profiles";
+import { contrastRatio, normalizeHex } from "@/lib/color-contrast";
 
 export type GeneralSettingInput = {
   siteName: string;
@@ -13,6 +14,10 @@ export type GeneralSettingInput = {
   metaKeywords: string;
   themeColor: string;
   themeTextColor: string;
+  lightThemeColor: string;
+  lightThemeTextColor: string;
+  darkThemeColor: string;
+  darkThemeTextColor: string;
   baseColorEnabled: boolean;
   industryProfile: string;
   currency?: string;
@@ -36,6 +41,10 @@ export async function getGeneralSettings() {
       metaKeywords: "",
       themeColor: "#fe9a00",
       themeTextColor: "#ffffff",
+      lightThemeColor: "#fe9a00",
+      lightThemeTextColor: "#000000",
+      darkThemeColor: "#fbbf24",
+      darkThemeTextColor: "#18181b",
       baseColorEnabled: true,
       industryProfile: "Generic",
       currency: "NPR",
@@ -53,6 +62,10 @@ export async function getGeneralSettings() {
     metaKeywords: setting.metaKeywords,
     themeColor: setting.themeColor,
     themeTextColor: setting.themeTextColor,
+    lightThemeColor: setting.lightThemeColor || setting.themeColor || "#fe9a00",
+    lightThemeTextColor: setting.lightThemeTextColor || setting.themeTextColor || "#000000",
+    darkThemeColor: setting.darkThemeColor || "#fbbf24",
+    darkThemeTextColor: setting.darkThemeTextColor || "#18181b",
     baseColorEnabled: setting.baseColorEnabled,
     industryProfile: setting.industryProfile || "Generic",
     currency: setting.currency,
@@ -125,6 +138,30 @@ export async function saveGeneralSettings(data: GeneralSettingInput) {
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
   try {
+    const palettes = [
+      ["Light", data.lightThemeColor, data.lightThemeTextColor],
+      ["Dark", data.darkThemeColor, data.darkThemeTextColor],
+    ] as const;
+    for (const [name, color, textColor] of palettes) {
+      const primary = normalizeHex(color);
+      const onPrimary = normalizeHex(textColor);
+      if (!primary || !onPrimary) {
+        return { success: false, error: `${name} theme colors must be valid hex values.` };
+      }
+      if (contrastRatio(primary, onPrimary) < 4.5) {
+        return { success: false, error: `${name} theme text color must have at least 4.5:1 contrast.` };
+      }
+      if (name === "Light") {
+        data.lightThemeColor = primary;
+        data.lightThemeTextColor = onPrimary;
+        // Keep legacy fields current until the compatibility cleanup release.
+        data.themeColor = primary;
+        data.themeTextColor = onPrimary;
+      } else {
+        data.darkThemeColor = primary;
+        data.darkThemeTextColor = onPrimary;
+      }
+    }
     const existing = await prisma.generalSetting.findFirst();
     const previousProfile = existing?.industryProfile || "Generic";
     const nextProfile = data.industryProfile || "Generic";
@@ -140,11 +177,15 @@ export async function saveGeneralSettings(data: GeneralSettingInput) {
       await applyIndustryProfile(nextProfile);
       // Switching profile seeds new label overrides, so the public label cache
       // must be invalidated too.
-      updateTag("entity-labels");
+      revalidateTag("entity-labels", { expire: 0 });
     }
 
     // Invalidate the public site-settings Data Cache (site name, logo, theme, etc.).
-    updateTag("site-settings");
+    // NOTE: getSiteSettings() uses the legacy unstable_cache API with `tags`,
+    // which is only invalidated by revalidateTag() — updateTag() only affects
+    // caches created with cacheTag()/`use cache`, so it silently did nothing here.
+    // { expire: 0 } forces immediate expiration so the change shows right away.
+    revalidateTag("site-settings", { expire: 0 });
     return { success: true };
   } catch (err) {
     console.error("saveGeneralSettings error:", err);

@@ -164,9 +164,12 @@ export default async function ProjectDetailPage({
             </div>
 
             {project.thumbnail && (
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-200">
-                <Image src={project.thumbnail} alt={project.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" priority />
-              </div>
+              <ProjectImageFrame
+                src={project.thumbnail}
+                alt={project.title}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+              />
             )}
           </div>
         </div>
@@ -290,34 +293,6 @@ export default async function ProjectDetailPage({
         </section>
       )}
 
-      {/* ─── Process ─── */}
-      <section className="bg-white px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex items-center gap-2">
-            <div className="h-6 w-1 rounded-full bg-indigo-600" />
-            <h2 className="text-2xl font-extrabold italic text-zinc-900">How We Work</h2>
-          </div>
-          <div className="mt-10 flex flex-wrap items-start justify-center lg:flex-nowrap">
-            {PROCESS_STEPS.map(({ icon: Icon, step, title }, i) => (
-              <div key={step} className="w-1/2 sm:w-1/3 lg:w-auto flex flex-col px-2 sm:px-4 lg:px-0">
-                <div className="flex items-center">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-zinc-200 bg-white shadow-sm shrink-0">
-                    <Icon className="h-6 w-6 text-indigo-600" />
-                  </div>
-                  {i < PROCESS_STEPS.length - 1 && (
-                    <div className="hidden lg:block h-0.5 w-36 bg-indigo-200" />
-                  )}
-                </div>
-                <p className="text-[10px] font-bold text-zinc-400 mt-3 text-center w-14">{step}</p>
-                <div className="w-14">
-                  <h4 className="mt-1 text-sm font-bold text-zinc-900 text-center leading-tight">{title}</h4>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ─── Results ─── */}
       {results.length > 0 && (
         <section className="bg-white px-4 py-12 sm:px-6 lg:px-8">
@@ -352,9 +327,7 @@ export default async function ProjectDetailPage({
             </div>
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {gallery.map((img, idx) => (
-                <div key={idx} className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-zinc-100">
-                  <Image src={img} alt={`Gallery ${idx + 1}`} fill sizes="(max-width: 640px) 50vw, 25vw" className="object-cover" />
-                </div>
+                <ProjectImageFrame key={idx} src={img} alt={`Gallery ${idx + 1}`} sizes="(max-width: 640px) 50vw, 25vw" />
               ))}
             </div>
           </div>
@@ -378,9 +351,7 @@ export default async function ProjectDetailPage({
               {relatedProjects.map((rp) => (
                 <div key={rp.id} className="group">
                   {rp.thumbnail && (
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-100">
-                      <Image src={rp.thumbnail} alt={rp.title} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-cover transition-transform group-hover:scale-105" />
-                    </div>
+                    <ProjectImageFrame src={rp.thumbnail} alt={rp.title} sizes="(max-width: 640px) 100vw, 33vw" />
                   )}
                   <div className={rp.thumbnail ? "mt-4" : ""}>
                     {rp.category && (
@@ -441,6 +412,37 @@ function SummaryItem({ icon: Icon, label, value }: { icon: React.ElementType; la
         <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">{label}</p>
         <p className="text-sm font-semibold text-zinc-900">{value}</p>
       </div>
+    </div>
+  );
+}
+
+/**
+ * Keeps any uploaded asset fully visible. Large source files are displayed at
+ * the frame's rendered size by the browser, while the quiet surface avoids
+ * empty/cropped-looking edges on logos, portraits, and wide screenshots.
+ */
+function ProjectImageFrame({
+  src,
+  alt,
+  sizes,
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  sizes: string;
+  priority?: boolean;
+}) {
+  return (
+    <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-100 shadow-inner">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes={sizes}
+        priority={priority}
+        quality={60}
+        className="object-contain p-3"
+      />
     </div>
   );
 }

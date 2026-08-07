@@ -38,9 +38,9 @@ export function CardsSection({ data }: { data: CardsData }) {
                   {resolveLabel(data.heading)}
                 </h2>
               )}
-              {data.subheading && (
+              {data.Subheading && (
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-500">
-                  {resolveLabel(data.subheading)}
+                  {resolveLabel(data.Subheading)}
                 </p>
               )}
             </RevealOnScroll>
@@ -104,9 +104,9 @@ export function CardsSection({ data }: { data: CardsData }) {
               {resolveLabel(data.heading)}
             </h2>
           )}
-          {data.subheading && (
+          {data.Subheading && (
             <p className="mx-auto mt-3 max-w-md text-sm text-zinc-500">
-              {resolveLabel(data.subheading)}
+              {resolveLabel(data.Subheading)}
             </p>
           )}
         </RevealOnScroll>

@@ -30,6 +30,10 @@ async function main() {
     metaKeywords: "going genius, web development, app development, digital agency, nepal",
     themeColor: "#fe9a00",
     themeTextColor: "#000000",
+    lightThemeColor: "#fe9a00",
+    lightThemeTextColor: "#000000",
+    darkThemeColor: "#fbbf24",
+    darkThemeTextColor: "#18181b",
     baseColorEnabled: true,
   });
   console.log("  ✓ General settings");

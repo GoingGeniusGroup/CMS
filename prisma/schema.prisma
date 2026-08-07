@@ -69,53 +69,53 @@ model Team {
 }
 
 model Service {
-  id           String     @id @default(cuid())
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  basePrice    Float?
-  category     String?
-  description  String?
+  id            String     @id @default(cuid())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  basePrice     Float?
+  category      String?
+  description   String?
   serviceDetail String?
-  isActive     Boolean    @default(true)
-  isFeatured   Boolean    @default(false)
-  serviceName  String
-  thumbnailUrl String?
-  customers    Customer[] @relation("CustomerService")
-  projects     Project[]
+  isActive      Boolean    @default(true)
+  isFeatured    Boolean    @default(false)
+  serviceName   String
+  thumbnailUrl  String?
+  customers     Customer[] @relation("CustomerService")
+  projects      Project[]
 
   @@map("services")
 }
 
 model Project {
-  id          String      @id @default(cuid())
-  title       String
-  slug        String?     @unique
-  description String?
-  overview    String?
-  status      String      @default("Draft")
-  category    String?
-  liveUrl     String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  budget      Float?
-  customerId  String?
-  endDate     DateTime?
-  serviceId   String?
-  startDate   DateTime?
-  teamId      String?
-  thumbnail   String?
-  gallery     String[]    @default([])
-  features    Json?
-  highlights  String[]    @default([])
-  challenges  String[]    @default([])
-  solutions   String[]    @default([])
-  technologies String[]   @default([])
-  results     Json?
-  analytics   Analytics[]
-  invoices    InvoiceProject[]
-  customer    Customer?   @relation(fields: [customerId], references: [id])
-  service     Service?    @relation(fields: [serviceId], references: [id])
-  team        Team?       @relation(fields: [teamId], references: [id])
+  id           String           @id @default(cuid())
+  title        String
+  slug         String?          @unique
+  description  String?
+  overview     String?
+  status       String           @default("Draft")
+  category     String?
+  liveUrl      String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  budget       Float?
+  customerId   String?
+  endDate      DateTime?
+  serviceId    String?
+  startDate    DateTime?
+  teamId       String?
+  thumbnail    String?
+  gallery      String[]         @default([])
+  features     Json?
+  highlights   String[]         @default([])
+  challenges   String[]         @default([])
+  solutions    String[]         @default([])
+  technologies String[]         @default([])
+  results      Json?
+  analytics    Analytics[]
+  invoices     InvoiceProject[]
+  customer     Customer?        @relation(fields: [customerId], references: [id])
+  service      Service?         @relation(fields: [serviceId], references: [id])
+  team         Team?            @relation(fields: [teamId], references: [id])
 
   @@index([status, createdAt])
   @@index([status, startDate, endDate])
@@ -143,19 +143,19 @@ model Blog {
 }
 
 model Invoice {
-  id            String    @id @default(cuid())
+  id            String           @id @default(cuid())
   customerId    String?
-  invoiceNumber String    @unique
+  invoiceNumber String           @unique
   category      String?
-  amount        Float     @default(0)
-  tax           Float     @default(0)
-  total         Float     @default(0)
-  status        String    @default("Pending")
+  amount        Float            @default(0)
+  tax           Float            @default(0)
+  total         Float            @default(0)
+  status        String           @default("Pending")
   issuedDate    DateTime?
   dueDate       DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  customer      Customer? @relation(fields: [customerId], references: [id])
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  customer      Customer?        @relation(fields: [customerId], references: [id])
   projects      InvoiceProject[]
 
   @@index([status, createdAt])
@@ -197,18 +197,18 @@ model PopupSetting {
 }
 
 model Page {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  content     Json?
-  thumbnail   String?
-  metaTitle   String?
-  metaDesc    String?
-  keywords    String?
-  metaImage   String?
-  status      String   @default("Draft")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   Json?
+  thumbnail String?
+  metaTitle String?
+  metaDesc  String?
+  keywords  String?
+  metaImage String?
+  status    String   @default("Draft")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("pages")
 }
@@ -244,21 +244,25 @@ model AppearanceSetting {
 }
 
 model GeneralSetting {
-  id               String   @id @default(cuid())
-  siteName         String   @default("")
-  description      String   @default("")
-  logoUrl          String   @default("")
-  faviconUrl       String   @default("")
-  metaKeywords     String   @default("")
-  themeColor       String   @default("#6366f1")
-  themeTextColor   String   @default("#ffffff")
-  baseColorEnabled Boolean  @default(true)
-  industryProfile  String   @default("generic")
-  currency         String   @default("NPR")
-  currencySymbol   String   @default("Rs.")
-  dateFormat       String   @default("DD/MM/YYYY")
-  numberFormat     String   @default("en-US")
-  updatedAt        DateTime @updatedAt
+  id                  String   @id @default(cuid())
+  siteName            String   @default("")
+  description         String   @default("")
+  logoUrl             String   @default("")
+  faviconUrl          String   @default("")
+  metaKeywords        String   @default("")
+  themeColor          String   @default("#6366f1")
+  themeTextColor      String   @default("#ffffff")
+  lightThemeColor     String   @default("#fe9a00")
+  lightThemeTextColor String   @default("#000000")
+  darkThemeColor      String   @default("#fbbf24")
+  darkThemeTextColor  String   @default("#18181b")
+  baseColorEnabled    Boolean  @default(true)
+  industryProfile     String   @default("generic")
+  currency            String   @default("NPR")
+  currencySymbol      String   @default("Rs.")
+  dateFormat          String   @default("DD/MM/YYYY")
+  numberFormat        String   @default("en-US")
+  updatedAt           DateTime @updatedAt
 
   @@map("general_settings")
 }
@@ -333,12 +337,12 @@ model EmailSetting {
 }
 
 model SecuritySetting {
-  id                 String   @id @default(cuid())
-  twoFactorEnabled   Boolean  @default(false)
-  loginAttempts      Int      @default(5)
-  sessionTimeout     Int      @default(30)
-  passwordMinLength  Int      @default(8)
-  updatedAt          DateTime @updatedAt
+  id                String   @id @default(cuid())
+  twoFactorEnabled  Boolean  @default(false)
+  loginAttempts     Int      @default(5)
+  sessionTimeout    Int      @default(30)
+  passwordMinLength Int      @default(8)
+  updatedAt         DateTime @updatedAt
 
   @@map("security_settings")
 }
@@ -366,42 +370,42 @@ model WebsiteHeader {
 }
 
 model FooterSetting {
-  id             String   @id @default(cuid())
-  footerLogoUrl  String   @default("")
-  brandText      String   @default("Going Genius Group of Companies")
-  aboutDesc      String   @default("")
-  copyrightText  String   @default("")
-  playStoreLink  String   @default("")
-  appStoreLink   String   @default("")
-  paymentLogos   Json     @default("[]")
-  socials        Json     @default("[]")
-  linkColumns    Json     @default("[]")
-  updatedAt      DateTime @updatedAt
+  id            String   @id @default(cuid())
+  footerLogoUrl String   @default("")
+  brandText     String   @default("Going Genius Group of Companies")
+  aboutDesc     String   @default("")
+  copyrightText String   @default("")
+  playStoreLink String   @default("")
+  appStoreLink  String   @default("")
+  paymentLogos  Json     @default("[]")
+  socials       Json     @default("[]")
+  linkColumns   Json     @default("[]")
+  updatedAt     DateTime @updatedAt
 
   @@map("footer_settings")
 }
 
 model Job {
-  id              String   @id @default(cuid())
-  title           String
-  department      String   @default("")
-  type            String   @default("Full-time")
-  mode            String   @default("Remote")
-  location        String   @default("")
-  salaryRange     String   @default("")
-  experience      String   @default("")
-  vacanciesCount  Int      @default(1)
-  deadline        DateTime?
-  isActive        Boolean  @default(true)
-  isFeatured      Boolean  @default(false)
-  tags            String[] @default([])
-  description     String   @default("")
-  responsibilities String[] @default([])
-  requirements    String[] @default([])
-  thumbnailUrl    String   @default("")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  applicants      Applicant[]
+  id               String      @id @default(cuid())
+  title            String
+  department       String      @default("")
+  type             String      @default("Full-time")
+  mode             String      @default("Remote")
+  location         String      @default("")
+  salaryRange      String      @default("")
+  experience       String      @default("")
+  vacanciesCount   Int         @default(1)
+  deadline         DateTime?
+  isActive         Boolean     @default(true)
+  isFeatured       Boolean     @default(false)
+  tags             String[]    @default([])
+  description      String      @default("")
+  responsibilities String[]    @default([])
+  requirements     String[]    @default([])
+  thumbnailUrl     String      @default("")
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  applicants       Applicant[]
 
   @@map("jobs")
 }
@@ -448,17 +452,17 @@ model LabelOverride {
 }
 
 model CustomField {
-  id           String   @id @default(cuid())
+  id           String             @id @default(cuid())
   moduleKey    String
   fieldKey     String
   label        String
-  type         String   @default("text")
+  type         String             @default("text")
   options      Json?
-  required     Boolean  @default(false)
-  displayOrder Int      @default(0)
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  required     Boolean            @default(false)
+  displayOrder Int                @default(0)
+  isActive     Boolean            @default(true)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
   values       CustomFieldValue[]
 
   @@unique([moduleKey, fieldKey])

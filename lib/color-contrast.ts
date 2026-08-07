@@ -47,3 +47,17 @@ export function getReadableTextColor(backgroundHex: string): string {
   const contrastWithBlack = (L + 0.05) / 0.05;
   return contrastWithBlack >= contrastWithWhite ? "#000000" : "#ffffff";
 }
+
+/** WCAG contrast ratio for two valid hex colors. Invalid input returns 0. */
+export function contrastRatio(backgroundHex: string, foregroundHex: string): number {
+  if (!parseHex(backgroundHex) || !parseHex(foregroundHex)) return 0;
+  const background = relativeLuminance(backgroundHex);
+  const foreground = relativeLuminance(foregroundHex);
+  return (Math.max(background, foreground) + 0.05) / (Math.min(background, foreground) + 0.05);
+}
+
+export function normalizeHex(hex: string): string | null {
+  const rgb = parseHex(hex);
+  if (!rgb) return null;
+  return `#${rgb.map((value) => value.toString(16).padStart(2, "0")).join("")}`;
+}

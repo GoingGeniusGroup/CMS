@@ -76,7 +76,7 @@ function Products({ data }: { data: CardsData }) {
 // (dynamic content from database — see FaqSection component)
 
 // ─── Metadata (Task 24, Phase 19) ───────────────────────────────────────────
-// Derived from the hero's own heading/subheading, so the browser tab and any
+// Derived from the hero's own heading/Subheading, so the browser tab and any
 // share preview reflect whatever an admin has actually configured for the
 // homepage hero — rather than a static string unrelated to the visible page.
 
@@ -85,8 +85,8 @@ export async function generateMetadata(): Promise<Metadata> {
   // Settings > General (default title set in app/(user)/layout.tsx). Only the
   // description is derived from hero content.
   const heroSection = await getSection("home", "home.hero");
-  const description = heroSection.data.subheading
-    ? await resolveTokensOnServer(heroSection.data.subheading)
+  const description = heroSection.data.Subheading
+    ? await resolveTokensOnServer(heroSection.data.Subheading)
     : undefined;
   return { description };
 }

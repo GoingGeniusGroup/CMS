@@ -14,7 +14,7 @@ Four gaps still hard-code the product to one organization type:
    `/customer`. Same on the client site: `/our-projects` stays even when the
    entity is "Menu".
 2. **Client-facing page bodies are hardcoded.** Section eyebrows/headings/
-   sub-headings ("Our Services", "What We Do Best", "Meet the Geniuses"), the
+   Subheadings ("Our Services", "What We Do Best", "Meet the Geniuses"), the
    Products cards, and CTA button labels are literals inside components. Only the
    navbar is DB-driven (`WebsiteHeader.menuItems`).
 3. **Every client page has its own bespoke hardcoded hero.** `home`,
@@ -263,7 +263,7 @@ reorderable, toggleable row (drag handle, visibility switch, "Edit"), driven by
 
 **Task 14: Section editors**
 A `SectionEditor` rendering the right form from the registry: text inputs for
-eyebrow/heading/subheading, CTA label+href pairs, and `ImageUploader` where the
+eyebrow/heading/Subheading, CTA label+href pairs, and `ImageUploader` where the
 schema declares an image. Reuse the sticky-header + Save/Cancel pattern from the
 existing Settings pages for consistency.
 *Test:* required fields block save; a bad CTA URL is flagged.

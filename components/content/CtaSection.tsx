@@ -37,9 +37,9 @@ export function CtaSection({ data }: { data: CtaData }) {
                 </span>
               ))}
             </h2>
-            {data.subheading && (
+            {data.Subheading && (
               <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-zinc-500">
-                {resolveLabel(data.subheading)}
+                {resolveLabel(data.Subheading)}
               </p>
             )}
             {ctas(data)}
@@ -65,9 +65,9 @@ export function CtaSection({ data }: { data: CtaData }) {
             </span>
           ))}
         </h2>
-        {data.subheading && (
+        {data.Subheading && (
           <p className="mt-4 max-w-md text-sm leading-relaxed text-zinc-500">
-            {resolveLabel(data.subheading)}
+            {resolveLabel(data.Subheading)}
           </p>
         )}
         {data.primaryCtaLabel || data.secondaryCtaLabel ? (

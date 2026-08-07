@@ -37,7 +37,7 @@ All new sections follow the existing pattern: zod schema + entry in `SECTION_REG
 
 ## Phase 3 — about-us (DONE)
 
-- **New kinds**: `timeline` (`timelineSectionSchema`: heading, copy, image, items[{year, title, description}]) and `twoColumn` (`twoColumnSectionSchema`: eyebrow, heading, copy, 2 columns[{icon, title, description}], button) + forms. `cardsSchema` gained `variant` (`grid` = centered icon-card grid on a tinted band / `list` = left-aligned icon list in a bordered box) + optional `subheading`; `HERO_STAT_ICONS` extended (heart/users/globe/star/lightbulb/shield/trending-up/bar-chart-2/scale).
+- **New kinds**: `timeline` (`timelineSectionSchema`: heading, copy, image, items[{year, title, description}]) and `twoColumn` (`twoColumnSectionSchema`: eyebrow, heading, copy, 2 columns[{icon, title, description}], button) + forms. `cardsSchema` gained `variant` (`grid` = centered icon-card grid on a tinted band / `list` = left-aligned icon list in a bordered box) + optional `Subheading`; `HERO_STAT_ICONS` extended (heart/users/globe/star/lightbulb/shield/trending-up/bar-chart-2/scale).
 - Registry: `about-us.stats` (250+/120+/8+/40+), `about-us.story` (2021–2024 timeline + `/career3.png`), `about-us.missionVision` (twoColumn), `about-us.values` (reuses `cards` grid, 5 values), `about-us.whyUs` (reuses `cards` list, 4 items), `about-us.cta` (centered "Let's build something amazing together" → `/contact`).
 - Page: `TimelineSection`/`TwoColumnSection`/`CardsSection` (shared, in `components/content/`) + `StatsSection`; all hardcoded sections replaced; hero's `#our-story` anchor preserved on the timeline section.
 - Verify: seed (6 new rows), tsc, eslint, build, about-us 200 with all copy, home/our-services/our-projects regressions OK.

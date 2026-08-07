@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { images } from "@/lib/images";
+import { ThemeSelector } from "@/components/ThemeSelector";
 
 type SubMenuItem = { label: string; path: string };
 type MenuItem = { label: string; path: string; children?: SubMenuItem[] };
@@ -61,7 +62,7 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
   const navItems = menuItems.length > 0 ? menuItems : fallbackLinks;
 
   return (
-    <header className="z-50 border-b border-zinc-200 bg-white/95 backdrop-blur shadow-sm">
+    <header className="z-50 border-b border-[var(--color-border)] bg-[var(--color-surface)]/95 backdrop-blur shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/home" className="flex items-center gap-2">
           <Image
@@ -73,7 +74,7 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
             style={{ width: "auto" }}
             unoptimized
           />
-          <span className="text-sm font-bold text-zinc-900">{siteName}</span>
+          <span className="text-sm font-bold text-[var(--color-text)]">{siteName}</span>
         </Link>
 
         {/* Desktop Nav */}
@@ -144,6 +145,7 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          <ThemeSelector compact />
           <Link
             href="/login"
             className="text-sm font-medium text-zinc-600 transition-colors hover:text-indigo-600"
@@ -173,6 +175,9 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
         <div className="md:hidden border-t border-zinc-100 bg-white/95">
           <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
             <div className="space-y-1">
+              <div className="px-3 py-2">
+                <ThemeSelector />
+              </div>
               {navItems.map((item, index) => {
                 const active = isActive(item, pathname);
                 return item.children && item.children.length > 0 ? (

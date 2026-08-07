@@ -7,7 +7,7 @@ import {
 } from '@/lib/config/industry-profiles';
 import { DEFAULT_ENTITY_LABELS } from '@/lib/config/entity-labels';
 import type { EntityKey } from '@/lib/config/entity-labels';
-import { revalidatePath, unstable_cache, updateTag } from 'next/cache';
+import { revalidatePath, unstable_cache, revalidateTag } from 'next/cache';
 
 type EntityLabels = typeof DEFAULT_ENTITY_LABELS;
 
@@ -129,7 +129,7 @@ export async function updateEntityLabel(
       },
     });
     
-    updateTag('entity-labels');
+    revalidateTag('entity-labels', { expire: 0 });
     revalidatePath('/admin', 'layout');
     return { success: true };
   } catch (error) {
@@ -152,7 +152,7 @@ export async function resetEntityLabel(
       where: { entityKey },
     });
     
-    updateTag('entity-labels');
+    revalidateTag('entity-labels', { expire: 0 });
     revalidatePath('/admin', 'layout');
     return { success: true };
   } catch (error) {
@@ -198,7 +198,7 @@ export async function applyProfilePreset(
     // Clear all label overrides (optional - use profile defaults)
     await prisma.labelOverride.deleteMany();
     
-    updateTag('entity-labels');
+    revalidateTag('entity-labels', { expire: 0 });
     revalidatePath('/admin', 'layout');
     return { success: true };
   } catch (error) {

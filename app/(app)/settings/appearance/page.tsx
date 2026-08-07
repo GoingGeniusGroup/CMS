@@ -7,5 +7,5 @@ export default async function AppearanceSettingsPage() {
     getAppearanceSettings(),
     getSiteSettings(),
   ]);
-  return <AppearanceClient initialData={initialData} baseColor={siteSettings.themeColor} />;
+  return <AppearanceClient initialData={initialData} baseColor={siteSettings.lightThemeColor} />;
 }

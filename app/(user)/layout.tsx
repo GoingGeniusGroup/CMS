@@ -11,9 +11,7 @@ import { getPublicFooterSettings } from "@/app/actions/footer-settings";
 import { getPublicSeoSettings } from "@/app/actions/seo";
 import { getPublicCookieSettings } from "@/app/actions/cookie-settings";
 import { getPublicPopupSettings } from "@/app/actions/popup";
-import { getPublicAppearanceSettings } from "@/app/actions/appearance";
 import { getPublicEntityLabels } from "@/app/actions/labels";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import { PublicLabelProvider } from "@/components/content/PublicLabelProvider";
 import { PublicModuleVisibilityProvider } from "@/components/content/PublicModuleVisibilityProvider";
 import { getDisabledModules } from "@/lib/module-visibility";
@@ -62,7 +60,6 @@ export default async function UserLayout({
     footerSettings,
     cookieSettings,
     popupSettings,
-    appearance,
     entityLabels,
     disabledModules,
   ] = await Promise.all([
@@ -72,7 +69,6 @@ export default async function UserLayout({
     getPublicFooterSettings(),
     getPublicCookieSettings(),
     getPublicPopupSettings(),
-    getPublicAppearanceSettings(),
     getPublicEntityLabels(),
     getDisabledModules(),
   ]);
@@ -82,15 +78,7 @@ export default async function UserLayout({
   return (
     <PublicModuleVisibilityProvider initialDisabled={disabledModules}>
     <PublicLabelProvider initialLabels={entityLabels}>
-    <div className="min-h-screen bg-white flex flex-col">
-      {/* Theme is applied to the client-facing site ONLY (not the admin panel) */}
-      <ThemeProvider
-        themeColor={settings.themeColor}
-        themeTextColor={settings.themeTextColor}
-        hoverColor={appearance.hoverColor}
-        hoverEnabled={appearance.hoverEnabled}
-        baseColorEnabled={settings.baseColorEnabled}
-      />
+    <div className="min-h-screen bg-[var(--color-page)] text-[var(--color-text)] flex flex-col">
       {/* Sticky wrapper — banner + navbar stick together */}
       <div className={headerSettings.stickyHeader ? "sticky top-0 z-50" : ""}>
         {/* Top Banner Ad */}

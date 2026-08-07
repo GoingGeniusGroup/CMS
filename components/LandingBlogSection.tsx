@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { BookOpen } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { getPublicBlogs } from "@/app/actions/blogs";
-import { BlogDetailModal } from "@/components/BlogDetailModal";
 import { StaggerGrid, StaggerItem } from "@/components/motion/StaggerGrid";
 import { ShowcaseCard } from "@/components/ShowcaseCard";
 import { SectionHeader, SectionCta } from "@/components/content/SectionHeader";
@@ -31,8 +30,8 @@ export function LandingBlogSection({
 }) {
   const moduleHidden = useModuleDisabled("blog");
   const [blogs, setBlogs] = useState<BlogData[]>(initialBlogs ?? []);
-  const [selectedBlog, setSelectedBlog] = useState<BlogData | null>(null);
   const header = headerData ?? SECTION_REGISTRY["home.blog"].defaultData;
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!initialBlogs) {
@@ -40,23 +39,53 @@ export function LandingBlogSection({
     }
   }, [initialBlogs]);
 
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollBy({
+      left: direction === "left" ? -320 : 320,
+      behavior: "smooth",
+    });
+  };
+
   if (moduleHidden || blogs.length === 0) return null;
 
   return (
     <>
       <section id="insights" className="bg-[#f6f4f3] px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <SectionHeader className="mb-12" data={header} />
+          <SectionHeader className="mb-6" data={header} />
 
-          <StaggerGrid className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {blogs.slice(0, 4).map((blog) => (
-              <StaggerItem key={blog.id}>
+          <div className="mb-4 flex items-center justify-end gap-2">
+            <button
+              onClick={() => scroll("left")}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-500 transition hover:border-indigo-600 hover:text-indigo-600"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-500 transition hover:border-indigo-600 hover:text-indigo-600"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+
+          <StaggerGrid
+            ref={scrollRef}
+            className="flex gap-5 overflow-x-auto pb-4"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            stagger={0.06}
+          >
+            {blogs.map((blog) => (
+              <StaggerItem key={blog.id} className="min-w-[260px] max-w-[260px] flex-shrink-0">
                 <ShowcaseCard
                   title={blog.title}
                   description={blog.excerpt || "No description available."}
                   imageUrl={blog.thumbnail}
                   actionLabel="Read More"
-                  onClick={() => setSelectedBlog(blog)}
+                  href={`/blogs/${blog.slug}`}
                   fallback={
                     <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
                       <BookOpen className="h-12 w-12 text-white/40" strokeWidth={1.5} />
@@ -70,23 +99,6 @@ export function LandingBlogSection({
           <SectionCta data={header} />
         </div>
       </section>
-
-      <BlogDetailModal
-        open={!!selectedBlog}
-        blog={
-          selectedBlog
-            ? {
-                slug: selectedBlog.slug,
-                title: selectedBlog.title,
-                excerpt: selectedBlog.excerpt,
-                category: selectedBlog.category,
-                thumbnail: selectedBlog.thumbnail,
-                readTime: selectedBlog.readTime,
-              }
-            : null
-        }
-        onClose={() => setSelectedBlog(null)}
-      />
     </>
   );
 }

@@ -24,6 +24,10 @@ export type ConfigExport = {
     currencySymbol: string;
     dateFormat: string;
     numberFormat: string;
+    lightThemeColor?: string;
+    lightThemeTextColor?: string;
+    darkThemeColor?: string;
+    darkThemeTextColor?: string;
   } | null;
   labelOverrides: Array<{ entityKey: string; singular: string; plural: string }>;
   customFields: Array<{
@@ -73,6 +77,10 @@ export async function exportConfig(): Promise<ConfigExport> {
           currencySymbol: general.currencySymbol,
           dateFormat: general.dateFormat,
           numberFormat: general.numberFormat,
+          lightThemeColor: general.lightThemeColor,
+          lightThemeTextColor: general.lightThemeTextColor,
+          darkThemeColor: general.darkThemeColor,
+          darkThemeTextColor: general.darkThemeTextColor,
         }
       : null,
     labelOverrides: labelOverrides.map((l) => ({
@@ -212,15 +220,23 @@ export async function importConfig(data: unknown): Promise<ImportResult> {
     }
 
     if (config.generalSettings) {
+      const { lightThemeColor, lightThemeTextColor, darkThemeColor, darkThemeTextColor, ...generalSettings } = config.generalSettings;
+      const paletteSettings = {
+        ...(lightThemeColor ? { lightThemeColor, themeColor: lightThemeColor } : {}),
+        ...(lightThemeTextColor ? { lightThemeTextColor, themeTextColor: lightThemeTextColor } : {}),
+        ...(darkThemeColor ? { darkThemeColor } : {}),
+        ...(darkThemeTextColor ? { darkThemeTextColor } : {}),
+      };
       const existing = await prisma.generalSetting.findFirst();
       if (existing) {
         await prisma.generalSetting.update({
           where: { id: existing.id },
-          data: config.generalSettings,
+          data: { ...generalSettings, ...paletteSettings },
         });
       } else {
-        await prisma.generalSetting.create({ data: config.generalSettings });
+        await prisma.generalSetting.create({ data: { ...generalSettings, ...paletteSettings } });
       }
+      updateTag("site-settings");
     }
 
     updateTag('entity-labels');

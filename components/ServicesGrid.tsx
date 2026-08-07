@@ -6,6 +6,7 @@ import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 import { ShowcaseCard } from "@/components/ShowcaseCard";
 import { CATEGORY_ICONS } from "@/lib/service-category-icons";
 import { tiptapToPlainText } from "@/lib/tiptap-text";
+import { serviceSlug } from "@/lib/service-slug";
 
 type ServiceData = {
   id: string;
@@ -15,13 +16,6 @@ type ServiceData = {
   thumbnailUrl: string | null;
   isFeatured: boolean;
 };
-
-function serviceSlug(name: string) {
-  return name
-    .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9-]/g, "");
-}
 
 export function ServicesGrid({ services }: { services: ServiceData[] }) {
   return (

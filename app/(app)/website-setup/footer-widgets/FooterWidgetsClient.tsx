@@ -144,7 +144,7 @@ export function FooterWidgetsClient({ initialData }: { initialData: FooterSettin
         <h2 className="text-base font-bold text-zinc-900">Footer Branding</h2>
         <p className="mt-0.5 text-xs text-zinc-500">Logo, brand text and description shown in the footer.</p>
         <div className="mt-4 space-y-5">
-          <ImageUploader label="Footer Logo" value={footerLogoUrl} onChange={(url) => setFooterLogoUrl(url)} />
+          <ImageUploader label="Footer Logo" value={footerLogoUrl} onChange={(url) => setFooterLogoUrl(url)} compact />
           <div>
             <p className="mb-1 text-sm font-bold text-zinc-800">Brand Text</p>
             <input type="text" value={brandText} onChange={(e) => setBrandText(e.target.value)} placeholder="e.g. Going Genius Group of Companies" className={inputCls} />

@@ -244,21 +244,25 @@ model AppearanceSetting {
 }
 
 model GeneralSetting {
-  id               String   @id @default(cuid())
-  siteName         String   @default("")
-  description      String   @default("")
-  logoUrl          String   @default("")
-  faviconUrl       String   @default("")
-  metaKeywords     String   @default("")
-  themeColor       String   @default("#6366f1")
-  themeTextColor   String   @default("#ffffff")
-  baseColorEnabled Boolean  @default(true)
-  industryProfile  String   @default("generic")
-  currency         String   @default("NPR")
-  currencySymbol   String   @default("Rs.")
-  dateFormat       String   @default("DD/MM/YYYY")
-  numberFormat     String   @default("en-US")
-  updatedAt        DateTime @updatedAt
+  id                  String   @id @default(cuid())
+  siteName            String   @default("")
+  description         String   @default("")
+  logoUrl             String   @default("")
+  faviconUrl          String   @default("")
+  metaKeywords        String   @default("")
+  themeColor          String   @default("#6366f1")
+  themeTextColor      String   @default("#ffffff")
+  lightThemeColor     String   @default("#fe9a00")
+  lightThemeTextColor String   @default("#000000")
+  darkThemeColor      String   @default("#fbbf24")
+  darkThemeTextColor  String   @default("#18181b")
+  baseColorEnabled    Boolean  @default(true)
+  industryProfile     String   @default("generic")
+  currency            String   @default("NPR")
+  currencySymbol      String   @default("Rs.")
+  dateFormat          String   @default("DD/MM/YYYY")
+  numberFormat        String   @default("en-US")
+  updatedAt           DateTime @updatedAt
 
   @@map("general_settings")
 }

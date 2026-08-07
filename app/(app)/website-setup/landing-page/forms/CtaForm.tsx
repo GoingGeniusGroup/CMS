@@ -10,7 +10,7 @@ const inputCls =
 
 /**
  * Form for the "cta" kind: variant toggle (split image block / centered text)
- * plus heading lines, highlighted word, subheading, two optional buttons and
+ * plus heading lines, highlighted word, Subheading, two optional buttons and
  * the side image.
  */
 export function CtaForm({
@@ -156,8 +156,8 @@ export function CtaForm({
         <label className="mb-1 block text-sm font-bold text-zinc-800">Subheading</label>
         <textarea
           rows={3}
-          value={form.subheading ?? ""}
-          onChange={(e) => update("subheading", e.target.value)}
+          value={form.Subheading ?? ""}
+          onChange={(e) => update("Subheading", e.target.value)}
           className={`${inputCls} resize-none`}
         />
       </div>

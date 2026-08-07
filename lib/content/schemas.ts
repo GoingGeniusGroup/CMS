@@ -12,14 +12,14 @@ import { z } from "zod";
  */
 
 // ─── Section-header schema ───────────────────────────────────────────────────
-// Covers every "eyebrow + heading + optional subheading" section: Services,
+// Covers every "eyebrow + heading + optional Subheading" section: Services,
 // Featured Projects, Blog, Team, FAQ. Also used standalone by Partners/Tech,
 // which only render the `heading` field.
 
 export const sectionHeaderSchema = z.object({
   eyebrow: z.string().max(80).optional(),
   heading: z.string().min(1, "Heading is required").max(200),
-  subheading: z.string().max(400).optional(),
+  "Subheading": z.string().max(400).optional(),
   ctaLabel: z.string().max(60).optional(),
   ctaHref: z
     .string()
@@ -49,7 +49,7 @@ export const heroStatSchema = z.object({
  *  - "split"    — heading+CTAs left, image right (home, contact, about-us, company)
  *  - "centered" — everything centered, no image (career, blogs — image-as-backdrop
  *                 cases are handled by `backdropImageUrl` instead)
- *  - "minimal"  — heading only, no subheading/CTAs/image (lightweight pages)
+ *  - "minimal"  — heading only, no Subheading/CTAs/image (lightweight pages)
  *  - "stats"    — split layout plus a stat-card row underneath (our-services)
  * Defaults to "split" so existing un-migrated callers behave like today's home hero.
  */
@@ -58,7 +58,7 @@ export const heroSchema = z.object({
   eyebrow: z.string().max(80).optional(),
   headingLines: z.array(z.string().max(80)).min(1).max(4),
   highlightedWord: z.string().max(40).optional(),
-  subheading: z.string().max(400).optional(),
+  "Subheading": z.string().max(400).optional(),
   primaryCtaLabel: z.string().max(60).optional(),
   primaryCtaHref: z.string().max(300).optional(),
   /** Some existing heroes show an arrow icon after the primary CTA, some don't. */
@@ -128,7 +128,7 @@ export const cardItemSchema = z.object({
 export const cardsSchema = z.object({
   eyebrow: z.string().max(80).optional(),
   heading: z.string().max(200).optional(),
-  subheading: z.string().max(400).optional(),
+  "Subheading": z.string().max(400).optional(),
   ctaLabel: z.string().max(60).optional(),
   ctaHref: z.string().max(300).optional(),
   /**
@@ -273,7 +273,7 @@ export const ctaSchema = z.object({
   eyebrow: z.string().max(80).optional(),
   headingLines: z.array(z.string().max(80)).min(1).max(4),
   highlightedWord: z.string().max(40).optional(),
-  subheading: z.string().max(400).optional(),
+  "Subheading": z.string().max(400).optional(),
   primaryCtaLabel: z.string().max(60).optional(),
   primaryCtaHref: ctaHrefRefine,
   /** Some CTAs show an arrow icon after the primary button, some don't. */
@@ -341,7 +341,7 @@ export const SECTION_REGISTRY = {
       cardStyle: true,
       headingLines: ["Think Bigger,", "Build Smarter,", "Scale Faster"],
       highlightedWord: "Build Smarter",
-      subheading:
+      "Subheading":
         "Going Genius turns your ideas into something bigger, smarter, and more impactful. Let's connect and bring your vision to life — better than you imagined.",
       primaryCtaLabel: "Get Started.",
       primaryCtaHref: "#contact",
@@ -379,7 +379,7 @@ export const SECTION_REGISTRY = {
     defaultData: {
       eyebrow: "Our {{service.plural}}",
       heading: "What We Do Best",
-      subheading: "End-to-end digital solutions to help your business grow and scale.",
+      "Subheading": "End-to-end digital solutions to help your business grow and scale.",
       ctaLabel: "View All {{service.plural}}",
       ctaHref: "/our-services",
     },
@@ -425,7 +425,7 @@ export const SECTION_REGISTRY = {
     defaultData: {
       eyebrow: "Featured Works",
       heading: "Recent Success Stories",
-      subheading: "Explore our latest {{project.plural|lower}} and see how we help businesses grow.",
+      "Subheading": "Explore our latest {{project.plural|lower}} and see how we help businesses grow.",
       ctaLabel: "View All {{project.plural}}",
       ctaHref: "/our-projects",
     },
@@ -440,7 +440,7 @@ export const SECTION_REGISTRY = {
     defaultData: {
       eyebrow: "Insights",
       heading: "Industry Perspectives",
-      subheading: "Stay ahead with the latest trends, tips, and insights.",
+      "Subheading": "Stay ahead with the latest trends, tips, and insights.",
       // NOTE: intentionally NOT tokenized to "{{blog.plural}}" — the entity
       // label's plural is "Blogs", but this page's actual copy has always
       // said "Articles" (a blog is displayed there, but "Articles" is the
@@ -463,7 +463,7 @@ export const SECTION_REGISTRY = {
       darkCardStyle: true,
       headingLines: ["Building Digital", "Products", "That Drive Real", "Impact"],
       highlightedWords: ["Real", "Impact"],
-      subheading:
+      "Subheading":
         "We design and develop innovative digital experiences that help brands grow, engage users, and achieve measurable business results through cutting-edge technology and precision engineering.",
       primaryCtaLabel: "Explore Projects",
       primaryCtaHref: "#projects",
@@ -502,7 +502,7 @@ export const SECTION_REGISTRY = {
       cardStyle: true,
       eyebrow: "START YOUR PROJECT",
       headingLines: ["Have an Idea?", "Let's Build It Together"],
-      subheading:
+      "Subheading":
         "Whether you need a website, mobile app, or a complete digital transformation — we're ready to turn your vision into reality.",
       primaryCtaLabel: "Get a Free Quote",
       primaryCtaHref: "/contact",
@@ -524,7 +524,7 @@ export const SECTION_REGISTRY = {
       layout: "split",
       headingLines: ["Digital Solutions", "For Your Business"],
       highlightedWord: "For Your Business",
-      subheading:
+      "Subheading":
         "Transforming ideas into powerful digital solutions that inspire growth, innovation, and lasting business success.",
       primaryCtaLabel: "Explore Services",
       primaryCtaHref: "#services-we-provide",
@@ -564,7 +564,7 @@ export const SECTION_REGISTRY = {
       variant: "split",
       headingLines: ["Ready to Start", "Your Project?"],
       highlightedWord: "Ready to Start",
-      subheading:
+      "Subheading":
         "Let's build something amazing together. Get in touch with our team today.",
       primaryCtaLabel: "Get a Free Quote",
       primaryCtaHref: "/contact",
@@ -585,7 +585,7 @@ export const SECTION_REGISTRY = {
       layout: "split",
       headingLines: ["Contact Us"],
       primaryCtaShowArrow: false,
-      subheading:
+      "Subheading":
         "Have a question or a project in mind? We'd love to hear from you. Our team of geniuses is ready to help scale your business.",
       imageUrl: "/Rectangle.png",
       imageAlt: "Contact Us",
@@ -638,7 +638,7 @@ export const SECTION_REGISTRY = {
     defaultData: {
       variant: "split",
       headingLines: ["Let's Work Together"],
-      subheading:
+      "Subheading":
         "We're ready to help you build amazing digital solutions for your business. Join our ecosystem of high-growth partners today.",
       primaryCtaLabel: "Let's Talk",
       primaryCtaHref: "#contact-form",
@@ -659,7 +659,7 @@ export const SECTION_REGISTRY = {
       eyebrow: "About Going Genius",
       headingLines: ["We Build Digital", "Solutions That", "Drive Real Impact"],
       highlightedWord: "Real Impact",
-      subheading:
+      "Subheading":
         "Going Genius is a creative technology company helping businesses grow with innovative digital solutions. We combine design, technology and strategy to build products people love.",
       primaryCtaLabel: "Our Story",
       primaryCtaHref: "#our-story",
@@ -759,7 +759,7 @@ export const SECTION_REGISTRY = {
     defaultData: {
       variant: "grid",
       heading: "Our Core Values",
-      subheading: "The principles that guide every decision we make and every project we undertake.",
+      "Subheading": "The principles that guide every decision we make and every project we undertake.",
       items: [
         {
           id: "innovation",
@@ -842,7 +842,7 @@ export const SECTION_REGISTRY = {
     defaultData: {
       variant: "centered",
       headingLines: ["Let's build something amazing together"],
-      subheading:
+      "Subheading":
         "Have a project in mind? We would love to hear from you and discuss how we can help you achieve your goals.",
       primaryCtaLabel: "Get In Touch",
       primaryCtaHref: "/contact",
@@ -860,7 +860,7 @@ export const SECTION_REGISTRY = {
       eyebrow: "CAREERS AT GOING GENIUS",
       headingLines: ["Build Your Career With", "Going Genius"],
       primaryCtaShowArrow: false,
-      subheading:
+      "Subheading":
         "Join a team of visionaries, engineers, and designers dedicated to building the future of corporate intelligence and efficient modern systems.",
       backdropImageUrl: "/career-new.png",
       imageAlt: "Careers at Going Genius",
@@ -896,7 +896,7 @@ export const SECTION_REGISTRY = {
     defaultData: {
       layout: "split",
       headingLines: ["Stay Ahead with", "Insights That", "Drive Innovation"],
-      subheading:
+      "Subheading":
         "Explore in-depth articles, tutorials, case studies, and industry trends to help you build better products and grow your business.",
       primaryCtaLabel: "Browse Articles",
       primaryCtaHref: "#articles",
@@ -919,7 +919,7 @@ export const SECTION_REGISTRY = {
       eyebrow: "Our Team",
       headingLines: ["Meet Our Amazing Team"],
       primaryCtaShowArrow: false,
-      subheading:
+      "Subheading":
         "A diverse group of passionate professionals working together to create extraordinary digital solutions.",
     },
   }),
@@ -938,7 +938,7 @@ export const SECTION_REGISTRY = {
       logoUrl: "/logo.png",
       headingLines: ["Innovating the Future with Going Genius"],
       highlightedWord: "Going Genius",
-      subheading:
+      "Subheading":
         "We are a team of passionate innovators, designers, and developers building digital solutions that help businesses grow, scale, and succeed in an ever-changing world.",
       primaryCtaLabel: "Explore Our Work",
       primaryCtaHref: "/our-projects",
@@ -1044,7 +1044,7 @@ export const SECTION_REGISTRY = {
     defaultData: {
       variant: "split",
       headingLines: ["Have Questions?", "Let's Work Together."],
-      subheading:
+      "Subheading":
         "We'd love to hear about your project and explore how we can help you achieve your goals.",
       primaryCtaLabel: "Go to Contact Page",
       primaryCtaHref: "/contact",

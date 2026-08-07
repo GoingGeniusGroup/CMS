@@ -1,125 +1,88 @@
 /**
- * ThemeProvider — injects CSS custom properties and overrides for the CMS theme color.
- *
- * - `themeColor`: the single base color applied to SOLID indigo/purple utilities (shades 400–900).
- *   Light tints (50/100/200/300) are intentionally left untouched so tinted badges/cards
- *   keep their pale backgrounds and remain readable.
- * - `themeTextColor`: the foreground text color used on top of themed (solid) backgrounds
- *   (buttons, badges, banners) — applied to text AND icons so they stay legible.
- * - `hoverColor`: applied on :hover states only, when `hoverEnabled` is true.
- * - `hoverEnabled`: when false, hover keeps the base theme color (no color change).
- * - `baseColorEnabled`: master switch to enable/disable theming entirely.
- *
- * NOTE: This is only mounted on the public (client-facing) site, NOT the admin panel.
+ * Supplies configured brand variables for both resolved UI modes. The theme
+ * mode itself is owned by ThemeModeProvider, which toggles `html.light` and
+ * `html.dark` before paint.
  */
-
 type ThemeProviderProps = {
-  themeColor: string;
-  themeTextColor?: string;
+  lightThemeColor: string;
+  lightThemeTextColor: string;
+  darkThemeColor: string;
+  darkThemeTextColor: string;
   hoverColor?: string;
   hoverEnabled?: boolean;
   baseColorEnabled: boolean;
 };
 
 const FAMILIES = ["indigo", "purple"];
-// Only SOLID shades are themed — light tints (50/100/200/300) are preserved.
 const SOLID_SHADES = ["400", "500", "600", "700", "800", "900"];
 
-function sel(prefix: string, suffix = "") {
-  return FAMILIES.flatMap((f) =>
-    SOLID_SHADES.map((s) => `html body [class*="${prefix}-${f}-${s}"]${suffix}`)
+function selector(prefix: string, suffix = "") {
+  return FAMILIES.flatMap((family) =>
+    SOLID_SHADES.map((shade) => `html body [class*="${prefix}-${family}-${shade}"]${suffix}`)
   ).join(",\n    ");
 }
 
 export function ThemeProvider({
-  themeColor,
-  themeTextColor = "#ffffff",
+  lightThemeColor,
+  lightThemeTextColor,
+  darkThemeColor,
+  darkThemeTextColor,
   hoverColor,
   hoverEnabled = true,
   baseColorEnabled,
 }: ThemeProviderProps) {
-  if (!baseColorEnabled || !themeColor) return null;
+  if (!baseColorEnabled) return null;
 
-  // Hover uses the hover color only when enabled; otherwise it stays the theme color.
-  const hover = hoverEnabled && hoverColor ? hoverColor : themeColor;
-  const textOnTheme = themeTextColor || "#ffffff";
-
+  const hover = hoverEnabled && hoverColor ? hoverColor : undefined;
   const css = `
-    :root {
-      --theme-color: ${themeColor};
-      --theme-color-hover: ${hover};
-      --theme-color-light: ${themeColor}12;
-      --theme-color-medium: ${themeColor}25;
-      --theme-text-color: ${textOnTheme};
+    :root, html.light {
+      --theme-color: ${lightThemeColor};
+      --theme-text-color: ${lightThemeTextColor};
+      --theme-color-hover: ${hover ?? lightThemeColor};
+      --theme-color-light: ${lightThemeColor}12;
+      --theme-color-medium: ${lightThemeColor}25;
     }
-
-    /* ─── Solid themed backgrounds (shades 400–900 only) → theme color.
-       Their text + icons use the on-theme text color for legibility. ─── */
-    ${sel("bg")} {
-      background-color: ${themeColor} !important;
-      color: ${textOnTheme} !important;
+    html.dark {
+      --theme-color: ${darkThemeColor};
+      --theme-text-color: ${darkThemeTextColor};
+      --theme-color-hover: ${hover ?? darkThemeColor};
+      --theme-color-light: ${darkThemeColor}20;
+      --theme-color-medium: ${darkThemeColor}40;
     }
-    ${sel("bg", " [class*=\"text-white\"]")},
-    ${sel("bg", " svg")} {
-      color: ${textOnTheme} !important;
+    ${selector("bg")} { background-color: var(--theme-color) !important; color: var(--theme-text-color) !important; }
+    ${selector("bg", " svg")} { color: var(--theme-text-color) !important; }
+    ${selector("text")} { color: var(--theme-color) !important; }
+    html body [class*="border-indigo-"], html body [class*="border-purple-"] { border-color: var(--theme-color-medium) !important; }
+    html body [class*="shadow-indigo-"], html body [class*="shadow-purple-"] { --tw-shadow-color: var(--theme-color-medium) !important; }
+    html body [class~="bg-indigo-50"], html body [class~="bg-purple-50"],
+    html body [class~="bg-indigo-100"], html body [class~="bg-purple-100"],
+    html body [class~="bg-indigo-200"], html body [class~="bg-purple-200"],
+    html body [class~="bg-indigo-300"], html body [class~="bg-purple-300"] {
+      background-color: var(--theme-color-light) !important;
     }
-
-    /* ─── Themed text (solid shades) → theme color ─── */
-    ${sel("text")} {
-      color: ${themeColor} !important;
-    }
-
-    /* ─── Borders ─── */
-    html body [class*="border-indigo-"],
-    html body [class*="border-purple-"] {
-      border-color: ${themeColor}40 !important;
-    }
-
-    /* ─── Gradients ─── */
-    html body [class*="from-indigo-"],
-    html body [class*="from-purple-"] {
-      --tw-gradient-from: ${themeColor} !important;
-    }
-    html body [class*="to-indigo-"],
-    html body [class*="to-purple-"] {
-      --tw-gradient-to: ${themeColor} !important;
-    }
-    html body [class*="via-indigo-"],
-    html body [class*="via-purple-"] {
-      --tw-gradient-via: ${themeColor} !important;
-    }
-
-    /* ─── Rings ─── */
-    html body [class*="ring-indigo-"],
-    html body [class*="ring-purple-"] {
-      --tw-ring-color: ${themeColor}40 !important;
-    }
-
-    /* ─── Focus states ─── */
-    html body [class*="focus:border-indigo"]:focus,
-    html body [class*="focus:ring-indigo"]:focus {
-      border-color: ${themeColor} !important;
-      --tw-ring-color: ${themeColor}30 !important;
-    }
-
-    /* ─── Hover states: use hover color (or theme color when hover disabled) ─── */
-    html body [class*="hover:bg-indigo"]:hover,
-    html body [class*="hover:bg-purple"]:hover {
-      background-color: ${hover} !important;
-    }
-    html body [class*="hover:text-indigo"]:hover,
-    html body [class*="hover:text-purple"]:hover {
-      color: ${hover} !important;
-    }
-
-    /* ─── Theme utility classes ─── */
-    .theme-bg { background-color: ${themeColor}; color: ${textOnTheme}; }
-    .theme-bg svg { color: ${textOnTheme}; }
-    .theme-bg-hover:hover { background-color: ${hover}; }
-    .theme-text { color: ${themeColor}; }
-    .theme-text-on { color: ${textOnTheme}; }
-    .theme-border { border-color: ${themeColor}; }
-    .theme-bg-light { background-color: ${themeColor}12; }
+    html body [class~="text-indigo-200"], html body [class~="text-purple-200"],
+    html body [class~="text-indigo-300"], html body [class~="text-purple-300"],
+    html body [class~="text-indigo-100"], html body [class~="text-purple-100"],
+    html body [class~="text-indigo-50"], html body [class~="text-purple-50"] { color: var(--theme-color-medium) !important; }
+    html body [class*="from-indigo-"], html body [class*="from-purple-"] { --tw-gradient-from: var(--theme-color) !important; }
+    html body [class*="to-indigo-"], html body [class*="to-purple-"] { --tw-gradient-to: var(--theme-color) !important; }
+    html body [class*="via-indigo-"], html body [class*="via-purple-"] { --tw-gradient-via: var(--theme-color) !important; }
+    html body [class*="ring-indigo-"], html body [class*="ring-purple-"] { --tw-ring-color: var(--theme-color-medium) !important; }
+    html body [class*="hover:bg-indigo"]:hover, html body [class*="hover:bg-purple"]:hover { background-color: var(--theme-color-hover) !important; }
+    html body [class*="hover:text-indigo"]:hover, html body [class*="hover:text-purple"]:hover { color: var(--theme-color-hover) !important; }
+    html body [class~="hover:bg-indigo-50"]:hover, html body [class~="hover:bg-purple-50"]:hover,
+    html body [class~="hover:bg-indigo-100"]:hover, html body [class~="hover:bg-purple-100"]:hover,
+    html body [class~="hover:bg-indigo-200"]:hover, html body [class~="hover:bg-purple-200"]:hover,
+    html body [class~="hover:bg-indigo-300"]:hover, html body [class~="hover:bg-purple-300"]:hover { background-color: var(--theme-color-light) !important; }
+    html body [class~="hover:text-indigo-200"]:hover, html body [class~="hover:text-purple-200"]:hover,
+    html body [class~="hover:text-indigo-300"]:hover, html body [class~="hover:text-purple-300"]:hover { color: var(--theme-color-medium) !important; }
+    .theme-bg { background-color: var(--theme-color); color: var(--theme-text-color); }
+    .theme-bg svg { color: var(--theme-text-color); }
+    .theme-bg-hover:hover { background-color: var(--theme-color-hover); }
+    .theme-text { color: var(--theme-color); }
+    .theme-text-on { color: var(--theme-text-color); }
+    .theme-border { border-color: var(--theme-color); }
+    .theme-bg-light { background-color: var(--theme-color-light); }
   `;
 
   return <style dangerouslySetInnerHTML={{ __html: css }} />;

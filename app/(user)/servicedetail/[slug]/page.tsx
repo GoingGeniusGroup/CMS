@@ -20,6 +20,7 @@ import {
   Lightbulb,
 } from "lucide-react";
 import { getServiceBySlug, getPublicServices } from "@/app/actions/services";
+import { serviceSlug } from "@/lib/service-slug";
 import { TiptapRenderer } from "@/components/TiptapRenderer";
 import type { JSONContent } from "@tiptap/react";
 
@@ -93,7 +94,7 @@ interface Props {
 export async function generateStaticParams() {
   const services = await getPublicServices();
   return services.map((s) => ({
-    slug: s.serviceName.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""),
+    slug: serviceSlug(s.serviceName),
   }));
 }
 
@@ -228,71 +229,15 @@ export default async function ServiceDetailPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Process */}
-      <section className="border-t border-gray-100">
-        <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <p className="text-center text-xs font-bold uppercase tracking-widest text-indigo-600">
-            Our Development Process
-          </p>
-          <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
-            How We Bring Your Ideas To Life
-          </h2>
-
-          <div className="relative mt-16">
-            <div className="absolute left-[8%] right-[8%] top-6 hidden border-t-2 border-dashed border-gray-200 sm:block" />
-            <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
-              {processSteps.map((step, i) => {
-                const isLast = i === processSteps.length - 1;
-                return (
-                  <div key={step.num} className="relative flex flex-col items-center text-center">
-                    <span className={`flex h-12 w-12 items-center justify-center rounded-full text-sm font-bold ${isLast ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200" : "bg-indigo-50 text-indigo-600"}`}>
-                      {step.num}
-                    </span>
-                    <p className="mt-3 text-sm font-bold text-gray-900">{step.label}</p>
-                    <p className="mt-1 max-w-[110px] text-[11px] leading-snug text-gray-400">{step.desc}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Other Services */}
       <OtherServices currentSlug={slug} />
-
-      {/* CTA */}
-      <section className="border-t border-gray-100">
-        <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-between gap-6 rounded-xl border border-gray-200 px-6 py-8 sm:px-10">
-            <div className="flex items-start gap-4">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
-                <Lightbulb className="h-5 w-5" />
-              </span>
-              <div>
-                <h2 className="text-xl font-extrabold text-gray-900 sm:text-2xl">
-                  Ready to build your dream website?
-                </h2>
-                <p className="mt-1.5 max-w-md text-sm text-gray-500">
-                  Let&apos;s discuss your project and bring your ideas to life with our expert team.
-                </p>
-              </div>
-            </div>
-            <Link href="/contact" className="flex shrink-0 items-center gap-1.5 rounded-lg bg-gray-800 px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-gray-900">
-              Get a Free Consultation <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
 
 async function OtherServices({ currentSlug }: { currentSlug: string }) {
   const allServices = await getPublicServices();
-  const others = allServices.filter((s) =>
-    s.serviceName.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") !== currentSlug
-  ).slice(0, 3);
+  const others = allServices.filter((s) => serviceSlug(s.serviceName) !== currentSlug).slice(0, 3);
 
   if (others.length === 0) return null;
 
@@ -310,7 +255,7 @@ async function OtherServices({ currentSlug }: { currentSlug: string }) {
             return (
               <Link
                 key={svc.id}
-                href={`/servicedetail/${svc.serviceName.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`}
+                href={`/servicedetail/${serviceSlug(svc.serviceName)}`}
                 className="group rounded-xl border border-gray-200 p-6 transition hover:shadow-sm"
               >
                 <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">

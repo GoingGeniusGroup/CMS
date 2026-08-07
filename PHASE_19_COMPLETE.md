@@ -74,11 +74,11 @@ it as a plain function per array item.
 ## Task 22 — Apply labels to public copy
 
 `SectionHeader`/`SectionCta` now resolve tokens in `eyebrow`/`heading`/
-`subheading`/`ctaLabel`. `PageHero` resolves tokens in `eyebrow`/
-`headingLines`/`subheading`/`microcopy`/CTA labels/stat labels/`imageBadge`
+`Subheading`/`ctaLabel`. `PageHero` resolves tokens in `eyebrow`/
+`headingLines`/`Subheading`/`microcopy`/CTA labels/stat labels/`imageBadge`
 label. `lib/content/schemas.ts`'s registry defaults were updated to use
 tokens wherever it wouldn't change default rendered text (see design note
-above): `home.services` (eyebrow + CTA), `home.projects` (subheading + CTA),
+above): `home.services` (eyebrow + CTA), `home.projects` (Subheading + CTA),
 `our-services.hero`'s dynamic "Total Services" stat label.
 
 `teams/page.tsx`'s search placeholder ("Search team member...") now reads
@@ -104,7 +104,7 @@ the regex entirely. 9 new tests in `lib/content/__tests__/tokens.test.ts`.
 `usePublicLabelTokens` for use inside `generateMetadata`, which runs before
 any React context exists. `home`, `our-services`, `contact`, `about-us`, and
 `blogs` each export `generateMetadata()` deriving `<title>`/`<meta
-description>` from their hero's `headingLines`/`subheading`, tokens resolved.
+description>` from their hero's `headingLines`/`Subheading`, tokens resolved.
 See deviation above for why `career`/`teams` don't.
 
 ---

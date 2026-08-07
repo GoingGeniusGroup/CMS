@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Search, X } from "lucide-react";
 import { SearchBar } from "@/components/SearchBar";
 import { TopbarActions } from "@/components/TopbarActions";
+import { ThemeSelector } from "@/components/ThemeSelector";
 
 /**
  * Top navigation bar. Import and render it at the top of any page.
@@ -32,6 +33,9 @@ export function Topbar({ showSearch = true }: { showSearch?: boolean }) {
 
         {/* Right-side actions */}
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <div className="hidden sm:block">
+            <ThemeSelector compact />
+          </div>
           {/* Mobile search toggle — visible only below sm when showSearch is true */}
           {showSearch ? (
             <button

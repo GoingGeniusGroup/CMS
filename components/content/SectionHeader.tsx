@@ -6,7 +6,7 @@ import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 import { usePublicLabelTokens } from "@/components/content/PublicLabelProvider";
 
 /**
- * Renders an "eyebrow + heading + optional subheading + optional CTA" block
+ * Renders an "eyebrow + heading + optional Subheading + optional CTA" block
  * from admin-editable content, using the same DOM shape and classes every
  * section previously hardcoded — so wiring this in changes zero pixels until
  * an admin actually edits the section in the Landing Page editor (Phase 17).
@@ -33,7 +33,7 @@ export function SectionHeader({
   const alignClass = align === "center" ? "text-center" : "";
   const eyebrow = usePublicLabelTokens(data.eyebrow ?? "");
   const heading = usePublicLabelTokens(data.heading);
-  const subheading = usePublicLabelTokens(data.subheading ?? "");
+  const subHeading = usePublicLabelTokens(data["Subheading"] ?? "");
 
   return (
     <RevealOnScroll className={`${alignClass} ${className}`}>
@@ -43,8 +43,8 @@ export function SectionHeader({
         </p>
       )}
       <h2 className="text-2xl font-extrabold text-zinc-900 sm:text-3xl">{heading}</h2>
-      {subheading && (
-        <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-500">{subheading}</p>
+      {subHeading && (
+        <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-500">{subHeading}</p>
       )}
     </RevealOnScroll>
   );

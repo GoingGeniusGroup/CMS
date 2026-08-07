@@ -21,7 +21,7 @@ export function PageHero({ data }: { data: HeroData }) {
   const heading = <HeroHeading data={data} resolveLabel={resolveLabel} />;
   const ctas = <HeroCtas data={data} resolveLabel={resolveLabel} />;
   const eyebrow = data.eyebrow ? resolveLabel(data.eyebrow) : undefined;
-  const subheading = data.subheading ? resolveLabel(data.subheading) : undefined;
+  const subHeading = data["Subheading"] ? resolveLabel(data["Subheading"]) : undefined;
   const microcopy = data.microcopy ? resolveLabel(data.microcopy) : undefined;
 
   if (data.layout === "minimal") {
@@ -31,7 +31,7 @@ export function PageHero({ data }: { data: HeroData }) {
           <RevealOnScroll>
             {eyebrow && <HeroEyebrow>{eyebrow}</HeroEyebrow>}
             {heading}
-            {subheading && <HeroSubheading center>{subheading}</HeroSubheading>}
+            {subHeading && <HeroSubHeading center>{subHeading}</HeroSubHeading>}
           </RevealOnScroll>
         </div>
       </section>
@@ -67,9 +67,9 @@ export function PageHero({ data }: { data: HeroData }) {
                     </span>
                   ))}
                 </h1>
-                {subheading && (
+                {subHeading && (
                   <p className="mx-auto mt-3 max-w-xl text-[15px] leading-relaxed text-white/95 [text-shadow:0_1px_4px_rgba(0,0,0,0.4)]">
-                    {subheading}
+                    {subHeading}
                   </p>
                 )}
               </RevealOnScroll>
@@ -96,7 +96,7 @@ export function PageHero({ data }: { data: HeroData }) {
             )}
             {eyebrow && <HeroEyebrow center>{eyebrow}</HeroEyebrow>}
             {heading}
-            {subheading && <HeroSubheading center>{subheading}</HeroSubheading>}
+            {subHeading && <HeroSubHeading center>{subHeading}</HeroSubHeading>}
             {ctas && <div className="mt-7 flex flex-wrap justify-center gap-3">{ctas}</div>}
           </RevealOnScroll>
         </div>
@@ -131,8 +131,8 @@ export function PageHero({ data }: { data: HeroData }) {
                     );
                   })}
                 </h1>
-                {subheading && (
-                  <p className="mt-5 max-w-md text-sm leading-relaxed text-zinc-300">{subheading}</p>
+                {subHeading && (
+                  <p className="mt-5 max-w-md text-sm leading-relaxed text-zinc-300">{subHeading}</p>
                 )}
                 {ctas && <div className="mt-8 flex flex-wrap gap-3">{ctas}</div>}
                 {microcopy && (
@@ -167,7 +167,7 @@ export function PageHero({ data }: { data: HeroData }) {
       <RevealOnScroll>
         {eyebrow && <HeroEyebrow>{eyebrow}</HeroEyebrow>}
         {heading}
-        {subheading && <HeroSubheading>{subheading}</HeroSubheading>}
+        {subHeading && <HeroSubHeading>{subHeading}</HeroSubHeading>}
         {ctas && <div className="mt-7 flex flex-wrap gap-3">{ctas}</div>}
         {microcopy && (
           <p className="mt-4 flex items-center gap-1.5 text-xs text-zinc-400">
@@ -241,7 +241,7 @@ function HeroEyebrow({ children, center = false }: { children: React.ReactNode; 
   );
 }
 
-function HeroSubheading({ children, center = false }: { children: React.ReactNode; center?: boolean }) {
+function HeroSubHeading({ children, center = false }: { children: React.ReactNode; center?: boolean }) {
   return (
     <p
       className={`mt-5 text-sm leading-relaxed text-zinc-500 ${

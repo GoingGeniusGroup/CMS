@@ -5,7 +5,7 @@ import { Lock, Sparkles } from "lucide-react";
 import { Card } from "@/components/Card";
 import { ImageUploader } from "@/components/ImageUploader";
 import { saveGeneralSettings } from "@/app/actions/general-settings";
-import { getReadableTextColor } from "@/lib/color-contrast";
+import { contrastRatio, getReadableTextColor } from "@/lib/color-contrast";
 import { INDUSTRY_PROFILE_NAMES } from "@/lib/config/industry-profiles";
 
 type GeneralSettingData = {
@@ -17,6 +17,10 @@ type GeneralSettingData = {
   metaKeywords: string;
   themeColor: string;
   themeTextColor: string;
+  lightThemeColor: string;
+  lightThemeTextColor: string;
+  darkThemeColor: string;
+  darkThemeTextColor: string;
   baseColorEnabled: boolean;
   industryProfile: string;
 };
@@ -38,10 +42,12 @@ function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
 
 export default function GeneralSettingsClient({ initialData }: { initialData: GeneralSettingData }) {
   const [form, setForm] = useState(initialData);
-  const [themeColor, setThemeColor] = useState(initialData.themeColor || "#6366f1");
+  const [themeColor, setThemeColor] = useState(initialData.lightThemeColor || initialData.themeColor || "#fe9a00");
   const [themeTextColor, setThemeTextColor] = useState(
-    initialData.themeTextColor || "#ffffff"
+    initialData.lightThemeTextColor || initialData.themeTextColor || "#000000"
   );
+  const [darkThemeColor, setDarkThemeColor] = useState(initialData.darkThemeColor || "#fbbf24");
+  const [darkThemeTextColor, setDarkThemeTextColor] = useState(initialData.darkThemeTextColor || "#18181b");
   const [description, setDescription] = useState(initialData.description || "");
   const [metaKeywords, setMetaKeywords] = useState(initialData.metaKeywords || "");
   const [baseColorEnabled, setBaseColorEnabled] = useState(initialData.baseColorEnabled);
@@ -53,6 +59,8 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
   const recommendedTextColor = getReadableTextColor(themeColor);
   const isUsingRecommended =
     themeTextColor.toLowerCase() === recommendedTextColor.toLowerCase();
+  const recommendedDarkTextColor = getReadableTextColor(darkThemeColor);
+  const darkContrast = contrastRatio(darkThemeColor, darkThemeTextColor);
 
   // Baseline of the last-saved values, advanced after every successful save so
   // re-entering a previously-saved value is still detected as a change.
@@ -60,8 +68,10 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
     siteName: initialData.siteName,
     logoUrl: initialData.logoUrl,
     faviconUrl: initialData.faviconUrl,
-    themeColor: initialData.themeColor || "#6366f1",
-    themeTextColor: initialData.themeTextColor || "#ffffff",
+    themeColor: initialData.lightThemeColor || initialData.themeColor || "#fe9a00",
+    themeTextColor: initialData.lightThemeTextColor || initialData.themeTextColor || "#000000",
+    darkThemeColor: initialData.darkThemeColor || "#fbbf24",
+    darkThemeTextColor: initialData.darkThemeTextColor || "#18181b",
     description: initialData.description || "",
     metaKeywords: initialData.metaKeywords || "",
     baseColorEnabled: initialData.baseColorEnabled,
@@ -74,6 +84,8 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
     form.faviconUrl !== baseline.faviconUrl ||
     themeColor !== baseline.themeColor ||
     themeTextColor !== baseline.themeTextColor ||
+    darkThemeColor !== baseline.darkThemeColor ||
+    darkThemeTextColor !== baseline.darkThemeTextColor ||
     description !== baseline.description ||
     metaKeywords !== baseline.metaKeywords ||
     baseColorEnabled !== baseline.baseColorEnabled ||
@@ -92,6 +104,13 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
     }
   }
 
+  function handleDarkThemeColorChange(value: string) {
+    setDarkThemeColor(value);
+    if (/^#[0-9a-fA-F]{6}$/.test(value) || /^#[0-9a-fA-F]{3}$/.test(value)) {
+      setDarkThemeTextColor(getReadableTextColor(value));
+    }
+  }
+
   function handleCancel() {
     setForm((prev) => ({
       ...prev,
@@ -101,6 +120,8 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
     }));
     setThemeColor(baseline.themeColor);
     setThemeTextColor(baseline.themeTextColor);
+    setDarkThemeColor(baseline.darkThemeColor);
+    setDarkThemeTextColor(baseline.darkThemeTextColor);
     setDescription(baseline.description);
     setMetaKeywords(baseline.metaKeywords);
     setBaseColorEnabled(baseline.baseColorEnabled);
@@ -119,6 +140,10 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
         metaKeywords,
         themeColor,
         themeTextColor,
+        lightThemeColor: themeColor,
+        lightThemeTextColor: themeTextColor,
+        darkThemeColor,
+        darkThemeTextColor,
         baseColorEnabled,
         industryProfile,
       });
@@ -129,6 +154,8 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
           faviconUrl: form.faviconUrl,
           themeColor,
           themeTextColor,
+          darkThemeColor,
+          darkThemeTextColor,
           description,
           metaKeywords,
           baseColorEnabled,
@@ -204,7 +231,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
         </div>
       </div>
 
-      {/* Title + Theme color */}
+      {/* Title + light theme color */}
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <label className="mb-2 block text-sm font-semibold text-black">
@@ -219,7 +246,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
         </div>
         <div>
           <label className="mb-2 block text-sm font-semibold text-black">
-            Default Theme Color
+            Light Theme Color
           </label>
           <div className="flex items-center gap-3">
             <input
@@ -239,14 +266,14 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
         </div>
       </div>
 
-      {/* Theme Text Color */}
+      {/* Light theme text color */}
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <label className="mb-2 block text-sm font-semibold text-black">
-            Default Text Color
+            Light Text Color
           </label>
           <p className="mb-2 text-xs text-zinc-500">
-            Text color used on top of the theme color (buttons, badges, banners).
+            Text color used on top of the light theme color (buttons, badges, banners).
           </p>
           <div className="flex items-center gap-3">
             <input
@@ -300,6 +327,41 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
               Button
             </span>
           </div>
+        </div>
+      </div>
+
+      {/* Dark theme palette */}
+      <div className="mt-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-sunken)] p-4 sm:p-5">
+        <div className="mb-4">
+          <h2 className="text-sm font-bold text-[var(--color-text)]">Dark Theme Palette</h2>
+          <p className="mt-1 text-xs text-[var(--color-text-muted)]">
+            Used when a visitor selects Dark mode or follows a dark system preference.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-[var(--color-text)]">Dark Theme Color</label>
+            <div className="flex items-center gap-3">
+              <input type="color" value={darkThemeColor} onChange={(e) => handleDarkThemeColorChange(e.target.value)} className="h-11 w-16 shrink-0 cursor-pointer rounded-lg border border-[var(--color-border)] bg-[var(--color-input)] p-1 shadow-sm sm:w-24" />
+              <input type="text" value={darkThemeColor} onChange={(e) => handleDarkThemeColorChange(e.target.value)} maxLength={7} className="h-11 min-w-0 flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-input)] px-4 text-sm text-[var(--color-text)] shadow-sm outline-none focus:ring-2 focus:ring-[var(--color-focus-ring)]" />
+            </div>
+          </div>
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-[var(--color-text)]">Dark Text Color</label>
+            <div className="flex items-center gap-3">
+              <input type="color" value={darkThemeTextColor} onChange={(e) => setDarkThemeTextColor(e.target.value)} className="h-11 w-16 shrink-0 cursor-pointer rounded-lg border border-[var(--color-border)] bg-[var(--color-input)] p-1 shadow-sm sm:w-24" />
+              <input type="text" value={darkThemeTextColor} onChange={(e) => setDarkThemeTextColor(e.target.value)} maxLength={7} className="h-11 min-w-0 flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-input)] px-4 text-sm text-[var(--color-text)] shadow-sm outline-none focus:ring-2 focus:ring-[var(--color-focus-ring)]" />
+            </div>
+            {darkContrast < 4.5 ? (
+              <button type="button" onClick={() => setDarkThemeTextColor(recommendedDarkTextColor)} className="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700">
+                <Sparkles className="h-3.5 w-3.5" /> Use recommended ({recommendedDarkTextColor === "#000000" ? "Black" : "White"})
+              </button>
+            ) : <p className="mt-2 text-xs font-medium text-emerald-600">Contrast: {darkContrast.toFixed(2)}:1</p>}
+          </div>
+        </div>
+        <div className="mt-5 flex h-[92px] items-center justify-center gap-3 rounded-lg border border-[var(--color-border)]" style={{ backgroundColor: darkThemeColor }}>
+          <span className="text-base font-bold" style={{ color: darkThemeTextColor }}>{form.siteName || "Sample Text"}</span>
+          <span className="rounded-full px-3 py-1 text-xs font-semibold" style={{ backgroundColor: darkThemeTextColor, color: darkThemeColor }}>Button</span>
         </div>
       </div>
 

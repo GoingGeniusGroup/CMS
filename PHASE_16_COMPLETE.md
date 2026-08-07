@@ -37,7 +37,7 @@ was correct.
 
 ## Task 10 — Zod schemas + registry
 
-`lib/content/schemas.ts`: `sectionHeaderSchema` (eyebrow/heading/subheading/CTA,
+`lib/content/schemas.ts`: `sectionHeaderSchema` (eyebrow/heading/Subheading/CTA,
 covers Services/Projects/Blog/Partners/Tech/Team/FAQ), `heroSchema` (for Phase 18),
 `cardsSchema` (Products grid). `SECTION_REGISTRY` maps 9 section keys to their
 schema, page, default order, and default payload — the single source of truth
@@ -73,7 +73,7 @@ parses against its own schema, `defaultOrder` has no collisions within a page,
 
 ## Task 12 — `SectionHeader` + wiring into 7 components
 
-`components/content/SectionHeader.tsx` (eyebrow/heading/subheading, wrapped in
+`components/content/SectionHeader.tsx` (eyebrow/heading/Subheading, wrapped in
 `RevealOnScroll`) and `SectionCta` (the "View All X" link below a grid, kept as
 its **own** separately-timed reveal block — the original markup already treats
 header and CTA as two independently-timed reveals, and collapsing them into one

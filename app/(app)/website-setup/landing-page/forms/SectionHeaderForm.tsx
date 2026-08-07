@@ -7,7 +7,7 @@ const inputCls =
   "w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm text-zinc-700 outline-none focus:border-indigo-400 focus:bg-white";
 
 /**
- * Form for the "sectionHeader" kind: eyebrow/heading/subheading + optional
+ * Form for the "sectionHeader" kind: eyebrow/heading/Subheading + optional
  * CTA label+href. Covers Services, Featured Projects, Blog, Partners, Tech,
  * Team, and FAQ section headers — every section that isn't a hero or a card
  * grid (Task 14).
@@ -58,8 +58,8 @@ export function SectionHeaderForm({
         <label className="mb-1 block text-sm font-bold text-zinc-800">Subheading</label>
         <textarea
           rows={2}
-          value={form.subheading ?? ""}
-          onChange={(e) => update("subheading", e.target.value)}
+          value={form.Subheading ?? ""}
+          onChange={(e) => update("Subheading", e.target.value)}
           placeholder="Optional supporting sentence shown below the heading."
           className={`${inputCls} resize-none`}
         />

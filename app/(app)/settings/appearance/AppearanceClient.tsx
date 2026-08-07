@@ -168,9 +168,9 @@ export default function AppearanceClient({
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         {/* Base color — read-only, synced from General Settings theme color */}
         <div>
-          <ColorField label="Website Base Color" value={baseColor} disabled />
+          <ColorField label="Light Theme Color" value={baseColor} disabled />
           <p className="mt-2 text-xs text-zinc-400">
-            The base color is controlled by the theme color in{" "}
+            Light and dark brand colors are controlled in{" "}
             <Link href="/settings/general" className="font-medium text-indigo-600 hover:underline">
               General Settings
             </Link>

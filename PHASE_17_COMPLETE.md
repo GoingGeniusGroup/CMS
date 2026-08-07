@@ -62,7 +62,7 @@ positioned first in that group.
 display; three per-`kind` form components under `forms/` own their own field
 state and report a plain schema-shaped object back via `onChange`:
 
-- **`SectionHeaderForm`** — eyebrow / heading (required) / subheading / CTA
+- **`SectionHeaderForm`** — eyebrow / heading (required) / Subheading / CTA
   label+href. Covers 7 of the 9 sections (Services, Projects, Blog, Partners,
   Tech, Team, FAQ headers).
 - **`HeroForm`** — an array editor for `headingLines` (add/remove up to the

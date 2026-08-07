@@ -167,7 +167,7 @@ export default function TeamMemberModal({ member, isOpen, onClose, portraitLayou
                     href={member.linkedin.startsWith('http') ? member.linkedin : `https://${member.linkedin}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-md hover:z-10"
+                    className="relative flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-[#0A66C2]/40 hover:text-[#0A66C2] hover:shadow-md hover:z-10"
                     title="LinkedIn"
                   >
                     <FaLinkedinIn size={14} />
