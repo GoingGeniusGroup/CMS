@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 export type SocialLinks = {
   facebook: string;
@@ -64,7 +64,7 @@ export async function saveSocialSettings(data: SocialLinks) {
     } else {
       await prisma.socialSetting.create({ data });
     }
-    updateTag("social-settings");
+    revalidateTag("social-settings", { expire: 0 });
     return { success: true };
   } catch (err) {
     console.error("saveSocialSettings error:", err);

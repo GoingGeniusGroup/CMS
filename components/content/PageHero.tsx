@@ -6,7 +6,6 @@ import { ArrowRight, Zap } from "lucide-react";
 import type { HeroData } from "@/lib/content/schemas";
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 import { StatsCards } from "@/components/content/StatsCards";
-import { splitHighlight } from "@/lib/content/hero-text";
 import { usePublicLabelResolver } from "@/components/content/PublicLabelProvider";
 
 /**
@@ -63,7 +62,7 @@ export function PageHero({ data }: { data: HeroData }) {
                   {data.headingLines.map((line, i) => (
                     <span key={i}>
                       {i > 0 && <br />}
-                      {highlightLine(resolveLabel(line), data.highlightedWord)}
+                      {highlightLine(resolveLabel(line), highlightsForLine(data, resolveLabel(line)))}
                     </span>
                   ))}
                 </h1>
@@ -125,7 +124,7 @@ export function PageHero({ data }: { data: HeroData }) {
                         {i > 0 && <br />}
                         <DarkHighlightedLine
                           label={label}
-                          highlight={highlightForLine(data, label)}
+                          highlights={highlightsForLine(data, label)}
                         />
                       </span>
                     );
@@ -273,7 +272,7 @@ function HeroHeading({
         return (
           <span key={i}>
             {i > 0 && <br />}
-            {highlightLine(label, highlightForLine(data, label))}
+            {highlightLine(label, highlightsForLine(data, label))}
           </span>
         );
       })}
@@ -281,41 +280,94 @@ function HeroHeading({
   );
 }
 
-/** Per-line highlight: each entry of `highlightedWords` is matched against the
- * line that contains it (not by position), then falls back to the single
- * `highlightedWord` — so several heading lines can each carry an accent. */
-function highlightForLine(data: HeroData, lineLabel: string): string | undefined {
-  if (data.highlightedWords && data.highlightedWords.length > 0) {
-    const word = data.highlightedWords.find((w) => w && lineLabel.includes(w));
-    if (word) return word;
+/** Collect all highlights that match within this line, ordered by position. */
+function highlightsForLine(data: HeroData, lineLabel: string): Array<{ word: string; color?: string }> {
+  if (data.coloredHighlights && data.coloredHighlights.length > 0) {
+    return data.coloredHighlights.filter((e) => e.word && lineLabel.includes(e.word));
   }
-  return data.highlightedWord;
+  if (data.highlightedWords && data.highlightedWords.length > 0) {
+    return data.highlightedWords
+      .filter((w) => w && lineLabel.includes(w))
+      .map((w) => ({ word: w }));
+  }
+  if (data.highlightedWord && lineLabel.includes(data.highlightedWord)) {
+    return [{ word: data.highlightedWord }];
+  }
+  return [];
 }
 
-/** Italic accent-color highlight for the dark hero variant. */
-function DarkHighlightedLine({ label, highlight }: { label: string; highlight?: string }) {
-  const parts = splitHighlight(label, highlight);
-  if (!parts) return <>{label}</>;
-  return (
-    <>
-      {parts.before}
-      <span className="italic text-indigo-400">{parts.match}</span>
-      {parts.after}
-    </>
-  );
+/** Renders a line with multiple highlighted words/phrases, each in its own color. */
+function highlightLine(line: string, highlights: Array<{ word: string; color?: string }>) {
+  if (highlights.length === 0) return line;
+
+  // Build a list of non-overlapping highlight ranges sorted by position
+  const ranges: Array<{ start: number; end: number; color?: string }> = [];
+  for (const h of highlights) {
+    const idx = line.indexOf(h.word);
+    if (idx === -1) continue;
+    // Skip if overlapping an existing range
+    const overlaps = ranges.some((r) => idx < r.end && idx + h.word.length > r.start);
+    if (overlaps) continue;
+    ranges.push({ start: idx, end: idx + h.word.length, color: h.color });
+  }
+  if (ranges.length === 0) return line;
+
+  ranges.sort((a, b) => a.start - b.start);
+
+  const parts: React.ReactNode[] = [];
+  let cursor = 0;
+  for (const range of ranges) {
+    if (cursor < range.start) {
+      parts.push(line.slice(cursor, range.start));
+    }
+    const text = line.slice(range.start, range.end);
+    parts.push(
+      <span key={range.start} className={range.color ? undefined : "text-indigo-600"} style={range.color ? { color: range.color } : undefined}>
+        {text}
+      </span>
+    );
+    cursor = range.end;
+  }
+  if (cursor < line.length) {
+    parts.push(line.slice(cursor));
+  }
+  return <>{parts}</>;
 }
 
-/** Wraps the highlighted word/phrase in the accent color if it appears in this line. */
-function highlightLine(line: string, highlight?: string) {
-  const parts = splitHighlight(line, highlight);
-  if (!parts) return line;
-  return (
-    <>
-      {parts.before}
-      <span className="text-indigo-600">{parts.match}</span>
-      {parts.after}
-    </>
-  );
+/** Dark hero variant — italic with custom colors. */
+function DarkHighlightedLine({ label, highlights }: { label: string; highlights: Array<{ word: string; color?: string }> }) {
+  if (highlights.length === 0) return <>{label}</>;
+
+  const ranges: Array<{ start: number; end: number; color?: string }> = [];
+  for (const h of highlights) {
+    const idx = label.indexOf(h.word);
+    if (idx === -1) continue;
+    const overlaps = ranges.some((r) => idx < r.end && idx + h.word.length > r.start);
+    if (overlaps) continue;
+    ranges.push({ start: idx, end: idx + h.word.length, color: h.color });
+  }
+  if (ranges.length === 0) return <>{label}</>;
+
+  ranges.sort((a, b) => a.start - b.start);
+
+  const parts: React.ReactNode[] = [];
+  let cursor = 0;
+  for (const range of ranges) {
+    if (cursor < range.start) {
+      parts.push(label.slice(cursor, range.start));
+    }
+    const text = label.slice(range.start, range.end);
+    parts.push(
+      <span key={range.start} className={range.color ? "italic" : "italic text-indigo-400"} style={range.color ? { color: range.color } : undefined}>
+        {text}
+      </span>
+    );
+    cursor = range.end;
+  }
+  if (cursor < label.length) {
+    parts.push(label.slice(cursor));
+  }
+  return <>{parts}</>;
 }
 
 function HeroCtas({

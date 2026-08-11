@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { CtaData } from "@/lib/content/schemas";
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
-import { splitHighlight } from "@/lib/content/hero-text";
 import { usePublicLabelResolver } from "@/components/content/PublicLabelProvider";
 
 /**
@@ -33,7 +32,7 @@ export function CtaSection({ data }: { data: CtaData }) {
               {data.headingLines.map((line, i) => (
                 <span key={i}>
                   {i > 0 && <br />}
-                  {highlightLine(resolveLabel(line), data.highlightedWord)}
+                  {ctaHighlightLine(resolveLabel(line), data)}
                 </span>
               ))}
             </h2>
@@ -61,7 +60,7 @@ export function CtaSection({ data }: { data: CtaData }) {
           {data.headingLines.map((line, i) => (
             <span key={i}>
               {i > 0 && <br />}
-              {highlightLine(resolveLabel(line), data.highlightedWord)}
+              {ctaHighlightLine(resolveLabel(line), data)}
             </span>
           ))}
         </h2>
@@ -166,15 +165,44 @@ function CtaLink({
   );
 }
 
-/** Wraps the highlighted word/phrase in the amber accent if it appears in this line. */
-function highlightLine(line: string, highlight?: string) {
-  const parts = splitHighlight(line, highlight);
-  if (!parts) return line;
-  return (
-    <>
-      {parts.before}
-      <span className="text-amber-500">{parts.match}</span>
-      {parts.after}
-    </>
-  );
+/** Applies highlight colors to matched words in the line. Uses coloredHighlights
+ * if available, falls back to highlightedWord with amber accent. */
+function ctaHighlightLine(line: string, data: CtaData) {
+  // Collect applicable highlights
+  type HL = { word: string; color?: string };
+  const highlights: HL[] = [];
+  if (data.coloredHighlights && data.coloredHighlights.length > 0) {
+    for (const e of data.coloredHighlights) {
+      if (e.word && line.includes(e.word)) highlights.push({ word: e.word, color: e.color });
+    }
+  } else if (data.highlightedWord && line.includes(data.highlightedWord)) {
+    highlights.push({ word: data.highlightedWord, color: "#f59e0b" }); // amber-500 default for CTA
+  }
+  if (highlights.length === 0) return line;
+
+  // Build non-overlapping ranges
+  const ranges: Array<{ start: number; end: number; color?: string }> = [];
+  for (const h of highlights) {
+    const idx = line.indexOf(h.word);
+    if (idx === -1) continue;
+    const overlaps = ranges.some((r) => idx < r.end && idx + h.word.length > r.start);
+    if (overlaps) continue;
+    ranges.push({ start: idx, end: idx + h.word.length, color: h.color });
+  }
+  if (ranges.length === 0) return line;
+  ranges.sort((a, b) => a.start - b.start);
+
+  const parts: React.ReactNode[] = [];
+  let cursor = 0;
+  for (const range of ranges) {
+    if (cursor < range.start) parts.push(line.slice(cursor, range.start));
+    parts.push(
+      <span key={range.start} style={{ color: range.color || "#f59e0b" }}>
+        {line.slice(range.start, range.end)}
+      </span>
+    );
+    cursor = range.end;
+  }
+  if (cursor < line.length) parts.push(line.slice(cursor));
+  return <>{parts}</>;
 }

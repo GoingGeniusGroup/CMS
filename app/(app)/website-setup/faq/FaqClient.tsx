@@ -37,7 +37,7 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
   }
 
   async function handleAdd() {
-    if (!newQuestion.trim()) return;
+    if (!newQuestion.trim() || !newAnswer.trim()) return;
     setIsSubmitting(true);
     setMessage(null);
     const result = await createFaq(
@@ -95,11 +95,11 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
         <h2 className="text-base font-bold text-zinc-900">Add New {faqLabel}</h2>
         <div className="mt-4 space-y-4">
           <div>
-            <label className="mb-1 block text-sm font-bold text-zinc-800">Question</label>
+            <label className="mb-1 block text-sm font-bold text-zinc-800">Question <span className="text-red-500">*</span></label>
             <input type="text" value={newQuestion} onChange={(e) => setNewQuestion(e.target.value)} placeholder="e.g. What services do you offer?" className={inputCls} />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-bold text-zinc-800">Answer</label>
+            <label className="mb-1 block text-sm font-bold text-zinc-800">Answer <span className="text-red-500">*</span></label>
             <textarea rows={3} value={newAnswer} onChange={(e) => setNewAnswer(e.target.value)} placeholder="Write the answer here..." className="w-full resize-none rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:border-indigo-400 focus:bg-white" />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -119,7 +119,7 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
             </div>
           </div>
           <CustomFieldRenderer moduleKey="faq" onValuesChange={setNewCustomValues} />
-          <button type="button" onClick={handleAdd} disabled={isSubmitting || !newQuestion.trim()}
+          <button type="button" onClick={handleAdd} disabled={isSubmitting || !newQuestion.trim() || !newAnswer.trim()}
             className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
             {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
             <Plus className="h-4 w-4" /> Add {faqLabel}
@@ -193,7 +193,7 @@ function EditableFaq({ faq, onUpdated }: { faq: FaqData; onUpdated: (faq: FaqDat
   const statusDefault = statusOptions.find((s) => s.isDefault)?.statusValue ?? statusOptions[0]?.statusValue ?? "Active";
 
   async function handleSave() {
-    if (!question.trim()) return;
+    if (!question.trim() || !answer.trim()) return;
     setIsSaving(true);
     setSaved(false);
     const result = await updateFaq(faq.id, { question, answer, category, status: status || statusDefault }, customValues);
@@ -235,7 +235,7 @@ function EditableFaq({ faq, onUpdated }: { faq: FaqData; onUpdated: (faq: FaqDat
           </div>
           <div className="mt-5 flex items-center gap-3">
             {saved && <span className="text-xs font-medium text-green-600">Saved!</span>}
-            <button type="button" onClick={handleSave} disabled={isSaving || !question.trim()}
+            <button type="button" onClick={handleSave} disabled={isSaving || !question.trim() || !answer.trim()}
               className="inline-flex items-center gap-1.5 rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-600 disabled:opacity-50">
               {isSaving && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
               Save

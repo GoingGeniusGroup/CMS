@@ -25,7 +25,7 @@ export default async function BlogArticlePage({
   const allBlogs = await getPublicBlogs();
   const otherBlogs = allBlogs.filter((b) => b.slug !== slug).slice(0, 3);
 
-  const publishDate = blog.publishedAt || blog.createdAt;
+  const publishDate = new Date(blog.publishedAt || blog.createdAt);
 
   return (
     <div className="bg-[#f7f6f4]">
@@ -39,10 +39,10 @@ export default async function BlogArticlePage({
           Back to Blog
         </Link>
 
-        {/* Full-width hero image */}
+        {/* Hero image */}
         {blog.thumbnail && (
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-zinc-200">
-            <Image src={blog.thumbnail} alt={blog.title} fill sizes="100vw" className="object-cover" priority />
+          <div className="relative aspect-[21/9] overflow-hidden rounded-2xl border border-zinc-200">
+            <Image src={blog.thumbnail} alt={blog.title} fill sizes="(max-width: 1280px) 100vw, 1280px" className="object-cover" priority />
           </div>
         )}
 
@@ -126,7 +126,7 @@ export default async function BlogArticlePage({
                       <div>
                         <p className="text-xs font-semibold text-zinc-800 leading-snug group-hover:text-indigo-600 transition-colors">{a.title}</p>
                         <p className="mt-0.5 text-[10px] text-zinc-400">
-                          {(a.publishedAt || a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }).toUpperCase()}
+                          {new Date(a.publishedAt || a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }).toUpperCase()}
                         </p>
                       </div>
                     </Link>
@@ -187,7 +187,7 @@ export default async function BlogArticlePage({
                     <div className="mb-2 flex items-center gap-3 text-xs text-zinc-400">
                       <span className="flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
-                        {(card.publishedAt || card.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                        {new Date(card.publishedAt || card.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                       </span>
                       {card.readTime && (
                         <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{card.readTime}</span>

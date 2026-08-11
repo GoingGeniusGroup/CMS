@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { getPublicBlogs } from "@/app/actions/blogs";
 import { StaggerGrid, StaggerItem } from "@/components/motion/StaggerGrid";
@@ -32,12 +32,25 @@ export function LandingBlogSection({
   const [blogs, setBlogs] = useState<BlogData[]>(initialBlogs ?? []);
   const header = headerData ?? SECTION_REGISTRY["home.blog"].defaultData;
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScroll, setCanScroll] = useState(false);
+
+  const checkOverflow = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScroll(el.scrollWidth > el.clientWidth);
+  }, []);
 
   useEffect(() => {
     if (!initialBlogs) {
       getPublicBlogs().then((data) => setBlogs(JSON.parse(JSON.stringify(data))));
     }
   }, [initialBlogs]);
+
+  useEffect(() => {
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, [checkOverflow, blogs]);
 
   const scroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -55,26 +68,28 @@ export function LandingBlogSection({
         <div className="mx-auto max-w-7xl">
           <SectionHeader className="mb-6" data={header} />
 
-          <div className="mb-4 flex items-center justify-end gap-2">
-            <button
-              onClick={() => scroll("left")}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-500 transition hover:border-indigo-600 hover:text-indigo-600"
-              aria-label="Scroll left"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <button
-              onClick={() => scroll("right")}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-500 transition hover:border-indigo-600 hover:text-indigo-600"
-              aria-label="Scroll right"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
-          </div>
+          {canScroll && (
+            <div className="mb-4 flex items-center justify-end gap-2">
+              <button
+                onClick={() => scroll("left")}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-500 transition hover:border-indigo-600 hover:text-indigo-600"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-500 transition hover:border-indigo-600 hover:text-indigo-600"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          )}
 
           <StaggerGrid
             ref={scrollRef}
-            className="flex gap-5 overflow-x-auto pb-4"
+            className={canScroll ? "flex gap-5 overflow-x-auto pb-4" : "flex flex-wrap gap-5 pb-4"}
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             stagger={0.06}
           >

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import {
+  Bell,
   Cookie,
   LayoutTemplate,
   Mail,
@@ -43,6 +44,7 @@ export const settingsNavItems = [
   { label: "SEO", href: "/settings/seo", icon: Search },
   { label: "Popup", href: "/settings/popup", icon: LayoutTemplate },
   { label: "Cookies", href: "/settings/cookies", icon: Cookie },
+  { label: "Notifications", href: "/settings/notifications", icon: Bell },
 ];
 
 export function SettingsNav() {

@@ -92,6 +92,16 @@ export function AddCustomerModal({ isOpen, onClose, onSuccess, services }: AddCu
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!formData.firstName.trim() && !formData.lastName.trim()) {
+      setError("Customer name is required");
+      return;
+    }
+    if (!formData.email.trim()) {
+      setError("Email is required");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const result = await createCustomer({

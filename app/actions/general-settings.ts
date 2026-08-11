@@ -18,6 +18,7 @@ export type GeneralSettingInput = {
   lightThemeTextColor: string;
   darkThemeColor: string;
   darkThemeTextColor: string;
+  clientThemeMode: "system" | "light" | "dark";
   baseColorEnabled: boolean;
   industryProfile: string;
   currency?: string;
@@ -26,7 +27,11 @@ export type GeneralSettingInput = {
   numberFormat?: string;
 };
 
-export async function getGeneralSettings() {
+export type GeneralSettingsData = GeneralSettingInput & {
+  id: string | null;
+};
+
+export async function getGeneralSettings(): Promise<GeneralSettingsData> {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
 
@@ -45,6 +50,7 @@ export async function getGeneralSettings() {
       lightThemeTextColor: "#000000",
       darkThemeColor: "#fbbf24",
       darkThemeTextColor: "#18181b",
+      clientThemeMode: "system",
       baseColorEnabled: true,
       industryProfile: "Generic",
       currency: "NPR",
@@ -66,6 +72,12 @@ export async function getGeneralSettings() {
     lightThemeTextColor: setting.lightThemeTextColor || setting.themeTextColor || "#000000",
     darkThemeColor: setting.darkThemeColor || "#fbbf24",
     darkThemeTextColor: setting.darkThemeTextColor || "#18181b",
+    clientThemeMode:
+      (setting.clientThemeMode === "system" ||
+      setting.clientThemeMode === "light" ||
+      setting.clientThemeMode === "dark"
+        ? setting.clientThemeMode
+        : "system") as "system" | "light" | "dark",
     baseColorEnabled: setting.baseColorEnabled,
     industryProfile: setting.industryProfile || "Generic",
     currency: setting.currency,
@@ -161,6 +173,9 @@ export async function saveGeneralSettings(data: GeneralSettingInput) {
         data.darkThemeColor = primary;
         data.darkThemeTextColor = onPrimary;
       }
+    }
+    if (data.clientThemeMode !== "system" && data.clientThemeMode !== "light" && data.clientThemeMode !== "dark") {
+      return { success: false, error: "Client theme mode must be system, light, or dark." };
     }
     const existing = await prisma.generalSetting.findFirst();
     const previousProfile = existing?.industryProfile || "Generic";

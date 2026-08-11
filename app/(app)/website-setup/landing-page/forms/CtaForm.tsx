@@ -139,17 +139,60 @@ export function CtaForm({
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-bold text-zinc-800">Highlighted Word</label>
-        <input
-          type="text"
-          value={form.highlightedWord ?? ""}
-          onChange={(e) => update("highlightedWord", e.target.value)}
-          placeholder="e.g. Ready to Start"
-          className={inputCls}
-        />
-        <p className="mt-1 text-xs text-zinc-400">
-          Must exactly match text inside one of the heading lines above to be highlighted in the amber accent color.
+        <label className="mb-1 block text-sm font-bold text-zinc-800">Highlights</label>
+        <p className="mb-2 text-xs text-zinc-400">
+          Pick any word or phrase from the heading lines and assign a color.
         </p>
+        <div className="space-y-2">
+          {(form.coloredHighlights ?? (form.highlightedWord ? [{ word: form.highlightedWord, color: "#f59e0b" }] : [])).map((entry, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <input
+                type="text"
+                value={entry.word}
+                onChange={(e) => {
+                  const next = [...(form.coloredHighlights ?? [])];
+                  next[i] = { ...next[i], word: e.target.value };
+                  update("coloredHighlights", next);
+                }}
+                placeholder="Word or phrase to highlight"
+                className={`${inputCls} flex-1`}
+              />
+              <input
+                type="color"
+                value={entry.color}
+                onChange={(e) => {
+                  const next = [...(form.coloredHighlights ?? [])];
+                  next[i] = { ...next[i], color: e.target.value };
+                  update("coloredHighlights", next);
+                }}
+                className="h-10 w-10 shrink-0 cursor-pointer rounded-lg border border-zinc-200 p-0.5"
+                title="Pick color"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  update("coloredHighlights", (form.coloredHighlights ?? []).filter((_, idx) => idx !== i));
+                }}
+                aria-label={`Remove highlight ${i + 1}`}
+                className="shrink-0 rounded-lg p-2 text-zinc-400 hover:bg-red-50 hover:text-red-600"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </div>
+          ))}
+        </div>
+        {(form.coloredHighlights ?? []).length < 8 && (
+          <button
+            type="button"
+            onClick={() => {
+              update("coloredHighlights", [...(form.coloredHighlights ?? []), { word: "", color: "#f59e0b" }]);
+            }}
+            className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-700"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            Add highlight
+          </button>
+        )}
       </div>
 
       <div>

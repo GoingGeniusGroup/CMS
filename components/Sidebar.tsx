@@ -67,7 +67,7 @@ export const navItems: NavItem[] = [
     href: "/website-setup",
     icon: Globe,
     children: [
-      { id: "landing-page", label: "Landing Page", href: "/website-setup/landing-page", icon: LayoutTemplate },
+      { id: "landing-page", label: "Page Content", href: "/website-setup/landing-page", icon: LayoutTemplate },
       { id: "website-header", label: "Website Header", href: "/website-setup/header", icon: Globe },
       { id: "footer-widgets", label: "Footer Widgets", href: "/website-setup/footer-widgets", icon: LayoutPanelTop },
       { id: "partners", label: "Our Partners", href: "/website-setup/partners", icon: Handshake },

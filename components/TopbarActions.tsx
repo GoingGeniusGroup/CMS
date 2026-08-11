@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Bell, Globe, Settings } from "lucide-react";
+import { Globe, Settings } from "lucide-react";
 import Image from "next/image";
 import { useSiteUrl } from "@/components/EnvProvider";
+import { NotificationPanel } from "@/components/NotificationPanel";
 
 function IconButton({
   children,
@@ -52,9 +53,7 @@ export function TopbarActions() {
     <>
       {/* Action icons */}
       <div className="flex shrink-0 items-center gap-2 sm:gap-[19px]">
-        <IconButton badge={20} onClick={() => setToast("Coming soon")}>
-          <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
-        </IconButton>
+        <NotificationPanel />
         <IconButton onClick={() => window.open(siteUrl, "_blank", "noopener,noreferrer")}>
           <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
         </IconButton>

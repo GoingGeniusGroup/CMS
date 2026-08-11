@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { unstable_cache, updateTag, revalidatePath } from "next/cache";
+import { unstable_cache, revalidatePath, revalidateTag } from "next/cache";
 import {
   SECTION_REGISTRY,
   parseSectionData,
@@ -139,7 +139,7 @@ export async function saveSection<K extends SectionKey>(
       },
     });
 
-    updateTag("site-content");
+    revalidateTag("site-content", { expire: 0 });
     revalidatePath(`/${pageKey === "home" ? "home" : pageKey}`);
     return { success: true };
   } catch (error) {
@@ -182,7 +182,7 @@ export async function toggleSection(
       },
     });
 
-    updateTag("site-content");
+    revalidateTag("site-content", { expire: 0 });
     revalidatePath(`/${pageKey}`);
     return { success: true };
   } catch (error) {
@@ -232,7 +232,7 @@ export async function reorderSections(
       })
     );
 
-    updateTag("site-content");
+    revalidateTag("site-content", { expire: 0 });
     revalidatePath(`/${pageKey}`);
     return { success: true };
   } catch (error) {

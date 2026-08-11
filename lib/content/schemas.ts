@@ -96,6 +96,15 @@ export const heroSchema = z.object({
    * (the our-projects hero highlights "Real" and "Impact" on separate lines).
    */
   highlightedWords: z.array(z.string().max(40)).max(4).optional(),
+  /**
+   * Per-word highlight with custom color. When present, takes precedence over
+   * both `highlightedWord` and `highlightedWords`. Each entry specifies a
+   * word/phrase and the color to render it in.
+   */
+  coloredHighlights: z.array(z.object({
+    word: z.string().max(80),
+    color: z.string().max(30).default("#4f46e5"),
+  })).max(8).optional(),
   /** Only rendered by the "stats" layout, as a row of cards below the fold. */
   stats: z.array(heroStatSchema).max(6).optional(),
   /**
@@ -273,6 +282,11 @@ export const ctaSchema = z.object({
   eyebrow: z.string().max(80).optional(),
   headingLines: z.array(z.string().max(80)).min(1).max(4),
   highlightedWord: z.string().max(40).optional(),
+  /** Per-word highlight with custom color — same mechanism as the hero. */
+  coloredHighlights: z.array(z.object({
+    word: z.string().max(80),
+    color: z.string().max(30).default("#4f46e5"),
+  })).max(8).optional(),
   "Subheading": z.string().max(400).optional(),
   primaryCtaLabel: z.string().max(60).optional(),
   primaryCtaHref: ctaHrefRefine,
@@ -931,20 +945,19 @@ export const SECTION_REGISTRY = {
     schema: heroSchema,
     defaultOrder: 0,
     defaultData: {
-      layout: "centered",
-      // The circular logo mark replaces the bespoke GeniusMark that used to
-      // sit in the hero's right column; the centered layout renders it above
-      // the heading (see heroSchema.logoUrl).
-      logoUrl: "/logo.png",
-      headingLines: ["Innovating the Future with Going Genius"],
+      layout: "split",
+      eyebrow: "Our Company",
+      headingLines: ["Innovating the Future", "with Going Genius"],
       highlightedWord: "Going Genius",
       "Subheading":
         "We are a team of passionate innovators, designers, and developers building digital solutions that help businesses grow, scale, and succeed in an ever-changing world.",
       primaryCtaLabel: "Explore Our Work",
       primaryCtaHref: "/our-projects",
       primaryCtaShowArrow: true,
-      secondaryCtaLabel: "Learn More About Us",
-      secondaryCtaHref: "/about",
+      secondaryCtaLabel: "Contact Us",
+      secondaryCtaHref: "/contact",
+      imageUrl: "/logo.png",
+      imageAlt: "Going Genius",
     },
   }),
 
@@ -1078,6 +1091,53 @@ export const SECTION_REGISTRY = {
     defaultData: {
       eyebrow: "Support",
       heading: "Frequently Asked Questions",
+    },
+  }),
+
+  // ─── Portfolio page ───────────────────────────────────────────────────────
+  "portfolio.hero": defineSection<HeroData>({
+    pageKey: "portfolio",
+    label: "Hero",
+    kind: "hero",
+    schema: heroSchema,
+    defaultOrder: 0,
+    defaultData: {
+      layout: "split",
+      darkCardStyle: true,
+      eyebrow: "Our Portfolio",
+      headingLines: ["Building Digital", "Products That Drive", "Real Impact"],
+      highlightedWords: ["Real", "Impact"],
+      "Subheading":
+        "We design and develop innovative digital experiences that help brands grow, engage users, and achieve measurable business results.",
+      primaryCtaLabel: "Explore Projects",
+      primaryCtaHref: "#projects",
+      primaryCtaShowArrow: true,
+      imageUrl: "/career3.png",
+      imageAlt: "Portfolio showcase",
+    },
+  }),
+
+  "portfolio.cta": defineSection<CtaData>({
+    pageKey: "portfolio",
+    label: "CTA section",
+    kind: "cta",
+    schema: ctaSchema,
+    defaultOrder: 1,
+    defaultData: {
+      variant: "split",
+      cardStyle: true,
+      eyebrow: "LET'S WORK TOGETHER",
+      headingLines: ["Have a Project", "in Mind?"],
+      highlightedWord: "Project",
+      "Subheading":
+        "We're here to turn your ideas into powerful digital solutions that drive results. Our team of experts is ready to help you scale your business.",
+      primaryCtaLabel: "Start Your Project",
+      primaryCtaHref: "/contact",
+      primaryCtaShowArrow: true,
+      secondaryCtaLabel: "View Services",
+      secondaryCtaHref: "/our-services",
+      imageUrl: "/career3.png",
+      imageAlt: "Collaboration",
     },
   }),
 } as const satisfies Record<string, SectionRegistryEntry<unknown>>;

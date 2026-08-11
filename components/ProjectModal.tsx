@@ -107,6 +107,12 @@ export function ProjectModal({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+
+    if (!title.trim()) {
+      setError("Project title is required");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const data: ProjectInput = {

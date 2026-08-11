@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 export type AppearanceData = {
   hoverColor: string;
@@ -60,6 +60,6 @@ export async function saveAppearanceSettings(data: AppearanceData) {
   } else {
     await prisma.appearanceSetting.create({ data });
   }
-  updateTag("appearance-settings");
+  revalidateTag("appearance-settings", { expire: 0 });
   return { success: true };
 }

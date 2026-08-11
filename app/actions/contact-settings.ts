@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 // Phone: allow digits, +, spaces, dashes, parentheses. Empty is allowed for optional fields.
 const phoneRegex = /^[0-9+\-\s()]*$/;
@@ -34,6 +34,11 @@ const contactSettingsSchema = z.object({
     .email("Please enter a valid email address"),
   officeHours: z.string().optional().or(z.literal("")),
   googleMapEmbed: z.string().optional().or(z.literal("")),
+  // Floating chat widget
+  floatingChatEnabled: z.boolean().default(false),
+  floatingChatPlatform: z.enum(["whatsapp", "messenger", "custom"]).default("whatsapp"),
+  floatingChatValue: z.string().max(300).optional().or(z.literal("")),
+  floatingChatLabel: z.string().max(100).optional().or(z.literal("")),
 });
 
 export type ContactSettingInput = z.infer<typeof contactSettingsSchema>;
@@ -83,7 +88,7 @@ export async function saveContactSettings(data: ContactSettingInput) {
       await prisma.contactSetting.create({ data: result.data });
     }
 
-    updateTag("contact-settings");
+    revalidateTag("contact-settings", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Save contact settings error:", error);

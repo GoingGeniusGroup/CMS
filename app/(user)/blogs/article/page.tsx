@@ -268,7 +268,7 @@ export default async function BlogArticlePage() {
                     <div className="mb-2 flex items-center gap-3 text-xs text-zinc-400">
                       <span className="flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
-                        {(blog.publishedAt || blog.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                        {new Date(blog.publishedAt || blog.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
                       </span>
                       {blog.readTime && (
                         <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{blog.readTime}</span>

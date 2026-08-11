@@ -82,7 +82,7 @@ export default function DashboardPage() {
     <div className="space-y-5 sm:space-y-6">
       <Topbar showSearch={false} />
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-        <PageHeader title="Dashboard" description="Hi, Admin. Welcome back to Admin!" />
+        <PageHeader title="Dashboard" description="Hi, Admin. Welcome back to CMS-GG !" />
         <div className="relative">
           <button
             type="button"

@@ -21,6 +21,7 @@ type GeneralSettingData = {
   lightThemeTextColor: string;
   darkThemeColor: string;
   darkThemeTextColor: string;
+  clientThemeMode: "system" | "light" | "dark";
   baseColorEnabled: boolean;
   industryProfile: string;
 };
@@ -48,6 +49,9 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
   );
   const [darkThemeColor, setDarkThemeColor] = useState(initialData.darkThemeColor || "#fbbf24");
   const [darkThemeTextColor, setDarkThemeTextColor] = useState(initialData.darkThemeTextColor || "#18181b");
+  const [clientThemeMode, setClientThemeMode] = useState<"system" | "light" | "dark">(
+    initialData.clientThemeMode || "system"
+  );
   const [description, setDescription] = useState(initialData.description || "");
   const [metaKeywords, setMetaKeywords] = useState(initialData.metaKeywords || "");
   const [baseColorEnabled, setBaseColorEnabled] = useState(initialData.baseColorEnabled);
@@ -72,6 +76,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
     themeTextColor: initialData.lightThemeTextColor || initialData.themeTextColor || "#000000",
     darkThemeColor: initialData.darkThemeColor || "#fbbf24",
     darkThemeTextColor: initialData.darkThemeTextColor || "#18181b",
+    clientThemeMode: initialData.clientThemeMode || "system",
     description: initialData.description || "",
     metaKeywords: initialData.metaKeywords || "",
     baseColorEnabled: initialData.baseColorEnabled,
@@ -86,6 +91,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
     themeTextColor !== baseline.themeTextColor ||
     darkThemeColor !== baseline.darkThemeColor ||
     darkThemeTextColor !== baseline.darkThemeTextColor ||
+    clientThemeMode !== baseline.clientThemeMode ||
     description !== baseline.description ||
     metaKeywords !== baseline.metaKeywords ||
     baseColorEnabled !== baseline.baseColorEnabled ||
@@ -122,6 +128,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
     setThemeTextColor(baseline.themeTextColor);
     setDarkThemeColor(baseline.darkThemeColor);
     setDarkThemeTextColor(baseline.darkThemeTextColor);
+    setClientThemeMode(baseline.clientThemeMode);
     setDescription(baseline.description);
     setMetaKeywords(baseline.metaKeywords);
     setBaseColorEnabled(baseline.baseColorEnabled);
@@ -144,6 +151,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
         lightThemeTextColor: themeTextColor,
         darkThemeColor,
         darkThemeTextColor,
+        clientThemeMode,
         baseColorEnabled,
         industryProfile,
       });
@@ -156,6 +164,7 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
           themeTextColor,
           darkThemeColor,
           darkThemeTextColor,
+          clientThemeMode,
           description,
           metaKeywords,
           baseColorEnabled,
@@ -362,6 +371,41 @@ export default function GeneralSettingsClient({ initialData }: { initialData: Ge
         <div className="mt-5 flex h-[92px] items-center justify-center gap-3 rounded-lg border border-[var(--color-border)]" style={{ backgroundColor: darkThemeColor }}>
           <span className="text-base font-bold" style={{ color: darkThemeTextColor }}>{form.siteName || "Sample Text"}</span>
           <span className="rounded-full px-3 py-1 text-xs font-semibold" style={{ backgroundColor: darkThemeTextColor, color: darkThemeColor }}>Button</span>
+        </div>
+      </div>
+
+      {/* Client Theme Mode */}
+      <div className="mt-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-sunken)] p-4 sm:p-5">
+        <div className="mb-4">
+          <h2 className="text-sm font-bold text-[var(--color-text)]">Client Theme Mode</h2>
+          <p className="mt-1 text-xs text-[var(--color-text-muted)]">
+            Controls the default theme shown to visitors on the public website. This is
+            separate from your admin panel theme, which you manage with the theme switcher
+            in the top bar.
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {(
+            [
+              ["system", "System"],
+              ["light", "Light"],
+              ["dark", "Dark"],
+            ] as const
+          ).map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => setClientThemeMode(value)}
+              aria-pressed={clientThemeMode === value}
+              className={`inline-flex h-9 items-center rounded-full px-4 text-xs font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)] ${
+                clientThemeMode === value
+                  ? "bg-[var(--color-primary)] text-[var(--color-on-primary)] shadow-sm"
+                  : "border border-[var(--color-border)] bg-[var(--color-input)] text-[var(--color-text)] hover:bg-[var(--color-surface-raised)]"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </div>
 

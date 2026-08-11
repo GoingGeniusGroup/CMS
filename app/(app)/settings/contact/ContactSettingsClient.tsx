@@ -14,6 +14,10 @@ type ContactData = {
   contactMail?: string;
   officeHours?: string;
   googleMapEmbed?: string;
+  floatingChatEnabled?: boolean;
+  floatingChatPlatform?: string;
+  floatingChatValue?: string;
+  floatingChatLabel?: string;
 } | null;
 
 // ─── Validation helpers ──────────────────────────────────────────────────────
@@ -74,6 +78,10 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
   const [contactMail, setContactMail] = useState(initialData?.contactMail ?? "");
   const [officeHours, setOfficeHours] = useState(initialData?.officeHours ?? "");
   const [googleMapEmbed, setGoogleMapEmbed] = useState(initialData?.googleMapEmbed ?? "");
+  const [floatingChatEnabled, setFloatingChatEnabled] = useState(initialData?.floatingChatEnabled ?? false);
+  const [floatingChatPlatform, setFloatingChatPlatform] = useState(initialData?.floatingChatPlatform ?? "whatsapp");
+  const [floatingChatValue, setFloatingChatValue] = useState(initialData?.floatingChatValue ?? "");
+  const [floatingChatLabel, setFloatingChatLabel] = useState(initialData?.floatingChatLabel ?? "Chat with us");
 
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -90,6 +98,10 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
     contactMail: initialData?.contactMail ?? "",
     officeHours: initialData?.officeHours ?? "",
     googleMapEmbed: initialData?.googleMapEmbed ?? "",
+    floatingChatEnabled: initialData?.floatingChatEnabled ?? false,
+    floatingChatPlatform: initialData?.floatingChatPlatform ?? "whatsapp",
+    floatingChatValue: initialData?.floatingChatValue ?? "",
+    floatingChatLabel: initialData?.floatingChatLabel ?? "Chat with us",
   });
 
   const hasChanges =
@@ -100,7 +112,11 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
     address !== baseline.address ||
     contactMail !== baseline.contactMail ||
     officeHours !== baseline.officeHours ||
-    googleMapEmbed !== baseline.googleMapEmbed;
+    googleMapEmbed !== baseline.googleMapEmbed ||
+    floatingChatEnabled !== baseline.floatingChatEnabled ||
+    floatingChatPlatform !== baseline.floatingChatPlatform ||
+    floatingChatValue !== baseline.floatingChatValue ||
+    floatingChatLabel !== baseline.floatingChatLabel;
 
   function handleCancel() {
     setPhone1(baseline.phone1);
@@ -111,6 +127,10 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
     setContactMail(baseline.contactMail);
     setOfficeHours(baseline.officeHours);
     setGoogleMapEmbed(baseline.googleMapEmbed);
+    setFloatingChatEnabled(baseline.floatingChatEnabled);
+    setFloatingChatPlatform(baseline.floatingChatPlatform);
+    setFloatingChatValue(baseline.floatingChatValue);
+    setFloatingChatLabel(baseline.floatingChatLabel);
     setMessage(null);
     setFieldErrors({});
   }
@@ -138,12 +158,16 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
       contactMail,
       officeHours,
       googleMapEmbed,
+      floatingChatEnabled,
+      floatingChatPlatform: floatingChatPlatform as "whatsapp" | "messenger" | "custom",
+      floatingChatValue,
+      floatingChatLabel,
     });
 
     setIsSaving(false);
 
     if (result.success) {
-      setBaseline({ phone1, phone2, email1, email2, address, contactMail, officeHours, googleMapEmbed });
+      setBaseline({ phone1, phone2, email1, email2, address, contactMail, officeHours, googleMapEmbed, floatingChatEnabled, floatingChatPlatform, floatingChatValue, floatingChatLabel });
       setMessage({ type: "success", text: "Contact settings saved!" });
       setFieldErrors({});
     } else {
@@ -369,6 +393,97 @@ export function ContactSettingsClient({ initialData }: { initialData: ContactDat
           )}
         </div>
       </div>
+    </Card>
+
+    {/* Floating Chat Widget */}
+    <Card className="mt-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-base font-bold text-zinc-900">Floating Chat Widget</h3>
+          <p className="text-xs text-zinc-500">Show a floating chat button on the website for quick messaging.</p>
+        </div>
+        <label className="relative inline-flex cursor-pointer items-center">
+          <input
+            type="checkbox"
+            checked={floatingChatEnabled}
+            onChange={(e) => setFloatingChatEnabled(e.target.checked)}
+            className="peer sr-only"
+          />
+          <div className="peer h-6 w-11 rounded-full bg-zinc-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-500 peer-checked:after:translate-x-full" />
+        </label>
+      </div>
+
+      {floatingChatEnabled && (
+        <div className="mt-5 space-y-4">
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-black">Platform</label>
+            <div className="flex flex-wrap gap-2">
+              {([
+                { value: "whatsapp", label: "WhatsApp", color: "bg-[#25D366]" },
+                { value: "messenger", label: "Messenger", color: "bg-[#0084FF]" },
+                { value: "custom", label: "Custom Link", color: "bg-indigo-600" },
+              ] as const).map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setFloatingChatPlatform(opt.value)}
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                    floatingChatPlatform === opt.value
+                      ? `${opt.color} text-white shadow-md`
+                      : "border border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-black">
+              {floatingChatPlatform === "whatsapp"
+                ? "WhatsApp Number (with country code)"
+                : floatingChatPlatform === "messenger"
+                  ? "Facebook Page Username or ID"
+                  : "Chat URL"}
+            </label>
+            <input
+              type="text"
+              value={floatingChatValue}
+              onChange={(e) => setFloatingChatValue(e.target.value)}
+              placeholder={
+                floatingChatPlatform === "whatsapp"
+                  ? "+977 9800000000"
+                  : floatingChatPlatform === "messenger"
+                    ? "yourpagename"
+                    : "https://tawk.to/chat/..."
+              }
+              className={inputCls("floatingChatValue")}
+            />
+            <p className="mt-1 text-xs text-zinc-400">
+              {floatingChatPlatform === "whatsapp"
+                ? "Include country code. Example: +977 9812345678"
+                : floatingChatPlatform === "messenger"
+                  ? "Your Facebook page username (the part after facebook.com/)"
+                  : "Full URL to your chat service"}
+            </p>
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-black">Tooltip Label</label>
+            <input
+              type="text"
+              value={floatingChatLabel}
+              onChange={(e) => setFloatingChatLabel(e.target.value)}
+              placeholder="Chat with us"
+              className={inputCls("floatingChatLabel")}
+            />
+            <p className="mt-1 text-xs text-zinc-400">
+              Shown when hovering over the floating button.
+            </p>
+          </div>
+        </div>
+      )}
     </Card>
     </>
   );

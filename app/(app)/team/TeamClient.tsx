@@ -138,6 +138,14 @@ export function TeamClient({ initialData }: { initialData: TeamData }) {
   }
 
   async function handleSubmit(formData: MemberFormData, customValues?: CustomValues) {
+    if (!formData.name?.trim()) {
+      alert("Full name is required");
+      return;
+    }
+    if (!formData.email?.trim()) {
+      alert("Email is required");
+      return;
+    }
     const input: TeamMemberInput = {
       fullName: formData.name,
       email: formData.email,

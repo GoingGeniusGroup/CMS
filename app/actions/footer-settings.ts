@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 export type SocialEntry = { platform: string; url: string };
 export type LinkColumn = { title: string; links: { label: string; href: string }[] };
@@ -104,7 +104,7 @@ export async function saveFooterSettings(data: FooterSettingData) {
     } else {
       await prisma.footerSetting.create({ data: payload });
     }
-    updateTag("footer-settings");
+    revalidateTag("footer-settings", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("saveFooterSettings error:", error);

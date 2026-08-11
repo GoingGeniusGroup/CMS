@@ -350,10 +350,14 @@ export default async function ProjectDetailPage({
             <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {relatedProjects.map((rp) => (
                 <div key={rp.id} className="group">
-                  {rp.thumbnail && (
+                  {rp.thumbnail ? (
                     <ProjectImageFrame src={rp.thumbnail} alt={rp.title} sizes="(max-width: 640px) 100vw, 33vw" />
+                  ) : (
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-100 shadow-inner flex items-center justify-center">
+                      <Briefcase className="h-10 w-10 text-zinc-300" />
+                    </div>
                   )}
-                  <div className={rp.thumbnail ? "mt-4" : ""}>
+                  <div className="mt-4">
                     {rp.category && (
                       <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-600">{rp.category}</p>
                     )}

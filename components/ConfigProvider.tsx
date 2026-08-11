@@ -6,12 +6,11 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
-import { getEntityLabelsArray } from "@/app/actions/labels";
-import { getStatusOptionsClient } from "@/app/actions/status-options";
-import { getSidebarModuleConfig } from "@/app/actions/sidebar-nav";
+import { getAdminConfigBundle } from "@/app/actions/admin-config";
 import { DEFAULT_ENTITY_LABELS } from "@/lib/config/entity-labels";
 import { DEFAULT_STATUS_OPTIONS } from "@/lib/config/status-options";
 import type { StatusOptionDto } from "@/lib/status-options";
@@ -56,11 +55,8 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
   const loadConfig = useCallback(async () => {
     try {
-      const [labelRows, statusMap, sidebarNav] = await Promise.all([
-        getEntityLabelsArray(),
-        getStatusOptionsClient(),
-        getSidebarModuleConfig(),
-      ]);
+      const { labels: labelRows, statusOptions: statusMap, disabledNavIds: navIds } =
+        await getAdminConfigBundle();
 
       const nextLabels: LabelsMap = { ...DEFAULT_ENTITY_LABELS };
       for (const row of labelRows) {
@@ -72,24 +68,18 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
         setStatusOptions(statusMap);
       }
 
-      setDisabledNavIds(sidebarNav.disabled);
+      setDisabledNavIds(navIds);
     } catch {
       // Keep current values — the admin panel stays fully functional without config.
     }
   }, []);
 
+  // Guard against React StrictMode's double effect invocation: only fetch once.
+  const didFetch = useRef(false);
   useEffect(() => {
-    let cancelled = false;
-
-    async function load() {
-      if (cancelled) return;
-      await loadConfig();
-    }
-
-    load();
-    return () => {
-      cancelled = true;
-    };
+    if (didFetch.current) return;
+    didFetch.current = true;
+    loadConfig();
   }, [loadConfig]);
 
   const entityLabel = useCallback(

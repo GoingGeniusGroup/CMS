@@ -4,7 +4,9 @@ import { TopBanner } from "@/components/TopBanner";
 import Footer from "@/components/footer";
 import { CookieBanner } from "@/components/CookieBanner";
 import { SitePopup } from "@/components/SitePopup";
+import { FloatingChatWidget } from "@/components/FloatingChatWidget";
 import { getSiteSettings } from "@/lib/site-settings";
+import { ThemeModeProvider } from "@/components/ThemeModeProvider";
 import { getPublicContactSettings } from "@/app/actions/contact-settings";
 import { getPublicWebsiteHeader } from "@/app/actions/website-header";
 import { getPublicFooterSettings } from "@/app/actions/footer-settings";
@@ -76,6 +78,7 @@ export default async function UserLayout({
   const hasBanner = !!headerSettings.bannerImageUrl;
 
   return (
+    <ThemeModeProvider area="client" defaultPreference={settings.clientThemeMode}>
     <PublicModuleVisibilityProvider initialDisabled={disabledModules}>
     <PublicLabelProvider initialLabels={entityLabels}>
     <div className="min-h-screen bg-[var(--color-page)] text-[var(--color-text)] flex flex-col">
@@ -124,8 +127,15 @@ export default async function UserLayout({
         showPopup={popupSettings.showPopup}
         content={popupSettings.content}
       />
+      <FloatingChatWidget
+        enabled={!!contactSettings?.floatingChatEnabled}
+        platform={(contactSettings?.floatingChatPlatform as "whatsapp" | "messenger" | "custom") || "whatsapp"}
+        value={contactSettings?.floatingChatValue || ""}
+        label={contactSettings?.floatingChatLabel || undefined}
+      />
     </div>
     </PublicLabelProvider>
     </PublicModuleVisibilityProvider>
+    </ThemeModeProvider>
   );
 }

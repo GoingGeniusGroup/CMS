@@ -22,7 +22,20 @@ export function HeroForm({
   data: HeroData;
   onChange: (data: HeroData) => void;
 }) {
-  const [form, setForm] = useState<HeroData>(data);
+  // Migrate legacy highlight fields into coloredHighlights on load
+  const [form, setForm] = useState<HeroData>(() => {
+    if (data.coloredHighlights && data.coloredHighlights.length > 0) return data;
+    const migrated: Array<{ word: string; color: string }> = [];
+    if (data.highlightedWords && data.highlightedWords.length > 0) {
+      for (const w of data.highlightedWords) {
+        if (w) migrated.push({ word: w, color: "#4f46e5" });
+      }
+    } else if (data.highlightedWord) {
+      migrated.push({ word: data.highlightedWord, color: "#4f46e5" });
+    }
+    if (migrated.length === 0) return data;
+    return { ...data, coloredHighlights: migrated };
+  });
 
   function update<K extends keyof HeroData>(key: K, value: HeroData[K]) {
     const next = { ...form, [key]: value };
@@ -116,41 +129,62 @@ export function HeroForm({
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-bold text-zinc-800">Highlighted Word</label>
-        <input
-          type="text"
-          value={form.highlightedWord ?? ""}
-          onChange={(e) => update("highlightedWord", e.target.value)}
-          placeholder="e.g. Build Smarter"
-          className={inputCls}
-        />
-        <p className="mt-1 text-xs text-zinc-400">
-          Must exactly match text inside one of the heading lines above to be highlighted in the accent color.
-        </p>
-      </div>
-
-      <div>
         <label className="mb-1 block text-sm font-bold text-zinc-800">
-          Additional Highlighted Words (optional)
+          Highlights
         </label>
-        <textarea
-          rows={4}
-          value={form.highlightedWords?.join("\n") ?? ""}
-          onChange={(e) =>
-            update(
-              "highlightedWords",
-              e.target.value
-                .split("\n")
-                .map((w) => w.trim())
-                .filter(Boolean)
-            )
-          }
-          placeholder={"One phrase per line, each matched against any heading line:\nReal\nImpact"}
-          className={`${inputCls} resize-none`}
-        />
-        <p className="mt-1 text-xs text-zinc-400">
-          When set, overrides the single &quot;Highlighted Word&quot; above so multiple lines can each carry an accent.
+        <p className="mb-2 text-xs text-zinc-400">
+          Pick any word or phrase from the heading lines and assign a color. The text must appear exactly in one of the lines above.
         </p>
+        <div className="space-y-2">
+          {(form.coloredHighlights ?? []).map((entry, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <input
+                type="text"
+                value={entry.word}
+                onChange={(e) => {
+                  const next = [...(form.coloredHighlights ?? [])];
+                  next[i] = { ...next[i], word: e.target.value };
+                  update("coloredHighlights", next);
+                }}
+                placeholder="Word or phrase to highlight"
+                className={`${inputCls} flex-1`}
+              />
+              <input
+                type="color"
+                value={entry.color}
+                onChange={(e) => {
+                  const next = [...(form.coloredHighlights ?? [])];
+                  next[i] = { ...next[i], color: e.target.value };
+                  update("coloredHighlights", next);
+                }}
+                className="h-10 w-10 shrink-0 cursor-pointer rounded-lg border border-zinc-200 p-0.5"
+                title="Pick color"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  update("coloredHighlights", (form.coloredHighlights ?? []).filter((_, idx) => idx !== i));
+                }}
+                aria-label={`Remove highlight ${i + 1}`}
+                className="shrink-0 rounded-lg p-2 text-zinc-400 hover:bg-red-50 hover:text-red-600"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </div>
+          ))}
+        </div>
+        {(form.coloredHighlights ?? []).length < 8 && (
+          <button
+            type="button"
+            onClick={() => {
+              update("coloredHighlights", [...(form.coloredHighlights ?? []), { word: "", color: "#4f46e5" }]);
+            }}
+            className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-700"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            Add highlight
+          </button>
+        )}
       </div>
 
       <div>

@@ -34,6 +34,7 @@ async function main() {
     lightThemeTextColor: "#000000",
     darkThemeColor: "#fbbf24",
     darkThemeTextColor: "#18181b",
+    clientThemeMode: "system",
     baseColorEnabled: true,
   });
   console.log("  ✓ General settings");

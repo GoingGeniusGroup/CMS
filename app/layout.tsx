@@ -4,8 +4,13 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { AuthProvider } from "@/components/AuthProvider";
 import { EnvProvider } from "@/components/EnvProvider";
 import { getSiteSettings } from "@/lib/site-settings";
-import { ThemeModeProvider } from "@/components/ThemeModeProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import {
+  ADMIN_THEME_PREFERENCE_STORAGE_KEY,
+  CLIENT_THEME_PREFERENCE_STORAGE_KEY,
+  THEME_PREFERENCE_STORAGE_KEY,
+  ADMIN_ROUTE_PREFIXES,
+} from "@/components/ThemeModeProvider";
 import { getPublicAppearanceSettings } from "@/app/actions/appearance";
 import "./globals.css";
 
@@ -21,12 +26,24 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const themeBootstrapScript = `(() => {
+function buildThemeBootstrapScript(clientThemeMode: "system" | "light" | "dark") {
+  const adminPrefixes = JSON.stringify(ADMIN_ROUTE_PREFIXES);
+  return `(() => {
   try {
-    const key = "cms-theme-preference";
-    const stored = localStorage.getItem(key);
-    const preference = stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
-    const resolved = preference === "system"
+    var adminPrefixes = ${adminPrefixes};
+    var path = window.location.pathname;
+    var isAdmin = path === "/" ? false : adminPrefixes.some(function (p) {
+      return path === p || path.indexOf(p + "/") === 0;
+    });
+    var key = isAdmin ? ${JSON.stringify(ADMIN_THEME_PREFERENCE_STORAGE_KEY)} : ${JSON.stringify(CLIENT_THEME_PREFERENCE_STORAGE_KEY)};
+    var legacy = null;
+    try { legacy = localStorage.getItem(${JSON.stringify(THEME_PREFERENCE_STORAGE_KEY)}); } catch (e) {}
+    var stored = null;
+    try { stored = localStorage.getItem(key) || legacy; } catch (e) {}
+    var preference = stored === "light" || stored === "dark" || stored === "system"
+      ? stored
+      : (isAdmin ? "system" : ${JSON.stringify(clientThemeMode)});
+    var resolved = preference === "system"
       ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
       : preference;
     document.documentElement.classList.remove("light", "dark");
@@ -36,12 +53,14 @@ const themeBootstrapScript = `(() => {
     document.documentElement.classList.add("light");
   }
 })();`;
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
 
   // Simple default title — the (user) layout provides its own template for client pages.
   return {
+    metadataBase: new URL(process.env.AUTH_URL || "http://localhost:3000"),
     title: settings.siteName,
     description: settings.description,
     icons: {
@@ -75,7 +94,14 @@ export default async function RootLayout({
     >
       <head>
         <Script id="theme-bootstrap" strategy="beforeInteractive">
-          {themeBootstrapScript}
+          {buildThemeBootstrapScript(settings.clientThemeMode)}
+        </Script>
+        {/* Strip browser-extension attributes (e.g. Bitdefender TrafficLight's
+            bis_skin_checked) before React hydration to prevent false hydration
+            mismatch warnings. These attributes are injected into the DOM by
+            extensions, not by our application. */}
+        <Script id="strip-extension-attrs" strategy="beforeInteractive">
+          {`(function(){try{document.querySelectorAll('[bis_skin_checked]').forEach(function(el){el.removeAttribute('bis_skin_checked')});}catch(e){}})();`}
         </Script>
         <link rel="icon" href={settings.faviconUrl || "/favicon.ico"} />
         <link rel="shortcut icon" href={settings.faviconUrl || "/favicon.ico"} />
@@ -91,11 +117,9 @@ export default async function RootLayout({
           hoverEnabled={appearance.hoverEnabled}
           baseColorEnabled={settings.baseColorEnabled}
         />
-        <ThemeModeProvider>
-          <EnvProvider siteUrl={process.env.AUTH_URL || "/"}>
-            <AuthProvider>{children}</AuthProvider>
-          </EnvProvider>
-        </ThemeModeProvider>
+        <EnvProvider siteUrl={process.env.AUTH_URL || "/"}>
+          <AuthProvider>{children}</AuthProvider>
+        </EnvProvider>
       </body>
     </html>
   );

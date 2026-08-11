@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 export type SeoData = {
   metaTitle: string;
@@ -36,7 +36,7 @@ export async function saveSeoSettings(data: SeoData) {
   } else {
     await prisma.seoSetting.create({ data });
   }
-  updateTag("seo-settings");
+  revalidateTag("seo-settings", { expire: 0 });
   return { success: true };
 }
 

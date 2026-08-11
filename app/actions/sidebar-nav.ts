@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { updateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 const SETTING_KEY = "sidebar-modules";
 
@@ -39,7 +39,7 @@ export async function saveSidebarModuleConfig(disabled: string[]) {
       update: { value: { disabled: cleanDisabled } },
       create: { key: SETTING_KEY, value: { disabled: cleanDisabled } },
     });
-    updateTag(SETTING_KEY);
+    revalidateTag(SETTING_KEY, { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error(`Save setting "${SETTING_KEY}" error:`, error);

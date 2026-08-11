@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 import { saveCustomFieldValues } from "./custom-fields";
 
 export type BlogInput = {
@@ -84,7 +84,7 @@ export async function createBlog(data: BlogInput, customFieldValues?: BlogCustom
       await saveCustomFieldValues("blog", created.id, customFieldValues);
     }
 
-    updateTag("blogs");
+    revalidateTag("blogs", { expire: 0 });
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -132,7 +132,7 @@ export async function updateBlog(id: string, data: BlogInput, customFieldValues?
       await saveCustomFieldValues("blog", id, customFieldValues);
     }
 
-    updateTag("blogs");
+    revalidateTag("blogs", { expire: 0 });
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -149,7 +149,7 @@ export async function deleteBlog(id: string) {
 
   try {
     await prisma.blog.delete({ where: { id } });
-    updateTag("blogs");
+    revalidateTag("blogs", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Delete blog error:", error);

@@ -44,6 +44,15 @@ export async function submitContactLead(data: unknown) {
       },
     });
 
+    // Fire notification
+    const { createNotification } = await import("./notifications");
+    await createNotification({
+      type: "contact_message",
+      title: "New contact message",
+      message: `${validated.fullName} sent you a message${validated.subject ? `: ${validated.subject}` : ""}`,
+      link: "/leads",
+    });
+
     return { success: true };
   } catch (error) {
     console.error("submitContactLead error:", error);
@@ -173,6 +182,15 @@ export async function createLead(data: LeadInput, customFieldValues?: Record<str
     if (customFieldValues && Object.keys(customFieldValues).length > 0) {
       await saveCustomFieldValues("lead", lead.id, customFieldValues);
     }
+
+    // Fire notification
+    const { createNotification } = await import("./notifications");
+    await createNotification({
+      type: "lead_received",
+      title: "New lead received",
+      message: `${validated.fullName} — ${validated.subject || validated.serviceInterest || "General inquiry"}`,
+      link: "/leads",
+    });
 
     revalidatePath("/leads");
     return { success: true, lead };

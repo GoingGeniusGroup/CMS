@@ -1,4 +1,5 @@
 import type { NextAuthConfig } from "next-auth";
+import { decode as defaultDecode } from "next-auth/jwt";
 
 /**
  * Edge-safe auth config. Used by middleware.
@@ -12,6 +13,18 @@ export const authConfig: NextAuthConfig = {
     signIn: "/login",
   },
   trustHost: true,
+  jwt: {
+    // Gracefully handle cookies encrypted with a stale/different secret.
+    // Instead of throwing JWTSessionError on every request, return null so
+    // Auth.js treats the session as expired — the user simply re-authenticates.
+    async decode(params) {
+      try {
+        return await defaultDecode(params);
+      } catch {
+        return null;
+      }
+    },
+  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {

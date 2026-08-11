@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 /**
  * The `content` column is stored as a serialized JSON string (TEXT column).
@@ -57,7 +57,7 @@ export async function savePopupSettings(data: { showPopup: boolean; content: unk
       });
     }
 
-    updateTag("popup-settings");
+    revalidateTag("popup-settings", { expire: 0 });
     return { success: true };
   } catch (err) {
     console.error("savePopupSettings error:", err);

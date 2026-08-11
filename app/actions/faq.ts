@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { revalidatePath, unstable_cache, updateTag } from "next/cache";
+import { revalidatePath, unstable_cache, revalidateTag } from "next/cache";
 import { saveCustomFieldValues } from "./custom-fields";
 
 export type FaqData = {
@@ -31,6 +31,8 @@ export async function createFaq(
   if (!session?.user) return { success: false, error: "Unauthorized" };
 
   try {
+    if (!data.question?.trim()) return { success: false, error: "Question is required" };
+    if (!data.answer?.trim()) return { success: false, error: "Answer is required" };
     const maxOrder = await prisma.faq.aggregate({ _max: { order: true } });
     const created = await prisma.faq.create({
       data: {
@@ -45,7 +47,7 @@ export async function createFaq(
       await saveCustomFieldValues("faq", created.id, customFieldValues);
     }
     revalidatePath("/website-setup/faq");
-    updateTag("faqs");
+    revalidateTag("faqs", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Create FAQ error:", error);
@@ -67,7 +69,7 @@ export async function updateFaq(
       await saveCustomFieldValues("faq", id, customFieldValues);
     }
     revalidatePath("/website-setup/faq");
-    updateTag("faqs");
+    revalidateTag("faqs", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Update FAQ error:", error);
@@ -106,7 +108,7 @@ export async function deleteFaq(id: string) {
   try {
     await prisma.faq.delete({ where: { id } });
     revalidatePath("/website-setup/faq");
-    updateTag("faqs");
+    revalidateTag("faqs", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Delete FAQ error:", error);

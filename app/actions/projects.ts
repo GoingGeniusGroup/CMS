@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 import { saveCustomFieldValues } from "./custom-fields";
 
 const projectSchema = z.object({
@@ -128,7 +128,16 @@ export async function createProject(data: ProjectInput, customFieldValues?: Cust
       await saveCustomFieldValues("project", created.id, customFieldValues);
     }
 
-    updateTag("projects");
+    // Fire notification
+    const { createNotification } = await import("./notifications");
+    await createNotification({
+      type: "project_updated",
+      title: "New project created",
+      message: `Project "${result.data.title}" was created`,
+      link: "/projects",
+    });
+
+    revalidateTag("projects", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Create project error:", error);
@@ -175,7 +184,16 @@ export async function updateProject(id: string, data: ProjectInput, customFieldV
       await saveCustomFieldValues("project", id, customFieldValues);
     }
 
-    updateTag("projects");
+    // Fire notification
+    const { createNotification } = await import("./notifications");
+    await createNotification({
+      type: "project_updated",
+      title: "Project updated",
+      message: `Project "${result.data.title}" was updated`,
+      link: "/projects",
+    });
+
+    revalidateTag("projects", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Update project error:", error);
@@ -189,7 +207,7 @@ export async function deleteProject(id: string) {
 
   try {
     await prisma.project.delete({ where: { id } });
-    updateTag("projects");
+    revalidateTag("projects", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Delete project error:", error);

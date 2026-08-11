@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 export type SubMenuItem = { label: string; path: string };
 export type MenuItem = { label: string; path: string; children?: SubMenuItem[] };
@@ -94,7 +94,7 @@ export async function saveWebsiteHeader(data: WebsiteHeaderInput) {
     } else {
       await prisma.websiteHeader.create({ data: payload });
     }
-    updateTag("website-header");
+    revalidateTag("website-header", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("saveWebsiteHeader error:", error);

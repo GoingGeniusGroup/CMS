@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { revalidatePath, updateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 /**
  * Export/Import the full configuration layer as a single portable JSON
@@ -28,6 +28,7 @@ export type ConfigExport = {
     lightThemeTextColor?: string;
     darkThemeColor?: string;
     darkThemeTextColor?: string;
+    clientThemeMode?: string;
   } | null;
   labelOverrides: Array<{ entityKey: string; singular: string; plural: string }>;
   customFields: Array<{
@@ -81,6 +82,7 @@ export async function exportConfig(): Promise<ConfigExport> {
           lightThemeTextColor: general.lightThemeTextColor,
           darkThemeColor: general.darkThemeColor,
           darkThemeTextColor: general.darkThemeTextColor,
+          clientThemeMode: general.clientThemeMode,
         }
       : null,
     labelOverrides: labelOverrides.map((l) => ({
@@ -220,12 +222,13 @@ export async function importConfig(data: unknown): Promise<ImportResult> {
     }
 
     if (config.generalSettings) {
-      const { lightThemeColor, lightThemeTextColor, darkThemeColor, darkThemeTextColor, ...generalSettings } = config.generalSettings;
+      const { lightThemeColor, lightThemeTextColor, darkThemeColor, darkThemeTextColor, clientThemeMode, ...generalSettings } = config.generalSettings;
       const paletteSettings = {
         ...(lightThemeColor ? { lightThemeColor, themeColor: lightThemeColor } : {}),
         ...(lightThemeTextColor ? { lightThemeTextColor, themeTextColor: lightThemeTextColor } : {}),
         ...(darkThemeColor ? { darkThemeColor } : {}),
         ...(darkThemeTextColor ? { darkThemeTextColor } : {}),
+        ...(clientThemeMode === "system" || clientThemeMode === "light" || clientThemeMode === "dark" ? { clientThemeMode } : {}),
       };
       const existing = await prisma.generalSetting.findFirst();
       if (existing) {
@@ -236,10 +239,10 @@ export async function importConfig(data: unknown): Promise<ImportResult> {
       } else {
         await prisma.generalSetting.create({ data: { ...generalSettings, ...paletteSettings } });
       }
-      updateTag("site-settings");
+      revalidateTag("site-settings", { expire: 0 });
     }
 
-    updateTag('entity-labels');
+    revalidateTag('entity-labels', { expire: 0 });
     revalidatePath("/", "layout");
 
     return {

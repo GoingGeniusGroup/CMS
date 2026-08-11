@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 import { saveCustomFieldValues } from "./custom-fields";
 
 export type JobRow = {
@@ -182,7 +182,7 @@ export async function createJob(data: JobInput, customFieldValues?: Record<strin
     if (customFieldValues && Object.keys(customFieldValues).length > 0) {
       await saveCustomFieldValues("job", created.id, customFieldValues);
     }
-    updateTag("jobs");
+    revalidateTag("jobs", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("createJob error:", error);
@@ -219,7 +219,7 @@ export async function updateJob(id: string, data: JobInput, customFieldValues?: 
     if (customFieldValues && Object.keys(customFieldValues).length > 0) {
       await saveCustomFieldValues("job", id, customFieldValues);
     }
-    updateTag("jobs");
+    revalidateTag("jobs", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("updateJob error:", error);
@@ -233,7 +233,7 @@ export async function deleteJob(id: string) {
 
   try {
     await prisma.job.delete({ where: { id } });
-    updateTag("jobs");
+    revalidateTag("jobs", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("deleteJob error:", error);

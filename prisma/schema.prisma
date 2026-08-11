@@ -256,6 +256,7 @@ model GeneralSetting {
   lightThemeTextColor String   @default("#000000")
   darkThemeColor      String   @default("#fbbf24")
   darkThemeTextColor  String   @default("#18181b")
+  clientThemeMode     String   @default("system")
   baseColorEnabled    Boolean  @default(true)
   industryProfile     String   @default("generic")
   currency            String   @default("NPR")
@@ -303,6 +304,11 @@ model ContactSetting {
   contactMail    String   @default("")
   officeHours    String   @default("")
   googleMapEmbed String   @default("")
+  // Floating chat widget
+  floatingChatEnabled  Boolean @default(false)
+  floatingChatPlatform String  @default("whatsapp") // whatsapp | messenger | custom
+  floatingChatValue    String  @default("") // phone number, username, or URL
+  floatingChatLabel    String  @default("Chat with us")
   updatedAt      DateTime @updatedAt
 
   @@map("contact_settings")
@@ -542,4 +548,29 @@ model Lead {
   @@index([createdAt])
   @@index([status])
   @@map("leads")
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  type      String   // contact_message | project_updated | career_application | lead_received | general
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  link      String?  // optional URL to navigate to on click
+  createdAt DateTime @default(now())
+
+  @@index([isRead])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+model NotificationSetting {
+  id                    String  @id @default(cuid())
+  contactMessage        Boolean @default(true)
+  projectUpdated        Boolean @default(true)
+  careerApplication     Boolean @default(true)
+  leadReceived          Boolean @default(true)
+  invoiceCreated        Boolean @default(true)
+
+  @@map("notification_settings")
 }

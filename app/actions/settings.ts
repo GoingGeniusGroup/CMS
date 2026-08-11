@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 export async function getSetting(key: string) {
   const session = await auth();
@@ -27,7 +27,7 @@ export async function saveSetting(key: string, value: unknown) {
     });
     // Invalidate any public Data Cache keyed by this setting's key (e.g. the
     // "partners-logos" / "technologies-logos" caches read on the home page).
-    updateTag(key);
+    revalidateTag(key, { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error(`Save setting "${key}" error:`, error);

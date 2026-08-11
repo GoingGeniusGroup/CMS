@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 import { HERO_STAT_ICONS } from "@/lib/content/hero-icons";
 
 /**
@@ -78,7 +78,7 @@ export async function saveSiteIcons(
       update: { value: { icons: clean } },
       create: { key: ICONS_SETTING_KEY, value: { icons: clean } },
     });
-    updateTag("site-icons");
+    revalidateTag("site-icons", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error(`Save setting "${ICONS_SETTING_KEY}" error:`, error);

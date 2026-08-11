@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 export type CookieSettingInput = {
   cookiesAgreement: boolean;
@@ -29,7 +29,7 @@ export async function saveCookieSettings(data: CookieSettingInput) {
     } else {
       await prisma.cookieSetting.create({ data });
     }
-    updateTag("cookie-settings");
+    revalidateTag("cookie-settings", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Save cookie settings error:", error);

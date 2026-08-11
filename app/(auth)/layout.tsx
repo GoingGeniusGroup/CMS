@@ -1,4 +1,5 @@
 import { ThemeSelector } from "@/components/ThemeSelector";
+import { ThemeModeProvider } from "@/components/ThemeModeProvider";
 
 export default function AuthLayout({
   children,
@@ -6,6 +7,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
+    <ThemeModeProvider area="admin">
     <div className="relative flex min-h-full flex-col items-center justify-center bg-[var(--color-page)] px-4 py-12 text-[var(--color-text)]">
       <div className="absolute right-4 top-4">
         <ThemeSelector compact />
@@ -18,5 +20,6 @@ export default function AuthLayout({
       </div>
       <div className="w-full max-w-md">{children}</div>
     </div>
+    </ThemeModeProvider>
   );
 }

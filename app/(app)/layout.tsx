@@ -1,9 +1,25 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { Sidebar, MobileHeader } from "@/components/Sidebar";
 import { ConfigProvider } from "@/components/ConfigProvider";
+import { ThemeModeProvider } from "@/components/ThemeModeProvider";
+
+const SIDEBAR_KEY = "gg-sidebar-collapsed";
+
+function useSidebarCollapsed() {
+  const subscribe = useCallback((onChange: () => void) => {
+    const handler = (e: StorageEvent) => {
+      if (e.key === SIDEBAR_KEY) onChange();
+    };
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
+  }, []);
+  const getSnapshot = useCallback(() => window.localStorage.getItem(SIDEBAR_KEY) === "1", []);
+  const getServerSnapshot = useCallback(() => false, []);
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+}
 
 export default function AppLayout({
   children,
@@ -13,17 +29,14 @@ export default function AppLayout({
   const pathname = usePathname();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
-  // Read the persisted preference directly in the initializer (client-only
-  // component, so "window" is safe — same pattern as CookieBanner/SitePopup).
-  const [collapsed, setCollapsed] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.localStorage.getItem("gg-sidebar-collapsed") === "1";
-  });
+  const collapsed = useSidebarCollapsed();
 
-  // Persist the preference.
-  useEffect(() => {
-    window.localStorage.setItem("gg-sidebar-collapsed", collapsed ? "1" : "0");
-  }, [collapsed]);
+  const setCollapsed = useCallback((next: boolean | ((prev: boolean) => boolean)) => {
+    const value = typeof next === "function" ? next(window.localStorage.getItem(SIDEBAR_KEY) === "1") : next;
+    window.localStorage.setItem(SIDEBAR_KEY, value ? "1" : "0");
+    // Trigger useSyncExternalStore re-read via synthetic storage event
+    window.dispatchEvent(new StorageEvent("storage", { key: SIDEBAR_KEY }));
+  }, []);
 
   // Lock html/body scroll — the app uses its own internal scroll container
   useEffect(() => {
@@ -58,6 +71,7 @@ export default function AppLayout({
   }, [pathname]);
 
   return (
+    <ThemeModeProvider area="admin">
     <ConfigProvider>
       <div className="flex h-screen overflow-hidden">
         <Sidebar
@@ -72,5 +86,6 @@ export default function AppLayout({
         </div>
       </div>
     </ConfigProvider>
+    </ThemeModeProvider>
   );
 }

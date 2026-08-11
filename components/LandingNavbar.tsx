@@ -70,8 +70,8 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
             alt={siteName}
             width={120}
             height={40}
-            className="h-10 w-auto max-w-[120px] object-contain"
-            style={{ width: "auto" }}
+            className="max-h-10 w-auto max-w-[120px] object-contain"
+            style={{ width: "auto", height: "auto" }}
             unoptimized
           />
           <span className="text-sm font-bold text-[var(--color-text)]">{siteName}</span>
@@ -153,10 +153,10 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
             Admin Login
           </Link>
           <Link
-            href="/contact"
+            href="/portfolio"
             className="rounded-full bg-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700"
           >
-            Get in Touch
+            Our Portfolio
           </Link>
         </div>
 
@@ -239,13 +239,6 @@ export function LandingNavbar({ logoUrl, siteName = "Going Genius", menuItems = 
               >
                 Admin Login
               </Link>
-              <a
-                href="#contact"
-                className="mt-2 inline-block w-full rounded-full bg-indigo-600 px-5 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
-                onClick={() => setMobileOpen(false)}
-              >
-                Get in Touch
-              </a>
             </div>
           </div>
         </div>

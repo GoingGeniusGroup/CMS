@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 import { saveCustomFieldValues } from "./custom-fields";
 import { serviceSlug } from "@/lib/service-slug";
 
@@ -104,7 +104,7 @@ export async function createService(data: ServiceInput, customFieldValues?: Reco
     if (customFieldValues && Object.keys(customFieldValues).length > 0) {
       await saveCustomFieldValues("service", created.id, customFieldValues);
     }
-    updateTag("services");
+    revalidateTag("services", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Create service error:", error);
@@ -127,7 +127,7 @@ export async function updateService(id: string, data: ServiceInput, customFieldV
     if (customFieldValues && Object.keys(customFieldValues).length > 0) {
       await saveCustomFieldValues("service", id, customFieldValues);
     }
-    updateTag("services");
+    revalidateTag("services", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Update service error:", error);
@@ -142,7 +142,7 @@ export async function deleteService(id: string) {
 
   try {
     await prisma.service.delete({ where: { id } });
-    updateTag("services");
+    revalidateTag("services", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Delete service error:", error);

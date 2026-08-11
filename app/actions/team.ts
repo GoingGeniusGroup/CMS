@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { z } from "zod";
-import { unstable_cache, updateTag } from "next/cache";
+import { unstable_cache, revalidateTag } from "next/cache";
 import { saveCustomFieldValues } from "./custom-fields";
 
 const teamMemberSchema = z.object({
@@ -83,7 +83,7 @@ export async function createDepartment(name: string) {
     const department = await prisma.department.create({
       data: { name: trimmed, order: count },
     });
-    updateTag("departments");
+    revalidateTag("departments", { expire: 0 });
     return { success: true, department };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -100,7 +100,7 @@ export async function deleteDepartment(id: string) {
 
   try {
     await prisma.department.delete({ where: { id } });
-    updateTag("departments");
+    revalidateTag("departments", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Delete department error:", error);
@@ -122,7 +122,7 @@ export async function createTeamMember(data: TeamMemberInput, customFieldValues?
     if (customFieldValues && Object.keys(customFieldValues).length > 0) {
       await saveCustomFieldValues("team", created.id, customFieldValues);
     }
-    updateTag("team-members");
+    revalidateTag("team-members", { expire: 0 });
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -150,7 +150,7 @@ export async function updateTeamMember(id: string, data: TeamMemberInput, custom
     if (customFieldValues && Object.keys(customFieldValues).length > 0) {
       await saveCustomFieldValues("team", id, customFieldValues);
     }
-    updateTag("team-members");
+    revalidateTag("team-members", { expire: 0 });
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "P2002") {
@@ -202,7 +202,7 @@ export async function deleteTeamMember(id: string) {
 
   try {
     await prisma.team.delete({ where: { id } });
-    updateTag("team-members");
+    revalidateTag("team-members", { expire: 0 });
     return { success: true };
   } catch (error) {
     console.error("Delete team member error:", error);

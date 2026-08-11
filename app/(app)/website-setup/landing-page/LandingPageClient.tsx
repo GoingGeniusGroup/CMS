@@ -86,8 +86,8 @@ export function LandingPageClient({ pages }: { pages: PageGroup[] }) {
 
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <PageHeader
-          title="Landing Page"
-          description="Manage the text, headings, and cards shown across your public-facing pages."
+          title="Page Content"
+          description="Manage the text, headings, and sections shown across your public-facing pages."
         />
       </div>
 

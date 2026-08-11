@@ -92,6 +92,12 @@ export function BlogModal({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+
+    if (!title.trim()) {
+      setError("Title is required");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const data: BlogInput = {
