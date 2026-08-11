@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import Link from "next/link";
 import { Search, Users } from "lucide-react";
 import { getPublicTeamMembers, getDepartments } from "@/app/actions/team";
 import { getSection, type SiteContentSection } from "@/app/actions/site-content";
@@ -13,6 +12,7 @@ import { PageHero } from "@/components/content/PageHero";
 import { usePublicLabel } from "@/components/content/PublicLabelProvider";
 import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
 import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
+import { CtaSection } from "@/components/content/CtaSection";
 
 type TeamMember = {
   id: string;
@@ -56,13 +56,20 @@ export default function TeamsPage() {
     order: SECTION_REGISTRY["teams.hero"].defaultOrder,
     data: SECTION_REGISTRY["teams.hero"].defaultData,
   });
+  const [ctaSection, setCtaSection] = useState<SiteContentSection<"teams.cta">>({
+    sectionKey: "teams.cta",
+    pageKey: "teams",
+    variant: "default",
+    isVisible: true,
+    order: SECTION_REGISTRY["teams.cta"].defaultOrder,
+    data: SECTION_REGISTRY["teams.cta"].defaultData,
+  });
 
   useEffect(() => {
     getPublicTeamMembers().then((data) => setAllMembers(data as TeamMember[]));
-    // Department is a curated list managed in Settings; drives both the
-    // grouping and its display order, independent of each member's free-text value.
     getDepartments().then((depts) => setDepartmentOrder(depts.map((d) => d.name)));
     getSection("teams", "teams.hero").then((section) => setHeroSection(section));
+    getSection("teams", "teams.cta").then((section) => setCtaSection(section));
   }, []);
 
   function handleSelect(member: RosterMember) {
@@ -145,27 +152,7 @@ export default function TeamsPage() {
 
       {/* ── Join CTA ─────────────────────────────────────── */}
       <section className="mx-auto w-full max-w-5xl px-4 pb-16 sm:px-6 lg:px-8">
-        <RevealOnScroll className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-gray-200 bg-gray-50/80 px-6 py-5">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-50">
-              <Users className="h-5 w-5 text-indigo-600" />
-            </span>
-            <div>
-              <h3 className="text-base font-bold text-gray-900">Want to join our genius team?</h3>
-              <p className="text-xs text-gray-500 max-w-sm">
-                We&apos;re always looking for talented people who are passionate about what they do.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/career" className="rounded-full bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700">
-              View Open Positions
-            </Link>
-            <Link href="/career" className="rounded-full border border-gray-300 px-5 py-2 text-xs font-semibold text-gray-700 transition hover:border-indigo-600/40">
-              Send Your CV
-            </Link>
-          </div>
-        </RevealOnScroll>
+        <CtaSection data={ctaSection.data} />
       </section>
 
       {/* ── Team Member Modal ────────────────────────────── */}

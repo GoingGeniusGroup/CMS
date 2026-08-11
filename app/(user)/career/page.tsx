@@ -49,7 +49,7 @@ function JobCard({ job }: { job: JobRow }) {
 
 // ─── Open Positions ───────────────────────────────────────────────────────────
 
-function OpenPositions({ jobs }: { jobs: JobRow[] }) {
+function OpenPositions({ jobs, headerData }: { jobs: JobRow[]; headerData?: { heading: string; Subheading?: string } }) {
   const [activeDept, setActiveDept] = useState("All Departments");
   const [deptOpen, setDeptOpen] = useState(false);
 
@@ -62,8 +62,10 @@ function OpenPositions({ jobs }: { jobs: JobRow[] }) {
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h2 className="text-2xl font-extrabold text-zinc-900 sm:text-3xl">Open Positions</h2>
-            <p className="mt-1 text-sm text-zinc-500">Explore opportunities to make an impact.</p>
+            <h2 className="text-2xl font-extrabold text-zinc-900 sm:text-3xl">{headerData?.heading || "Open Positions"}</h2>
+            {(headerData?.Subheading || !headerData) && (
+              <p className="mt-1 text-sm text-zinc-500">{headerData?.Subheading || "Explore opportunities to make an impact."}</p>
+            )}
           </div>
           <div className="relative">
             <button
@@ -138,18 +140,30 @@ function useLifeSection() {
   return lifeSection;
 }
 
+function usePositionsHeader() {
+  const [section, setSection] = useState<SiteContentSection<"career.positions">>({
+    sectionKey: "career.positions",
+    pageKey: "career",
+    variant: "default",
+    isVisible: true,
+    order: SECTION_REGISTRY["career.positions"].defaultOrder,
+    data: SECTION_REGISTRY["career.positions"].defaultData,
+  });
+  useEffect(() => {
+    getSection("career", "career.positions").then(setSection);
+  }, []);
+  return section;
+}
+
 export default function CareerPage() {
   const moduleHidden = useModuleDisabled("job");
   const [jobs, setJobs] = useState<JobRow[]>([]);
   const heroSection = useCareerHero();
   const lifeSection = useLifeSection();
+  const positionsHeader = usePositionsHeader();
 
   useEffect(() => {
     getPublicJobs().then((data) => setJobs(data));
-    // Client-side fetch (not a server-rendered prop) because this whole page
-    // is already "use client" for its interactive job filtering — matching
-    // the existing getPublicJobs pattern rather than splitting the page into
-    // a server wrapper + client sub-component for one section.
   }, []);
 
   if (moduleHidden) return <ModuleDisabledPage moduleLabel="Careers" />;
@@ -157,7 +171,7 @@ export default function CareerPage() {
   return (
     <>
       <PageHero data={heroSection.data} />
-      <OpenPositions jobs={jobs} />
+      <OpenPositions jobs={jobs} headerData={positionsHeader.data} />
       <LifeSection data={lifeSection.data} />
     </>
   );

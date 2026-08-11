@@ -15,10 +15,8 @@ import {
   CalendarDays,
   ChevronDown,
   Download,
-  Eye,
   FolderClosed,
   MoreHorizontal,
-  Trash2,
   TrendingUp,
   Users,
 } from "lucide-react";
@@ -182,6 +180,18 @@ function RevenueCard({ revenueData }: { revenueData: DashboardStats["revenueMont
   const total = revenueData.reduce((s, d) => s + d.value, 0);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  function handleExport() {
+    const csv = ["Month,Value (k),Status", ...revenueData.map((d) => `${d.month},${d.value},${d.status}`)].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `revenue-report-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setMenuOpen(false);
+  }
+
   return (
     <Card className="relative">
       <div className="flex items-start justify-between">
@@ -200,13 +210,18 @@ function RevenueCard({ revenueData }: { revenueData: DashboardStats["revenueMont
           >
             <MoreHorizontal className="h-5 w-5" />
           </button>
-          {menuOpen ? (
+          {menuOpen && (
             <div className="absolute right-0 top-10 z-10 w-36 overflow-hidden rounded-xl bg-white py-1 shadow-[0_8px_30px_rgba(0,0,0,0.16)]">
-              <MenuItem icon={Eye} label="View" />
-              <MenuItem icon={Download} label="Export" />
-              <MenuItem icon={Trash2} label="Remove" danger />
+              <button
+                type="button"
+                onClick={handleExport}
+                className="flex w-full items-center gap-2 px-3 py-2 text-sm text-black transition-colors hover:bg-black/5"
+              >
+                <Download className="h-4 w-4" />
+                Export CSV
+              </button>
             </div>
-          ) : null}
+          )}
         </div>
       </div>
 
@@ -235,20 +250,6 @@ function RevenueCard({ revenueData }: { revenueData: DashboardStats["revenueMont
         <Legend color="#f43f5e" label="Overdue" />
       </div>
     </Card>
-  );
-}
-
-function MenuItem({ icon: Icon, label, danger }: { icon: typeof Eye; label: string; danger?: boolean }) {
-  return (
-    <button
-      type="button"
-      className={`flex w-full items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-black/5 ${
-        danger ? "text-rose-500" : "text-black"
-      }`}
-    >
-      <Icon className="h-4 w-4" />
-      {label}
-    </button>
   );
 }
 

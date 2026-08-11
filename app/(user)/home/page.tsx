@@ -12,8 +12,8 @@ import { MotionCard } from "@/components/motion/MotionCard";
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 import { PageHero } from "@/components/content/PageHero";
 import type { CardsData } from "@/lib/content/schemas";
-import { getPublicPartners } from "@/app/actions/settings";
-import { getPublicTechnologies } from "@/app/actions/public-settings";
+import { getPublicPartnersWithColors } from "@/app/actions/settings";
+import { getPublicTechnologiesWithColors } from "@/app/actions/public-settings";
 import { getPublicServices } from "@/app/actions/services";
 import { getPublicProjects } from "@/app/actions/projects";
 import { getPublicBlogs } from "@/app/actions/blogs";
@@ -112,8 +112,8 @@ export default async function Page() {
     teamHeader,
     faqHeader,
   ] = await Promise.all([
-    getPublicPartners(),
-    getPublicTechnologies(),
+    getPublicPartnersWithColors(),
+    getPublicTechnologiesWithColors(),
     getPublicServices(),
     getPublicProjects(),
     getPublicBlogs(),
@@ -131,8 +131,8 @@ export default async function Page() {
   ]);
 
   // Serialize Date objects to strings for client component props
-  const partners = JSON.parse(JSON.stringify(rawPartners));
-  const technologies = JSON.parse(JSON.stringify(rawTechnologies));
+  const partnersData = JSON.parse(JSON.stringify(rawPartners));
+  const techData = JSON.parse(JSON.stringify(rawTechnologies));
   const services = JSON.parse(JSON.stringify(rawServices));
   const projects = JSON.parse(JSON.stringify(rawProjects));
   const blogs = JSON.parse(JSON.stringify(rawBlogs));
@@ -142,8 +142,8 @@ export default async function Page() {
   return (
     <>
       <PageHero data={heroSection.data} />
-      <LandingPartnersSection initialPartners={partners} headerData={partnersHeader.data} />
-      <LandingTechSection initialTechnologies={technologies} headerData={techHeader.data} />
+      <LandingPartnersSection initialPartners={partnersData.partners} headerData={partnersHeader.data} bgColor={partnersData.bgColor} textColor={partnersData.textColor} />
+      <LandingTechSection initialTechnologies={techData.technologies} headerData={techHeader.data} bgColor={techData.bgColor} textColor={techData.textColor} />
       <LandingServicesSection initialServices={services} headerData={servicesHeader.data} />
       <Products data={productsSection.data} />
       <LandingFeaturedProjects initialProjects={projects} headerData={projectsHeader.data} />

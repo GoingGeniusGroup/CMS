@@ -18,6 +18,8 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { getJobById, type JobRow } from "@/app/actions/jobs";
+import { getPublicContactSettings } from "@/app/actions/contact-settings";
+import { submitJobApplication } from "@/app/actions/job-applications";
 import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityProvider";
 import { ModuleDisabledPage } from "@/components/content/ModuleDisabledPage";
 
@@ -61,10 +63,29 @@ export default function ApplyPage() {
   const [experienceLevel, setExperienceLevel] = useState("");
   const [location, setLocation] = useState("");
   const [confirmed, setConfirmed] = useState(false);
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+
+  // Form fields
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [totalExperience, setTotalExperience] = useState("");
+  const [currentPosition, setCurrentPosition] = useState("");
+  const [expectedSalary, setExpectedSalary] = useState("");
+  const [coverLetter, setCoverLetter] = useState("");
+  const [skills, setSkills] = useState("");
 
   useEffect(() => {
     if (!jobId) return;
     getJobById(jobId).then(setJob);
+    getPublicContactSettings().then((data) => {
+      if (data?.email1) setContactEmail(data.email1);
+      if (data?.phone1) setContactPhone(data.phone1);
+    });
   }, [jobId]);
 
   if (moduleHidden) return <ModuleDisabledPage moduleLabel="Careers" />;
@@ -72,9 +93,33 @@ export default function ApplyPage() {
   if (job === undefined) return <Skeleton />;
   if (job === null) return <NotFound />;
 
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center max-w-md px-4">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 mb-5">
+            <CheckCircle2 className="h-8 w-8 text-green-600" />
+          </div>
+          <h1 className="text-2xl font-extrabold text-gray-900">Application Submitted!</h1>
+          <p className="mt-3 text-sm text-gray-500">
+            Thank you for applying for <span className="font-semibold">{job.title}</span>. We&apos;ll review your application and get back to you soon.
+          </p>
+          <Link href="/career" className="mt-6 inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-700">
+            <ArrowLeft className="h-4 w-4" /> Back to Careers
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        {submitError && (
+          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {submitError}
+          </div>
+        )}
         {/* Header */}
         <div className="mb-8">
           <p className="text-xs font-bold uppercase tracking-widest text-indigo-600">
@@ -131,6 +176,8 @@ export default function ApplyPage() {
                     <input
                       type="text"
                       placeholder="Enter your full name"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
                       className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-700 placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600"
                     />
                   </div>
@@ -144,6 +191,8 @@ export default function ApplyPage() {
                     <input
                       type="email"
                       placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-700 placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600"
                     />
                   </div>
@@ -157,6 +206,8 @@ export default function ApplyPage() {
                     <input
                       type="tel"
                       placeholder="Enter your phone number"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
                       className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-700 placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600"
                     />
                   </div>
@@ -167,17 +218,13 @@ export default function ApplyPage() {
                   </label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                    <select
+                    <input
+                      type="text"
                       value={location}
                       onChange={(e) => setLocation(e.target.value)}
-                      className="w-full appearance-none rounded-lg border border-gray-200 bg-white py-2.5 pl-10 pr-8 text-sm text-gray-700 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600"
-                    >
-                      <option value="">Select your location</option>
-                      <option value="kathmandu">Kathmandu, Nepal</option>
-                      <option value="pokhara">Pokhara, Nepal</option>
-                      <option value="remote">Remote</option>
-                      <option value="other">Other</option>
-                    </select>
+                      placeholder="Enter your location"
+                      className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-700 placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600"
+                    />
                   </div>
                 </div>
               </div>
@@ -216,6 +263,8 @@ export default function ApplyPage() {
                   <input
                     type="text"
                     placeholder="write experience in years"
+                    value={totalExperience}
+                    onChange={(e) => setTotalExperience(e.target.value)}
                     className="w-full rounded-lg border border-gray-200 bg-white py-2.5 px-4 text-sm text-gray-700 placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600"
                   />
                 </div>
@@ -226,6 +275,8 @@ export default function ApplyPage() {
                   <input
                     type="text"
                     placeholder="Enter your current position"
+                    value={currentPosition}
+                    onChange={(e) => setCurrentPosition(e.target.value)}
                     className="w-full rounded-lg border border-gray-200 bg-white py-2.5 px-4 text-sm text-gray-700 placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600"
                   />
                 </div>
@@ -236,6 +287,8 @@ export default function ApplyPage() {
                   <input
                     type="text"
                     placeholder="Enter your expected salary"
+                    value={expectedSalary}
+                    onChange={(e) => setExpectedSalary(e.target.value)}
                     className="w-full rounded-lg border border-gray-200 bg-white py-2.5 px-4 text-sm text-gray-700 placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600"
                   />
                 </div>
@@ -259,6 +312,8 @@ export default function ApplyPage() {
                   <textarea
                     rows={4}
                     placeholder="Tell us why you're a great fit for this role..."
+                    value={coverLetter}
+                    onChange={(e) => setCoverLetter(e.target.value)}
                     className="w-full rounded-lg border border-gray-200 bg-white py-2.5 px-4 text-sm text-gray-700 placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600 resize-none"
                   />
                 </div>
@@ -271,6 +326,8 @@ export default function ApplyPage() {
                     <input
                       type="text"
                       placeholder="e.g. React, TypeScript, Next.js, Tailwind CSS"
+                      value={skills}
+                      onChange={(e) => setSkills(e.target.value)}
                       className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-700 placeholder:text-gray-400 focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600"
                     />
                   </div>
@@ -353,9 +410,34 @@ export default function ApplyPage() {
               </Link>
               <button
                 type="button"
-                className="flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
+                disabled={!confirmed || isSubmitting}
+                onClick={async () => {
+                  if (!confirmed || !jobId) return;
+                  setSubmitError(null);
+                  setIsSubmitting(true);
+                  const result = await submitJobApplication({
+                    jobId,
+                    fullName,
+                    email,
+                    phone,
+                    location,
+                    experienceLevel,
+                    totalExperience,
+                    currentPosition,
+                    expectedSalary,
+                    coverLetter,
+                    skills,
+                  });
+                  setIsSubmitting(false);
+                  if (result.success) {
+                    setSubmitted(true);
+                  } else {
+                    setSubmitError(result.error || "Failed to submit");
+                  }
+                }}
+                className="flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:opacity-50"
               >
-                Submit Application <ArrowRight className="h-4 w-4" />
+                {isSubmitting ? "Submitting..." : "Submit Application"} <ArrowRight className="h-4 w-4" />
               </button>
             </div>
           </div>
@@ -479,11 +561,11 @@ export default function ApplyPage() {
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-xs text-gray-700">
                   <Mail className="h-3.5 w-3.5 text-indigo-500" />
-                  goinggenius2021@gmail.com
+                  {contactEmail || "goinggenius2021@gmail.com"}
                 </div>
                 <div className="flex items-center gap-2 text-xs text-gray-700">
                   <Phone className="h-3.5 w-3.5 text-indigo-500" />
-                  +977 980-1234567
+                  {contactPhone || "+977 980-1234567"}
                 </div>
               </div>
             </div>

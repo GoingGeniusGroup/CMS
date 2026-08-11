@@ -45,9 +45,11 @@ const BUDGET_OPTIONS = [
 function ContactSection({
   settings,
   services,
+  formHeader,
 }: {
   settings: ContactSettings;
   services: string[];
+  formHeader?: { heading: string; Subheading?: string };
 }) {
   const router = useRouter();
   const [form, setForm] = useState({
@@ -100,12 +102,10 @@ function ContactSection({
           {/* Form card */}
           <div className="rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm">
             <h2 className="text-2xl font-extrabold text-zinc-900">
-              Get In <span className="text-indigo-600">Touch</span>
+              {formHeader?.heading || "Get In Touch"}
             </h2>
             <p className="mt-2 text-sm text-zinc-500">
-              Have a project in mind or need expert advice? We&apos;d love to
-              hear from you. Fill out the form and our team will get back to you
-              shortly.
+              {formHeader?.Subheading || "Have a project in mind or need expert advice? We'd love to hear from you. Fill out the form and our team will get back to you shortly."}
             </p>
 
             <form className="mt-6 flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -361,7 +361,7 @@ function ContactSection({
 
 // ─── Section: Map ─────────────────────────────────────────────────────────────
 
-function MapSection({ settings }: { settings: ContactSettings }) {
+function MapSection({ settings, mapHeader }: { settings: ContactSettings; mapHeader?: { heading: string; Subheading?: string } }) {
   return (
     <section className="bg-white px-4 py-20 sm:px-6 lg:px-16">
       <div className="mx-auto max-w-7xl">
@@ -369,11 +369,10 @@ function MapSection({ settings }: { settings: ContactSettings }) {
           {/* Left */}
           <div>
             <h2 className="text-3xl font-extrabold text-zinc-900 sm:text-4xl">
-              Our Location
+              {mapHeader?.heading || "Our Location"}
             </h2>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-zinc-500">
-              Visit us at our office or contact us anytime for any query. We are
-              located at the heart of the business district.
+              {mapHeader?.Subheading || "Visit us at our office or contact us anytime for any query. We are located at the heart of the business district."}
             </p>
             {settings.address && (
               <div className="mt-6 flex items-center gap-2 text-sm text-zinc-600">
@@ -420,19 +419,23 @@ export function ContactClient({
   services,
   features,
   workTogether,
+  formHeader,
+  mapHeader,
 }: {
   settings: ContactSettings;
   services: string[];
   features: CardsData;
   workTogether: CtaData;
+  formHeader?: { heading: string; Subheading?: string };
+  mapHeader?: { heading: string; Subheading?: string };
 }) {
   return (
     <>
-      <ContactSection settings={settings} services={services} />
+      <ContactSection settings={settings} services={services} formHeader={formHeader} />
       <CardsSection data={features} />
-      <MapSection settings={settings} />
-      <FaqSection />
+      <MapSection settings={settings} mapHeader={mapHeader} />
       <CtaSection data={workTogether} />
+      <FaqSection />
     </>
   );
 }

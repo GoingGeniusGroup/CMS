@@ -7,13 +7,17 @@ import { unstable_cache } from "next/cache";
  * the home page); invalidated via the "technologies-logos" tag, which
  * `saveSetting("technologies-logos", ...)` triggers on save. */
 const getPublicTechnologiesCached = unstable_cache(
-  async (): Promise<string[]> => {
+  async (): Promise<{ technologies: string[]; bgColor: string; textColor: string }> => {
     const setting = await prisma.setting.findUnique({
       where: { key: "technologies-logos" },
     });
-    if (!setting) return [];
-    const data = setting.value as { technologies?: string[] };
-    return data.technologies ?? [];
+    if (!setting) return { technologies: [], bgColor: "#ffffff", textColor: "#18181b" };
+    const data = setting.value as { technologies?: string[]; bgColor?: string; textColor?: string };
+    return {
+      technologies: data.technologies ?? [],
+      bgColor: data.bgColor || "#ffffff",
+      textColor: data.textColor || "#18181b",
+    };
   },
   ["public-technologies"],
   { revalidate: 60, tags: ["technologies-logos"] }
@@ -21,8 +25,17 @@ const getPublicTechnologiesCached = unstable_cache(
 
 export async function getPublicTechnologies(): Promise<string[]> {
   try {
-    return await getPublicTechnologiesCached();
+    const data = await getPublicTechnologiesCached();
+    return data.technologies;
   } catch {
     return [];
+  }
+}
+
+export async function getPublicTechnologiesWithColors(): Promise<{ technologies: string[]; bgColor: string; textColor: string }> {
+  try {
+    return await getPublicTechnologiesCached();
+  } catch {
+    return { technologies: [], bgColor: "#ffffff", textColor: "#18181b" };
   }
 }

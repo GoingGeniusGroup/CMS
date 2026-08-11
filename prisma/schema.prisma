@@ -574,3 +574,26 @@ model NotificationSetting {
 
   @@map("notification_settings")
 }
+
+model JobApplication {
+  id              String   @id @default(cuid())
+  jobId           String
+  fullName        String
+  email           String
+  phone           String
+  location        String   @default("")
+  experienceLevel String   @default("")
+  totalExperience String   @default("")
+  currentPosition String   @default("")
+  expectedSalary  String   @default("")
+  coverLetter     String   @default("")
+  skills          String   @default("")
+  status          String   @default("New") // New | Reviewed | Shortlisted | Rejected
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([jobId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("job_applications")
+}

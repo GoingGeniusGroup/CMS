@@ -10,7 +10,7 @@ export default async function TechnologiesPage() {
     where: { key: "technologies-logos" },
   });
 
-  const data = (setting?.value as { technologies?: string[] }) ?? {};
+  const data = (setting?.value as { technologies?: string[]; bgColor?: string; textColor?: string }) ?? {};
 
-  return <TechnologiesClient initialTechnologies={data.technologies ?? []} />;
+  return <TechnologiesClient initialTechnologies={data.technologies ?? []} initialBgColor={data.bgColor} initialTextColor={data.textColor} />;
 }

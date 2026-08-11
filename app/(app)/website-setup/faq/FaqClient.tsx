@@ -4,6 +4,7 @@ import { useState } from "react";
 import { HelpCircle, Plus, Trash2, Loader2, ChevronDown, ChevronUp } from "lucide-react";
 import { Card } from "@/components/Card";
 import { StatusBadge } from "@/components/StatusBadge";
+import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { CustomFieldRenderer, type CustomValues } from "@/components/CustomFieldRenderer";
 import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { getFaqs, createFaq, updateFaq, deleteFaq } from "@/app/actions/faq";
@@ -18,6 +19,7 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   // New FAQ form
   const [newQuestion, setNewQuestion] = useState("");
@@ -56,17 +58,19 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
     setTimeout(() => setMessage(null), 3000);
   }
 
-  async function handleDelete(id: string) {
+  async function handleDeleteConfirm() {
+    if (!deleteId) return;
     setIsSubmitting(true);
     setMessage(null);
-    const result = await deleteFaq(id);
+    const result = await deleteFaq(deleteId);
     setIsSubmitting(false);
     if (result.success) {
       setMessage({ type: "success", text: "FAQ deleted!" });
-      setFaqs((prev) => prev.filter((f) => f.id !== id));
+      setFaqs((prev) => prev.filter((f) => f.id !== deleteId));
     } else {
       setMessage({ type: "error", text: result.error || "Failed to delete FAQ" });
     }
+    setDeleteId(null);
     setTimeout(() => setMessage(null), 3000);
   }
 
@@ -157,7 +161,7 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
                     <StatusBadge moduleKey="faq" value={faq.status} />
                     <button
                       type="button"
-                      onClick={(e) => { e.stopPropagation(); handleDelete(faq.id); }}
+                      onClick={(e) => { e.stopPropagation(); setDeleteId(faq.id); }}
                       disabled={isSubmitting}
                       className="rounded-lg p-2 text-red-400 hover:bg-red-50 hover:text-red-600 transition-colors"
                       title="Delete FAQ"
@@ -176,6 +180,14 @@ export function FaqClient({ initialFaqs }: { initialFaqs: FaqData[] }) {
           </div>
         )}
       </Card>
+
+      <DeleteConfirmModal
+        isOpen={!!deleteId}
+        title="Delete FAQ"
+        description="Are you sure you want to delete this FAQ? This action cannot be undone."
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleDeleteConfirm}
+      />
     </div>
   );
 }

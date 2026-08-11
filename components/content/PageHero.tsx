@@ -15,8 +15,106 @@ import { usePublicLabelResolver } from "@/components/content/PublicLabelProvider
  * `headingLines`, so a page can start from a minimal hero and grow into a
  * fuller one purely through the Landing Page editor, no code changes.
  */
+/**
+ * Converts a regular video URL (YouTube watch, Vimeo page, etc.) into an
+ * embeddable iframe URL. If already an embed URL or unrecognized, returns as-is.
+ * Appends player parameters for autoplay, loop, mute, and controls.
+ */
+function toEmbedUrl(url: string, opts?: { autoplay?: boolean; loop?: boolean; muted?: boolean; controls?: boolean }): string {
+  if (!url) return url;
+
+  let baseUrl = url;
+  let videoId = "";
+
+  // YouTube: youtube.com/watch?v=ID or youtu.be/ID → youtube-nocookie.com/embed/ID
+  const ytWatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (ytWatch) {
+    videoId = ytWatch[1];
+    baseUrl = `https://www.youtube-nocookie.com/embed/${videoId}`;
+  }
+
+  // YouTube: already embed URL — switch to nocookie domain
+  const ytEmbed = url.match(/youtube(?:-nocookie)?\.com\/embed\/([a-zA-Z0-9_-]{11})/);
+  if (ytEmbed && !ytWatch) {
+    videoId = ytEmbed[1];
+    baseUrl = `https://www.youtube-nocookie.com/embed/${videoId}`;
+  }
+
+  // Vimeo: vimeo.com/ID → player.vimeo.com/video/ID
+  const vimeo = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeo && !url.includes("player.vimeo.com")) {
+    baseUrl = `https://player.vimeo.com/video/${vimeo[1]}`;
+  }
+
+  // Append query parameters
+  if (opts) {
+    const params = new URLSearchParams();
+    const isYouTube = baseUrl.includes("youtube");
+    const isVimeo = baseUrl.includes("vimeo");
+
+    // Browsers require muted for autoplay to work — always muted
+    const effectiveMuted = true;
+
+    if (opts.autoplay) {
+      params.set("autoplay", "1");
+    }
+    if (opts.loop) {
+      params.set("loop", "1");
+      if (isYouTube && videoId) params.set("playlist", videoId); // YT requires playlist param for loop
+    }
+    if (effectiveMuted) {
+      if (isYouTube) params.set("mute", "1");
+      if (isVimeo) params.set("muted", "1");
+    }
+    if (isYouTube) {
+      params.set("controls", opts.controls ? "1" : "0");
+      params.set("rel", "0");
+      params.set("modestbranding", "1");
+      params.set("playsinline", "1");
+      params.set("enablejsapi", "1");
+    }
+    if (isVimeo) {
+      if (!opts.controls) params.set("controls", "0");
+      params.set("playsinline", "1");
+      if (effectiveMuted) params.set("background", "1");
+    }
+
+    const qs = params.toString();
+    if (qs) baseUrl += (baseUrl.includes("?") ? "&" : "?") + qs;
+  }
+
+  return baseUrl;
+}
+
 export function PageHero({ data }: { data: HeroData }) {
   const resolveLabel = usePublicLabelResolver();
+
+  // Video mode — render a full-width embedded video instead of text/image content
+  if (data.heroMode === "video" && data.videoEmbedUrl) {
+    const embedSrc = toEmbedUrl(data.videoEmbedUrl, {
+      autoplay: data.videoAutoplay ?? true,
+      loop: data.videoLoop ?? true,
+      muted: true,
+      controls: data.videoControls ?? true,
+    });
+    return (
+      <section className="bg-[#f6f4f3] px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="aspect-video w-full overflow-hidden rounded-2xl shadow-lg">
+            <iframe
+              src={embedSrc}
+              className="h-full w-full border-0"
+              allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Hero video"
+            />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   const heading = <HeroHeading data={data} resolveLabel={resolveLabel} />;
   const ctas = <HeroCtas data={data} resolveLabel={resolveLabel} />;
   const eyebrow = data.eyebrow ? resolveLabel(data.eyebrow) : undefined;

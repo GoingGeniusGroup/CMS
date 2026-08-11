@@ -64,17 +64,26 @@ export async function getPublicHeaderSettings() {
  * No authentication required — safe to call from public pages.
  */
 const getPublicPartnersCached = unstable_cache(
-  async (): Promise<string[]> => {
+  async (): Promise<{ partners: string[]; bgColor: string; textColor: string }> => {
     const setting = await prisma.setting.findUnique({
       where: { key: "partners-logos" },
     });
-    const data = (setting?.value as { partners?: string[] }) ?? {};
-    return Array.isArray(data.partners) ? data.partners : [];
+    const data = (setting?.value as { partners?: string[]; bgColor?: string; textColor?: string }) ?? {};
+    return {
+      partners: Array.isArray(data.partners) ? data.partners : [],
+      bgColor: data.bgColor || "#09090b",
+      textColor: data.textColor || "#a1a1aa",
+    };
   },
   ["public-partners"],
   { revalidate: 60, tags: ["partners-logos"] }
 );
 
 export async function getPublicPartners(): Promise<string[]> {
+  const data = await getPublicPartnersCached();
+  return data.partners;
+}
+
+export async function getPublicPartnersWithColors(): Promise<{ partners: string[]; bgColor: string; textColor: string }> {
   return getPublicPartnersCached();
 }

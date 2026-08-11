@@ -127,7 +127,7 @@ export function IconSelect({
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-zinc-100 text-zinc-700">
                     {[name].map((n) => {
                       const Icon = getHeroStatIcon(n);
-                      return Icon ? <Icon className="h-4 w-4" /> : null;
+                      return Icon ? <Icon key={n} className="h-4 w-4" /> : null;
                     })}
                   </span>
                   <span className="flex-1 truncate">{name}</span>

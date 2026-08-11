@@ -8,6 +8,18 @@ import { ImageUploader } from "@/components/ImageUploader";
 const inputCls =
   "w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm text-zinc-700 outline-none focus:border-indigo-400 focus:bg-white";
 
+/** Converts a regular video URL to an embeddable iframe URL. */
+function toEmbedUrl(url: string): string {
+  if (!url) return url;
+  const ytWatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (ytWatch) return `https://www.youtube-nocookie.com/embed/${ytWatch[1]}`;
+  const ytEmbed = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/);
+  if (ytEmbed) return `https://www.youtube-nocookie.com/embed/${ytEmbed[1]}`;
+  const vimeo = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeo && !url.includes("player.vimeo.com")) return `https://player.vimeo.com/video/${vimeo[1]}`;
+  return url;
+}
+
 /**
  * Form for the "hero" kind (Task 14). `headingLines` is an ordered array of
  * up to 4 short lines (matching how the current home hero renders "Think
@@ -64,6 +76,113 @@ export function HeroForm({
 
   return (
     <div className="space-y-4">
+      {/* Hero Mode Toggle */}
+      <div>
+        <label className="mb-1 block text-sm font-bold text-zinc-800">Hero Mode</label>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => update("heroMode", "content")}
+            className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-medium transition-all ${
+              (form.heroMode ?? "content") === "content"
+                ? "bg-indigo-600 text-white shadow-md"
+                : "border border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300"
+            }`}
+          >
+            Content (Text + Image)
+          </button>
+          <button
+            type="button"
+            onClick={() => update("heroMode", "video")}
+            className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-medium transition-all ${
+              form.heroMode === "video"
+                ? "bg-indigo-600 text-white shadow-md"
+                : "border border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300"
+            }`}
+          >
+            Video Embed
+          </button>
+        </div>
+        <p className="mt-1 text-xs text-zinc-400">
+          Choose between regular content or a full embedded video for the hero section.
+        </p>
+      </div>
+
+      {form.heroMode === "video" ? (
+        /* Video mode — URL + playback controls */
+        <div className="space-y-4">
+          <div>
+            <label className="mb-1 block text-sm font-bold text-zinc-800">
+              Video URL <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="url"
+              value={form.videoEmbedUrl ?? ""}
+              onChange={(e) => update("videoEmbedUrl", e.target.value)}
+              placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+              className={inputCls}
+            />
+            <p className="mt-1 text-xs text-zinc-400">
+              Paste any YouTube, Vimeo, or video URL. Auto-converted to embeddable format.
+            </p>
+          </div>
+
+          {/* Playback controls */}
+          <div>
+            <label className="mb-2 block text-sm font-bold text-zinc-800">Playback Options</label>
+            <div className="grid grid-cols-2 gap-3">
+              <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-200 px-3 py-2.5 text-sm text-zinc-700 hover:bg-zinc-50">
+                <input
+                  type="checkbox"
+                  checked={form.videoAutoplay ?? true}
+                  onChange={(e) => update("videoAutoplay", e.target.checked)}
+                  className="h-4 w-4 rounded border-zinc-300 text-indigo-600"
+                />
+                Autoplay
+              </label>
+              <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-200 px-3 py-2.5 text-sm text-zinc-700 hover:bg-zinc-50">
+                <input
+                  type="checkbox"
+                  checked={form.videoLoop ?? true}
+                  onChange={(e) => update("videoLoop", e.target.checked)}
+                  className="h-4 w-4 rounded border-zinc-300 text-indigo-600"
+                />
+                Loop
+              </label>
+              <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-200 px-3 py-2.5 text-sm text-zinc-700 hover:bg-zinc-50">
+                <input
+                  type="checkbox"
+                  checked={form.videoControls ?? true}
+                  onChange={(e) => update("videoControls", e.target.checked)}
+                  className="h-4 w-4 rounded border-zinc-300 text-indigo-600"
+                />
+                Show Controls
+              </label>
+            </div>
+            <p className="mt-1 text-xs text-zinc-400">
+              Video is always muted when autoplay is enabled (browser requirement).
+            </p>
+          </div>
+
+          {/* Preview */}
+          {form.videoEmbedUrl && (
+            <div>
+              <label className="mb-1 block text-sm font-bold text-zinc-800">Preview</label>
+              <div className="aspect-video w-full overflow-hidden rounded-xl border border-zinc-200">
+                <iframe
+                  src={toEmbedUrl(form.videoEmbedUrl)}
+                  className="h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title="Video preview"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        /* Content mode — show all normal fields */
+        <>
       <div>
         <label className="mb-1 block text-sm font-bold text-zinc-800">Eyebrow</label>
         <input
@@ -201,7 +320,7 @@ export function HeroForm({
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-bold text-zinc-800">Subheading</label>
+        <label className="mb-1 block text-sm font-bold text-zinc-800">Sub-heading</label>
         <textarea
           rows={3}
           value={form.Subheading ?? ""}
@@ -272,6 +391,8 @@ export function HeroForm({
           className={inputCls}
         />
       </div>
+        </>
+      )}
     </div>
   );
 }

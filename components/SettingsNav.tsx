@@ -83,7 +83,7 @@ export function SettingsNav() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative md:sticky md:top-4 md:self-start">
       {/* Desktop header row: heading + collapse toggle */}
       <div className="hidden items-center justify-between md:flex">
         {!collapsed && (

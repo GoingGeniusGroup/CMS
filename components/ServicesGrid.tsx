@@ -7,6 +7,8 @@ import { ShowcaseCard } from "@/components/ShowcaseCard";
 import { CATEGORY_ICONS } from "@/lib/service-category-icons";
 import { tiptapToPlainText } from "@/lib/tiptap-text";
 import { serviceSlug } from "@/lib/service-slug";
+import { SectionHeader } from "@/components/content/SectionHeader";
+import type { SectionHeaderData } from "@/lib/content/schemas";
 
 type ServiceData = {
   id: string;
@@ -17,15 +19,17 @@ type ServiceData = {
   isFeatured: boolean;
 };
 
-export function ServicesGrid({ services }: { services: ServiceData[] }) {
+export function ServicesGrid({ services, headerData }: { services: ServiceData[]; headerData?: SectionHeaderData }) {
   return (
     <section id="services-we-provide" className="bg-white px-4 py-20 sm:px-6 lg:px-16">
       <div className="mx-auto max-w-7xl">
-        <RevealOnScroll className="mb-12 text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-indigo-500">
-            SERVICES WE PROVIDE
-          </p>
-        </RevealOnScroll>
+        {headerData ? (
+          <SectionHeader className="mb-12 text-center" data={headerData} />
+        ) : (
+          <RevealOnScroll className="mb-12 text-center">
+            <p className="text-xs font-bold uppercase tracking-widest text-indigo-500">SERVICES WE PROVIDE</p>
+          </RevealOnScroll>
+        )}
 
         <StaggerGrid className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => {

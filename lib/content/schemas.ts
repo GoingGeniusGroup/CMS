@@ -116,6 +116,16 @@ export const heroSchema = z.object({
   imageBadge: heroStatSchema.pick({ value: true, label: true }).optional(),
   /** Small icon+text line below the CTAs (e.g. "24-hour response promise"). */
   microcopy: z.string().max(120).optional(),
+  /**
+   * When set, the hero renders a full-width embedded video instead of the
+   * normal text/image content. Supports YouTube, Vimeo, or any embeddable URL.
+   * The admin chooses between "content" (default) or "video" mode.
+   */
+  heroMode: z.enum(["content", "video"]).default("content"),
+  videoEmbedUrl: z.string().max(500).optional(),
+  videoAutoplay: z.boolean().default(true),
+  videoLoop: z.boolean().default(true),
+  videoControls: z.boolean().default(true),
 });
 
 export type HeroData = z.infer<typeof heroSchema>;
@@ -568,6 +578,31 @@ export const SECTION_REGISTRY = {
     },
   }),
 
+  "our-services.featuredHeader": defineSection<SectionHeaderData>({
+    pageKey: "our-services",
+    label: "Featured services header",
+    kind: "sectionHeader",
+    schema: sectionHeaderSchema,
+    defaultOrder: 3,
+    defaultData: {
+      eyebrow: "WHAT WE DO",
+      heading: "Our Digital Services",
+      "Subheading": "We build digital products and services that help you grow, scale and succeed in the digital world.",
+    },
+  }),
+
+  "our-services.servicesHeader": defineSection<SectionHeaderData>({
+    pageKey: "our-services",
+    label: "All services header",
+    kind: "sectionHeader",
+    schema: sectionHeaderSchema,
+    defaultOrder: 4,
+    defaultData: {
+      eyebrow: "SERVICES WE PROVIDE",
+      heading: "All Our Services",
+    },
+  }),
+
   "our-services.cta": defineSection<CtaData>({
     pageKey: "our-services",
     label: "CTA section",
@@ -659,6 +694,30 @@ export const SECTION_REGISTRY = {
       primaryCtaShowArrow: false,
       imageUrl: "/contactus.png",
       imageAlt: "Contact Us network",
+    },
+  }),
+
+  "contact.formHeader": defineSection<SectionHeaderData>({
+    pageKey: "contact",
+    label: "Contact form header",
+    kind: "sectionHeader",
+    schema: sectionHeaderSchema,
+    defaultOrder: 3,
+    defaultData: {
+      heading: "Get In Touch",
+      "Subheading": "Have a project in mind or need expert advice? We'd love to hear from you. Fill out the form and our team will get back to you shortly.",
+    },
+  }),
+
+  "contact.mapHeader": defineSection<SectionHeaderData>({
+    pageKey: "contact",
+    label: "Map section header",
+    kind: "sectionHeader",
+    schema: sectionHeaderSchema,
+    defaultOrder: 4,
+    defaultData: {
+      heading: "Our Location",
+      "Subheading": "Visit us at our office for a face-to-face meeting. We'd love to connect with you in person.",
     },
   }),
 
@@ -901,6 +960,18 @@ export const SECTION_REGISTRY = {
     },
   }),
 
+  "career.positions": defineSection<SectionHeaderData>({
+    pageKey: "career",
+    label: "Open Positions header",
+    kind: "sectionHeader",
+    schema: sectionHeaderSchema,
+    defaultOrder: 2,
+    defaultData: {
+      heading: "Open Positions",
+      "Subheading": "Explore opportunities to make an impact.",
+    },
+  }),
+
   "blogs.hero": defineSection<HeroData>({
     pageKey: "blogs",
     label: "Hero",
@@ -935,6 +1006,24 @@ export const SECTION_REGISTRY = {
       primaryCtaShowArrow: false,
       "Subheading":
         "A diverse group of passionate professionals working together to create extraordinary digital solutions.",
+    },
+  }),
+
+  "teams.cta": defineSection<CtaData>({
+    pageKey: "teams",
+    label: "Join CTA section",
+    kind: "cta",
+    schema: ctaSchema,
+    defaultOrder: 1,
+    defaultData: {
+      variant: "centered",
+      headingLines: ["Want to join our genius team?"],
+      "Subheading":
+        "We're always looking for talented people who are passionate about what they do.",
+      primaryCtaLabel: "View Open Positions",
+      primaryCtaHref: "/career",
+      secondaryCtaLabel: "Send Your CV",
+      secondaryCtaHref: "/career",
     },
   }),
 
@@ -1114,6 +1203,22 @@ export const SECTION_REGISTRY = {
       primaryCtaShowArrow: true,
       imageUrl: "/career3.png",
       imageAlt: "Portfolio showcase",
+    },
+  }),
+
+  "portfolio.stats": defineSection<StatsData>({
+    pageKey: "portfolio",
+    label: "Stats cards",
+    kind: "stats",
+    schema: statsSchema,
+    defaultOrder: 1,
+    defaultData: {
+      items: [
+        { value: "150+", label: "Projects Completed", iconName: "rocket" },
+        { value: "120+", label: "Happy Clients", iconName: "smile" },
+        { value: "6+", label: "Years Experience", iconName: "award" },
+        { value: "20+", label: "Industries Served", iconName: "building2" },
+      ],
     },
   }),
 

@@ -41,13 +41,24 @@ export default async function BlogListingPage() {
   const popular = blogs.slice(0, 3);
 
   const fallbackImages = ["/blog1.png", "/blog2.png", "/picture1.png", "/webdev.png"];
-  const tags = ["React", "TypeScript", "Next.js", "Tailwind", "Node.js", "Design", "AI", "CSS"];
-  const collections = [
-    { label: "Frontend Development", count: 12, color: "bg-indigo-500" },
-    { label: "Backend Development", count: 18, color: "bg-amber-500" },
-    { label: "Design & UX", count: 15, color: "bg-emerald-500" },
-    { label: "AI & Machine Learning", count: 22, color: "bg-rose-500" },
-  ];
+
+  // Derive tags from actual published blog posts
+  const allTags = blogs.flatMap((b) => b.tags ?? []);
+  const tags = [...new Set(allTags)].slice(0, 12);
+
+  // Derive collections (categories) from actual published blog data with counts
+  const categoryMap = new Map<string, number>();
+  for (const blog of blogs) {
+    if (blog.category) {
+      categoryMap.set(blog.category, (categoryMap.get(blog.category) || 0) + 1);
+    }
+  }
+  const collectionColors = ["bg-indigo-500", "bg-amber-500", "bg-emerald-500", "bg-rose-500", "bg-sky-500", "bg-purple-500"];
+  const collections = [...categoryMap.entries()].map(([label, count], i) => ({
+    label,
+    count,
+    color: collectionColors[i % collectionColors.length],
+  }));
 
   return (
     <div className="bg-white">
@@ -239,6 +250,7 @@ export default async function BlogListingPage() {
               </div>
 
               {/* Tags */}
+              {tags.length > 0 && (
               <div className="rounded-2xl border border-zinc-200 bg-white p-5">
                 <h3 className="text-base font-bold text-zinc-900 mb-4">Tags</h3>
                 <div className="flex flex-wrap gap-2">
@@ -248,10 +260,8 @@ export default async function BlogListingPage() {
                     </span>
                   ))}
                 </div>
-                <Link href="#" className="mt-4 block text-xs font-semibold text-indigo-600">
-                  View All Tags →
-                </Link>
               </div>
+              )}
 
               {/* Stay Updated */}
               <div id="subscribe" className="rounded-2xl border border-indigo-100 bg-indigo-50/50 p-6 text-center">
@@ -271,8 +281,9 @@ export default async function BlogListingPage() {
               </div>
 
               {/* Reading Collections */}
+              {collections.length > 0 && (
               <div className="rounded-2xl border border-zinc-200 bg-white p-5">
-                <h3 className="text-base font-bold text-zinc-900 mb-4">Reading Collections</h3>
+                <h3 className="text-base font-bold text-zinc-900 mb-4">Categories</h3>
                 <div className="space-y-3">
                   {collections.map((col) => (
                     <div key={col.label} className="flex items-center justify-between rounded-lg border border-zinc-100 px-3 py-2.5">
@@ -286,10 +297,8 @@ export default async function BlogListingPage() {
                     </div>
                   ))}
                 </div>
-                <Link href="#" className="mt-4 block text-xs font-semibold text-indigo-600">
-                  View All Collections →
-                </Link>
               </div>
+              )}
             </aside>
           </div>
         </div>

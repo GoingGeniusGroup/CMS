@@ -111,7 +111,7 @@ export function CardsSection({ data }: { data: CardsData }) {
           )}
         </RevealOnScroll>
 
-        <StaggerGrid className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <StaggerGrid className={`grid gap-4 ${data.items.length <= 3 ? "grid-cols-1 sm:grid-cols-3" : data.items.length === 4 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"}`}>
           {data.items.map((item) => {
             const Icon = getHeroStatIcon(item.iconName);
             return (

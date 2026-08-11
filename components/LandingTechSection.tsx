@@ -10,9 +10,13 @@ import { useModuleDisabled } from "@/components/content/PublicModuleVisibilityPr
 export function LandingTechSection({
   initialTechnologies,
   headerData,
+  bgColor,
+  textColor,
 }: {
   initialTechnologies?: string[];
   headerData?: SectionHeaderData;
+  bgColor?: string;
+  textColor?: string;
 }) {
   const moduleHidden = useModuleDisabled("technologies");
   const [technologies, setTechnologies] = useState<string[]>(initialTechnologies ?? []);
@@ -33,21 +37,26 @@ export function LandingTechSection({
   }
 
   return (
-    <section className="bg-white px-4 py-14 sm:px-6 lg:px-8">
+    <section className="px-4 py-10 sm:px-6 lg:px-8" style={{ backgroundColor: bgColor || "#ffffff" }}>
       <div className="mx-auto max-w-7xl text-center">
         <RevealOnScroll>
-          <p className="mb-8 text-3xl font-bold text-zinc-900">{header.heading}</p>
+          <p className="mb-8 text-3xl font-bold" style={{ color: textColor || "#18181b" }}>{header.heading}</p>
         </RevealOnScroll>
 
         <Marquee duration={displayTechs.length * 2.5} direction="right">
           {displayTechs.map((url, i) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <span
               key={i}
-              src={url}
-              alt={`Logo ${i + 1}`}
-              className="h-7 w-auto max-w-[100px] flex-shrink-0 object-contain sm:h-9 sm:max-w-[120px]"
-            />
+              className="flex-shrink-0 rounded-lg px-4 py-2"
+              style={{ backgroundColor: `${textColor || "#18181b"}10` }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={url}
+                alt={`Logo ${i + 1}`}
+                className="h-7 w-auto max-w-[100px] object-contain sm:h-9 sm:max-w-[120px]"
+              />
+            </span>
           ))}
         </Marquee>
       </div>

@@ -41,7 +41,9 @@ export function CtaSection({ data }: { data: CtaData }) {
                 {resolveLabel(data.Subheading)}
               </p>
             )}
-            {ctas(data)}
+            {(data.primaryCtaLabel || data.secondaryCtaLabel) && (
+              <div className="mt-7 flex flex-wrap items-center justify-center gap-3">{ctas(data)}</div>
+            )}
           </RevealOnScroll>
         </div>
       </section>

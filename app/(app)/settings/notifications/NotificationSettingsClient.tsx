@@ -108,20 +108,18 @@ export function NotificationSettingsClient({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="sticky top-0 z-10 -mx-6 -mt-5 mb-6 border-b border-zinc-200 bg-white px-6 py-4 sm:-mx-8 sm:-mt-6 sm:px-8">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-500">
-              <Bell className="h-4 w-4" />
-            </span>
-            <div>
-              <h1 className="text-base font-bold text-zinc-900 sm:text-lg">Notifications</h1>
-              <p className="text-xs text-zinc-500">Manage notification preferences and view history.</p>
-            </div>
+      <Card>
+        <div className="flex items-center gap-3">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-500">
+            <Bell className="h-4 w-4" />
+          </span>
+          <div>
+            <h1 className="text-base font-bold text-zinc-900 sm:text-lg">Notifications</h1>
+            <p className="text-xs text-zinc-500">Manage notification preferences and view history.</p>
           </div>
-          {isSaving && <Loader2 className="h-4 w-4 animate-spin text-indigo-500" />}
+          {isSaving && <Loader2 className="ml-auto h-4 w-4 animate-spin text-indigo-500" />}
         </div>
-      </div>
+      </Card>
 
       {message && (
         <div className={`rounded-lg px-4 py-3 text-sm ${

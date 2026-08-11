@@ -237,14 +237,17 @@ export function Sidebar({
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex h-screen w-72 max-w-[85vw] shrink-0 flex-col justify-between overflow-y-auto bg-[#0a0a0b] px-5 py-6 transition-transform duration-300 ease-in-out",
           "md:static md:z-auto md:h-screen md:max-w-none md:translate-x-0 md:transition-[width,transform] md:duration-300 md:ease-in-out",
-          collapsed ? "md:w-[4.75rem] md:px-2" : "md:w-64",
+          collapsed ? "md:w-[5.5rem] md:px-3" : "md:w-64",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div>
           {/* Logo + collapse toggle — desktop only */}
-          <div className="hidden items-center gap-3 px-1 md:flex">
-            {!collapsed && (
+          <div className={cn(
+            "hidden md:flex px-1 sticky -top-6 z-10 bg-[#0a0a0b] pt-6 pb-3 -mt-6 -mx-1 px-1",
+            collapsed ? "flex-col items-center gap-2" : "items-center gap-3"
+          )}>
+            {!collapsed ? (
               <>
                 <Image
                   src="/logo2.png"
@@ -263,6 +266,15 @@ export function Sidebar({
                   </p>
                 </div>
               </>
+            ) : (
+              <Image
+                src="/logo2.png"
+                alt="Logo"
+                width={32}
+                height={36}
+                className="h-9 w-8 shrink-0 object-contain"
+                priority
+              />
             )}
             <button
               type="button"
@@ -271,7 +283,7 @@ export function Sidebar({
               title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
               className={cn(
                 "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
-                collapsed ? "mx-auto" : "ml-auto"
+                !collapsed && "ml-auto"
               )}
             >
               {collapsed ? (
@@ -316,27 +328,25 @@ export function Sidebar({
                       aria-expanded={isMenuOpen}
                       title={collapsed ? groupLabel : undefined}
                       className={cn(
-                        "flex w-full items-center justify-between gap-4 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
-                        collapsed && "md:justify-center md:px-2",
+                        "flex w-full items-center gap-4 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
+                        collapsed ? "md:justify-center md:px-3" : "justify-between",
                         childActive
                           ? "font-semibold text-[#e8821a]"
                           : "text-white hover:text-[#e8821a]/80"
                       )}
                     >
-                      <span className={cn("flex items-center gap-4", collapsed && "md:gap-0")}>
-                        <Icon
-                          size={19}
-                          strokeWidth={2}
-                          className={childActive ? "text-[#e8821a]" : "text-white"}
-                        />
-                        <span
-                          className={cn(
-                            "whitespace-nowrap overflow-hidden transition-[max-width,opacity] duration-300 ease-in-out",
-                            collapsed ? "md:max-w-0 md:opacity-0" : "max-w-56 opacity-100"
-                          )}
-                        >
-                          {groupLabel}
-                        </span>
+                      <Icon
+                        size={collapsed ? 22 : 19}
+                        strokeWidth={2}
+                        className={childActive ? "text-[#e8821a]" : "text-white"}
+                      />
+                      <span
+                        className={cn(
+                          "flex-1 whitespace-nowrap overflow-hidden text-left transition-[max-width,opacity] duration-300 ease-in-out",
+                          collapsed ? "md:max-w-0 md:opacity-0" : "max-w-56 opacity-100"
+                        )}
+                      >
+                        {groupLabel}
                       </span>
                       {!collapsed && (
                         <ChevronDown
@@ -407,14 +417,14 @@ export function Sidebar({
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "flex items-center gap-4 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-color,#e8821a)]",
-                    collapsed && "md:justify-center md:px-2",
+                    collapsed && "md:justify-center md:px-3",
                     active
                       ? "font-semibold text-[#e8821a]"
                       : "text-white hover:text-[#e8821a]/80"
                   )}
                 >
                   <Icon
-                    size={19}
+                    size={collapsed ? 22 : 19}
                     strokeWidth={2}
                     className={active ? "text-[#e8821a]" : "text-white"}
                   />
@@ -441,7 +451,7 @@ export function Sidebar({
             title={collapsed ? "Settings" : undefined}
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8821a]",
-              collapsed && "md:justify-center md:px-2",
+              collapsed && "md:justify-center md:px-3",
               pathname === settingsItem.href
                 ? "text-[#e8821a]"
                 : "text-zinc-400 hover:text-white"
@@ -464,7 +474,7 @@ export function Sidebar({
             title={collapsed ? "Logout" : undefined}
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2.5 text-[15px] font-medium text-red-400 transition-colors hover:text-red-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500",
-              collapsed && "md:justify-center md:px-2"
+              collapsed && "md:justify-center md:px-3"
             )}
           >
             <LogOut size={18} />

@@ -10,7 +10,7 @@ export default async function PartnersPage() {
     where: { key: "partners-logos" },
   });
 
-  const data = (setting?.value as { partners?: string[] }) ?? {};
+  const data = (setting?.value as { partners?: string[]; bgColor?: string; textColor?: string }) ?? {};
 
-  return <PartnersClient initialPartners={data.partners ?? []} />;
+  return <PartnersClient initialPartners={data.partners ?? []} initialBgColor={data.bgColor} initialTextColor={data.textColor} />;
 }

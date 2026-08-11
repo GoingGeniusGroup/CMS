@@ -27,11 +27,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ServicesPublicPage() {
   if (await isModuleDisabled("service")) return <ModuleDisabledPage moduleLabel="Services" />;
-  const [services, heroSection, statsSection, ctaSection] = await Promise.all([
+  const [services, heroSection, statsSection, ctaSection, featuredHeader, servicesHeader] = await Promise.all([
     getPublicServices(),
     getSection("our-services", "our-services.hero"),
     getSection("our-services", "our-services.stats"),
     getSection("our-services", "our-services.cta"),
+    getSection("our-services", "our-services.featuredHeader"),
+    getSection("our-services", "our-services.servicesHeader"),
   ]);
 
   // Stats live in their own editable section (kind "stats"), managed
@@ -45,8 +47,8 @@ export default async function ServicesPublicPage() {
     <>
       <PageHero data={heroData} />
       <StatsSection data={statsSection.data} />
-      <FeaturedServicesGrid services={services} />
-      <ServicesGrid services={services} />
+      <FeaturedServicesGrid services={services} headerData={featuredHeader.data} />
+      <ServicesGrid services={services} headerData={servicesHeader.data} />
       <CtaSection data={ctaSection.data} />
     </>
   );

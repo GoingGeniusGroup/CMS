@@ -196,7 +196,7 @@ export function CtaForm({
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-bold text-zinc-800">Subheading</label>
+        <label className="mb-1 block text-sm font-bold text-zinc-800">Sub-heading</label>
         <textarea
           rows={3}
           value={form.Subheading ?? ""}

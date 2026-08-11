@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { Topbar } from "@/components/Topbar";
 import { Button } from "@/components/Button";
@@ -12,7 +13,6 @@ import { DeleteConfirmModal } from "@/components/DeleteConfirmModal";
 import { ViewDetailModal } from "@/components/ViewDetailModal";
 import { AddVacancyModal, type VacancyFormData } from "@/components/AddVacancyModal";
 import { EditVacancyModal, type JobVacancyRow } from "@/components/EditVacancyModal";
-import { ViewApplicantsModal, type Applicant } from "@/components/ViewApplicantsModal";
 import { StatusBadge } from "@/components/StatusBadge";
 import { useEntityLabel, useStatusOptions } from "@/components/ConfigProvider";
 import { type CustomValues } from "@/components/CustomFieldRenderer";
@@ -35,7 +35,6 @@ const PAGE_SIZE = 10;
 
 export function CareersClient() {
   const [vacancies, setVacancies] = useState<JobVacancyRow[]>([]);
-  const [applicants, setApplicants] = useState<Applicant[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
@@ -70,7 +69,6 @@ export function CareersClient() {
   const [editTarget, setEditTarget] = useState<JobVacancyRow | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [viewItem, setViewItem] = useState<JobVacancyRow | null>(null);
-  const [applicantsTarget, setApplicantsTarget] = useState<JobVacancyRow | null>(null);
 
   const fetchJobs = async () => {
     setLoading(true);
@@ -149,12 +147,6 @@ export function CareersClient() {
       setDeleteId(null);
       fetchJobs();
     }
-  };
-
-  const handleUpdateApplicantStatus = (applicantId: string, newStatus: string) => {
-    setApplicants((prev) =>
-      prev.map((a) => (a.id === applicantId ? { ...a, status: newStatus } : a))
-    );
   };
 
   const departments = [...new Set(vacancies.map((v) => v.department).filter(Boolean))] as string[];
@@ -334,14 +326,13 @@ export function CareersClient() {
                     </td>
                     <td className="p-4 text-sm text-gray-600">{item.salaryRange}</td>
                     <td className="p-4">
-                      <button
-                        type="button"
-                        onClick={() => setApplicantsTarget(item)}
+                      <Link
+                        href="/careers/applicants"
                         className="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 hover:bg-indigo-100 transition"
                       >
                         <Users className="h-3.5 w-3.5" />
                         {item.applicantsCount} Candidates
-                      </button>
+                      </Link>
                     </td>
                     <td className="p-4">
                       <StatusBadge moduleKey="job" value={item.isActive ? "Active" : "Inactive"} />
@@ -372,13 +363,12 @@ export function CareersClient() {
                 <h3 className="font-semibold text-sm text-gray-900">{item.title}</h3>
                 <p className="text-xs text-gray-500">{item.department} &bull; {item.type} ({item.mode})</p>
                 <div className="mt-3 flex items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={() => setApplicantsTarget(item)}
+                  <Link
+                    href="/careers/applicants"
                     className="text-xs font-semibold text-indigo-600 hover:underline"
                   >
                     {item.applicantsCount} Applicants
-                  </button>
+                  </Link>
                   <RowActions
                     onView={() => setViewItem(item)}
                     onEdit={() => setEditTarget(item)}
@@ -418,13 +408,12 @@ export function CareersClient() {
                 <div className="space-y-3 pt-3 border-t border-gray-100">
                   <div className="flex items-center justify-between text-xs text-gray-500">
                     <span>{item.salaryRange}</span>
-                    <button
-                      type="button"
-                      onClick={() => setApplicantsTarget(item)}
+                    <Link
+                      href="/careers/applicants"
                       className="font-bold text-indigo-600 hover:underline"
                     >
                       {item.applicantsCount} Candidates
-                    </button>
+                    </Link>
                   </div>
                   <RowActions
                     variant="buttons"
@@ -485,14 +474,6 @@ export function CareersClient() {
           { label: "Responsibilities", value: viewItem?.responsibilities?.join("\n") },
           { label: "Requirements", value: viewItem?.requirements?.join("\n") },
         ]}
-      />
-
-      <ViewApplicantsModal
-        vacancy={applicantsTarget}
-        applicants={applicants}
-        isOpen={!!applicantsTarget}
-        onClose={() => setApplicantsTarget(null)}
-        onUpdateStatus={handleUpdateApplicantStatus}
       />
 
       <DeleteConfirmModal

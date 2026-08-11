@@ -7,6 +7,8 @@ import { ShowcaseCard } from "@/components/ShowcaseCard";
 import { CATEGORY_ICONS } from "@/lib/service-category-icons";
 import { tiptapToPlainText } from "@/lib/tiptap-text";
 import { serviceSlug } from "@/lib/service-slug";
+import { SectionHeader } from "@/components/content/SectionHeader";
+import type { SectionHeaderData } from "@/lib/content/schemas";
 
 type ServiceData = {
   id: string;
@@ -17,7 +19,7 @@ type ServiceData = {
   isFeatured: boolean;
 };
 
-export function FeaturedServicesGrid({ services }: { services: ServiceData[] }) {
+export function FeaturedServicesGrid({ services, headerData }: { services: ServiceData[]; headerData?: SectionHeaderData }) {
   const featured = services.filter((s) => s.isFeatured);
 
   if (featured.length === 0) return null;
@@ -25,18 +27,15 @@ export function FeaturedServicesGrid({ services }: { services: ServiceData[] }) 
   return (
     <section className="bg-[#f8f9ff] px-4 py-20 sm:px-6 lg:px-16">
       <div className="mx-auto max-w-7xl">
-        <RevealOnScroll className="mb-12 text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-indigo-500">
-            WHAT WE DO
-          </p>
-          <h2 className="mt-2 text-3xl font-extrabold text-zinc-900">
-            Our <span className="text-indigo-600">Digital Services</span>
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-500">
-            We build digital products and services that help you grow, scale and
-            succeed in the digital world.
-          </p>
-        </RevealOnScroll>
+        {headerData ? (
+          <SectionHeader className="mb-12 text-center" data={headerData} />
+        ) : (
+          <RevealOnScroll className="mb-12 text-center">
+            <p className="text-xs font-bold uppercase tracking-widest text-indigo-500">WHAT WE DO</p>
+            <h2 className="mt-2 text-3xl font-extrabold text-zinc-900">Our <span className="text-indigo-600">Digital Services</span></h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-500">We build digital products and services that help you grow, scale and succeed in the digital world.</p>
+          </RevealOnScroll>
+        )}
 
         <StaggerGrid className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((svc) => {

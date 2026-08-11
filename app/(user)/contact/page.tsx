@@ -22,12 +22,14 @@ export async function generateMetadata(): Promise<Metadata> {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function ContactPage() {
-  const [data, heroSection, services, featuresSection, workTogetherSection] = await Promise.all([
+  const [data, heroSection, services, featuresSection, workTogetherSection, formHeader, mapHeader] = await Promise.all([
     getPublicContactSettings(),
     getSection("contact", "contact.hero"),
     getPublicServices(),
     getSection("contact", "contact.features"),
     getSection("contact", "contact.workTogether"),
+    getSection("contact", "contact.formHeader"),
+    getSection("contact", "contact.mapHeader"),
   ]);
 
   const settings = {
@@ -51,6 +53,8 @@ export default async function ContactPage() {
         services={serviceNames}
         features={featuresSection.data}
         workTogether={workTogetherSection.data}
+        formHeader={formHeader.data}
+        mapHeader={mapHeader.data}
       />
     </>
   );
