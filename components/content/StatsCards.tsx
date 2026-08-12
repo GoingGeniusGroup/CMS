@@ -2,7 +2,7 @@
 
 import type { StatsData } from "@/lib/content/schemas";
 import { StaggerGrid, StaggerItem } from "@/components/motion/StaggerGrid";
-import { getHeroStatIcon } from "@/lib/content/hero-icons";
+import { IconRenderer } from "@/components/content/IconRenderer";
 import { usePublicLabelResolver } from "@/components/content/PublicLabelProvider";
 
 /**
@@ -35,11 +35,10 @@ export function StatsCards({ data, className }: { data: StatsData; className?: s
 
       <StaggerGrid className={`grid grid-cols-2 gap-4 sm:grid-cols-4 ${className ?? ""}`.trim()}>
         {data.items.map((stat) => {
-          const Icon = getHeroStatIcon(stat.iconName);
           return (
             <StaggerItem key={stat.label}>
               <div className="flex flex-col items-center gap-2 rounded-2xl border border-zinc-100 bg-white p-6 text-center shadow-sm">
-                {Icon && <Icon className="h-7 w-7 text-indigo-500" strokeWidth={1.5} />}
+                <IconRenderer name={stat.iconName} className="h-7 w-7 text-indigo-500" strokeWidth={1.5} />
                 <p className="text-3xl font-extrabold text-zinc-900">{stat.value}</p>
                 <p className="text-[11px] font-bold uppercase tracking-widest text-zinc-400">
                   {resolveLabel(stat.label)}

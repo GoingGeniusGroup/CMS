@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Briefcase } from "lucide-react";
 import type { CareersData } from "@/lib/content/schemas";
-import { getHeroStatIcon } from "@/lib/content/hero-icons";
+import { IconRenderer } from "@/components/content/IconRenderer";
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 import { usePublicLabelResolver } from "@/components/content/PublicLabelProvider";
 import type { JobRow } from "@/app/actions/jobs";
@@ -38,12 +38,11 @@ export function CareersSection({ data, jobs }: { data: CareersData; jobs: JobRow
 
             <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5">
               {data.cultureItems.map((item) => {
-                const Icon = getHeroStatIcon(item.iconName);
                 return (
                   <div key={item.title} className="flex gap-2.5">
-                    {Icon && (
+                    {item.iconName && (
                       <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
-                        <Icon className="h-3.5 w-3.5" />
+                        <IconRenderer name={item.iconName} className="h-3.5 w-3.5" />
                       </span>
                     )}
                     <div>

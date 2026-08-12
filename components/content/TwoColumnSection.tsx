@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { TwoColumnData } from "@/lib/content/schemas";
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
-import { getHeroStatIcon } from "@/lib/content/hero-icons";
+import { IconRenderer } from "@/components/content/IconRenderer";
 import { usePublicLabelResolver } from "@/components/content/PublicLabelProvider";
 
 /**
@@ -40,16 +40,15 @@ export function TwoColumnSection({ data }: { data: TwoColumnData }) {
 
         <div className="grid gap-6 sm:grid-cols-2">
           {data.items.map((item, i) => {
-            const Icon = getHeroStatIcon(item.iconName);
             return (
               <RevealOnScroll
                 key={i}
                 delay={i * 0.05}
                 className="rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm"
               >
-                {Icon && (
+                {item.iconName && (
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
-                    <Icon className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
+                    <IconRenderer name={item.iconName} className="h-6 w-6 text-indigo-500" strokeWidth={1.5} />
                   </div>
                 )}
                 <h3 className="text-lg font-extrabold text-zinc-900">

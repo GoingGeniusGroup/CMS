@@ -56,7 +56,7 @@ const getPageContentCached = unstable_cache(
     return sections;
   },
   ["site-content-page"],
-  { revalidate: 60, tags: ["site-content"] }
+  { revalidate: false, tags: ["site-content"] }
 );
 
 /** All sections for a page, in display order, each already validated/fallback-safe. */

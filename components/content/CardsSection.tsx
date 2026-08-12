@@ -1,7 +1,7 @@
 "use client";
 
 import type { CardsData } from "@/lib/content/schemas";
-import { getHeroStatIcon } from "@/lib/content/hero-icons";
+import { IconRenderer } from "@/components/content/IconRenderer";
 import { StaggerGrid, StaggerItem } from "@/components/motion/StaggerGrid";
 import { MotionCard } from "@/components/motion/MotionCard";
 import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
@@ -47,16 +47,15 @@ export function CardsSection({ data }: { data: CardsData }) {
 
             <div className="mt-8 flex flex-col gap-5">
               {data.items.map((item, i) => {
-                const Icon = getHeroStatIcon(item.iconName);
                 return (
                   <RevealOnScroll
                     key={item.id}
                     delay={i * 0.05}
                     className="flex items-start gap-4"
                   >
-                    {Icon && (
+                    {item.iconName && (
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-50">
-                        <Icon className="h-5 w-5 text-indigo-500" strokeWidth={1.5} />
+                        <IconRenderer name={item.iconName} className="h-5 w-5 text-indigo-500" strokeWidth={1.5} />
                       </div>
                     )}
                     <div>
@@ -113,12 +112,11 @@ export function CardsSection({ data }: { data: CardsData }) {
 
         <StaggerGrid className={`grid gap-4 ${data.items.length <= 3 ? "grid-cols-1 sm:grid-cols-3" : data.items.length === 4 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"}`}>
           {data.items.map((item) => {
-            const Icon = getHeroStatIcon(item.iconName);
             return (
               <StaggerItem key={item.id}>
                 <MotionCard className="h-full rounded-2xl">
                   <div className="flex h-full flex-col items-center gap-3 rounded-2xl border border-zinc-200 bg-white p-6 text-center shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
-                    {Icon && <Icon className="h-7 w-7 text-indigo-500" strokeWidth={1.5} />}
+                    <IconRenderer name={item.iconName} className="h-7 w-7 text-indigo-500" strokeWidth={1.5} />
                     <p className="text-sm font-extrabold text-zinc-900">
                       {resolveLabel(item.title)}
                     </p>

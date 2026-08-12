@@ -16,6 +16,8 @@ import { getPublicPopupSettings } from "@/app/actions/popup";
 import { getPublicEntityLabels } from "@/app/actions/labels";
 import { PublicLabelProvider } from "@/components/content/PublicLabelProvider";
 import { PublicModuleVisibilityProvider } from "@/components/content/PublicModuleVisibilityProvider";
+import { CustomIconsProvider } from "@/components/content/CustomIconsProvider";
+import { getCustomIcons } from "@/app/actions/icons";
 import { getDisabledModules } from "@/lib/module-visibility";
 
 export const dynamic = "force-dynamic";
@@ -64,6 +66,7 @@ export default async function UserLayout({
     popupSettings,
     entityLabels,
     disabledModules,
+    customIcons,
   ] = await Promise.all([
     getSiteSettings(),
     getPublicContactSettings(),
@@ -73,6 +76,7 @@ export default async function UserLayout({
     getPublicPopupSettings(),
     getPublicEntityLabels(),
     getDisabledModules(),
+    getCustomIcons(),
   ]);
 
   const hasBanner = !!headerSettings.bannerImageUrl;
@@ -81,6 +85,7 @@ export default async function UserLayout({
     <ThemeModeProvider area="client" defaultPreference={settings.clientThemeMode}>
     <PublicModuleVisibilityProvider initialDisabled={disabledModules}>
     <PublicLabelProvider initialLabels={entityLabels}>
+    <CustomIconsProvider icons={customIcons}>
     <div className="min-h-screen bg-[var(--color-page)] text-[var(--color-text)] flex flex-col">
       {/* Sticky wrapper — banner + navbar stick together */}
       <div className={headerSettings.stickyHeader ? "sticky top-0 z-50" : ""}>
@@ -134,6 +139,7 @@ export default async function UserLayout({
         label={contactSettings?.floatingChatLabel || undefined}
       />
     </div>
+    </CustomIconsProvider>
     </PublicLabelProvider>
     </PublicModuleVisibilityProvider>
     </ThemeModeProvider>

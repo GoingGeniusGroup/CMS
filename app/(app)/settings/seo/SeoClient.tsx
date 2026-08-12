@@ -121,7 +121,7 @@ export default function SeoClient({ initialData }: { initialData: SeoData }) {
 
         <div>
           <label className="mb-2 block text-sm font-bold text-zinc-800">Meta Image</label>
-          <ImageUploader value={metaImage} onChange={(url) => setMetaImage(url ?? "")} />
+          <ImageUploader value={metaImage} onChange={(url) => setMetaImage(url ?? "")} compact />
           <p className="mt-2 text-xs text-zinc-400">
             Recommended size: 1200×630px (Max 2MB)
           </p>

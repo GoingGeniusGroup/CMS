@@ -35,7 +35,7 @@ const getSiteIconsCached = unstable_cache(
     return [];
   },
   ["site-icons"],
-  { revalidate: 60, tags: ["site-icons"] }
+  { revalidate: false, tags: ["site-icons"] }
 );
 
 /** The enabled icon-name list shown in section-form icon dropdowns. */
@@ -83,5 +83,81 @@ export async function saveSiteIcons(
   } catch (error) {
     console.error(`Save setting "${ICONS_SETTING_KEY}" error:`, error);
     return { success: false, error: "Failed to save icons" };
+  }
+}
+
+
+// ─── Custom Icons ─────────────────────────────────────────────────────────────
+// User-uploaded icons stored as a Setting row keyed "custom-icons" with value
+// { icons: Array<{ id: string; name: string; url: string }> }.
+
+const CUSTOM_ICONS_KEY = "custom-icons";
+
+export type CustomIconData = { id: string; name: string; url: string };
+
+const getCustomIconsCached = unstable_cache(
+  async (): Promise<CustomIconData[]> => {
+    const setting = await prisma.setting.findUnique({
+      where: { key: CUSTOM_ICONS_KEY },
+    });
+    const data = (setting?.value as { icons?: unknown }) ?? {};
+    if (Array.isArray(data.icons)) return data.icons as CustomIconData[];
+    return [];
+  },
+  ["custom-icons"],
+  { revalidate: false, tags: ["custom-icons"] }
+);
+
+/** Fetch all custom icons uploaded by the admin. */
+export async function getCustomIcons(): Promise<CustomIconData[]> {
+  try {
+    return await getCustomIconsCached();
+  } catch (error) {
+    console.error("Error fetching custom icons:", error);
+    return [];
+  }
+}
+
+/** Save the full custom icons list (add/reorder). */
+export async function saveCustomIcons(
+  icons: CustomIconData[]
+): Promise<{ success: boolean; error?: string; icons?: CustomIconData[] }> {
+  const session = await auth();
+  if (!session?.user) return { success: false, error: "Unauthorized" };
+
+  try {
+    await prisma.setting.upsert({
+      where: { key: CUSTOM_ICONS_KEY },
+      update: { value: { icons } },
+      create: { key: CUSTOM_ICONS_KEY, value: { icons } },
+    });
+    revalidateTag("custom-icons", { expire: 0 });
+    return { success: true, icons };
+  } catch (error) {
+    console.error(`Save custom icons error:`, error);
+    return { success: false, error: "Failed to save custom icons" };
+  }
+}
+
+/** Delete a single custom icon by id. */
+export async function deleteCustomIcon(
+  id: string
+): Promise<{ success: boolean; error?: string }> {
+  const session = await auth();
+  if (!session?.user) return { success: false, error: "Unauthorized" };
+
+  try {
+    const current = await getCustomIcons();
+    const updated = current.filter((i) => i.id !== id);
+    await prisma.setting.upsert({
+      where: { key: CUSTOM_ICONS_KEY },
+      update: { value: { icons: updated } },
+      create: { key: CUSTOM_ICONS_KEY, value: { icons: updated } },
+    });
+    revalidateTag("custom-icons", { expire: 0 });
+    return { success: true };
+  } catch (error) {
+    console.error(`Delete custom icon error:`, error);
+    return { success: false, error: "Failed to delete icon" };
   }
 }
