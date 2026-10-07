@@ -116,7 +116,7 @@ export default function TeamMemberModal({ member, isOpen, onClose, portraitLayou
             </div>
 
             {/* Name & Role under image */}
-            <h3 className="text-lg font-bold text-gray-900 text-center">{member.fullName}</h3>
+            <h3 className="text-lg font-bold text-yellow-600 text-center">{member.fullName}</h3>
             {member.role && (
               <p className="text-sm text-indigo-600 font-medium text-center">{member.role}</p>
             )}
